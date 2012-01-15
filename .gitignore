@@ -6,8 +6,10 @@ PLBlocks.framework/*
 *~.nib/ 
 *.perspective 
 *.perspectivev3
-xcuserdata/
 build/
+# Xcode 4
+xcuserdata/
+project.xcworkspace/
 
 # old school
 .svn
