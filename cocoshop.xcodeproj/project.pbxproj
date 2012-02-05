@@ -220,6 +220,7 @@
 		E0B4521312C3AEBE0007F742 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516B12C3AEBE0007F742 /* utlist.h */; };
 		E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516C12C3AEBE0007F742 /* ZipUtils.h */; };
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
+		FA20B96014DEAAD500AA1858 /* MainMenu - copy.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA20B95E14DEAAD500AA1858 /* MainMenu - copy.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -461,6 +462,7 @@
 		E0B4516C12C3AEBE0007F742 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E0B4516D12C3AEBE0007F742 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
 		E0F9256D1224207200EF2362 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FA20B95F14DEAAD500AA1858 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = "Resources/English.lproj/MainMenu - copy.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -546,6 +548,7 @@
 			children = (
 				6D1EEA15138EE55B0091F76B /* Icons by Shogan */,
 				E02A83F0129F01DF00341C97 /* MainMenu.xib */,
+				FA20B95E14DEAAD500AA1858 /* MainMenu - copy.xib */,
 				E02A83EE129F01DF00341C97 /* InfoPlist.strings */,
 				E02A83EB129F01DF00341C97 /* cocoshop_Prefix.pch */,
 				E02A83EC129F01DF00341C97 /* Info.plist */,
@@ -1049,6 +1052,7 @@
 				6D1EEA3D138EF4D70091F76B /* icon7-a.png in Resources */,
 				6D1EEA3E138EF4D70091F76B /* icon7.png in Resources */,
 				6D1EEA44138EFE280091F76B /* icon7-c.png in Resources */,
+				FA20B96014DEAAD500AA1858 /* MainMenu - copy.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1186,6 +1190,14 @@
 			);
 			name = MainMenu.xib;
 			path = Resources/English.lproj;
+			sourceTree = "<group>";
+		};
+		FA20B95E14DEAAD500AA1858 /* MainMenu - copy.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA20B95F14DEAAD500AA1858 /* English */,
+			);
+			name = "MainMenu - copy.xib";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
