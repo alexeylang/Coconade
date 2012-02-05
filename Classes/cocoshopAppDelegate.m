@@ -32,6 +32,33 @@
 @synthesize window=window_, glView=glView_, controller=controller_;
 @synthesize appIsRunning = appIsRunning_, filenameToOpen = filenameToOpen_;
 
+
+- (void) prepareWindow
+{
+    NSRect frame = NSMakeRect(200, 200, 500, 500);
+    NSUInteger styleMask = (NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask |
+                            NSMiniaturizableWindowMask | NSBorderlessWindowMask);
+    NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
+    
+    self.window  = [[[NSWindow alloc] initWithContentRect: contentRect 
+                                                styleMask: styleMask
+                                                  backing: NSBackingStoreBuffered 
+                                                    defer: NO] autorelease];
+    self.window.level = NSNormalWindowLevel;
+    self.window.backgroundColor = [NSColor clearColor];
+    self.window.alphaValue = 1.0;
+    self.window.opaque = NO;
+    self.window.hasShadow = YES;
+    self.window.contentView = [[[NSView alloc] initWithFrame:frame] autorelease];
+    
+    contentRect.origin = CGPointZero;
+    self.glView = [[[CSMacGLView alloc] initWithFrame:contentRect] autorelease];
+    [self.window.contentView addSubview:self.glView];
+    
+    [self.window makeKeyAndOrderFront: NSApp];
+    
+}
+
 // called before applicationDidFinishLaunching: if app is open by double-clicking
 // csd file
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
@@ -56,19 +83,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSRect frame = NSMakeRect(0, 0, 200, 200);
-    self.window  = [[[NSWindow alloc] initWithContentRect: frame
-                                                styleMask: NSBorderlessWindowMask
-                                                  backing: NSBackingStoreBuffered
-                                                    defer: NO] autorelease];
-    [self.window setBackgroundColor: [NSColor blueColor]];
-    
-    self.window.contentView = [[[NSView alloc] initWithFrame:frame] autorelease];
-    self.glView = [[[CSMacGLView alloc] initWithFrame:frame] autorelease];
-    [self.window.contentView addSubview:self.glView];
-    
-    [self.window makeKeyAndOrderFront: NSApp];
-    
+    [self prepareWindow];
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	
 	[director setDisplayFPS:NO];
