@@ -38,8 +38,8 @@
 	NSString *filenameToOpen_;
 }
 
-@property (assign) IBOutlet NSWindow	*window;
-@property (assign) IBOutlet CSMacGLView	*glView;
+@property (assign) NSWindow *window;
+@property (assign) CSMacGLView *glView;
 @property (assign) IBOutlet CSObjectController *controller;
 @property (readwrite, copy) NSString *filenameToOpen;
 @property (readwrite) BOOL appIsRunning;
