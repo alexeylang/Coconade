@@ -56,6 +56,19 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    NSRect frame = NSMakeRect(0, 0, 200, 200);
+    self.window  = [[[NSWindow alloc] initWithContentRect: frame
+                                                styleMask: NSBorderlessWindowMask
+                                                  backing: NSBackingStoreBuffered
+                                                    defer: NO] autorelease];
+    [self.window setBackgroundColor: [NSColor blueColor]];
+    
+    self.window.contentView = [[[NSView alloc] initWithFrame:frame] autorelease];
+    self.glView = [[[CSMacGLView alloc] initWithFrame:frame] autorelease];
+    [self.window.contentView addSubview:self.glView];
+    
+    [self.window makeKeyAndOrderFront: NSApp];
+    
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	
 	[director setDisplayFPS:NO];
