@@ -49,11 +49,12 @@
     self.window.alphaValue = 1.0;
     self.window.opaque = NO;
     self.window.hasShadow = YES;
-    self.window.contentView = [[[NSView alloc] initWithFrame:frame] autorelease];
+    //self.window.contentView = [[[NSView alloc] initWithFrame:frame] autorelease];
     
     contentRect.origin = CGPointZero;
     self.glView = [[[CSMacGLView alloc] initWithFrame:contentRect] autorelease];
-    [self.window.contentView addSubview:self.glView];
+    self.window.contentView = self.glView;
+    //[self.window.contentView addSubview:self.glView];
     
     [self.window makeKeyAndOrderFront: NSApp];
     
