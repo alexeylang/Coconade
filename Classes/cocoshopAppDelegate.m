@@ -44,9 +44,7 @@
                                                   backing: NSBackingStoreBuffered 
                                                     defer: NO] autorelease];
     self.window.level = NSNormalWindowLevel;
-    self.window.backgroundColor = [NSColor clearColor];
-    self.window.alphaValue = 1.0;
-    self.window.opaque = NO;
+    self.window.backgroundColor = [NSColor whiteColor];
     self.window.hasShadow = YES;
     //self.window.contentView = [[[NSView alloc] initWithFrame:frame] autorelease];
     
