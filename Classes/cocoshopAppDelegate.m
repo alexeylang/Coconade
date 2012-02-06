@@ -36,8 +36,7 @@
 - (void) prepareWindow
 {
     NSRect frame = NSMakeRect(200, 200, 500, 500);
-    NSUInteger styleMask = (NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask |
-                            NSMiniaturizableWindowMask | NSBorderlessWindowMask);
+    NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask | NSMiniaturizableWindowMask;
     NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
     
     self.window  = [[[NSWindow alloc] initWithContentRect: contentRect 
