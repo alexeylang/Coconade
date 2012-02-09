@@ -7,6 +7,12 @@
 
 #import <AppKit/AppKit.h>
 
+@class CSMacGLView;
 @interface CNWindowController : NSWindowController
+{
+	CSMacGLView	*_glView;
+}
+
+@property (readwrite, retain) CSMacGLView *glView;
 
 @end
