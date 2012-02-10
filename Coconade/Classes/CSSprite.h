@@ -47,7 +47,6 @@
 	CCLabelBMFont *positionLabel_;
 	
 	NSString *filename_;
-	NSString *name_;
 	BOOL locked_;
 	
 	BOOL willUpdatePositionLabel_;
@@ -55,7 +54,6 @@
 
 @property(nonatomic, assign) BOOL isSelected;
 @property(nonatomic, copy) NSString *filename;
-@property(nonatomic, copy) NSString *name;
 @property(nonatomic, assign) BOOL locked;
 
 // changes position and text of positionLabel

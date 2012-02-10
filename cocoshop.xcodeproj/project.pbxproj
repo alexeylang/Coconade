@@ -202,6 +202,10 @@
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
+		FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */; };
+		FDD94C5514E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */; };
+		FDD94C5914E5D05100E1CF18 /* CCNodeRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5714E5D05100E1CF18 /* CCNodeRegistry.h */; };
+		FDD94C5A14E5D05100E1CF18 /* CCNodeRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD94C5814E5D05100E1CF18 /* CCNodeRegistry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -423,6 +427,10 @@
 		E0F9256D1224207200EF2362 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		FDD94C4A14E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
+		FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoMagicCoding.h"; sourceTree = "<group>"; };
+		FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoMagicCoding.m"; sourceTree = "<group>"; };
+		FDD94C5714E5D05100E1CF18 /* CCNodeRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeRegistry.h; sourceTree = "<group>"; };
+		FDD94C5814E5D05100E1CF18 /* CCNodeRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNodeRegistry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -597,6 +605,7 @@
 		E0B450C112C3AEBD0007F742 /* cocos2d */ = {
 			isa = PBXGroup;
 			children = (
+				FDD94C5114E5D02A00E1CF18 /* AutoMagicCoding */,
 				E0B450C212C3AEBD0007F742 /* CCAction.h */,
 				E0B450C312C3AEBD0007F742 /* CCAction.m */,
 				E0B450C412C3AEBD0007F742 /* CCActionCamera.h */,
@@ -658,6 +667,8 @@
 				E0B450FF12C3AEBE0007F742 /* CCMotionStreak.m */,
 				E0B4510012C3AEBE0007F742 /* CCNode.h */,
 				E0B4510112C3AEBE0007F742 /* CCNode.m */,
+				FDD94C5714E5D05100E1CF18 /* CCNodeRegistry.h */,
+				FDD94C5814E5D05100E1CF18 /* CCNodeRegistry.m */,
 				E0B4510212C3AEBE0007F742 /* CCParallaxNode.h */,
 				E0B4510312C3AEBE0007F742 /* CCParallaxNode.m */,
 				E0B4510412C3AEBE0007F742 /* CCParticleExamples.h */,
@@ -784,6 +795,15 @@
 			path = English.lproj;
 			sourceTree = "<group>";
 		};
+		FDD94C5114E5D02A00E1CF18 /* AutoMagicCoding */ = {
+			isa = PBXGroup;
+			children = (
+				FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */,
+				FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */,
+			);
+			path = AutoMagicCoding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -874,6 +894,8 @@
 				49A14064135BCA0A000C3BD8 /* CSSprite.h in Headers */,
 				49A1427B135BE453000C3BD8 /* CCNode+Additions.h in Headers */,
 				4930EBB1136363FF006E5DA5 /* CSGestureEventDelegate.h in Headers */,
+				FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */,
+				FDD94C5914E5D05100E1CF18 /* CCNodeRegistry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,6 +1072,8 @@
 				E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */,
 				49A14065135BCA0A000C3BD8 /* CSSprite.m in Sources */,
 				49A1427C135BE453000C3BD8 /* CCNode+Additions.m in Sources */,
+				FDD94C5514E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m in Sources */,
+				FDD94C5A14E5D05100E1CF18 /* CCNodeRegistry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

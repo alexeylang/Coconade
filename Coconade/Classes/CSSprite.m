@@ -39,7 +39,6 @@
 
 @synthesize isSelected=isSelected_;
 @synthesize filename=filename_;
-@synthesize name=name_;
 @synthesize locked=locked_;
 
 #pragma mark Init / DeInit
