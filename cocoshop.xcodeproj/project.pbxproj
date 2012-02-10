@@ -300,8 +300,6 @@
 		E0507116131760D700EAE33F /* CSMainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMainLayer.h; sourceTree = "<group>"; };
 		E0507117131760D700EAE33F /* CSMainLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMainLayer.m; sourceTree = "<group>"; };
 		E076E5C01225E97900DE0DA2 /* cocoshop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoshop.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E076E61F1225EC1E00DE0DA2 /* LICENSE.cocos2d */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.cocos2d; sourceTree = "<group>"; };
-		E076E6201225EC1E00DE0DA2 /* LICENSE.cocosdenshion */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.cocosdenshion; sourceTree = "<group>"; };
 		E08AA04A12C0EDC8000341BD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E08AA04C12C0EEC0000341BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E0B450C212C3AEBD0007F742 /* CCAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
@@ -528,8 +526,6 @@
 				6DECF9881389841E0070C774 /* README.md */,
 				6DC763F913AE48A3002BD9A1 /* CHANGELOG */,
 				6DB59F7413B7C1B90012FA60 /* AUTHORS */,
-				E076E61F1225EC1E00DE0DA2 /* LICENSE.cocos2d */,
-				E076E6201225EC1E00DE0DA2 /* LICENSE.cocosdenshion */,
 				E02A83D1129F000100341C97 /* Classes */,
 				E02A84B0129F083F00341C97 /* cocos2d sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
