@@ -272,7 +272,7 @@
 		E036A79E121B5C870037C5C6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E0507116131760D700EAE33F /* CSMainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMainLayer.h; sourceTree = "<group>"; };
 		E0507117131760D700EAE33F /* CSMainLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMainLayer.m; sourceTree = "<group>"; };
-		E076E5C01225E97900DE0DA2 /* cocoshop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cocoshop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E076E5C01225E97900DE0DA2 /* Coconade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coconade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E08AA04A12C0EDC8000341BD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E08AA04C12C0EEC0000341BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E0B450C212C3AEBD0007F742 /* CCAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
@@ -487,7 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				E01E663D121CA00A001A484F /* libcocos2d.a */,
-				E076E5C01225E97900DE0DA2 /* cocoshop.app */,
+				E076E5C01225E97900DE0DA2 /* Coconade.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -919,9 +919,9 @@
 			productReference = E01E663D121CA00A001A484F /* libcocos2d.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		E076E4F01225E97900DE0DA2 /* cocoshop */ = {
+		E076E4F01225E97900DE0DA2 /* Coconade */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E076E5BD1225E97900DE0DA2 /* Build configuration list for PBXNativeTarget "cocoshop" */;
+			buildConfigurationList = E076E5BD1225E97900DE0DA2 /* Build configuration list for PBXNativeTarget "Coconade" */;
 			buildPhases = (
 				E076E4F31225E97900DE0DA2 /* Resources */,
 				E076E5B31225E97900DE0DA2 /* Sources */,
@@ -932,10 +932,10 @@
 			dependencies = (
 				E076E4F11225E97900DE0DA2 /* PBXTargetDependency */,
 			);
-			name = cocoshop;
+			name = Coconade;
 			productInstallPath = "$(HOME)/Applications";
 			productName = "cocos2d-mac";
-			productReference = E076E5C01225E97900DE0DA2 /* cocoshop.app */;
+			productReference = E076E5C01225E97900DE0DA2 /* Coconade.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -946,7 +946,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "cocoshop" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Coconade" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -961,7 +961,7 @@
 			projectRoot = "";
 			targets = (
 				E01E663C121CA00A001A484F /* cocos2d */,
-				E076E4F01225E97900DE0DA2 /* cocoshop */,
+				E076E4F01225E97900DE0DA2 /* Coconade */,
 			);
 		};
 /* End PBXProject section */
@@ -1200,7 +1200,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/build/Debug\"",
 				);
-				PRODUCT_NAME = cocoshop;
+				PRODUCT_NAME = Coconade;
 			};
 			name = Debug;
 		};
@@ -1218,14 +1218,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/build/Debug\"",
 				);
-				PRODUCT_NAME = cocoshop;
+				PRODUCT_NAME = Coconade;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "cocoshop" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Coconade" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
@@ -1243,7 +1243,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E076E5BD1225E97900DE0DA2 /* Build configuration list for PBXNativeTarget "cocoshop" */ = {
+		E076E5BD1225E97900DE0DA2 /* Build configuration list for PBXNativeTarget "Coconade" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E076E5BE1225E97900DE0DA2 /* Debug */,
