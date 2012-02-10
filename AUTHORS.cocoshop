@@ -1,3 +1,19 @@
+Coconade authors
+--------------------------------------
+
+Destroy!Screamers:
+    
+    Alexey Lang (twitter: @alexeylang) (https://github.com/AlexeyLang)
+        * UI Coding
+        * Bundle & Export/Import Support
+        * Core Developer
+    
+    Stepan Generalov (twitter: @parkourDev) (https://github.com/psineur)
+        * AutoMagicCoding author
+        * UI Concept
+        * Core Developer
+
+
 Cocoshop authors
 --------------------------------------
 
@@ -7,18 +23,14 @@ Original developer:
 		* Cocoshop Core
 		* New GUI
 
-People/companies who were/are contributing code to cocos2d-iphone-extensions (alphabetically ordered):
+People/companies who were/are contributing code to Cocoshop (alphabetically ordered):
 
 	Sean Duffy (twitter: @shogan85) (http://www.shogan.co.uk/)
 		* Toolbar Icons
 		
 	Stepan Generalov (twitter: @parkourDev) (http://www.iTraceur.ru)
 		* Icon & Features
-		* 0.1.x Releases	
+		* 0.1.x Releases
 		
 	Paris Paraskeva (twitter: @unitedworx) (http://www.unitedworx.com/)
 		* Alternative keyboard shortcuts for Z-Ordering.
-	
-
-Do you have a homepage, twitter account, etc? Please, send me the URL. I'll add it next to your name. Thanks.
-Is someone missing ? Please, send an email to psi.pk.ru@gmail.com . Thanks.
