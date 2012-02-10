@@ -27,19 +27,18 @@
 #import "CSMacGLView.h"
 
 @class CSObjectController;
+@class CNWindowController;
 
 @interface cocoshopAppDelegate : NSObject <NSApplicationDelegate>
 {
-	NSWindow	*window_;
-	CSMacGLView	*glView_;
+    CNWindowController *_windowController;
 	CSObjectController *controller_;
 	
 	BOOL appIsRunning_;
 	NSString *filenameToOpen_;
 }
 
-@property (readwrite, retain) NSWindow *window;
-@property (readwrite, retain) CSMacGLView *glView;
+@property (readwrite, retain) CNWindowController *windowController;
 @property (assign) IBOutlet CSObjectController *controller;
 @property (readwrite, copy) NSString *filenameToOpen;
 @property (readwrite) BOOL appIsRunning;

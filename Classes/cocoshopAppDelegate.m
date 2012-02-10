@@ -27,9 +27,11 @@
 #import "CSObjectController.h"
 #import "CSMainLayer.h"
 #import "DebugLog.h"
+#import "CNWindowController.h"
+
 
 @implementation cocoshopAppDelegate
-@synthesize window=window_, glView=glView_, controller=controller_;
+@synthesize windowController=_windowController, controller=controller_;
 @synthesize appIsRunning = appIsRunning_, filenameToOpen = filenameToOpen_;
 
 
@@ -57,21 +59,28 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
+    NSRect frame = NSMakeRect(200, 200, 500, 500);
+    NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask | NSMiniaturizableWindowMask;
+    NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
+    NSWindow *window = [[[NSWindow alloc] initWithContentRect: contentRect 
+                                                    styleMask: styleMask
+                                                      backing: NSBackingStoreBuffered 
+                                                        defer: NO] autorelease];
+    self.windowController = [[CNWindowController alloc] initWithWindow:window];
+    [self.windowController prepareWindow];
+    
+	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];
 	
 	[director setDisplayFPS:NO];
 	
 	// register for receiving filenames
-	[glView_ registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
-	[director setOpenGLView:glView_];
+	[self.windowController.glView registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
+	[director setOpenGLView:self.windowController.glView];
 	
 	// We use NoScale with own Projection for NSScrollView
 	[director setResizeMode:kCCDirectorResize_NoScale];
 	[director setProjection: kCCDirectorProjectionCustom];
-	[director setProjectionDelegate: glView_];
-	
-	// Enable "moving" mouse event. Default no.
-	[window_ setAcceptsMouseMovedEvents:NO];
+	[director setProjectionDelegate: self.windowController.glView];
 	
 	CCScene *scene = [CCScene node];
 	CSMainLayer *layer = [CSMainLayer nodeWithController:controller_];
@@ -80,7 +89,8 @@
 	[director runWithScene:scene];
 	
 	self.appIsRunning = YES;
-
+    
+    [self.windowController.window makeKeyAndOrderFront: NSApp];
 }
 
 - (void)applicationWillUpdate:(NSNotification *)aNotification
@@ -96,7 +106,7 @@
 - (void)dealloc
 {
 	[[CCDirector sharedDirector] release];
-	[window_ release];
+    self.windowController = nil;
 	[super dealloc];
 }
 
