@@ -39,8 +39,6 @@
 		E01E6B36121EDCED001A484F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E036A79E121B5C870037C5C6 /* QuartzCore.framework */; };
 		E01E6B49121EDCF4001A484F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E036A79C121B5C720037C5C6 /* OpenGL.framework */; };
 		E02A83D9129F000100341C97 /* cocoshopAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E02A83D3129F000100341C97 /* cocoshopAppDelegate.m */; };
-		E02A83F6129F01DF00341C97 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E02A83EE129F01DF00341C97 /* InfoPlist.strings */; };
-		E02A83F7129F01DF00341C97 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E02A83F0129F01DF00341C97 /* MainMenu.xib */; };
 		E02A83F8129F01DF00341C97 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = E02A83F2129F01DF00341C97 /* fps_images.png */; };
 		E02A83FC129F023B00341C97 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E02A83FB129F023B00341C97 /* main.m */; };
 		E02A8479129F083600341C97 /* CDAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E02A8403129F083500341C97 /* CDAudioManager.h */; };
@@ -220,6 +218,8 @@
 		E0B4521312C3AEBE0007F742 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516B12C3AEBE0007F742 /* utlist.h */; };
 		E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516C12C3AEBE0007F742 /* ZipUtils.h */; };
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
+		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
+		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,13 +242,13 @@
 		496706F9135B9DDE0074D05A /* CSObjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSObjectController.m; sourceTree = "<group>"; };
 		496706FB135B9E1B0074D05A /* CSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSModel.m; sourceTree = "<group>"; };
 		496706FC135B9E1B0074D05A /* CSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSModel.h; sourceTree = "<group>"; };
-		49A13F71135BC089000C3BD8 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Add.tiff; path = Resources/Add.tiff; sourceTree = "<group>"; };
-		49A13F72135BC089000C3BD8 /* Burn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Burn.tiff; path = Resources/Burn.tiff; sourceTree = "<group>"; };
+		49A13F71135BC089000C3BD8 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add.tiff; sourceTree = "<group>"; };
+		49A13F72135BC089000C3BD8 /* Burn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Burn.tiff; sourceTree = "<group>"; };
 		49A14062135BCA0A000C3BD8 /* CSSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSprite.h; sourceTree = "<group>"; };
 		49A14063135BCA0A000C3BD8 /* CSSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSprite.m; sourceTree = "<group>"; };
-		49A1406A135BCB2D000C3BD8 /* arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = arial.fnt; path = Resources/arial.fnt; sourceTree = "<group>"; };
-		49A1406B135BCB2D000C3BD8 /* arial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = arial.png; path = Resources/arial.png; sourceTree = "<group>"; };
-		49A1425D135BE3C1000C3BD8 /* anchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = anchor.png; path = Resources/anchor.png; sourceTree = "<group>"; };
+		49A1406A135BCB2D000C3BD8 /* arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arial.fnt; sourceTree = "<group>"; };
+		49A1406B135BCB2D000C3BD8 /* arial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arial.png; sourceTree = "<group>"; };
+		49A1425D135BE3C1000C3BD8 /* anchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anchor.png; sourceTree = "<group>"; };
 		49A14279135BE453000C3BD8 /* CCNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Additions.h"; sourceTree = "<group>"; };
 		49A1427A135BE453000C3BD8 /* CCNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Additions.m"; sourceTree = "<group>"; };
 		6D13ADE61385A768004FA7F1 /* NSString+RelativePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RelativePath.h"; sourceTree = "<group>"; };
@@ -277,11 +277,9 @@
 		E01E6A3D121EDCD3001A484F /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		E02A83D2129F000100341C97 /* cocoshopAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocoshopAppDelegate.h; sourceTree = "<group>"; };
 		E02A83D3129F000100341C97 /* cocoshopAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoshopAppDelegate.m; sourceTree = "<group>"; };
-		E02A83EB129F01DF00341C97 /* cocoshop_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cocoshop_Prefix.pch; path = Resources/cocoshop_Prefix.pch; sourceTree = "<group>"; };
-		E02A83EC129F01DF00341C97 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		E02A83EF129F01DF00341C97 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
-		E02A83F1129F01DF00341C97 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
-		E02A83F2129F01DF00341C97 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
+		E02A83EB129F01DF00341C97 /* cocoshop_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocoshop_Prefix.pch; sourceTree = "<group>"; };
+		E02A83EC129F01DF00341C97 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E02A83F2129F01DF00341C97 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
 		E02A83FB129F023B00341C97 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E02A8403129F083500341C97 /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
 		E02A8404129F083500341C97 /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
@@ -296,7 +294,7 @@
 		E02A840E129F083500341C97 /* CDXMacOSXSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXMacOSXSupport.m; sourceTree = "<group>"; };
 		E02A840F129F083500341C97 /* CDXPropertyModifierAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDXPropertyModifierAction.h; sourceTree = "<group>"; };
 		E02A8410129F083500341C97 /* CDXPropertyModifierAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXPropertyModifierAction.m; sourceTree = "<group>"; };
-		E02A8528129F109200341C97 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = Resources/icon.icns; sourceTree = "<group>"; };
+		E02A8528129F109200341C97 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		E036A79C121B5C720037C5C6 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E036A79E121B5C870037C5C6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E0507116131760D700EAE33F /* CSMainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMainLayer.h; sourceTree = "<group>"; };
@@ -461,6 +459,8 @@
 		E0B4516C12C3AEBE0007F742 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E0B4516D12C3AEBE0007F742 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
 		E0F9256D1224207200EF2362 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
+		FDD94C4A14E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,9 +544,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FDD94C4614E5C97D00E1CF18 /* English.lproj */,
 				6D1EEA15138EE55B0091F76B /* Icons by Shogan */,
-				E02A83F0129F01DF00341C97 /* MainMenu.xib */,
-				E02A83EE129F01DF00341C97 /* InfoPlist.strings */,
 				E02A83EB129F01DF00341C97 /* cocoshop_Prefix.pch */,
 				E02A83EC129F01DF00341C97 /* Info.plist */,
 				E02A83F2129F01DF00341C97 /* fps_images.png */,
@@ -559,6 +558,7 @@
 				49A1425D135BE3C1000C3BD8 /* anchor.png */,
 			);
 			name = Resources;
+			path = Coconade/Resources;
 			sourceTree = "<group>";
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -596,8 +596,7 @@
 				6D1EEA36138EF1520091F76B /* icon6.png */,
 				6D1EEA18138EE55B0091F76B /* icon3.png */,
 			);
-			name = "Icons by Shogan";
-			path = "Resources/Icons by Shogan";
+			path = "Icons by Shogan";
 			sourceTree = "<group>";
 		};
 		E02A83D1129F000100341C97 /* Classes */ = {
@@ -623,7 +622,8 @@
 				E02A83D2129F000100341C97 /* cocoshopAppDelegate.h */,
 				E02A83D3129F000100341C97 /* cocoshopAppDelegate.m */,
 			);
-			path = Classes;
+			name = Classes;
+			path = Coconade/Classes;
 			sourceTree = "<group>";
 		};
 		E02A8401129F083500341C97 /* CocosDenshion */ = {
@@ -858,6 +858,15 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
+		FDD94C4614E5C97D00E1CF18 /* English.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */,
+				FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */,
+			);
+			path = English.lproj;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1032,8 +1041,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E02A83F6129F01DF00341C97 /* InfoPlist.strings in Resources */,
-				E02A83F7129F01DF00341C97 /* MainMenu.xib in Resources */,
 				E02A83F8129F01DF00341C97 /* fps_images.png in Resources */,
 				E02A8529129F109200341C97 /* icon.icns in Resources */,
 				49A13F92135BC12E000C3BD8 /* Add.tiff in Resources */,
@@ -1052,6 +1059,8 @@
 				6D1EEA3D138EF4D70091F76B /* icon7-a.png in Resources */,
 				6D1EEA3E138EF4D70091F76B /* icon7.png in Resources */,
 				6D1EEA44138EFE280091F76B /* icon7-c.png in Resources */,
+				FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */,
+				FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1173,22 +1182,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E02A83EE129F01DF00341C97 /* InfoPlist.strings */ = {
+		FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E02A83EF129F01DF00341C97 /* English */,
+				FDD94C4814E5C97D00E1CF18 /* English */,
 			);
 			name = InfoPlist.strings;
-			path = Resources/English.lproj;
 			sourceTree = "<group>";
 		};
-		E02A83F0129F01DF00341C97 /* MainMenu.xib */ = {
+		FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E02A83F1129F01DF00341C97 /* English */,
+				FDD94C4A14E5C97D00E1CF18 /* English */,
 			);
 			name = MainMenu.xib;
-			path = Resources/English.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1263,8 +1270,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Resources/cocoshop_Prefix.pch;
-				INFOPLIST_FILE = Resources/Info.plist;
+				GCC_PREFIX_HEADER = Coconade/Resources/cocoshop_Prefix.pch;
+				INFOPLIST_FILE = Coconade/Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1281,8 +1288,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Resources/cocoshop_Prefix.pch;
-				INFOPLIST_FILE = Resources/Info.plist;
+				GCC_PREFIX_HEADER = Coconade/Resources/cocoshop_Prefix.pch;
+				INFOPLIST_FILE = Coconade/Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
