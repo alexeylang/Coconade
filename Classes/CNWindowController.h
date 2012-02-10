@@ -7,6 +7,7 @@
 
 #import <AppKit/AppKit.h>
 
+// @TODO: add comments to ALL
 @class CSMacGLView;
 @interface CNWindowController : NSWindowController
 {
