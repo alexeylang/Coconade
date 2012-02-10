@@ -200,7 +200,6 @@
 		E0B4521312C3AEBE0007F742 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516B12C3AEBE0007F742 /* utlist.h */; };
 		E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516C12C3AEBE0007F742 /* ZipUtils.h */; };
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
-		FA20B96014DEAAD500AA1858 /* MainMenu - copy.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA20B95E14DEAAD500AA1858 /* MainMenu - copy.xib */; };
 		FADDF2BD14E44B8000D42B0C /* CNWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADDF2BC14E44B8000D42B0C /* CNWindowController.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
@@ -435,6 +434,7 @@
 		FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoMagicCoding.m"; sourceTree = "<group>"; };
 		FDD94C5714E5D05100E1CF18 /* CCNodeRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeRegistry.h; sourceTree = "<group>"; };
 		FDD94C5814E5D05100E1CF18 /* CCNodeRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNodeRegistry.m; sourceTree = "<group>"; };
+		FDD94C6A14E5D63500E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = "MainMenu - copy.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -518,9 +518,6 @@
 			children = (
 				FDD94C4614E5C97D00E1CF18 /* English.lproj */,
 				6D1EEA15138EE55B0091F76B /* Icons by Shogan */,
-				E02A83F0129F01DF00341C97 /* MainMenu.xib */,
-				FA20B95E14DEAAD500AA1858 /* MainMenu - copy.xib */,
-				E02A83EE129F01DF00341C97 /* InfoPlist.strings */,
 				E02A83EB129F01DF00341C97 /* cocoshop_Prefix.pch */,
 				E02A83EC129F01DF00341C97 /* Info.plist */,
 				E02A83F2129F01DF00341C97 /* fps_images.png */,
@@ -799,6 +796,7 @@
 			isa = PBXGroup;
 			children = (
 				FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */,
+				FDD94C6914E5D63500E1CF18 /* MainMenu - copy.xib */,
 				FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */,
 			);
 			path = English.lproj;
@@ -998,7 +996,6 @@
 				6D1EEA3D138EF4D70091F76B /* icon7-a.png in Resources */,
 				6D1EEA3E138EF4D70091F76B /* icon7.png in Resources */,
 				6D1EEA44138EFE280091F76B /* icon7-c.png in Resources */,
-				FA20B96014DEAAD500AA1858 /* MainMenu - copy.xib in Resources */,
 				FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */,
 				FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */,
 			);
@@ -1132,10 +1129,10 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		FA20B95E14DEAAD500AA1858 /* MainMenu - copy.xib */ = {
+		FDD94C6914E5D63500E1CF18 /* MainMenu - copy.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA20B95F14DEAAD500AA1858 /* English */,
+				FDD94C6A14E5D63500E1CF18 /* English */,
 			);
 			name = "MainMenu - copy.xib";
 			sourceTree = "<group>";
