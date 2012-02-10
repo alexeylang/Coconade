@@ -5,11 +5,11 @@
  *
  */
 
-#import "CNWindowController.h"
+#import "CCNWindowController.h"
 #import "CSMacGLView.h"
 
 
-@implementation CNWindowController
+@implementation CCNWindowController
 
 @synthesize glView = _glView;
 

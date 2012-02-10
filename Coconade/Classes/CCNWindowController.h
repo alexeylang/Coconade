@@ -9,7 +9,7 @@
 
 // @TODO: add comments to ALL
 @class CSMacGLView;
-@interface CNWindowController : NSWindowController
+@interface CCNWindowController : NSWindowController
 {
 	CSMacGLView	*_glView;
 }

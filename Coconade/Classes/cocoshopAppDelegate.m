@@ -27,7 +27,7 @@
 #import "CSObjectController.h"
 #import "CSMainLayer.h"
 #import "DebugLog.h"
-#import "CNWindowController.h"
+#import "CCNWindowController.h"
 
 
 @implementation cocoshopAppDelegate
@@ -66,7 +66,7 @@
                                                     styleMask: styleMask
                                                       backing: NSBackingStoreBuffered 
                                                         defer: NO] autorelease];
-    self.windowController = [[CNWindowController alloc] initWithWindow:window];
+    self.windowController = [[CCNWindowController alloc] initWithWindow:window];
     [self.windowController prepareWindow];
     
 	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];
