@@ -33,30 +33,6 @@
 @synthesize appIsRunning = appIsRunning_, filenameToOpen = filenameToOpen_;
 
 
-- (void) prepareWindow
-{
-    NSRect frame = NSMakeRect(200, 200, 500, 500);
-    NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask | NSMiniaturizableWindowMask;
-    NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
-    
-    self.window  = [[[NSWindow alloc] initWithContentRect: contentRect 
-                                                styleMask: styleMask
-                                                  backing: NSBackingStoreBuffered 
-                                                    defer: NO] autorelease];
-    self.window.level = NSNormalWindowLevel;
-    self.window.backgroundColor = [NSColor whiteColor];
-    self.window.hasShadow = YES;
-    //self.window.contentView = [[[NSView alloc] initWithFrame:frame] autorelease];
-    
-    contentRect.origin = CGPointZero;
-    self.glView = [[[CSMacGLView alloc] initWithFrame:contentRect] autorelease];
-    self.window.contentView = self.glView;
-    //[self.window.contentView addSubview:self.glView];
-    
-    [self.window makeKeyAndOrderFront: NSApp];
-    
-}
-
 // called before applicationDidFinishLaunching: if app is open by double-clicking
 // csd file
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
@@ -81,7 +57,6 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [self prepareWindow];
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	
 	[director setDisplayFPS:NO];

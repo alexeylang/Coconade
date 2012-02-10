@@ -15,4 +15,6 @@
 
 @property (readwrite, retain) CSMacGLView *glView;
 
+- (void) prepareWindow;
+
 @end
