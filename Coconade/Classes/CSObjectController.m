@@ -354,7 +354,7 @@
 			[[modelObject_ backgroundLayer] setRotation:[modelObject_ rotation]];
 		}
 	}
-	else if( [keyPath isEqualToString:@"stageWidth"] )
+	else if( [keyPath isEqualToString:@"stageWidth"] ) //< TODO: remove this shit
 	{
 		CGSize s = [[CCDirector sharedDirector] winSize];
 		s.width = modelObject_.stageWidth;
@@ -362,7 +362,7 @@
 		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow ];
 		
 	}
-	else if( [keyPath isEqualToString:@"stageHeight"] )
+	else if( [keyPath isEqualToString:@"stageHeight"] ) //< TODO: remove this shit
 	{
 		CGSize s = [[CCDirector sharedDirector] winSize];
 		s.height = modelObject_.stageHeight;
