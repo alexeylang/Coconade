@@ -29,7 +29,6 @@
     self.window.acceptsMouseMovedEvents = NO;
     
     // Create and setup glView
-    //contentRect.origin = CGPointZero;
     self.glView = [[[CSMacGLView alloc] init] autorelease];
     [self.window.contentView addSubview:self.glView];
     [self.glView awakeFromNib];
