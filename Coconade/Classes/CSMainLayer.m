@@ -113,7 +113,7 @@ enum
         NSUInteger reversedIndex = childrenCount - i - 1;
         
 		CCNode *child = [children objectAtIndex:reversedIndex];
-		if([child isKindOfClass:[CSSprite class]] && [child isEventInRect:event])
+		if([child isKindOfClass:[CSSprite class]] && [CCNode isEvent:event locatedInNode:child])
 		{
 			return (CSSprite *)child;
 		}
@@ -339,7 +339,7 @@ enum
 	CSSprite *selectedSprite = [model selectedSprite];
 	if(selectedSprite)
 	{
-		if(![selectedSprite isEventInRect:event])
+		if(![CCNode isEvent:event locatedInNode:selectedSprite])
 		{
 			[model setSelectedSprite:nil];
 		}

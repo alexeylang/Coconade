@@ -27,11 +27,11 @@
 
 @implementation CCNode (Additions)
 
-- (BOOL)isEventInRect:(NSEvent *)event
++ (BOOL)isEvent: (NSEvent *)event locatedInNode: (CCNode *) node;
 {
 	CGPoint location = [[CCDirector sharedDirector] convertEventToGL:event];
-	CGPoint local = [self convertToNodeSpace:location];
-	CGRect r = CGRectMake(0, 0, contentSize_.width, contentSize_.height);
+	CGPoint local = [node convertToNodeSpace:location];
+	CGRect r = CGRectMake(0, 0, node.contentSize.width, node.contentSize.height);
 	r.origin = CGPointZero;
 	return CGRectContainsPoint(r, local);
 }
