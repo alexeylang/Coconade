@@ -74,6 +74,7 @@
             kCCNWindowControllerToolbarItemAddSpriteIdentifier,
             kCCNWindowControllerToolbarItemAddBigImageIdentifier,
             kCCNWindowControllerToolbarItemAddLabelIdentifier,
+            NSToolbarFlexibleSpaceItemIdentifier,
             kCCNWindowControllerToolbarItemInfoIdentifier,
             kCCNWindowControllerToolbarItemSpritesListIdentifier,
             nil];
@@ -85,6 +86,7 @@
             kCCNWindowControllerToolbarItemAddSpriteIdentifier,
             kCCNWindowControllerToolbarItemAddBigImageIdentifier,
             kCCNWindowControllerToolbarItemAddLabelIdentifier,
+            NSToolbarFlexibleSpaceItemIdentifier,
             kCCNWindowControllerToolbarItemInfoIdentifier,
             kCCNWindowControllerToolbarItemSpritesListIdentifier,
             nil];
