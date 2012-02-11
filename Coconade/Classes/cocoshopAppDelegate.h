@@ -32,10 +32,10 @@
 @interface cocoshopAppDelegate : NSObject <NSApplicationDelegate>
 {
     CCNWindowController *_windowController;
-	CSObjectController *controller_;
+	CSObjectController *_controller;
 	
-	BOOL appIsRunning_;
-	NSString *filenameToOpen_;
+	BOOL _appIsRunning;
+	NSString *_filenameToOpen;
 }
 
 @property (readwrite, retain) CCNWindowController *windowController;

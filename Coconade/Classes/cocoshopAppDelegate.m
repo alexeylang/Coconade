@@ -31,8 +31,11 @@
 
 
 @implementation cocoshopAppDelegate
-@synthesize windowController=_windowController, controller=controller_;
-@synthesize appIsRunning = appIsRunning_, filenameToOpen = filenameToOpen_;
+
+@synthesize windowController = _windowController;
+@synthesize controller = _controller;
+@synthesize appIsRunning = _appIsRunning; 
+@synthesize filenameToOpen = _filenameToOpen;
 
 
 // called before applicationDidFinishLaunching: if app is open by double-clicking
@@ -47,8 +50,8 @@
 		if (self.appIsRunning)
 		{
 			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
-			[controller_.mainLayer loadProjectFromDictionarySafely: dict];
-			controller_.projectFilename = self.filenameToOpen;
+			[_controller.mainLayer loadProjectFromDictionarySafely: dict];
+			_controller.projectFilename = self.filenameToOpen;
 			self.filenameToOpen = nil;
 		}
 		return YES;
@@ -83,8 +86,8 @@
 	[director setProjectionDelegate: self.windowController.glView];
 	
 	CCScene *scene = [CCScene node];
-	CSMainLayer *layer = [CSMainLayer nodeWithController:controller_];
-	[controller_ setMainLayer:layer];
+	CSMainLayer *layer = [CSMainLayer nodeWithController:_controller];
+	[_controller setMainLayer:layer];
 	[scene addChild:layer];
 	[director runWithScene:scene];
 	
@@ -117,7 +120,7 @@
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	[director setFullScreen: ! [director isFullScreen] ];
 	
-	[ controller_.mainLayer updateForScreenReshapeSafely: nil ];
+	[_controller.mainLayer updateForScreenReshapeSafely: nil ];
 	[(CSMacGLView *)[director openGLView] updateWindow];
 }
 
