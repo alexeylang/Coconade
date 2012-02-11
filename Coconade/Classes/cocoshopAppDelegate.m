@@ -50,8 +50,8 @@
 		if (self.appIsRunning)
 		{
 			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
-			[_controller.mainLayer loadProjectFromDictionarySafely: dict];
-			_controller.projectFilename = self.filenameToOpen;
+			[self.controller.mainLayer loadProjectFromDictionarySafely: dict];
+			self.controller.projectFilename = self.filenameToOpen;
 			self.filenameToOpen = nil;
 		}
 		return YES;
@@ -86,8 +86,8 @@
 	[director setProjectionDelegate: self.windowController.glView];
 	
 	CCScene *scene = [CCScene node];
-	CSMainLayer *layer = [CSMainLayer nodeWithController:_controller];
-	[_controller setMainLayer:layer];
+	CSMainLayer *layer = [CSMainLayer nodeWithController:self.controller];
+	[self.controller setMainLayer:layer];
 	[scene addChild:layer];
 	[director runWithScene:scene];
 	
@@ -120,7 +120,7 @@
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	[director setFullScreen: ! [director isFullScreen] ];
 	
-	[_controller.mainLayer updateForScreenReshapeSafely: nil ];
+	[self.controller.mainLayer updateForScreenReshapeSafely: nil ];
 	[(CSMacGLView *)[director openGLView] updateWindow];
 }
 
