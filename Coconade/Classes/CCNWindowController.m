@@ -94,14 +94,34 @@
           itemForItemIdentifier:(NSString *)itemIdentifier
       willBeInsertedIntoToolbar:(BOOL)flag
 {
-    NSToolbarItem *toolbarItem = nil;
+    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
     
     if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemAddSpriteIdentifier]) 
     {
-        toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = @"Add Sprite";
-        toolbarItem.image = [NSImage imageNamed: @"Add.tiff"];
+        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemAddSpriteName;
+        toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemAddSpriteImage];
     }
-    return [toolbarItem autorelease];
+    else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemAddBigImageIdentifier]) 
+    {
+        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemAddBigImageName;
+        toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemAddBigImageImage];
+    }
+    else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemAddLabelIdentifier]) 
+    {
+        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemAddLabelName;
+        toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemAddLabelImage];
+    }
+    else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemInfoIdentifier]) 
+    {
+        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemInfoName;
+        toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemInfoImage];
+    }
+    else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemSpritesListIdentifier]) 
+    {
+        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemSpritesListName;
+        toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemSpritesListImage];
+    }
+    
+    return toolbarItem;
 }
 @end
