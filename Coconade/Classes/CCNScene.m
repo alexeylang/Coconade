@@ -107,6 +107,22 @@
 	[self setContentSize: s];
 }
 
+#pragma mark CCNode Lifecycle
+
+//-(void) onEnter
+//{
+//    [super onEnter];
+//    
+//	[self.targetNode onEnter];
+//}
+//
+//-(void) onExit
+//{	
+//	[self.targetNode onExit];
+//    
+//    [super onExit];
+//}
+
 - (void) visit
 {
     if (_updateForScreenReshapeNextVisit)
