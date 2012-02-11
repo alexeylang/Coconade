@@ -44,9 +44,6 @@
 	
 	// delayed actions
 	BOOL didAddSprite_;
-	BOOL shouldUpdateAfterScreenReshape_;
-	
-	CGSize prevSize_;
 }
 
 /**
@@ -82,10 +79,5 @@
  * @param aNotification Notification
  */
 - (void)addedSprite:(NSNotification *)aNotification;
-/**
- * Updates background checkerboard if winSize is changed (can be called on any thread)
- * @param aNotification Notification
- */
-- (void)updateForScreenReshapeSafely:(NSNotification *)aNotification;
 
 @end

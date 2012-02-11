@@ -51,22 +51,13 @@
 		[self setIsKeyboardEnabled:YES];
 		[self setController:aController];
 		
-		prevSize_ = [[CCDirector sharedDirector] winSize];
-		
 		// Register for Notifications
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedSprite:) name:@"addedSprite" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(updateForScreenReshapeSafely:) 
-													 name: NSViewFrameDidChangeNotification 
-												   object: [CCDirector sharedDirector].openGLView];
-		[[CCDirector sharedDirector].openGLView setPostsFrameChangedNotifications: YES];
 		
 		// Add Colored Background
 		CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
 		if (bgLayer)
 			[self addChild:bgLayer z:NSIntegerMin];
-		
-		[self updateForScreenReshapeSafely: nil];
 	}
 	return self;
 }
@@ -103,47 +94,6 @@
 
 
 #pragma mark Notifications
-
-// can be called from another thread
-- (void) updateForScreenReshapeSafely: (NSNotification *) aNotification
-{	
-	// call updateForScreenReshape on next visit (CCActions aren't threadsafe in fullscreen)
-	shouldUpdateAfterScreenReshape_ = YES;
-}
-
-- (void) updateForScreenReshape
-{
-	CGSize s = [CCDirector sharedDirector].winSize;
-	
-	// update color layer size to fit winSize
-	CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
-	if ( [bgLayer isKindOfClass:[CCLayerColor class]] )
-		[bgLayer setContentSize: s];
-	
-	[self setContentSize: s];
-	
-	// dont calculate difference for X value - only the Y value
-	/*CGFloat diffY = s.height - prevSize_.height;
-	CCNode *child;
-	CCARRAY_FOREACH(children_, child)
-	{
-		// reposition all CSSprites
-		if ( [child isKindOfClass:[CSSprite class]] )
-		{
-			CGPoint currentPos = [child position];
-			currentPos.y += diffY;
-			[child setPosition:currentPos];
-			
-			// if the sprite is selected, fix the positions in the panel
-			if ( [[controller_ modelObject] selectedSprite] == child )
-			{
-				[[controller_ modelObject] setPosY:currentPos.y];
-			}
-		}
-	}*/
-	
-	prevSize_ = s;
-}
 
 - (void)addedSprite:(NSNotification *)aNotification
 {
@@ -195,11 +145,7 @@
 }
 
 - (void) visit
-{
-	if (shouldUpdateAfterScreenReshape_)
-		[self updateForScreenReshape];
-	shouldUpdateAfterScreenReshape_ = NO;
-	
+{	
 	if (didAddSprite_)
 		[self updateSpritesFromModel];
 	didAddSprite_ = NO;
