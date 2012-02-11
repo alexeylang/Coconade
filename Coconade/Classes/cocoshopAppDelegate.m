@@ -107,6 +107,7 @@
 {
 	[[CCDirector sharedDirector] release];
     self.windowController = nil;
+    
 	[super dealloc];
 }
 
