@@ -103,12 +103,13 @@ enum
 
 - (CSSprite *)spriteForEvent:(NSEvent *)event
 {
-	// iterate backwards because we want to check for sprite at highest Z order
-	// we check to see if it's less than children_'s count as well
-	// because once it gets to zero, the i-- will make it NSUIntegerMax
-	for(NSUInteger i=[children_ count]-1; i>=0 && i<[children_ count]; i--)
+    NSUInteger childrenCount = [children_ count];
+	for(NSUInteger i = 0; i < childrenCount; ++i)
 	{
-		CCNode *child = [children_ objectAtIndex:i];
+        // Use reversedIndex to iterate backwards.
+        NSUInteger reversedIndex = childrenCount - i - 1;
+        
+		CCNode *child = [children_ objectAtIndex:reversedIndex];
 		if([child isKindOfClass:[CSSprite class]] && [child isEventInRect:event])
 		{
 			return (CSSprite *)child;
