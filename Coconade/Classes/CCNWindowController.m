@@ -20,12 +20,16 @@
 
 @synthesize glView = _glView;
 
+#pragma mark Init/DeInit
+
 - (void) dealloc
 {
     self.glView = nil;
     
     [super dealloc];
 }
+
+#pragma mark Prapare Window
 
 - (void) prepareWindow
 {
@@ -46,6 +50,8 @@
     toolbar.delegate = self;    
     self.window.toolbar = toolbar;
 }
+
+#pragma mark Toolbar Delegate
 
 - (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar 
 {
