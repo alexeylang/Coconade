@@ -33,6 +33,7 @@
 #import "DebugLog.h"
 #import "NSString+RelativePath.h"
 #import "CCNScene.h"
+#import "CCNode+Helpers.h"
 
 @implementation CSObjectController
 
@@ -47,6 +48,11 @@
 
 - (void)awakeFromNib
 {
+    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin];
+	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
+    CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
+    glView.gestureEventsDelegate = self;
+    
 	// add a data source to the table view
 	NSMutableArray *spriteArray = [modelObject_ spriteArray];
 	
@@ -75,6 +81,12 @@
 
 - (void)dealloc
 {
+    CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
+    glView.gestureEventsDelegate = nil;
+    
+    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
+    
 	self.projectFilename = nil;
 	self.spriteInfoView = nil;
 	self.backgroundInfoView = nil;
@@ -903,5 +915,248 @@
 	[self addSpritesWithArray: newSprites];
 }
 
+
+#pragma mark - Events
+#pragma mark Touch Events
+
+- (void)csMagnifyWithEvent:(NSEvent *)event
+{
+	CSSprite *sprite = [[self modelObject] selectedSprite];
+	CSModel *model = [self modelObject];
+	if (sprite)
+	{
+		float currentScaleX = [model scaleX];
+		float currentScaleY = [model scaleY];
+		float newScaleX = currentScaleX + [event magnification];
+		float newScaleY = currentScaleY + [event magnification];
+		
+		// round to nearest hundredth
+		newScaleX = roundf(newScaleX * 100)/100.0f;
+		newScaleY = roundf(newScaleY * 100)/100.0f;
+		
+		[[self modelObject] setScaleX:newScaleX];
+		[[self modelObject] setScaleY:newScaleY];
+	}
+}
+
+- (void)csRotateWithEvent:(NSEvent *)event
+{
+	CSSprite *sprite = [[self modelObject] selectedSprite];
+	if (sprite)
+	{
+		float currentRotation = [sprite rotation];
+		float rotationChange = -[event rotation]; // need to negate
+		float newRotation = currentRotation + rotationChange;
+		
+		// make the new rotation 0 - 360
+		if (newRotation < 0)
+			newRotation += 360;
+		else if (newRotation > 360)
+			newRotation -= 360;
+		
+		// rounding
+		newRotation = roundf(newRotation);
+		
+		[[self modelObject] setRotation:newRotation];
+	}
+}
+
+#pragma mark Mouse Events
+
+
+- (CSSprite *)spriteForEvent:(NSEvent *)event
+{
+    CCNode *bgLayer = [[self modelObject] backgroundLayer];
+    CCArray *children = [bgLayer children];
+    
+    NSUInteger childrenCount = [children count];
+	for(NSUInteger i = 0; i < childrenCount; ++i)
+	{
+        // Use reversedIndex to iterate backwards.
+        NSUInteger reversedIndex = childrenCount - i - 1;
+        
+		CCNode *child = [children objectAtIndex:reversedIndex];
+		if([child isKindOfClass:[CSSprite class]] && [CCNode isEvent:event locatedInNode:child])
+		{
+			return (CSSprite *)child;
+		}
+	}
+	
+	return nil;
+}
+
+- (BOOL)ccMouseDown:(NSEvent *)event
+{
+	shouldToggleVisibility_ = NO;
+	shouldDragSprite_ = NO;
+	
+	CSModel *model = [self modelObject];
+	
+	CSSprite *sprite = [self spriteForEvent:event];
+	if(sprite)
+	{
+		// if this isn't the selected sprite, select it
+		// otherwise, plan on deselecting it (unless it is moved)
+		if([model selectedSprite] != sprite)
+			[model setSelectedSprite:sprite];
+		else
+			shouldToggleVisibility_ = YES;
+		
+		shouldDragSprite_ = YES;
+	}
+	
+	// if we touch outside of selected sprite, deselect it
+	CSSprite *selectedSprite = [model selectedSprite];
+	if(selectedSprite)
+	{
+		if(![CCNode isEvent:event locatedInNode:selectedSprite])
+		{
+			[model setSelectedSprite:nil];
+		}
+	}
+	
+	prevLocation_ = [[CCDirector sharedDirector] convertEventToGL:event];
+	
+	return YES;
+}
+
+- (BOOL)ccMouseDragged:(NSEvent *)event
+{
+	// we're dragging the sprite, so don't deselect it
+	shouldToggleVisibility_ = NO;
+	
+	CGPoint location = [[CCDirector sharedDirector] convertEventToGL:event];
+	
+	CSModel *model = [self modelObject];
+	
+	// drag the sprite
+	if(shouldDragSprite_)
+	{
+		CSSprite *sprite = [model selectedSprite];
+		if(sprite)
+		{
+			// note that we don't change the position value directly
+			// the control will observe the change in posX and do it
+			// for us
+			CGPoint diff = ccpSub(location, prevLocation_);
+			CGPoint currentPos = [sprite position];
+			CGPoint newPos = ccpAdd(currentPos, diff);
+			[[self modelObject] setPosX:newPos.x];
+			[[self modelObject] setPosY:newPos.y];
+		}
+	}
+	
+	prevLocation_ = location;
+	
+	return YES;
+}
+
+- (BOOL)ccMouseUp:(NSEvent *)event
+{
+	// are we supposed to toggle the visibility?
+	if(shouldToggleVisibility_)
+	{
+		CSModel *model = [self modelObject];
+		[model setSelectedSprite:nil];
+	}
+	
+	prevLocation_ = [[CCDirector sharedDirector] convertEventToGL:event];
+	
+	return YES;
+}
+
+#pragma mark Keyboard Events
+
+// Keycodes available here: http://forums.macrumors.com/showpost.php?p=8428116&postcount=2
+- (BOOL)ccKeyDown:(NSEvent *)event
+{
+	NSUInteger modifiers = [event modifierFlags];
+	unsigned short keyCode = [event keyCode];
+	CSModel *model = [self modelObject];
+	
+	// delete sprites
+	switch(keyCode)
+	{
+		case 0x33: // delete
+		case 0x75: // forward delete
+			[self performSelectorOnMainThread:@selector(deleteSprite:) withObject:[[self modelObject] selectedSprite] waitUntilDone:NO];
+			return YES;
+		default:
+			break;
+	}
+	
+	// if option/alt key is pressed....
+	if(modifiers & NSAlternateKeyMask)
+	{
+		// move anchor point
+		CGFloat increment = (modifiers & NSShiftKeyMask) ? 0.1f : 0.01f;
+		
+		switch(keyCode)
+		{
+			case 0x7B: // left arrow
+				[model setAnchorX:[model anchorX]-increment];
+				return YES;
+			case 0x7C: // right arrow
+				[model setAnchorX:[model anchorX]+increment];
+				return YES;
+			case 0x7D: // down arrow
+				[model setAnchorY:[model anchorY]-increment];
+				return YES;
+			case 0x7E: // up arrow
+				[model setAnchorY:[model anchorY]+increment];
+				return YES;
+			default:
+				return NO;
+		}		
+	}
+	else if (modifiers & NSControlKeyMask)
+	{
+		// rotate sprite
+		CGFloat increment = (modifiers & NSShiftKeyMask) ? 10.0f : 1.0f;
+		
+		switch(keyCode)
+		{
+			case 0x7B: // left arrow
+				[model setRotation:[model rotation]-increment];
+				return YES;
+			case 0x7C: // right arrow
+				[model setRotation:[model rotation]+increment];
+				return YES;
+			default:
+				return NO;
+		}
+	}
+	else
+	{
+		// move position & change z
+		NSInteger increment = (modifiers & NSShiftKeyMask) ? 10 : 1;
+		
+		switch(keyCode)
+		{
+			case 0x7B: // left arrow
+				[model setPosX:[model posX]-increment];
+				return YES;
+			case 0x7C: // right arrow
+				[model setPosX:[model posX]+increment];
+				return YES;
+			case 0x7D: // down arrow
+				[model setPosY:[model posY]-increment];
+				return YES;
+			case 0x7E: // up arrow
+				[model setPosY:[model posY]+increment];
+				return YES;
+			case 0x74: // page up
+				[model setPosZ:[model posZ]+increment];
+				return YES;
+			case 0x79: // page down
+				[model setPosZ:[model posZ]-increment];
+				return YES;
+			default:
+				return NO;
+		}
+	}
+	
+	return NO;
+}
 
 @end

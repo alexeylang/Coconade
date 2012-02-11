@@ -34,13 +34,10 @@
 @class CSObjectController;
 @class CSSprite;
 
-@interface CSMainLayer : CCLayer <CSGestureEventDelegate>
+@interface CSMainLayer : CCLayer
 {
 	CSObjectController *controller_;
 	
-	BOOL shouldToggleVisibility_;
-	BOOL shouldDragSprite_;
-	CGPoint prevLocation_;
 	
 	// delayed actions
 	BOOL didAddSprite_;
@@ -64,14 +61,6 @@
  * @returns Instance of layer
  */
 - (id)initWithController:(CSObjectController *)aController;
-
-#pragma mark Children Getters
-/**
- * Get sprite based on NSEvent from click
- * @param event Event to check for sprite
- * @returns Sprite located in event
- */
-- (CSSprite *)spriteForEvent:(NSEvent *)event;
 
 #pragma mark Notifications
 /**

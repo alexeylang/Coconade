@@ -26,14 +26,20 @@
 
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
+#import "CSGestureEventDelegate.h"
 
 @class CSModel;
 @class CSSprite;
 @class CSMainLayer;
 @class CSTableViewDataSource;
 
-@interface CSObjectController : NSObjectController
+@interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CSGestureEventDelegate>
 {
+    // Working with sprites.
+    BOOL shouldToggleVisibility_;
+	BOOL shouldDragSprite_;
+    CGPoint prevLocation_;
+    
     CSModel *modelObject_;
 	CSMainLayer *mainLayer_;
 	CSTableViewDataSource *dataSource_;
