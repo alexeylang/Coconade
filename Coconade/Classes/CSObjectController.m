@@ -451,7 +451,6 @@
 		
 		CSSprite *sprite = [CSSprite spriteWithFile:filename];
 		[sprite setName:name];
-		[sprite setFilename:filename];
 		
 		[self ensureUniqueNameForSprite: sprite];
 		

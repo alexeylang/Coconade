@@ -52,15 +52,10 @@
 	CCSprite *anchor_;
 	CCLabelBMFont *positionLabel_;
 	
-	NSString *filename_;
-	BOOL locked_;
-	
 	BOOL willUpdatePositionLabel_;
 }
 
 @property(nonatomic, assign) BOOL isSelected;
-@property(nonatomic, copy) NSString *filename;
-@property(nonatomic, assign) BOOL locked;
 
 // changes position and text of positionLabel
 // must be called on Cocos2D thread

@@ -38,8 +38,6 @@
 @implementation CSSprite
 
 @synthesize isSelected=isSelected_;
-@synthesize filename=filename_;
-@synthesize locked=locked_;
 
 #pragma mark Init / DeInit
 
@@ -47,9 +45,7 @@
 {
 	if((self=[super init]))
 	{
-		[self setFilename:nil];
 		[self setName:nil];
-		locked_ = NO;
 		
 		fill_ = [[CCLayerColor layerWithColor:ccc4(30,144,255,25.5f)] retain];
 		[self addChild:fill_];
@@ -71,7 +67,6 @@
 	[fill_ release];
 	[anchor_ release];
 	[positionLabel_ release];
-	[self setFilename:nil];
 	[self setName:nil];
 	[super dealloc];
 }
@@ -113,8 +108,7 @@
 
 - (void)setAnchorPoint:(CGPoint)anchor
 {
-	if(!locked_)
-	{
+	
 		[super setAnchorPoint:anchor];
 		
 		// update position of anchor point
@@ -124,59 +118,48 @@
 			[anchor_ setPosition:CGPointZero];
 		else
 			[anchor_ setPosition:ccp(size.width*anchorPoint_.x, size.height*anchorPoint_.y)];
-	}
+	
 }
 
 - (void)setPosition:(CGPoint)pos
 {
-	if(!locked_)
-	{
+	
 		[super setPosition:pos];
 		[self updatePositionLabelSafely];
-	}
+	
 }
 
 - (void)setRotation:(float)rot
 {
-	if(!locked_)
-	{
+
 		[super setRotation:rot];
 		[positionLabel_ setRotation:-rot];
 		//TODO: reposition somehow positionLabel_ to be always at the bottom of anchor_
 		// if this is necessary 
-	}
+	
 }
 
 - (void)setScaleX:(float)s
 {
-	if(!locked_)
-	{
+	
 		[super setScaleX:s];
 		[anchor_ setScaleX:(s != 0) ? 1.0f/s : 0];
-	}
+	
 }
 
 - (void)setScaleY:(float)s
 {
-	if(!locked_)
-	{
+	
 		[super setScaleY:s];
 		[anchor_ setScaleY:(s != 0) ? 1.0f/s : 0];
-	}
+	
 }
 
-- (void)setOpacity:(GLubyte)anOpacity
-{
-	if(!locked_)
-	{
-		[super setOpacity:anOpacity];
-	}
-}
+
 
 - (void)setIsRelativeAnchorPoint:(BOOL)relative
 {
-	if(!locked_)
-	{
+	
 		[super setIsRelativeAnchorPoint:relative];
 		
 		// update position of anchor point
@@ -185,7 +168,7 @@
 			[anchor_ setPosition:CGPointZero];
 		else
 			[anchor_ setPosition:ccp(size.width*anchorPoint_.x, size.height*anchorPoint_.y)];
-	}
+	
 }
 
 - (void)setIsSelected:(BOOL)selected
