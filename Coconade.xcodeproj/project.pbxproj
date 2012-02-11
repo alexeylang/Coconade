@@ -197,8 +197,8 @@
 		E0B4521312C3AEBE0007F742 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516B12C3AEBE0007F742 /* utlist.h */; };
 		E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516C12C3AEBE0007F742 /* ZipUtils.h */; };
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
-		FD1F65E814E699D3003DCA81 /* CCNode+Helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1F65E614E699D3003DCA81 /* CCNode+Helpers.h */; };
 		FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
+		FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
 		FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */; };
@@ -894,7 +894,6 @@
 				4930EBB1136363FF006E5DA5 /* CSGestureEventDelegate.h in Headers */,
 				FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */,
 				FDD94C5914E5D05100E1CF18 /* CCNodeRegistry.h in Headers */,
-				FD1F65E814E699D3003DCA81 /* CCNode+Helpers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1081,6 +1080,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E02A83D9129F000100341C97 /* cocoshopAppDelegate.m in Sources */,
+				FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */,
 				E02A83FC129F023B00341C97 /* main.m in Sources */,
 				E0507118131760D700EAE33F /* CSMainLayer.m in Sources */,
 				496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */,
