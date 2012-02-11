@@ -27,6 +27,7 @@
 #import "CSObjectController.h"
 #import "CSMainLayer.h"
 #import "DebugLog.h"
+#import "CCNScene.h"
 
 @implementation cocoshopAppDelegate
 @synthesize window=window_, glView=glView_, controller=controller_;
@@ -72,10 +73,20 @@
 	// Enable "moving" mouse event. Default no.
 	[window_ setAcceptsMouseMovedEvents:NO];
 	
-	CCScene *scene = [CCScene node];
+    // Prepare scene.
+	CCNScene *scene = [CCNScene node];
+    
+    // Show Borders if needed (On first run)
+    NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey:@"CSMainLayerShowBorders"];
+    if (!showBordersState)
+        scene.showBorders = YES;
+    else 
+        scene.showBorders = [showBordersState intValue];
+    
+    
 	CSMainLayer *layer = [CSMainLayer nodeWithController:controller_];
 	[controller_ setMainLayer:layer];
-	[scene addChild:layer];
+	scene.targetNode = layer;
 	[director runWithScene:scene];
 	
 	self.appIsRunning = YES;
