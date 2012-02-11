@@ -27,8 +27,6 @@
 
 @interface CCNode (Additions)
 
-@property (nonatomic, readonly) CGRect rect;
-
 - (BOOL)isEventInRect:(NSEvent *)event;
 
 @end

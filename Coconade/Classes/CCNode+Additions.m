@@ -27,20 +27,11 @@
 
 @implementation CCNode (Additions)
 
-@dynamic rect;
-
-- (CGRect)rect
-{
-	return CGRectMake(self.position.x - contentSize_.width*anchorPoint_.x, self.position.y-
-					  contentSize_.height*anchorPoint_.y,
-					  contentSize_.width, contentSize_.height);
-}
-
 - (BOOL)isEventInRect:(NSEvent *)event
 {
 	CGPoint location = [[CCDirector sharedDirector] convertEventToGL:event];
 	CGPoint local = [self convertToNodeSpace:location];
-	CGRect r = self.rect;
+	CGRect r = CGRectMake(0, 0, contentSize_.width, contentSize_.height);
 	r.origin = CGPointZero;
 	return CGRectContainsPoint(r, local);
 }
