@@ -37,9 +37,6 @@
 @synthesize appIsRunning = _appIsRunning; 
 @synthesize filenameToOpen = _filenameToOpen;
 
-
-// called before applicationDidFinishLaunching: if app is open by double-clicking
-// csd file
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if ([[filename pathExtension] isEqualToString: @"csd"])

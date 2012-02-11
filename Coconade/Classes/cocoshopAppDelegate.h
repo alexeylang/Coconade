@@ -44,6 +44,8 @@
 @property (readwrite) BOOL appIsRunning;
 
 - (IBAction)toggleFullScreen:(id)sender;
+
+/** Called before applicationDidFinishLaunching: if app is open by double-clicking csd file */
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
 
 @end
