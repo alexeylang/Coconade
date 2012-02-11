@@ -103,13 +103,16 @@ enum
 
 - (CSSprite *)spriteForEvent:(NSEvent *)event
 {
-    NSUInteger childrenCount = [children_ count];
+    CCNode *bgLayer = [[controller_ modelObject] backgroundLayer];
+    CCArray *children = [bgLayer children];
+    
+    NSUInteger childrenCount = [children count];
 	for(NSUInteger i = 0; i < childrenCount; ++i)
 	{
         // Use reversedIndex to iterate backwards.
         NSUInteger reversedIndex = childrenCount - i - 1;
         
-		CCNode *child = [children_ objectAtIndex:reversedIndex];
+		CCNode *child = [children objectAtIndex:reversedIndex];
 		if([child isKindOfClass:[CSSprite class]] && [child isEventInRect:event])
 		{
 			return (CSSprite *)child;
@@ -180,6 +183,7 @@ enum
 {
 	CSModel *model = [controller_ modelObject];
 	NSMutableArray *spriteArray = [model spriteArray];
+    CCNode *bgLayer = [model backgroundLayer];
 	
 	@synchronized(spriteArray)
 	{
@@ -187,7 +191,7 @@ enum
 		{
 			if( ![sprite parent] )
 			{
-				[self addChild:sprite z: [sprite zOrder]];
+				[bgLayer addChild:sprite z: [sprite zOrder]];
 				[model setSelectedSprite:sprite];
 			}
 		}
