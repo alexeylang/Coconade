@@ -88,7 +88,7 @@
     CGSize s = [[CCDirector sharedDirector] winSize];
     [glView_ setWorkspaceSize: s];
     [glView_ updateWindow ];
-    
+    glView_.gestureEventsDelegate = controller_;
     
 	CSMainLayer *layer = [CSMainLayer nodeWithController:controller_];
 	[controller_ setMainLayer:layer];
