@@ -32,6 +32,7 @@
 #import "CSTableViewDataSource.h"
 #import "DebugLog.h"
 #import "NSString+RelativePath.h"
+#import "CCNScene.h"
 
 @implementation CSObjectController
 
@@ -93,9 +94,6 @@
 		[mainLayer_ release];
 		mainLayer_ = view;
 		[view setController:self];
-		
-		// Using ivar, cause IB sucks
-		showBordersMenuItem_.state = (mainLayer_.showBorders) ? NSOnState : NSOffState;
 	}
 	
 	
@@ -710,7 +708,8 @@
 	}
 	
 	// "Show Borders"- using ivar, because NSOnState doesn't set right in IB
-	showBordersMenuItem_.state = (mainLayer_.showBorders) ? NSOnState : NSOffState;
+    CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+	showBordersMenuItem_.state = (scene.showBorders) ? NSOnState : NSOffState;
 	
 	return YES;
 }
@@ -847,7 +846,8 @@
 #pragma mark IBActions - Menus
 - (IBAction) showBordersMenuItemPressed: (id) sender
 {
-	mainLayer_.showBorders = ([sender state] == NSOffState);
+    CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+	scene.showBorders = ([sender state] == NSOffState);
 }
 
 - (IBAction) deleteMenuItemPressed: (id) sender
