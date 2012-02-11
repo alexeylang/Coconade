@@ -48,7 +48,7 @@
 
 - (void) prepareWindow
 {
-    // setup window
+    // Setup window
     self.window.level = NSNormalWindowLevel;
     self.window.backgroundColor = [NSColor whiteColor];
     self.window.hasShadow = YES;
@@ -59,6 +59,7 @@
     [self.window.contentView addSubview:self.glView];
     [self.glView awakeFromNib];
     
+    // Create and setup toolbar
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:
                            kCCNWindowControllerToolbarIdentifier] autorelease];
     toolbar.displayMode = NSToolbarDisplayModeIconAndLabel;
