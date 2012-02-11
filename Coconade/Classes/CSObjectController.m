@@ -576,54 +576,10 @@
 
 - (NSDictionary *)dictionaryFromLayerForBaseDirPath: (NSString *) baseDirPath
 {
-	CCLayerColor *bgLayer = [modelObject_ backgroundLayer];
-	
-	NSMutableDictionary *bg = [NSMutableDictionary dictionaryWithCapacity:15];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer contentSize].width] forKey:@"stageWidth"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer contentSize].height] forKey:@"stageHeight"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer position].x] forKey:@"posX"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer position].y] forKey:@"posY"];
-	[bg setValue:[NSNumber numberWithInteger:[bgLayer zOrder]] forKey:@"posZ"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer anchorPoint].x] forKey:@"anchorX"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer anchorPoint].y] forKey:@"anchorY"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer scaleX]] forKey:@"scaleX"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer scaleY]] forKey:@"scaleY"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer opacity]] forKey:@"opacity"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer color].r] forKey:@"colorR"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer color].g] forKey:@"colorG"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer color].b] forKey:@"colorB"];
-	[bg setValue:[NSNumber numberWithFloat:[bgLayer rotation]] forKey:@"rotation"];
-	[bg setValue:[NSNumber numberWithBool:[bgLayer isRelativeAnchorPoint]] forKey:@"relativeAnchor"];
-	
-	NSMutableArray *children = [NSMutableArray arrayWithCapacity:[[mainLayer_ children] count]];
-	CCNode *child;
-	CCARRAY_FOREACH([mainLayer_ children], child)
-	{
-		if( [child isKindOfClass:[CSSprite class]] )
-		{
-			CSSprite *sprite = (CSSprite *)child;
-			[self ensureUniqueNameForSprite: sprite];
-			
-			// Use relative path if needed
-			if ([[sprite filename] isAbsolutePath])
-			{
-				// Use relative path if possible
-				NSString *relativePath = [[sprite filename] relativePathFromBaseDirPath: baseDirPath ];
-				if (relativePath)
-					sprite.filename = relativePath;		
-			}
-			
-			// Get Sprite Dictionary Representation & Save it to children array
-			NSDictionary *childValues = [sprite dictionaryRepresentation];			
-			[children addObject:childValues];
-		}
-	}
-	
-	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
-	[dict setValue:bg forKey:@"background"];
-	[dict setValue:children forKey:@"children"];
-	
-	return [NSDictionary dictionaryWithDictionary:dict];
+    // Just save background layer - it includes all sprites as children.
+    // Ignore baseDirPath.
+    
+	return [[modelObject_ backgroundLayer] dictionaryRepresentation];
 }
 
 - (void)saveProjectToFile:(NSString *)filename
@@ -649,68 +605,36 @@
 
 - (void)loadProjectFromDictionary:(NSDictionary *)dict
 {
-	NSDictionary *bg = [dict objectForKey:@"background"];
-	NSDictionary *children = [dict objectForKey:@"children"];
+    if (![dict count])
+        return;
     
-	if(bg && children)
-	{
-		// clear all existing sprites first
-		[self deleteAllSprites];
-		
-		CCLayerColor *bgLayer = [[self modelObject] backgroundLayer];
-		
-		CGSize workspaceSize = CGSizeMake([[bg objectForKey:@"stageWidth"] floatValue], [[bg objectForKey:@"stageHeight"] floatValue]);
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: workspaceSize];
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow];
-		[[self modelObject] setSelectedSprite: nil];
-		
-		
-		CGPoint bgPos = ccp([[bg objectForKey:@"posX"] floatValue], [[bg objectForKey:@"posY"] floatValue]);
-		[bgLayer setPosition:bgPos];
-		
-		CGPoint bgAnchor = ccp([[bg objectForKey:@"anchorX"] floatValue], [[bg objectForKey:@"anchorY"] floatValue]);
-		[bgLayer setAnchorPoint:bgAnchor];
-		
-		CGFloat bgScaleX = [[bg objectForKey:@"scaleX"] floatValue];
-		CGFloat bgScaleY = [[bg objectForKey:@"scaleY"] floatValue];
-		[bgLayer setScaleX:bgScaleX];
-		[bgLayer setScaleY:bgScaleY];
-		
-		CGFloat bgOpacity = [[bg objectForKey:@"opacity"] floatValue];
-		[bgLayer setOpacity:bgOpacity];
-		
-		ccColor3B bgColor = ccc3([[bg objectForKey:@"colorR"] floatValue], [[bg objectForKey:@"colorG"] floatValue], [[bg objectForKey:@"colorB"] floatValue]);
-		[bgLayer setColor:bgColor];
-		
-		CGFloat bgRotation = [[bg objectForKey:@"rotation"] floatValue];
-		[bgLayer setRotation:bgRotation];
-		
-		BOOL bgRelativeAnchor = [[bg objectForKey:@"relativeAnchor"] boolValue];
-		[bgLayer setIsRelativeAnchorPoint:bgRelativeAnchor];
-		
-		for(NSDictionary *child in children)
-		{
-			// change path to relative while loading
-			NSMutableDictionary *mutableChild = [NSMutableDictionary dictionaryWithDictionary: child];
-			NSString *absolutePath = [[mutableChild objectForKey:@"filename"] absolutePathFromBaseDirPath: [self.projectFilename stringByDeletingLastPathComponent]];
-			if (absolutePath)
-			{
-				[mutableChild removeObjectForKey:@"filename"];
-				[mutableChild setObject: absolutePath forKey:@"filename"];
-			}
-			
-			// Create & setup Sprite
-			CSSprite *sprite = [[CSSprite new] autorelease];			
-			[sprite setupFromDictionaryRepresentation: mutableChild ];
-			
-			@synchronized ([[self modelObject] spriteArray])
-			{
-				[[[self modelObject] spriteArray] addObject:sprite];
-			}
-			
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
-		}
-	}
+    // TODO: load content in try block, if any exception gets thrown - don't
+    // update anything - just show loading error alert and keep old scene.
+    
+    // Clear all existing sprites first.
+    [self deleteAllSprites];
+    [[self modelObject] setSelectedSprite: nil];
+    
+    // Load background layer without alloc.
+    CCLayerColor *bgLayer = [[self modelObject] backgroundLayer];
+    [bgLayer initWithDictionaryRepresentation: dict];
+    
+    // [Rusty: Cocoshop] Change workspace size from bgLayer.contentSize.
+    CGSize workspaceSize = bgLayer.contentSize;
+    [(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: workspaceSize];
+    [(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow];
+    
+    // [Rusty: Cocoshop] Readd new sprites to model.
+    @synchronized ([[self modelObject] spriteArray])
+    {
+        for (CCSprite *child in [bgLayer children])
+        {
+            [[[self modelObject] spriteArray] addObject:child];
+        }
+    }
+    
+    // [Rusty: Cocoshop] Post stupid notification for some reason.
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
 }
 
 #pragma mark IBActions - Windows
