@@ -25,7 +25,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
-
+#import "CSGestureEventDelegate.h"
 
 @interface CSMacGLView : MacGLView <CCProjectionProtocol>
 {
@@ -36,7 +36,11 @@
 	CGFloat zoomSpeed_; 
 	CGFloat zoomFactorMax_;
 	CGFloat zoomFactorMin_;
+    
+    id <CSGestureEventDelegate> _gestureEventsDelegate;
 }
+
+@property (readwrite, assign) id <CSGestureEventDelegate> gestureEventsDelegate;
 
 #pragma mark Workspace
 

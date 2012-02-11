@@ -37,6 +37,7 @@
 			zoomSpeed = zoomSpeed_, 
 			zoomFactorMax = zoomFactorMax_, 
 			zoomFactorMin = zoomFactorMin_;
+@synthesize gestureEventsDelegate = _gestureEventsDelegate;
 
 - (cocoshopAppDelegate *) appDelegate
 {
@@ -327,34 +328,25 @@
 
 - (void)magnifyWithEvent:(NSEvent *)event
 {
-	// try to send magnification gesture to view
-	CSObjectController *controller = [[self appDelegate] controller];
-	
-	if ( [controller mainLayer] && [[controller mainLayer] respondsToSelector:@selector(csMagnifyWithEvent:)] )
+	if ( [self.gestureEventsDelegate respondsToSelector:@selector(csMagnifyWithEvent:)] )
 	{
-		[[controller mainLayer] csMagnifyWithEvent:event];
+		[self.gestureEventsDelegate csMagnifyWithEvent:event];
 	}
 }
 
 - (void)rotateWithEvent:(NSEvent *)event
 {
-	// try to send rotation gesture to view
-	CSObjectController *controller = [[self appDelegate] controller];
-	
-	if ( [controller mainLayer] && [[controller mainLayer] respondsToSelector:@selector(csRotateWithEvent:)] )
+	if ( [self.gestureEventsDelegate respondsToSelector:@selector(csRotateWithEvent:)] )
 	{
-		[[controller mainLayer] csRotateWithEvent:event];
+		[self.gestureEventsDelegate csRotateWithEvent:event];
 	}
 }
 
 - (void)swipeWithEvent:(NSEvent *)event
 {
-	// try to send swipe gesture to view
-	CSObjectController *controller = [[self appDelegate] controller];
-	
-	if ( [controller mainLayer] && [[controller mainLayer] respondsToSelector:@selector(csSwipeWithEvent:)] )
+	if ( [self.gestureEventsDelegate respondsToSelector:@selector(csSwipeWithEvent:)] )
 	{
-		[[controller mainLayer] csSwipeWithEvent:event];
+		[self.gestureEventsDelegate csSwipeWithEvent:event];
 	}
 }
 
