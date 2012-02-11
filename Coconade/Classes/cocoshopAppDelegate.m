@@ -98,6 +98,14 @@
 	
 	self.appIsRunning = YES;
 
+    // Open file if needed ( self.filenameToOpen can be set in -application:openFile ).
+	if (self.filenameToOpen)
+	{
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: self.filenameToOpen];
+        controller_.projectFilename = self.filenameToOpen;
+        [controller_ loadProjectFromDictionarySafely: dict];			
+        self.filenameToOpen = nil;
+	}
 }
 
 - (void)applicationWillUpdate:(NSNotification *)aNotification
