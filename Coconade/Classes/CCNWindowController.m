@@ -34,13 +34,11 @@
     [self.window.contentView addSubview:self.glView];
     [self.glView awakeFromNib];
     
-    NSToolbar *toolbar = [[NSToolbar new] autorelease];
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:
+                           kCCNWindowControllerToolbarIdentifier] autorelease];
     toolbar.displayMode = NSToolbarDisplayModeIconAndLabel;
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:10];
-    NSToolbarItem *addSpriteItem = [[NSToolbarItem new] autorelease];
-    addSpriteItem.label = @"Add sprite";
-    addSpriteItem.paletteLabel = addSpriteItem.label;
-    [items addObject: addSpriteItem];
+    toolbar.delegate = self;    
+    self.window.toolbar = toolbar;
 }
 
 @end
