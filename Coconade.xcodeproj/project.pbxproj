@@ -1194,10 +1194,7 @@
 				GCC_PREFIX_HEADER = Coconade/Resources/cocoshop_Prefix.pch;
 				INFOPLIST_FILE = Coconade/Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/build/Debug\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = Coconade;
 			};
 			name = Debug;
@@ -1212,10 +1209,7 @@
 				GCC_PREFIX_HEADER = Coconade/Resources/cocoshop_Prefix.pch;
 				INFOPLIST_FILE = Coconade/Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/build/Debug\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = Coconade;
 			};
 			name = Release;
