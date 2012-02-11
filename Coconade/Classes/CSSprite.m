@@ -27,7 +27,6 @@
 // TODO: Create new file to exclude Andrew's copyright & MIT License.
 
 #import "CSSprite.h"
-#import "CCNode+Additions.h"
 #import "CSObjectController.h"
 #import "CSModel.h"
 #import "NSString+RelativePath.h"

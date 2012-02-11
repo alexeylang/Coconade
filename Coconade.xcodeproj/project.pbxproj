@@ -17,9 +17,6 @@
 		49A1406C135BCB37000C3BD8 /* arial.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406A135BCB2D000C3BD8 /* arial.fnt */; };
 		49A1406D135BCB37000C3BD8 /* arial.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406B135BCB2D000C3BD8 /* arial.png */; };
 		49A1425E135BE3CA000C3BD8 /* anchor.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A1425D135BE3C1000C3BD8 /* anchor.png */; };
-		49A1427B135BE453000C3BD8 /* CCNode+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A14279135BE453000C3BD8 /* CCNode+Additions.h */; };
-		49A1427C135BE453000C3BD8 /* CCNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A1427A135BE453000C3BD8 /* CCNode+Additions.m */; };
-		49A14394135BF374000C3BD8 /* CCNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A1427A135BE453000C3BD8 /* CCNode+Additions.m */; };
 		6D13ADE81385A768004FA7F1 /* NSString+RelativePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D13ADE71385A768004FA7F1 /* NSString+RelativePath.m */; };
 		6D1EEA19138EE55B0091F76B /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1EEA16138EE55B0091F76B /* icon1.png */; };
 		6D1EEA1A138EE55B0091F76B /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1EEA17138EE55B0091F76B /* icon2.png */; };
@@ -237,8 +234,6 @@
 		49A1406A135BCB2D000C3BD8 /* arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arial.fnt; sourceTree = "<group>"; };
 		49A1406B135BCB2D000C3BD8 /* arial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arial.png; sourceTree = "<group>"; };
 		49A1425D135BE3C1000C3BD8 /* anchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anchor.png; sourceTree = "<group>"; };
-		49A14279135BE453000C3BD8 /* CCNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Additions.h"; sourceTree = "<group>"; };
-		49A1427A135BE453000C3BD8 /* CCNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Additions.m"; sourceTree = "<group>"; };
 		6D13ADE61385A768004FA7F1 /* NSString+RelativePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RelativePath.h"; sourceTree = "<group>"; };
 		6D13ADE71385A768004FA7F1 /* NSString+RelativePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RelativePath.m"; sourceTree = "<group>"; };
 		6D1EEA16138EE55B0091F76B /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
@@ -577,8 +572,6 @@
 			isa = PBXGroup;
 			children = (
 				6D13ADE01385A4CC004FA7F1 /* Support */,
-				49A14279135BE453000C3BD8 /* CCNode+Additions.h */,
-				49A1427A135BE453000C3BD8 /* CCNode+Additions.m */,
 				49A14062135BCA0A000C3BD8 /* CSSprite.h */,
 				49A14063135BCA0A000C3BD8 /* CSSprite.m */,
 				496706FC135B9E1B0074D05A /* CSModel.h */,
@@ -898,7 +891,6 @@
 				E0B4521312C3AEBE0007F742 /* utlist.h in Headers */,
 				E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */,
 				49A14064135BCA0A000C3BD8 /* CSSprite.h in Headers */,
-				49A1427B135BE453000C3BD8 /* CCNode+Additions.h in Headers */,
 				4930EBB1136363FF006E5DA5 /* CSGestureEventDelegate.h in Headers */,
 				FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */,
 				FDD94C5914E5D05100E1CF18 /* CCNodeRegistry.h in Headers */,
@@ -1078,7 +1070,6 @@
 				E0B4521112C3AEBE0007F742 /* TransformUtils.m in Sources */,
 				E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */,
 				49A14065135BCA0A000C3BD8 /* CSSprite.m in Sources */,
-				49A1427C135BE453000C3BD8 /* CCNode+Additions.m in Sources */,
 				FDD94C5514E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m in Sources */,
 				FDD94C5A14E5D05100E1CF18 /* CCNodeRegistry.m in Sources */,
 				FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */,
@@ -1094,7 +1085,6 @@
 				E0507118131760D700EAE33F /* CSMainLayer.m in Sources */,
 				496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */,
 				496706FD135B9E1B0074D05A /* CSModel.m in Sources */,
-				49A14394135BF374000C3BD8 /* CCNode+Additions.m in Sources */,
 				6D4702CE135F52BC00FDEADD /* CSMacGLView.m in Sources */,
 				6DFAD27313609A4B00006D0B /* CSTableViewDataSource.m in Sources */,
 				6D1FEC0B138074630039076A /* DebugLog.m in Sources */,
