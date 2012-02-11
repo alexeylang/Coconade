@@ -34,8 +34,6 @@
 
 #define kCSSpriteStrokeSize 1
 
-@class CSObjectController;
-
 /*
 	CSSprite is a CCSprite subclass, that is used in cocoshop to display sprites
  on the workspace.
