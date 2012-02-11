@@ -23,6 +23,13 @@
  *
  */
 
+// TODO: refactor to CCNSelection : CCNode
+// It should be rendered as notificationNode in CCDirector & attached to a node
+// in a scene.
+// It should use node's transform to transform itself around this node.
+// It SHOULD NOT contain any transform logic.
+// It SHOULD NOT be saved anywhere.
+
 #import "cocos2d.h"
 
 #define kCSSpriteStrokeSize 1
@@ -36,7 +43,6 @@
  its contents, shows anchorPoint and position.
 	Also it supports NSCoding and provides methods to load & save self to/from 
  NSDictionary.
-	TODO: Refactor it to the CSNode, for support of other CCNodes in Cocoshop.
  */
 @interface CSSprite : CCSprite <NSCoding,NSPasteboardReading, NSPasteboardWriting>
 {

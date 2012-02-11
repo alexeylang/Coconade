@@ -97,6 +97,7 @@
 
 #pragma mark Properties
 
+// TODO: move to CCNModel or CCNController
 - (void)setName:(NSString *)aName
 {
 	if(name_ != aName)
@@ -247,8 +248,7 @@
 #pragma mark -
 #pragma mark Archiving
 
-static NSString *dictRepresentation = @"dictionaryRepresentation";
-
+// TODO: remove this method
 - (NSDictionary *) dictionaryRepresentation
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:16];
@@ -274,6 +274,7 @@ static NSString *dictRepresentation = @"dictionaryRepresentation";
 	return dict;
 }
 
+// TODO: remove this method.
 - (void) setupFromDictionaryRepresentation: (NSDictionary *) aDict
 {
 	self.name = [aDict objectForKey:@"name"];
@@ -325,6 +326,11 @@ static NSString *dictRepresentation = @"dictionaryRepresentation";
 	[self _setZOrder:  [[aDict objectForKey:@"posZ"] floatValue]];
 }
 
+#pragma mark - Pasteboard & NSCoding support.
+// TODO: move these logics to CCNode.h & CCNController
+
+static NSString *dictRepresentation = @"dictionaryRepresentation";
+
 - (id)initWithCoder:(NSCoder *)coder 
 {
     if (self = [super init]) 
@@ -341,6 +347,9 @@ static NSString *dictRepresentation = @"dictionaryRepresentation";
 }
 
 #pragma mark NSPasteboardWriting
+
+// TODO: change to org.cocos2d-iphone.XXX form for Coconade.
+// Where XXX is name of Cocos2D class: CCNode, CCSprite, etc...
 NSString *CSSpriteUTI = @"org.cocos2d-iphone.cocoshop.CSSprite";
 
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard 
