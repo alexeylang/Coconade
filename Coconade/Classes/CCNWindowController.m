@@ -53,7 +53,7 @@
 
 #pragma mark Toolbar Delegate
 
-- (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar 
+- (NSArray *) toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
     return [NSArray arrayWithObjects: 
             kCCNWindowControllerToolbarItemAddSpriteIdentifier,
@@ -64,7 +64,7 @@
             nil];
 }
 
-- (NSArray *) toolbarDefaultItemIdentifiers: (NSToolbar *)toolbar 
+- (NSArray *) toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
     return [NSArray arrayWithObjects: 
             kCCNWindowControllerToolbarItemAddSpriteIdentifier,
