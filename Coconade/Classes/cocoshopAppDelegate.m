@@ -33,8 +33,7 @@
 @synthesize window=window_, glView=glView_, controller=controller_;
 @synthesize appIsRunning = appIsRunning_, filenameToOpen = filenameToOpen_;
 
-// called before applicationDidFinishLaunching: if app is open by double-clicking
-// csd file
+// Can be called before -applicationDidFinishLaunching: if app is open by double-clicking csd file.
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if ([[filename pathExtension] isEqualToString: @"csd"])
