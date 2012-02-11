@@ -636,6 +636,84 @@
 	self.projectFilename = filename;
 }
 
+#pragma mark Loading CSD Files
+
+- (void)loadProjectFromDictionarySafely:(NSDictionary *)dict
+{
+	NSThread *cocosThread = [[CCDirector sharedDirector] runningThread] ;
+	
+	[self performSelector:@selector(loadProjectFromDictionary:)
+				 onThread:cocosThread
+			   withObject:dict
+			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
+}
+
+- (void)loadProjectFromDictionary:(NSDictionary *)dict
+{
+	NSDictionary *bg = [dict objectForKey:@"background"];
+	NSDictionary *children = [dict objectForKey:@"children"];
+    
+	if(bg && children)
+	{
+		// clear all existing sprites first
+		[self deleteAllSprites];
+		
+		CCLayerColor *bgLayer = [[self modelObject] backgroundLayer];
+		
+		CGSize workspaceSize = CGSizeMake([[bg objectForKey:@"stageWidth"] floatValue], [[bg objectForKey:@"stageHeight"] floatValue]);
+		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: workspaceSize];
+		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow];
+		[[self modelObject] setSelectedSprite: nil];
+		
+		
+		CGPoint bgPos = ccp([[bg objectForKey:@"posX"] floatValue], [[bg objectForKey:@"posY"] floatValue]);
+		[bgLayer setPosition:bgPos];
+		
+		CGPoint bgAnchor = ccp([[bg objectForKey:@"anchorX"] floatValue], [[bg objectForKey:@"anchorY"] floatValue]);
+		[bgLayer setAnchorPoint:bgAnchor];
+		
+		CGFloat bgScaleX = [[bg objectForKey:@"scaleX"] floatValue];
+		CGFloat bgScaleY = [[bg objectForKey:@"scaleY"] floatValue];
+		[bgLayer setScaleX:bgScaleX];
+		[bgLayer setScaleY:bgScaleY];
+		
+		CGFloat bgOpacity = [[bg objectForKey:@"opacity"] floatValue];
+		[bgLayer setOpacity:bgOpacity];
+		
+		ccColor3B bgColor = ccc3([[bg objectForKey:@"colorR"] floatValue], [[bg objectForKey:@"colorG"] floatValue], [[bg objectForKey:@"colorB"] floatValue]);
+		[bgLayer setColor:bgColor];
+		
+		CGFloat bgRotation = [[bg objectForKey:@"rotation"] floatValue];
+		[bgLayer setRotation:bgRotation];
+		
+		BOOL bgRelativeAnchor = [[bg objectForKey:@"relativeAnchor"] boolValue];
+		[bgLayer setIsRelativeAnchorPoint:bgRelativeAnchor];
+		
+		for(NSDictionary *child in children)
+		{
+			// change path to relative while loading
+			NSMutableDictionary *mutableChild = [NSMutableDictionary dictionaryWithDictionary: child];
+			NSString *absolutePath = [[mutableChild objectForKey:@"filename"] absolutePathFromBaseDirPath: [self.projectFilename stringByDeletingLastPathComponent]];
+			if (absolutePath)
+			{
+				[mutableChild removeObjectForKey:@"filename"];
+				[mutableChild setObject: absolutePath forKey:@"filename"];
+			}
+			
+			// Create & setup Sprite
+			CSSprite *sprite = [[CSSprite new] autorelease];			
+			[sprite setupFromDictionaryRepresentation: mutableChild ];
+			
+			@synchronized ([[self modelObject] spriteArray])
+			{
+				[[[self modelObject] spriteArray] addObject:sprite];
+			}
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
+		}
+	}
+}
+
 #pragma mark IBActions - Windows
 
 - (IBAction)openInfoPanel:(id)sender
@@ -780,7 +858,7 @@
 			
 			if(dict)
 			{
-				[mainLayer_ loadProjectFromDictionarySafely:dict];
+				[self loadProjectFromDictionarySafely:dict];
 				self.projectFilename = file;
 			}
 		}
@@ -790,7 +868,7 @@
 - (IBAction)revertToSavedProject:(id)sender
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:self.projectFilename];
-	[mainLayer_ loadProjectFromDictionarySafely:dict];
+	[self loadProjectFromDictionarySafely:dict];
 }
 
 #pragma mark IBActions - Sprites

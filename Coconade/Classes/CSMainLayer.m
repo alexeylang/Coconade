@@ -99,85 +99,6 @@ enum
 	[super dealloc];
 }
 
-#pragma mark Loading CSD Files
-//TODO: move loading logic to CSObjectController
-
-- (void)loadProjectFromDictionarySafely:(NSDictionary *)dict
-{
-	NSThread *cocosThread = [[CCDirector sharedDirector] runningThread] ;
-	
-	[self performSelector:@selector(loadProjectFromDictionary:)
-				 onThread:cocosThread
-			   withObject:dict
-			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
-}
-
-- (void)loadProjectFromDictionary:(NSDictionary *)dict
-{
-	NSDictionary *bg = [dict objectForKey:@"background"];
-	NSDictionary *children = [dict objectForKey:@"children"];
-		
-	if(bg && children)
-	{
-		// clear all existing sprites first
-		[controller_ deleteAllSprites];
-		
-		CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
-		
-		CGSize workspaceSize = CGSizeMake([[bg objectForKey:@"stageWidth"] floatValue], [[bg objectForKey:@"stageHeight"] floatValue]);
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: workspaceSize];
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow];
-		[[controller_ modelObject] setSelectedSprite: nil];
-		
-		
-		CGPoint bgPos = ccp([[bg objectForKey:@"posX"] floatValue], [[bg objectForKey:@"posY"] floatValue]);
-		[bgLayer setPosition:bgPos];
-		
-		CGPoint bgAnchor = ccp([[bg objectForKey:@"anchorX"] floatValue], [[bg objectForKey:@"anchorY"] floatValue]);
-		[bgLayer setAnchorPoint:bgAnchor];
-		
-		CGFloat bgScaleX = [[bg objectForKey:@"scaleX"] floatValue];
-		CGFloat bgScaleY = [[bg objectForKey:@"scaleY"] floatValue];
-		[bgLayer setScaleX:bgScaleX];
-		[bgLayer setScaleY:bgScaleY];
-		
-		CGFloat bgOpacity = [[bg objectForKey:@"opacity"] floatValue];
-		[bgLayer setOpacity:bgOpacity];
-		
-		ccColor3B bgColor = ccc3([[bg objectForKey:@"colorR"] floatValue], [[bg objectForKey:@"colorG"] floatValue], [[bg objectForKey:@"colorB"] floatValue]);
-		[bgLayer setColor:bgColor];
-		
-		CGFloat bgRotation = [[bg objectForKey:@"rotation"] floatValue];
-		[bgLayer setRotation:bgRotation];
-		
-		BOOL bgRelativeAnchor = [[bg objectForKey:@"relativeAnchor"] boolValue];
-		[bgLayer setIsRelativeAnchorPoint:bgRelativeAnchor];
-		
-		for(NSDictionary *child in children)
-		{
-			// change path to relative while loading
-			NSMutableDictionary *mutableChild = [NSMutableDictionary dictionaryWithDictionary: child];
-			NSString *absolutePath = [[mutableChild objectForKey:@"filename"] absolutePathFromBaseDirPath: [controller_.projectFilename stringByDeletingLastPathComponent]];
-			if (absolutePath)
-			{
-				[mutableChild removeObjectForKey:@"filename"];
-				[mutableChild setObject: absolutePath forKey:@"filename"];
-			}
-			
-			// Create & setup Sprite
-			CSSprite *sprite = [[CSSprite new] autorelease];			
-			[sprite setupFromDictionaryRepresentation: mutableChild ];
-			
-			@synchronized ([[controller_ modelObject] spriteArray])
-			{
-				[[[controller_ modelObject] spriteArray] addObject:sprite];
-			}
-			
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
-		}
-	}
-}
-
 #pragma mark Children Getters
 
 - (CSSprite *)spriteForEvent:(NSEvent *)event
@@ -287,7 +208,7 @@ enum
 		[self runAction:[CCCallBlock actionWithBlock: ^{
 			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
 			controller_.projectFilename = filename;
-			[self loadProjectFromDictionarySafely: dict];			
+			[controller_ loadProjectFromDictionarySafely: dict];			
 			[(cocoshopAppDelegate *)[[NSApplication sharedApplication ] delegate] setFilenameToOpen: nil];
 		}]];
 		

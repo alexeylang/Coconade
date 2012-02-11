@@ -70,18 +70,6 @@
  */
 - (id)initWithController:(CSObjectController *)aController;
 
-#pragma mark Loading CSD Files 
-/**
- * Call loadProjectFromDictionary: on cocos2d thread
- * @param dict Dictionary to load from
- */
-- (void)loadProjectFromDictionarySafely:(NSDictionary *)dict;
-/**
- * Load project to layer from dictionary
- * @param dict Dictionary to load from
- */
-- (void)loadProjectFromDictionary:(NSDictionary *)dict;
-
 #pragma mark Children Getters
 /**
  * Get sprite based on NSEvent from click

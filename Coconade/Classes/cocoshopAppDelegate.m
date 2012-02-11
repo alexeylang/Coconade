@@ -44,7 +44,7 @@
 		if (self.appIsRunning)
 		{
 			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
-			[controller_.mainLayer loadProjectFromDictionarySafely: dict];
+			[controller_ loadProjectFromDictionarySafely: dict];
 			controller_.projectFilename = self.filenameToOpen;
 			self.filenameToOpen = nil;
 		}

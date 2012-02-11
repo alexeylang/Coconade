@@ -114,6 +114,19 @@
 - (IBAction)openSpritesPanel: (id) sender;
 - (IBAction)openMainWindow:(id)sender;
 
+
+#pragma mark Loading CSD Files 
+/**
+ * Call loadProjectFromDictionary: on cocos2d thread
+ * @param dict Dictionary to load from
+ */
+- (void)loadProjectFromDictionarySafely:(NSDictionary *)dict;
+/**
+ * Load project to layer from dictionary
+ * @param dict Dictionary to load from
+ */
+- (void)loadProjectFromDictionary:(NSDictionary *)dict;
+
 #pragma mark IBActions - Save/Load
 - (IBAction)saveProject:(id)sender;
 - (IBAction)saveProjectAs:(id)sender;
