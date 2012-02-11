@@ -24,6 +24,9 @@
  *
  */
 
+// TODO: refactor this fucking shame.
+// CSObjectController + CSMainLayer - FUCKING_SHAME = CCNController
+
 #import "cocos2d.h"
 #import "CSGestureEventDelegate.h"
 #import "DebugLog.h"
