@@ -2,6 +2,7 @@
  * cocoshop
  *
  * Copyright (c) 2011 Andrew
+ * Copyright (c) 2011-2012 Stepan Generalov
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +30,7 @@
 // It should use node's transform to transform itself around this node.
 // It SHOULD NOT contain any transform logic.
 // It SHOULD NOT be saved anywhere.
+// TODO: Create new file to exclude Andrew's copyright & MIT License.
 
 #import "cocos2d.h"
 
