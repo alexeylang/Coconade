@@ -25,7 +25,7 @@
  */
 
 #import "CSMainLayer.h"
-#import "CCNode+Additions.h"
+#import "CCNode+Helpers.h"
 #import "CSSprite.h"
 #import "CSObjectController.h"
 #import "CSModel.h"
