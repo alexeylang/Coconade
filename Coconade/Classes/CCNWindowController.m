@@ -9,11 +9,26 @@
 #import "CSMacGLView.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
+
 #define kCCNWindowControllerToolbarItemAddSpriteIdentifier      @"toolbarItemAddSpriteIdentifier"
+#define kCCNWindowControllerToolbarItemAddSpriteName            @"Add Sprite"
+#define kCCNWindowControllerToolbarItemAddSpriteImage           @"Add.tiff"
+
 #define kCCNWindowControllerToolbarItemAddBigImageIdentifier    @"toolbarItemAddBigImageIdentifier"
+#define kCCNWindowControllerToolbarItemAddBigImageName          @"Add Big Image"
+#define kCCNWindowControllerToolbarItemAddBigImageImage         @"icon1.png"
+
 #define kCCNWindowControllerToolbarItemAddLabelIdentifier       @"toolbarItemAddLabelIdentifier"
+#define kCCNWindowControllerToolbarItemAddLabelName             @"Add Label"
+#define kCCNWindowControllerToolbarItemAddLabelImage            @"icon3.png"
+
 #define kCCNWindowControllerToolbarItemInfoIdentifier           @"toolbarItemInfoIdentifier"
+#define kCCNWindowControllerToolbarItemInfoName                 @"Info"
+#define kCCNWindowControllerToolbarItemInfoImage                @"icon4-b.png"
+
 #define kCCNWindowControllerToolbarItemSpritesListIdentifier    @"toolbarItemSpritesListIdentifier"
+#define kCCNWindowControllerToolbarItemSpritesListName          @"Sprites List"
+#define kCCNWindowControllerToolbarItemSpritesListImage         @"icon7-c.png"
 
 
 @implementation CCNWindowController
