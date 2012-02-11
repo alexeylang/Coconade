@@ -59,7 +59,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSRect frame = NSMakeRect(200, 200, 500, 500);
+    NSRect frame = [[NSScreen mainScreen] visibleFrame];
     NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask | NSMiniaturizableWindowMask;
     NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
     NSWindow *window = [[[NSWindow alloc] initWithContentRect: contentRect 
