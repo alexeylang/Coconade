@@ -35,14 +35,7 @@
 
 @implementation CSMainLayer
 
-enum 
-{
-	kTagBackgroundCheckerboard,
-};
-
 @synthesize controller=controller_;
-@synthesize showBorders = showBorders_;
-
 
 #pragma mark Init / DeInit
 + (id)nodeWithController:(CSObjectController *)aController
@@ -58,13 +51,6 @@ enum
 		[self setIsKeyboardEnabled:YES];
 		[self setController:aController];
 		
-		// Show Borders if needed (On on first run)
-		NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey:@"CSMainLayerShowBorders"];
-		if (!showBordersState)
-			self.showBorders = YES;
-		else 
-			self.showBorders = [showBordersState intValue];
-		
 		prevSize_ = [[CCDirector sharedDirector] winSize];
 		
 		// Register for Notifications
@@ -74,13 +60,6 @@ enum
 													 name: NSViewFrameDidChangeNotification 
 												   object: [CCDirector sharedDirector].openGLView];
 		[[CCDirector sharedDirector].openGLView setPostsFrameChangedNotifications: YES];
-		
-		// Add background checkerboard
-		CCSprite *sprite = [CCSprite spriteWithFile:@"checkerboard.png"];
-		ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-		[sprite.texture setTexParameters:&params];
-		sprite.position = sprite.anchorPoint = ccp(0,0);
-		[self addChild:sprite z:NSIntegerMin tag:kTagBackgroundCheckerboard ];
 		
 		// Add Colored Background
 		CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
@@ -135,11 +114,6 @@ enum
 - (void) updateForScreenReshape
 {
 	CGSize s = [CCDirector sharedDirector].winSize;
-	
-	// update checkerboard size to fit winSize
-	CCSprite *bg = (CCSprite *)[self getChildByTag: kTagBackgroundCheckerboard];
-	if ([bg isKindOfClass:[CCSprite class]])
-		[bg setTextureRect: CGRectMake(0, 0, s.width, s.height)];
 	
 	// update color layer size to fit winSize
 	CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
@@ -232,42 +206,6 @@ enum
 	
 	[super visit];
 }
-
-- (void)draw
-{
-	[super draw];
-	
-	CGSize s = contentSize_;
-
-	if (self.showBorders)
-	{
-		// Get BG Color
-		ccColor3B bgColor = [[[controller_ modelObject] backgroundLayer] color];
-		GLfloat bgR = ( (float)bgColor.r / 255.0f );
-		GLfloat bgB = ( (float)bgColor.g / 255.0f );
-		GLfloat bgG = ( (float)bgColor.b / 255.0f );
-		GLfloat antiBrightness = 1.0f / sqrtf(bgR*bgR + bgB*bgB + bgG*bgG);
-		GLfloat lineWidth = 2.0f;
-
-		// Use Inverted BG Color to Draw the Outline
-		glColor4f(antiBrightness * (0.5f - (bgR - 0.5f)),
-				  antiBrightness * (0.5f - (bgB - 0.5f)),
-				  antiBrightness * (0.5f - (bgG - 0.5f)),
-				  1.0f);
-		glLineWidth(2.0f);
-		
-		CGPoint vertices[] = {
-			ccp(1, s.height - lineWidth / 2.0f),
-			ccp(s.width - lineWidth / 2.0f, s.height - lineWidth / 2.0f),
-			ccp(s.width - lineWidth / 2.0f, 1),
-			ccp(1, 1)
-		};
-		
-		ccDrawPoly(vertices, 4, YES);
-	}
-}
-
-
 
 #pragma mark Touch Events
 

@@ -47,17 +47,12 @@
 	BOOL shouldUpdateAfterScreenReshape_;
 	
 	CGSize prevSize_;
-	BOOL showBorders_;
 }
 
 /**
  * Controller to use for layer
  */
 @property(nonatomic, retain) CSObjectController *controller;
-/**
- * Whether it should render borderline around self or not
- */
-@property(readwrite) BOOL showBorders;
 
 #pragma mark Creation
 /**
