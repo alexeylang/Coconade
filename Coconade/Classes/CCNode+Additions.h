@@ -27,6 +27,14 @@
 
 @interface CCNode (Additions)
 
+/** Checks is given event location is inside of node.
+ * Location gets transformed to node's coordinate system, so all node
+ * transformations (including rotate, scale, skew, etc) are taken into account.
+ *
+ * @param event Mouse event from i.e. -ccMouseDown: method.
+ *
+ * @return YES if event is located inside of node, NO otherwise.
+ */
 - (BOOL)isEventInRect:(NSEvent *)event;
 
 @end
