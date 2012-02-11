@@ -21,6 +21,7 @@
     CCSprite *_backgroundSprite;
     
     BOOL _showBorders;
+    BOOL _updateForScreenReshapeNextVisit;
 }
 
 /**
@@ -37,6 +38,8 @@
 /** Repeated sprite that is used as a background. */
 @property(readwrite, retain) CCSprite *backgroundSprite;
 
+/** Thread-safe version of updateForScreenReshape.  */
+- (void) updateForScreenReshapeSafely: (NSNotification *) aNotification;
 
 /** Updates it's size & contents to fit current winSize. */
 - (void) updateForScreenReshape;

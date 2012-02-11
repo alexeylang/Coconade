@@ -64,8 +64,16 @@
     self = [super init];
     if (self)
     {
+        _updateForScreenReshapeNextVisit = YES;
+        
         // Prepare background - repeated sprite.
-		self.backgroundSprite = [CCSprite spriteWithFile:@"checkerboard.png"]; 
+		self.backgroundSprite = [CCSprite spriteWithFile:@"checkerboard.png"];
+        
+        // Register for updateForScreenReshape.
+        [[NSNotificationCenter defaultCenter] addObserver: self 
+                                                 selector: @selector(updateForScreenReshapeSafely:)
+                                                     name: NSViewFrameDidChangeNotification
+                                                   object: [[CCDirector sharedDirector] openGLView]];
     }
     
     return self;
@@ -73,10 +81,19 @@
 
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.backgroundSprite = nil;
     self.targetNode = nil;
     
     [super dealloc];
+}
+
+#pragma mark Updates
+
+- (void) updateForScreenReshapeSafely: (NSNotification *) aNotification
+{	
+	// Call updateForScreenReshape on next visit.
+	_updateForScreenReshapeNextVisit = YES;
 }
 
 - (void) updateForScreenReshape
@@ -92,6 +109,12 @@
 
 - (void) visit
 {
+    if (_updateForScreenReshapeNextVisit)
+    {
+        [self updateForScreenReshape];
+        _updateForScreenReshapeNextVisit = NO;
+    }
+    
     if ([_targetNode isKindOfClass:[CCScene class]])
     {
         [_targetNode visit];
