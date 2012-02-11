@@ -8,6 +8,13 @@
 #import "CCNWindowController.h"
 #import "CSMacGLView.h"
 
+#define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
+#define kCCNWindowControllerToolbarItemAddSpriteIdentifier      @"toolbarItemAddSpriteIdentifier"
+#define kCCNWindowControllerToolbarItemAddBigImageIdentifier    @"toolbarItemAddBigImageIdentifier"
+#define kCCNWindowControllerToolbarItemAddLabelIdentifier       @"toolbarItemAddLabelIdentifier"
+#define kCCNWindowControllerToolbarItemInfoIdentifier           @"toolbarItemInfoIdentifier"
+#define kCCNWindowControllerToolbarItemSpritesListIdentifier    @"toolbarItemSpritesListIdentifier"
+
 
 @implementation CCNWindowController
 
@@ -40,4 +47,40 @@
     self.window.toolbar = toolbar;
 }
 
+- (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar 
+{
+    return [NSArray arrayWithObjects: 
+            kCCNWindowControllerToolbarItemAddSpriteIdentifier,
+            kCCNWindowControllerToolbarItemAddBigImageIdentifier,
+            kCCNWindowControllerToolbarItemAddLabelIdentifier,
+            kCCNWindowControllerToolbarItemInfoIdentifier,
+            kCCNWindowControllerToolbarItemSpritesListIdentifier,
+            nil];
+}
+
+- (NSArray *) toolbarDefaultItemIdentifiers: (NSToolbar *)toolbar 
+{
+    return [NSArray arrayWithObjects: 
+            kCCNWindowControllerToolbarItemAddSpriteIdentifier,
+            kCCNWindowControllerToolbarItemAddBigImageIdentifier,
+            kCCNWindowControllerToolbarItemAddLabelIdentifier,
+            kCCNWindowControllerToolbarItemInfoIdentifier,
+            kCCNWindowControllerToolbarItemSpritesListIdentifier,
+            nil];
+}
+
+- (NSToolbarItem *)     toolbar:(NSToolbar *)toolbar
+          itemForItemIdentifier:(NSString *)itemIdentifier
+      willBeInsertedIntoToolbar:(BOOL)flag
+{
+    NSToolbarItem *toolbarItem = nil;
+    
+    if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemAddSpriteIdentifier]) 
+    {
+        toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
+        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = @"Add Sprite";
+        toolbarItem.image = [NSImage imageNamed: @"Add.tiff"];
+    }
+    return [toolbarItem autorelease];
+}
 @end

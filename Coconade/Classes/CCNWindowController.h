@@ -9,7 +9,7 @@
 
 // @TODO: add comments to ALL
 @class CSMacGLView;
-@interface CCNWindowController : NSWindowController
+@interface CCNWindowController : NSWindowController <NSToolbarDelegate>
 {
 	CSMacGLView	*_glView;
 }
