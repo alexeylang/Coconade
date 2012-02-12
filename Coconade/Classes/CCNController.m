@@ -31,6 +31,16 @@ enum keyCodes
     kCCNKeyCodePageDown = 0x79,
 };
 
+// ====== Increments for node's properties for keyboard events. ======
+static const float kCCNIncrementAnchorDefault = 0.01f;
+static const float kCCNIncrementAnchorBig = 0.1f;
+static const float kCCNIncrementRotationDefault = 1.0f;
+static const float kCCNIncrementRotationBig = 10.0f;
+static const float kCCNIncrementPositionDefault = 1.0f;
+static const float kCCNIncrementPositionBig = 10.0f;    
+static const float kCCNIncrementZOrderDefault = 1.0f;
+static const float kCCNIncrementZOrderBig = 10.0f;
+
 @implementation CCNController
 
 @synthesize model = _model;
@@ -202,8 +212,7 @@ enum keyCodes
 	// If option/alt key is pressed - move anchor point with arrow keys.
 	if(modifiers & NSAlternateKeyMask)
 	{
-        // TODO: move increment to config.
-		CGFloat increment = (modifiers & NSShiftKeyMask) ? 0.1f : 0.01f;
+		CGFloat increment = (modifiers & NSShiftKeyMask) ? kCCNIncrementAnchorBig : kCCNIncrementAnchorDefault;
 		
 		switch(keyCode)
 		{
@@ -225,8 +234,7 @@ enum keyCodes
 	}
 	else if (modifiers & NSControlKeyMask) //< If ctrl key is pressed - rotate sprite.
 	{
-		// TODO move increment to config.
-		CGFloat increment = (modifiers & NSShiftKeyMask) ? 10.0f : 1.0f;
+		CGFloat increment = (modifiers & NSShiftKeyMask) ? kCCNIncrementRotationBig : kCCNIncrementRotationDefault;
 		
 		switch(keyCode)
 		{
@@ -242,42 +250,42 @@ enum keyCodes
 	}
 	else //< No ALT/Option nor CTRL pressed - move node with arrows & change it's zOrder with PgUp/PgDown.
 	{
-		// TODO: move increment to config.
-		NSInteger increment = (modifiers & NSShiftKeyMask) ? 10 : 1;
-		
+		NSInteger positionIncrement = (modifiers & NSShiftKeyMask) ? kCCNIncrementPositionBig : kCCNIncrementPositionDefault;
+	    NSInteger zOrderIncrement = (modifiers & NSShiftKeyMask) ? kCCNIncrementZOrderBig : kCCNIncrementZOrderDefault; 
+        
 		switch(keyCode)
 		{
 			case kCCNKeyCodeLeftArrow:
-				node.position = ccp( node.position.x - increment, node.position.y );
+				node.position = ccp( node.position.x - positionIncrement, node.position.y );
 				return YES;
 			case kCCNKeyCodeRightArrow:
-				node.position = ccp( node.position.x + increment, node.position.y );
+				node.position = ccp( node.position.x + positionIncrement, node.position.y );
 				return YES;
 			case kCCNKeyCodeDownArrow:
-				node.position = ccp( node.position.x, node.position.y - increment );
+				node.position = ccp( node.position.x, node.position.y - positionIncrement );
 				return YES;
 			case kCCNKeyCodeUpArrow:
-				node.position = ccp( node.position.x, node.position.y + increment );
+				node.position = ccp( node.position.x, node.position.y + positionIncrement );
 				return YES;
 			case kCCNKeyCodePageUp:
                 if (node.parent)
                 {
-                    [node.parent reorderChild:node z:node.zOrder + increment];
+                    [node.parent reorderChild:node z:node.zOrder + zOrderIncrement];
                 }
                 else
                 {
-                    [node setValue:[NSNumber numberWithInteger: node.zOrder + increment] forKey:@"zOrder_"];
+                    [node setValue:[NSNumber numberWithInteger: node.zOrder + zOrderIncrement] forKey:@"zOrder_"];
                 }
 				
 				return YES;
 			case kCCNKeyCodePageDown:
 				if (node.parent)
                 {
-                    [node.parent reorderChild:node z:node.zOrder - increment];
+                    [node.parent reorderChild:node z:node.zOrder - zOrderIncrement];
                 }
                 else
                 {
-                    [node setValue:[NSNumber numberWithInteger: node.zOrder - increment] forKey:@"zOrder_"];
+                    [node setValue:[NSNumber numberWithInteger: node.zOrder - zOrderIncrement] forKey:@"zOrder_"];
                 }
 				return YES;
 			default:
