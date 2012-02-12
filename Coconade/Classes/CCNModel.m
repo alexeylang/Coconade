@@ -1,9 +1,9 @@
 //
-//  CCNModel.m
+//  CCNModel.h
 //  Coconade
 //
-//  Created by Stepan Generalov on 12.02.12.
-//  Copyright (c) 2012 sg@game-insight.com. All rights reserved.
+//  Copyright (c) 2012 Stepan Generalov.
+//  All rights reserved.
 //
 
 #import "CCNModel.h"
