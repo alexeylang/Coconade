@@ -16,15 +16,8 @@
     /** Holds all hierarchies of a project with their children. */
     NSDictionary *_rootNodes;
     
-    /* Weakref to current hierarchy that is being edited (one of the rootNodes). */
-    CCNode *_currentRootNode;
-    
-    /* Weakref to selected node in current hierarchy.  */
-    CCNode *_selectedNode;
-    
-    /* SelectedRootNode & All it's Children, sorted by their Z-Order.
-     * Used to search through all nodes in current hierarchy, that is being edited.
-     */
+    CCNode *_currentRootNode; //< Weakref.
+    CCNode *_selectedNode; //< Weakref.
     NSArray *_currentNodes;
 }
 
@@ -46,6 +39,9 @@
  * currentRootNode, it's children, grandchildren, grandgrandchildren and so on.
  * Used to iterate over all nodes in current hierarchy.
  * Changes automatically, when currentRootNode is changed.
+ *
+ * Nodes in this array are sorted by their order of arrival in scene.
+ * First node is the one that's on top.
  *
  * Can't be nil, count is always >=1
  * (because there's always at least one root node in the project).
