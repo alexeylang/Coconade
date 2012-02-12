@@ -14,6 +14,11 @@
 @interface CCNController : NSObject
 {
     CCNModel *_model;
+    
+    // Mouse events.
+    BOOL _deselectNodeOnMouseUp;
+	BOOL _moveNodeOnMouseDrag;
+    CGPoint _prevMouseLocation;
 }
 
 /** Model of current project. Changing model will lead to changing all
