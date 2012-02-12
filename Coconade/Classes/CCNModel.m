@@ -10,4 +10,8 @@
 
 @implementation CCNModel
 
+@synthesize currentRootNode = _currentRootNode;
+@synthesize selectedNode = _selectedNode;
+@synthesize currentNodes = _currentNodes;
+
 @end
