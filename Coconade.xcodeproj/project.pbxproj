@@ -200,6 +200,8 @@
 		FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65F214E6B0DF003DCA81 /* CCNScene.m */; };
+		FD7877F414E7E1EE00D128F2 /* CCNController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7877F314E7E1EE00D128F2 /* CCNController.m */; };
+		FD7877F814E7E26800D128F2 /* CCNModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7877F714E7E26800D128F2 /* CCNModel.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
 		FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */; };
@@ -427,6 +429,10 @@
 		FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Helpers.m"; sourceTree = "<group>"; };
 		FD1F65F114E6B0DF003DCA81 /* CCNScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNScene.h; sourceTree = "<group>"; };
 		FD1F65F214E6B0DF003DCA81 /* CCNScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNScene.m; sourceTree = "<group>"; };
+		FD7877F214E7E1EE00D128F2 /* CCNController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNController.h; sourceTree = "<group>"; };
+		FD7877F314E7E1EE00D128F2 /* CCNController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNController.m; sourceTree = "<group>"; };
+		FD7877F614E7E26800D128F2 /* CCNModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNModel.h; sourceTree = "<group>"; };
+		FD7877F714E7E26800D128F2 /* CCNModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNModel.m; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		FDD94C4A14E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
 		FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoMagicCoding.h"; sourceTree = "<group>"; };
@@ -578,6 +584,10 @@
 				49A14062135BCA0A000C3BD8 /* CSSprite.h */,
 				49A14063135BCA0A000C3BD8 /* CSSprite.m */,
 				496706FC135B9E1B0074D05A /* CSModel.h */,
+				FD7877F214E7E1EE00D128F2 /* CCNController.h */,
+				FD7877F314E7E1EE00D128F2 /* CCNController.m */,
+				FD7877F614E7E26800D128F2 /* CCNModel.h */,
+				FD7877F714E7E26800D128F2 /* CCNModel.m */,
 				496706FB135B9E1B0074D05A /* CSModel.m */,
 				E0507116131760D700EAE33F /* CSMainLayer.h */,
 				E0507117131760D700EAE33F /* CSMainLayer.m */,
@@ -1095,6 +1105,8 @@
 				6D1FEC0B138074630039076A /* DebugLog.m in Sources */,
 				6D13ADE81385A768004FA7F1 /* NSString+RelativePath.m in Sources */,
 				FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */,
+				FD7877F414E7E1EE00D128F2 /* CCNController.m in Sources */,
+				FD7877F814E7E26800D128F2 /* CCNModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
