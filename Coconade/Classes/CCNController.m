@@ -11,6 +11,26 @@
 #import "CCNModel.h"
 #import "CCNode+Helpers.h"
 
+/** Virtual Key Codes for Keyboard Events.
+ * Keycodes available here: http://forums.macrumors.com/showpost.php?p=8428116&postcount=2
+ */
+enum keyCodes 
+{
+    // Delete
+    kCCNKeyCodeBackspace = 0x33,
+    kCCNKeyCodeDelete = 0x75,
+    
+    // Arrows
+    kCCNKeyCodeLeftArrow = 0x7B,
+    kCCNKeyCodeRightArrow = 0x7C,
+    kCCNKeyCodeDownArrow = 0x7D,
+    kCCNKeyCodeUpArrow = 0x7E,
+    
+    // Page
+    kCCNKeyCodePageUp = 0x74,
+    kCCNKeyCodePageDown = 0x79,
+};
+
 @implementation CCNController
 
 @synthesize model = _model;
@@ -161,8 +181,6 @@
 
 #pragma mark Keyboard Events
 
-// Keycodes available here: http://forums.macrumors.com/showpost.php?p=8428116&postcount=2
-// TODO: move keycodes to constants.
 - (BOOL)ccKeyDown:(NSEvent *)event
 {
 	NSUInteger modifiers = [event modifierFlags];
@@ -173,8 +191,8 @@
 	// Deleting nodes from hierarchy.
 	switch(keyCode)
 	{
-		case 0x33: //< Backspace key.
-		case 0x75: //< Delete key.
+		case kCCNKeyCodeBackspace:
+		case kCCNKeyCodeDelete:
 			[self.model removeNodeFromCurrentHierarchy: node];
 			return YES;
 		default:
@@ -189,16 +207,16 @@
 		
 		switch(keyCode)
 		{
-			case 0x7B: //< Left arrow.
+			case kCCNKeyCodeLeftArrow:
                 node.anchorPoint = ccp( node.anchorPoint.x - increment, node.anchorPoint.y );
 				return YES;
-			case 0x7C: //< Right arrow.
+			case kCCNKeyCodeRightArrow:
 				node.anchorPoint = ccp( node.anchorPoint.x + increment, node.anchorPoint.y );
 				return YES;
-			case 0x7D: //< Down arrow.
+			case kCCNKeyCodeDownArrow:
 				node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y - increment );
 				return YES;
-			case 0x7E: //< Up arrow.
+			case kCCNKeyCodeUpArrow:
 				node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y + increment );
 				return YES;
 			default:
@@ -212,10 +230,10 @@
 		
 		switch(keyCode)
 		{
-			case 0x7B: //< Left arrow.
+			case kCCNKeyCodeLeftArrow:
 				node.rotation -= increment;
 				return YES;
-			case 0x7C: //< Right arrow.
+			case kCCNKeyCodeRightArrow:
 				node.rotation += increment;
 				return YES;
 			default:
@@ -229,19 +247,19 @@
 		
 		switch(keyCode)
 		{
-			case 0x7B: //< Left arrow.
+			case kCCNKeyCodeLeftArrow:
 				node.position = ccp( node.position.x - increment, node.position.y );
 				return YES;
-			case 0x7C: //< Right arrow.
+			case kCCNKeyCodeRightArrow:
 				node.position = ccp( node.position.x + increment, node.position.y );
 				return YES;
-			case 0x7D: //< Down arrow.
+			case kCCNKeyCodeDownArrow:
 				node.position = ccp( node.position.x, node.position.y - increment );
 				return YES;
-			case 0x7E: //< Up arrow.
+			case kCCNKeyCodeUpArrow:
 				node.position = ccp( node.position.x, node.position.y + increment );
 				return YES;
-			case 0x74: //< PageUp.
+			case kCCNKeyCodePageUp:
                 if (node.parent)
                 {
                     [node.parent reorderChild:node z:node.zOrder + increment];
@@ -252,7 +270,7 @@
                 }
 				
 				return YES;
-			case 0x79: //< PageDown.
+			case kCCNKeyCodePageDown:
 				if (node.parent)
                 {
                     [node.parent reorderChild:node z:node.zOrder - increment];
