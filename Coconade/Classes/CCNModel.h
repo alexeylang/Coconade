@@ -49,5 +49,11 @@
 @property (readonly, retain) NSArray *currentNodes;
 
 
+/** Removes given node from current node hierarchy, that is being edited.
+ * Does nothing if aNode is nil or isn't present in current hierarchy.
+ * Can be called from any thread.
+ */
+- (void) removeNodeFromCurrentHierarchy: (CCNode *) aNode;
+
 
 @end
