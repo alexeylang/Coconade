@@ -7,7 +7,10 @@
 //
 
 #import "CCNController.h"
+#import "CCNModel.h"
 
 @implementation CCNController
+
+@synthesize model = _model;
 
 @end
