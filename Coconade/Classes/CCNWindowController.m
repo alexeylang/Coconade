@@ -56,8 +56,43 @@
     
     // Create and setup glView
     self.glView = [[[CSMacGLView alloc] init] autorelease];
-    [self.window.contentView addSubview:self.glView];
+    //[self.window.contentView addSubview:self.glView];
     [self.glView awakeFromNib];
+    
+    NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: self.window.frame] autorelease];
+    splitView.autoresizesSubviews = YES;
+    splitView.dividerStyle = NSSplitViewDividerStylePaneSplitter;
+    splitView.delegate = self;
+    
+    NSTextView *textView1 = [[NSTextView new] autorelease];
+    textView1.backgroundColor = [NSColor redColor];
+    textView1.frame = CGRectMake(0.0f, 
+                                 0.0f, 
+                                 splitView.frame.size.width / 3.0f, 
+                                 splitView.frame.size.height);
+    [splitView addSubview:textView1];
+    
+    NSView *glViewContainer = [[NSView new] autorelease];
+    glViewContainer.frame = CGRectMake(0.0f, 
+                                       splitView.frame.size.width / 3.0f, 
+                                       splitView.frame.size.width / 3.0f, 
+                                       splitView.frame.size.height);
+    [glViewContainer addSubview:self.glView];
+    glViewContainer.autoresizesSubviews = NO;
+    [splitView addSubview:glViewContainer];
+    
+    NSTextView *textView3 = [[NSTextView new] autorelease];
+    textView3.backgroundColor = [NSColor greenColor];
+    textView3.frame = CGRectMake(0.0f, 
+                                 2.0 * splitView.frame.size.width / 3.0f, 
+                                 splitView.frame.size.width / 3.0f, 
+                                 splitView.frame.size.height);
+    [splitView addSubview:textView3];
+    
+    [splitView setVertical:YES];
+    [splitView adjustSubviews];
+    [splitView setNeedsDisplay:YES];
+    [self.window.contentView addSubview:splitView];
     
     // Create and setup toolbar
     NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:
