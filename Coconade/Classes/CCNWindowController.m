@@ -127,4 +127,17 @@
     
     return toolbarItem;
 }
+
+#pragma mark SplitView Delegate
+
+- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+    
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView shouldAdjustSizeOfSubview:(NSView *)view
+{
+    return NO;
+}
+
 @end
