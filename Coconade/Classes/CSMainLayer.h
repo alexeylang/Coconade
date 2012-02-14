@@ -37,10 +37,6 @@
 @interface CSMainLayer : CCLayer
 {
 	CSObjectController *controller_;
-	
-	
-	// delayed actions
-	BOOL didAddSprite_;
 }
 
 /**
@@ -61,12 +57,5 @@
  * @returns Instance of layer
  */
 - (id)initWithController:(CSObjectController *)aController;
-
-#pragma mark Notifications
-/**
- * Handle adding a sprite
- * @param aNotification Notification
- */
-- (void)addedSprite:(NSNotification *)aNotification;
 
 @end

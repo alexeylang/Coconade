@@ -48,9 +48,6 @@
 	{
 		[self setController:aController];
 		
-		// Register for Notifications
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedSprite:) name:@"addedSprite" object:nil];
-		
 		// Add Colored Background
 		CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
 		if (bgLayer)
@@ -64,47 +61,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[self setController:nil];
 	[super dealloc];
-}
-
-
-#pragma mark Notifications
-
-- (void)addedSprite:(NSNotification *)aNotification
-{
-	// queue sprites update on next visit (in Cocos2D Thread)
-	didAddSprite_ = YES;
-	[[controller_ spriteTableView] reloadData];
-}
-
-// adds new sprites as children if needed - should be called on Cocos2D Thread
-- (void) updateSpritesFromModel
-{
-	CSModel *model = [controller_ modelObject];
-	NSMutableArray *spriteArray = [model spriteArray];
-    CCNode *bgLayer = [model backgroundLayer];
-	
-	@synchronized(spriteArray)
-	{
-		for(CSSprite *sprite in spriteArray)
-		{
-			if( ![sprite parent] )
-			{
-				[bgLayer addChild:sprite z: [sprite zOrder]];
-				[model setSelectedSprite:sprite];
-			}
-		}
-	}
-}
-
-#pragma mark CCNode Reimplemented Methods
-
-- (void) visit
-{	
-	if (didAddSprite_)
-		[self updateSpritesFromModel];
-	didAddSprite_ = NO;
-	
-	[super visit];
 }
 
 

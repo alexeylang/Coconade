@@ -444,6 +444,26 @@
 			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
 }
 
+// adds new sprites as children if needed - should be called on Cocos2D Thread
+- (void) updateSpritesFromModel
+{
+	CSModel *model = self.modelObject;
+	NSMutableArray *spriteArray = [model spriteArray];
+    CCNode *bgLayer = [model backgroundLayer];
+	
+	@synchronized(spriteArray)
+	{
+		for(CSSprite *sprite in spriteArray)
+		{
+			if( ![sprite parent] )
+			{
+				[bgLayer addChild:sprite z: [sprite zOrder]];
+				[model setSelectedSprite:sprite];
+			}
+		}
+	}
+}
+
 // designated sprites adding method
 - (void)addSpritesWithFiles:(NSArray *)files
 {
@@ -465,8 +485,7 @@
 			[[modelObject_ spriteArray] addObject:sprite];
 		}
 		
-		// notify view that we added the sprite
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
+		[self updateSpritesFromModel];
 	}
 	
 	// reload the table
@@ -639,8 +658,7 @@
         }
     }
     
-    // [Rusty: Cocoshop] Post stupid notification for some reason.
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
+    [self updateSpritesFromModel];
 }
 
 #pragma mark IBActions - Windows
@@ -897,8 +915,7 @@
 			[[modelObject_ spriteArray] addObject:sprite];
 		}
 		
-		// notify view that we added the sprite
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
+		[self updateSpritesFromModel];
 	}
 	
 	// reload the table
