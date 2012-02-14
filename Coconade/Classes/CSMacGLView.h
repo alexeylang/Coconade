@@ -27,6 +27,9 @@
 #import "cocos2d.h"
 #import "CSGestureEventDelegate.h"
 
+/** Notification that is sent, when CCNMacGLView instance's workspaceSize is changed. */
+FOUNDATION_EXPORT NSString *CCNMacGLViewWorkspaceSizeDidChangeNotification;
+
 @interface CSMacGLView : MacGLView <CCProjectionProtocol>
 {
 	ccDirectorProjection projection_;
@@ -51,8 +54,8 @@
  * Due to NSGLView restrictions and zoom functionalty of the CSMacGLView
  * this value isn't always equal to view's frame size.
  * 
- * After each change of this value you probably would like to call
- * updateWindow to reshape the view and update enclosing scrollView
+ * After each change of this value - updateWindow get's called automatically &
+ * CCNMacGLViewWorkspaceSizeDidChangeNotification is sent.
  */
 @property (readwrite) CGSize workspaceSize;
 

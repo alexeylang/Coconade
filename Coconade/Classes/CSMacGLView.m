@@ -32,12 +32,29 @@
 
 @implementation CSMacGLView
 
-@synthesize workspaceSize = workspaceSize_, 
-			zoomFactor = zoomFactor_, 
-			zoomSpeed = zoomSpeed_, 
-			zoomFactorMax = zoomFactorMax_, 
-			zoomFactorMin = zoomFactorMin_;
+@synthesize zoomFactor = zoomFactor_;
+@synthesize zoomSpeed = zoomSpeed_;
+@synthesize zoomFactorMax = zoomFactorMax_; 
+@synthesize zoomFactorMin = zoomFactorMin_;
 @synthesize gestureEventsDelegate = _gestureEventsDelegate;
+@dynamic workspaceSize;
+
+- (CGSize) workspaceSize
+{
+    return workspaceSize_;
+}
+
+- (void) setWorkspaceSize:(CGSize)workspaceSize
+{
+    CGSize oldSize = workspaceSize_;
+    workspaceSize_ = workspaceSize;
+    
+    if (!CGSizeEqualToSize(oldSize, workspaceSize))
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName: CCNMacGLViewWorkspaceSizeDidChangeNotification object:nil];
+        [self updateWindow];
+    }
+}
 
 - (cocoshopAppDelegate *) appDelegate
 {

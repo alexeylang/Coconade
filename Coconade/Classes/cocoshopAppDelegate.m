@@ -87,7 +87,6 @@
     
     CGSize s = [[CCDirector sharedDirector] winSize];
     [glView_ setWorkspaceSize: s];
-    [glView_ updateWindow ];
     glView_.gestureEventsDelegate = controller_;
     
 	CCLayer *defaultRootNode = [CCLayer node];    
