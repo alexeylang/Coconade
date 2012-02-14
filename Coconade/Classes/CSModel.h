@@ -57,8 +57,6 @@
 	
 	// General
 	NSString *name_;
-	CGFloat stageWidth_;
-	CGFloat stageHeight_;
 }
 
 /**
@@ -146,14 +144,7 @@
  * The name of the selection
  */
 @property(nonatomic, assign) NSString *name;
-/**
- * The width of the project
- */
-@property(nonatomic, assign) CGFloat stageWidth;
-/**
- * The height of the project
- */
-@property(nonatomic, assign) CGFloat stageHeight;
+
 
 
 #pragma mark Sprites Access

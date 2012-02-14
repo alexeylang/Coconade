@@ -96,10 +96,7 @@
 #pragma mark Values Observer
 
 - (void)registerAsObserver
-{
-	[modelObject_ addObserver:self forKeyPath:@"stageWidth" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"stageHeight" options:NSKeyValueObservingOptionNew context:NULL];
-	
+{	
 	[modelObject_ addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:NULL];
 	[modelObject_ addObserver:self forKeyPath:@"posX" options:NSKeyValueObservingOptionNew context:NULL];
 	[modelObject_ addObserver:self forKeyPath:@"posY" options:NSKeyValueObservingOptionNew context:NULL];
@@ -291,21 +288,6 @@
 		{
 			[sprite setRotation:[modelObject_ rotation]];
 		}
-	}
-	else if( [keyPath isEqualToString:@"stageWidth"] ) //< TODO: remove this shit
-	{
-		CGSize s = [[CCDirector sharedDirector] winSize];
-		s.width = modelObject_.stageWidth;
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: s];
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow ];
-		
-	}
-	else if( [keyPath isEqualToString:@"stageHeight"] ) //< TODO: remove this shit
-	{
-		CGSize s = [[CCDirector sharedDirector] winSize];
-		s.height = modelObject_.stageHeight;
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: s];
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow ];
 	}
 	
 	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -705,6 +687,7 @@
 		}
 	}];
 }
+
 - (IBAction)newProject:(id)sender
 {
 	// remove all sprites
@@ -713,8 +696,6 @@
 	// reset background
 	modelObject_.color = [NSColor colorWithDeviceRed:0 green:0 blue:0 alpha:0];
 	modelObject_.opacity = 0;
-	modelObject_.stageWidth = 480;
-	modelObject_.stageHeight = 320;
 	
 	// reset filename
 	self.projectFilename = nil;

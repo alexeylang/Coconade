@@ -51,8 +51,6 @@
 @synthesize color=color_;
 
 @synthesize name=name_;
-@synthesize stageWidth=stageWidth_;
-@synthesize stageHeight=stageHeight_;
 
 #pragma mark Init / DeInit
 
@@ -141,6 +139,18 @@
 		return [NSArray arrayWithObjects: [self selectedSprite], nil];
 	}
 	return nil;
+}
+
+#pragma mark AntiNibCrash Spikes
+
+- (float) stageWidth
+{
+    return 1337.0f;
+}
+
+- (float) stageHeight
+{
+    return 1337.0f;
 }
 
 @end
