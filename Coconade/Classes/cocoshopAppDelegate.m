@@ -59,9 +59,6 @@
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	
 	[director setDisplayFPS:NO];
-    
-    // Enable notifications from glView for updateForScreenReshape.
-    [glView_ setPostsFrameChangedNotifications: YES];    
 	
 	// register for receiving filenames
 	[glView_ registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
