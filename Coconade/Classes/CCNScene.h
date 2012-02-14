@@ -29,6 +29,12 @@
  */
 @property(readwrite) BOOL showBorders;
 
+// TODO: implement:
+/**
+ * When set to YES - CCNScene renders repeated backgroundSprite filling it's contentSize.
+ */
+//@property(readwrite) BOOL showBackground;
+
 /** Current selected root node of Coconade, that we work in.
  * It can be CCScene - then this class will delegate visit to targetNode.
  * Can be nil.
