@@ -28,6 +28,7 @@
 #import "CSMainLayer.h"
 #import "DebugLog.h"
 #import "CCNScene.h"
+#import "CSModel.h"
 
 @implementation cocoshopAppDelegate
 @synthesize window=window_, glView=glView_, controller=controller_;
@@ -90,9 +91,12 @@
     [glView_ updateWindow ];
     glView_.gestureEventsDelegate = controller_;
     
-	CSMainLayer *layer = [CSMainLayer nodeWithController:controller_];
-	[controller_ setMainLayer:layer];
-	scene.targetNode = layer;
+	CCLayer *defaultRootNode = [CCLayer node];
+    CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
+    if (bgLayer)
+        [defaultRootNode addChild:bgLayer z:NSIntegerMin];
+    
+	scene.targetNode = defaultRootNode;
 	[director runWithScene:scene];
 	
 	self.appIsRunning = YES;
