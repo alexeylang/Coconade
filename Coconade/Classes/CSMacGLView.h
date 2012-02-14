@@ -28,7 +28,7 @@
 #import "CSGestureEventDelegate.h"
 
 /** Notification that is sent, when CCNMacGLView instance's workspaceSize is changed. */
-FOUNDATION_EXPORT NSString *CCNMacGLViewWorkspaceSizeDidChangeNotification;
+FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification;
 
 @interface CSMacGLView : MacGLView <CCProjectionProtocol>
 {

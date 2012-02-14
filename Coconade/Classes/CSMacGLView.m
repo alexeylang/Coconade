@@ -30,6 +30,8 @@
 #import "CSGestureEventDelegate.h"
 #import "DebugLog.h"
 
+NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewWorkspaceSizeDidChangeNotification";
+
 @implementation CSMacGLView
 
 @synthesize zoomFactor = zoomFactor_;
