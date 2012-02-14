@@ -567,6 +567,7 @@
     // [Rusty: Cocoshop] Change workspace size from bgLayer.contentSize.
     CGSize workspaceSize = rootNode.contentSize;
     [(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: workspaceSize];
+    [(CCNScene *)[[CCDirector sharedDirector] runningScene] updateForScreenReshapeSafely: nil];
     
     // [Rusty: Cocoshop] Readd new sprites to model.
     @synchronized ([[self modelObject] spriteArray])
