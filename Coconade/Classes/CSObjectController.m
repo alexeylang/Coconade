@@ -27,7 +27,6 @@
 #import "CSObjectController.h"
 #import "CSModel.h"
 #import "CSSprite.h"
-#import "CSMainLayer.h"
 #import "cocoshopAppDelegate.h"
 #import "CSTableViewDataSource.h"
 #import "DebugLog.h"
@@ -38,7 +37,6 @@
 @implementation CSObjectController
 
 @synthesize modelObject=modelObject_;
-@synthesize mainLayer=mainLayer_;
 @synthesize spriteTableView=spriteTableView_;
 @synthesize spriteInfoView = spriteInfoView_;
 @synthesize backgroundInfoView = backgroundInfoView_;
@@ -91,24 +89,8 @@
 	self.spriteInfoView = nil;
 	self.backgroundInfoView = nil;
 	
-	[self setMainLayer:nil];
 	[dataSource_ release];
 	[super dealloc];
-}
-
-- (void)setMainLayer:(CSMainLayer *)view
-{
-	// release old view, set the new view to mainLayer_ and
-	// set the view's controller to self
-	if(view != mainLayer_)
-	{
-		[view retain];
-		[mainLayer_ release];
-		mainLayer_ = view;
-		[view setController:self];
-	}
-	
-	
 }
 
 #pragma mark Values Observer
@@ -500,9 +482,9 @@
 	// remove all sprites from main layer
 	for (CCNode * sprite in [modelObject_ spriteArray])
 	{
-		// only remove child if we're the parent
-		if( [sprite parent] == mainLayer_ )
-			[mainLayer_ removeChild:sprite cleanup:YES];
+		// Remove sprite from it's parent if any.
+		if( [sprite parent] )
+			[[sprite parent] removeChild:sprite cleanup:YES];
 	}
 		
 	// remove all sprites from the dictionary
@@ -522,9 +504,9 @@
 		[spriteTableView_ deselectAll:nil];
 		[spriteTableView_ setDataSource: nil];
 		
-		// only remove child if we're the parent
-		if( [sprite parent] == mainLayer_ )
-			[mainLayer_ removeChild:sprite cleanup:YES];
+		// Remove sprite from it's parent if any.
+		if( [sprite parent] )
+			[[sprite parent] removeChild:sprite cleanup:YES];
 		
 		// remove the sprite from the dictionary
 		@synchronized([modelObject_ spriteArray])

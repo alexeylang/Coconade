@@ -30,7 +30,6 @@
 
 @class CSModel;
 @class CSSprite;
-@class CSMainLayer;
 @class CSTableViewDataSource;
 
 @interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CSGestureEventDelegate>
@@ -41,7 +40,6 @@
     CGPoint prevLocation_;
     
     CSModel *modelObject_;
-	CSMainLayer *mainLayer_;
 	CSTableViewDataSource *dataSource_;
 	NSString *projectFilename_;
 	
@@ -80,7 +78,6 @@
 }
 
 @property(assign) IBOutlet CSModel *modelObject;
-@property(nonatomic, retain) CSMainLayer *mainLayer;
 @property(assign) NSTableView *spriteTableView;
 @property(retain) IBOutlet NSView *spriteInfoView;
 @property(retain) IBOutlet NSView *backgroundInfoView;
