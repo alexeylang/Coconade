@@ -79,6 +79,8 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
     CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
     glView.gestureEventsDelegate = nil;
     
