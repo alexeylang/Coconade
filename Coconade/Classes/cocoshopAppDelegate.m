@@ -25,7 +25,6 @@
 
 #import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
-#import "CSMainLayer.h"
 #import "DebugLog.h"
 #import "CCNScene.h"
 #import "CSModel.h"

@@ -39,7 +39,6 @@
 		E02A83F8129F01DF00341C97 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = E02A83F2129F01DF00341C97 /* fps_images.png */; };
 		E02A83FC129F023B00341C97 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E02A83FB129F023B00341C97 /* main.m */; };
 		E02A8529129F109200341C97 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E02A8528129F109200341C97 /* icon.icns */; };
-		E0507118131760D700EAE33F /* CSMainLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E0507117131760D700EAE33F /* CSMainLayer.m */; };
 		E076E5B71225E97900DE0DA2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		E076E5B81225E97900DE0DA2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E036A79C121B5C720037C5C6 /* OpenGL.framework */; };
 		E076E5B91225E97900DE0DA2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E036A79E121B5C870037C5C6 /* QuartzCore.framework */; };
@@ -270,8 +269,6 @@
 		E02A8528129F109200341C97 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		E036A79C121B5C720037C5C6 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E036A79E121B5C870037C5C6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		E0507116131760D700EAE33F /* CSMainLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMainLayer.h; sourceTree = "<group>"; };
-		E0507117131760D700EAE33F /* CSMainLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMainLayer.m; sourceTree = "<group>"; };
 		E076E5C01225E97900DE0DA2 /* Coconade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coconade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E08AA04A12C0EDC8000341BD /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		E08AA04C12C0EEC0000341BD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -589,8 +586,6 @@
 				FD7877F614E7E26800D128F2 /* CCNModel.h */,
 				FD7877F714E7E26800D128F2 /* CCNModel.m */,
 				496706FB135B9E1B0074D05A /* CSModel.m */,
-				E0507116131760D700EAE33F /* CSMainLayer.h */,
-				E0507117131760D700EAE33F /* CSMainLayer.m */,
 				496706F8135B9DDE0074D05A /* CSObjectController.h */,
 				496706F9135B9DDE0074D05A /* CSObjectController.m */,
 				4930EBB0136363FF006E5DA5 /* CSGestureEventDelegate.h */,
@@ -1097,7 +1092,6 @@
 				E02A83D9129F000100341C97 /* cocoshopAppDelegate.m in Sources */,
 				FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */,
 				E02A83FC129F023B00341C97 /* main.m in Sources */,
-				E0507118131760D700EAE33F /* CSMainLayer.m in Sources */,
 				496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */,
 				496706FD135B9E1B0074D05A /* CSModel.m in Sources */,
 				6D4702CE135F52BC00FDEADD /* CSMacGLView.m in Sources */,
