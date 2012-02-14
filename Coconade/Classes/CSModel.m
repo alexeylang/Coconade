@@ -30,7 +30,6 @@
 @implementation CSModel
 
 @synthesize selectedSprite=selectedSprite_;
-@synthesize backgroundLayer=backgroundLayer_;
 @synthesize spriteArray=spriteArray_;
 
 @synthesize posX=posX_;
@@ -62,11 +61,6 @@
 	if((self=[super init]))
 	{
 		[self setSpriteArray:[NSMutableArray array]];
-		
-		CCLayerColor *bgLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 0)];
-		[bgLayer setPosition:CGPointZero];
-		[bgLayer setAnchorPoint:CGPointZero];
-		[self setBackgroundLayer:bgLayer];
 	}
 	return self;
 }
@@ -79,7 +73,6 @@
 {
 	[self setSpriteArray:nil];
 	[self setColor:nil];
-	[self setBackgroundLayer:nil];
 	[super dealloc];
 }
 
@@ -121,29 +114,6 @@
 			[self setOpacity:[new opacity]];
 			[self setColor:col];
 			[self setRelativeAnchor:([new isRelativeAnchorPoint]) ? NSOnState : NSOffState];
-		}
-		else
-		{
-			CGPoint pos = [backgroundLayer_ position];
-			CGPoint anchor = [backgroundLayer_ anchorPoint];
-			NSColor *col = [NSColor colorWithDeviceRed:[backgroundLayer_ color].r/255.0f green:[backgroundLayer_ color].g/255.0f blue:[backgroundLayer_ color].b/255.0f alpha:255];
-			
-			// sync with actual bg layer properties
-			[self setName:@"Background Layer"];
-			[self setPosX:pos.x];
-			[self setPosY:pos.y];
-			[self setAnchorX:anchor.x];
-			[self setAnchorY:anchor.y];
-			[self setFlipX:NSOffState];
-			[self setFlipY:NSOffState];
-			[self setRotation:[backgroundLayer_ rotation]];
-			[self setScaleX:[backgroundLayer_ scaleX]];
-			[self setScaleY:[backgroundLayer_ scaleY]];
-			[self setOpacity:[backgroundLayer_ opacity]];
-			[self setColor:col];
-			[self setRelativeAnchor:([backgroundLayer_ isRelativeAnchorPoint]) ? NSOnState : NSOffState];
-			self.stageWidth = [[CCDirector sharedDirector] winSize].width;
-			self.stageHeight = [[CCDirector sharedDirector] winSize].height;
 		}
 		
 		// tell controller we changed the selected sprite

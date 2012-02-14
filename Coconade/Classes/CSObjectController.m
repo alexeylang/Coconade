@@ -149,12 +149,6 @@
 			currentPos.x = [modelObject_ posX];
 			[sprite setPosition:currentPos];
 		}
-		else
-		{
-			CGPoint currentPos = [[modelObject_ backgroundLayer] position];
-			currentPos.x = [modelObject_ posX];
-			[[modelObject_ backgroundLayer] setPosition:currentPos];
-		}
 
 	}
 	else if( [keyPath isEqualToString:@"posY"] )
@@ -165,12 +159,6 @@
 			CGPoint currentPos = [sprite position];
 			currentPos.y = [modelObject_ posY];
 			[sprite setPosition:currentPos];
-		}
-		else
-		{
-			CGPoint currentPos = [[modelObject_ backgroundLayer] position];
-			currentPos.y = [modelObject_ posY];
-			[[modelObject_ backgroundLayer] setPosition:currentPos];
 		}
 
 	}
@@ -194,12 +182,6 @@
 			currentAnchor.x = [modelObject_ anchorX];
 			[sprite setAnchorPoint:currentAnchor];
 		}
-		else
-		{
-			CGPoint currentAnchor = [[modelObject_ backgroundLayer] anchorPoint];
-			currentAnchor.x = [modelObject_ anchorX];
-			[[modelObject_ backgroundLayer] setAnchorPoint:currentAnchor];
-		}
 	}
 	else if( [keyPath isEqualToString:@"anchorY"] )
 	{
@@ -209,12 +191,6 @@
 			CGPoint currentAnchor = [sprite anchorPoint];
 			currentAnchor.y = [modelObject_ anchorY];
 			[sprite setAnchorPoint:currentAnchor];
-		}
-		else
-		{
-			CGPoint currentAnchor = [[modelObject_ backgroundLayer] anchorPoint];
-			currentAnchor.y = [modelObject_ anchorY];
-			[[modelObject_ backgroundLayer] setAnchorPoint:currentAnchor];
 		}		
 	}
 	else if( [keyPath isEqualToString:@"scaleX"] )
@@ -224,10 +200,6 @@
 		{
 			[sprite setScaleX:[modelObject_ scaleX]];
 		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setScaleX:[modelObject_ scaleX]];
-		}
 	}
 	else if( [keyPath isEqualToString:@"scaleY"] )
 	{
@@ -235,10 +207,6 @@
 		if(sprite)
 		{
 			[sprite setScaleY:[modelObject_ scaleY]];
-		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setScaleY:[modelObject_ scaleY]];
 		}
 	}	
 	else if( [keyPath isEqualToString:@"flipX"] )
@@ -280,10 +248,6 @@
 		{
 			[sprite setOpacity:[modelObject_ opacity]];
 		}
-		else 
-		{
-			[[modelObject_ backgroundLayer] setOpacity:[modelObject_ opacity]];
-		}
 
 	}
 	else if( [keyPath isEqualToString:@"color"] )
@@ -302,10 +266,6 @@
 		{
 			[sprite setColor:ccc3(r, g, b)];
 		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setColor:ccc3(r, g, b)];
-		}
 	}
 	else if( [keyPath isEqualToString:@"relativeAnchor"] )
 	{
@@ -322,18 +282,6 @@
 				[sprite setIsRelativeAnchorPoint:NO];
 			}
 		}
-		else
-		{
-			NSInteger state = [modelObject_ relativeAnchor];
-			if(state == NSOnState)
-			{
-				[[modelObject_ backgroundLayer] setIsRelativeAnchorPoint:YES];
-			}
-			else
-			{
-				[[modelObject_ backgroundLayer] setIsRelativeAnchorPoint:NO];
-			}			
-		}
 
 	}
 	else if( [keyPath isEqualToString:@"rotation"] )
@@ -342,10 +290,6 @@
 		if(sprite)
 		{
 			[sprite setRotation:[modelObject_ rotation]];
-		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setRotation:[modelObject_ rotation]];
 		}
 	}
 	else if( [keyPath isEqualToString:@"stageWidth"] ) //< TODO: remove this shit
@@ -426,12 +370,23 @@
 			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
 }
 
+- (CCNode *) curRootNode
+{
+    CCNScene *scene = (CCNScene *) [[CCDirector sharedDirector] runningScene ];
+    return scene.targetNode;
+}
+
+- (void) setCurRootNode: (CCNode *) aNode
+{
+    CCNScene *scene = (CCNScene *) [[CCDirector sharedDirector] runningScene ];
+    scene.targetNode = aNode;
+}
+
 // adds new sprites as children if needed - should be called on Cocos2D Thread
 - (void) updateSpritesFromModel
 {
 	CSModel *model = self.modelObject;
 	NSMutableArray *spriteArray = [model spriteArray];
-    CCNode *bgLayer = [model backgroundLayer];
 	
 	@synchronized(spriteArray)
 	{
@@ -439,7 +394,7 @@
 		{
 			if( ![sprite parent] )
 			{
-				[bgLayer addChild:sprite z: [sprite zOrder]];
+				[[self curRootNode] addChild:sprite z: [sprite zOrder]];
 				[model setSelectedSprite:sprite];
 			}
 		}
@@ -583,10 +538,11 @@
 
 - (NSDictionary *)dictionaryFromLayerForBaseDirPath: (NSString *) baseDirPath
 {
-    // Just save background layer - it includes all sprites as children.
+    // TODO: move save/load to model, save all rootNodes.
+    // Just save current root node.
     // Ignore baseDirPath.
     
-	return [[modelObject_ backgroundLayer] dictionaryRepresentation];
+	return [[self curRootNode] dictionaryRepresentation];
 }
 
 - (void)saveProjectToFile:(NSString *)filename
@@ -623,18 +579,18 @@
     [[self modelObject] setSelectedSprite: nil];
     
     // Load background layer without alloc.
-    CCLayerColor *bgLayer = [[self modelObject] backgroundLayer];
-    [bgLayer initWithDictionaryRepresentation: dict];
+    CCNode *rootNode = [NSObject objectWithDictionaryRepresentation:dict];
+    [self setCurRootNode: rootNode];
     
     // [Rusty: Cocoshop] Change workspace size from bgLayer.contentSize.
-    CGSize workspaceSize = bgLayer.contentSize;
+    CGSize workspaceSize = rootNode.contentSize;
     [(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: workspaceSize];
     [(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow];
     
     // [Rusty: Cocoshop] Readd new sprites to model.
     @synchronized ([[self modelObject] spriteArray])
     {
-        for (CCSprite *child in [bgLayer children])
+        for (CCSprite *child in [rootNode children])
         {
             [[[self modelObject] spriteArray] addObject:child];
         }
@@ -965,8 +921,7 @@
 
 - (CSSprite *)spriteForEvent:(NSEvent *)event
 {
-    CCNode *bgLayer = [[self modelObject] backgroundLayer];
-    CCArray *children = [bgLayer children];
+    CCArray *children = [[self curRootNode] children];
     
     NSUInteger childrenCount = [children count];
 	for(NSUInteger i = 0; i < childrenCount; ++i)

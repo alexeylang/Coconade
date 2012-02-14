@@ -90,11 +90,7 @@
     [glView_ updateWindow ];
     glView_.gestureEventsDelegate = controller_;
     
-	CCLayer *defaultRootNode = [CCLayer node];
-    CCLayerColor *bgLayer = [[controller_ modelObject] backgroundLayer];
-    if (bgLayer)
-        [defaultRootNode addChild:bgLayer z:NSIntegerMin];
-    
+	CCLayer *defaultRootNode = [CCLayer node];    
 	scene.targetNode = defaultRootNode;
 	[director runWithScene:scene];
 	

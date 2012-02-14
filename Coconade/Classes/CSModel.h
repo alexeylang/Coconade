@@ -33,8 +33,6 @@
 {
 	CSSprite *selectedSprite_;
 	
-	CCLayerColor *backgroundLayer_;
-	
 	NSMutableArray *spriteArray_;
 	
 	// CCNode
@@ -67,10 +65,7 @@
  * The selected sprite
  */
 @property(nonatomic, assign) CSSprite *selectedSprite;
-/**
- * The background layer
- */
-@property(nonatomic, retain) CCLayerColor *backgroundLayer;
+
 /**
  * Array of all the sprites
  */
