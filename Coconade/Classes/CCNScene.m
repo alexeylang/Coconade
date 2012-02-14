@@ -69,11 +69,6 @@
         // Prepare background - repeated sprite.
 		self.backgroundSprite = [CCSprite spriteWithFile:@"checkerboard.png"];
         
-        // Register for updateForScreenReshape.
-        [[NSNotificationCenter defaultCenter] addObserver: self 
-                                                 selector: @selector(updateForScreenReshapeSafely:)
-                                                     name: NSViewFrameDidChangeNotification
-                                                   object: [[CCDirector sharedDirector] openGLView]];
     }
     
     return self;
@@ -81,7 +76,6 @@
 
 - (void) dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.backgroundSprite = nil;
     self.targetNode = nil;
     
