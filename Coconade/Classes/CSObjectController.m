@@ -696,6 +696,10 @@
 	// reset background
 	modelObject_.color = [NSColor colorWithDeviceRed:0 green:0 blue:0 alpha:0];
 	modelObject_.opacity = 0;
+    
+    // Set stageSize.
+    [(CSMacGLView *) [[CCDirector sharedDirector] openGLView] setWorkspaceSize:CGSizeMake(800, 600)];
+    [(CCNScene *)[[CCDirector sharedDirector] runningScene] updateForScreenReshapeSafely: nil];
 	
 	// reset filename
 	self.projectFilename = nil;
