@@ -48,8 +48,10 @@
 // Transform for "children".
 - (void) updateElements
 {
-    // Anchor point.
     CGSize size = [_targetNode contentSize];
+    CGAffineTransform transform = [_targetNode nodeToWorldTransform];
+    
+    // Anchor point.
     if (CGSizeEqualToSize(size, CGSizeZero))
     {
         _anchor.visible = NO;
@@ -66,6 +68,8 @@
         {
             _anchor.position = ccp(size.width*_targetNode.anchorPoint.x, size.height*_targetNode.anchorPoint.y);
         }
+        
+        _anchor.position = CGPointApplyAffineTransform(_anchor.position, transform );
     }
     
     // Fill Layer.
@@ -87,13 +91,6 @@
 	[_positionLabel setPosition:ccp(s.width/2, -10)];
 }
 
--(void) transform
-{
-    CGAffineTransform t = [_targetNode nodeToWorldTransform];
-    CGAffineToGL(&t, transformGL_);
-	
-	glMultMatrixf(transformGL_);
-}
 
 #pragma mark Visit & Draw
 
@@ -102,10 +99,7 @@
 	// Quick return if targetNode not set.
 	if (!_targetNode)
 		return;
-	
-	glPushMatrix();
-    
-	[self transform];
+
 	
     // Self draw.
 	[self draw];
@@ -114,30 +108,45 @@
     // Children
     [self updateElements];
     
-	[_fill visit];
+	
     [_anchor visit];
 	
-	glPopMatrix();
+	
 }
 
-- (void)draw
+- (void)drawHighlight
 {
-	[super draw];
+    glPushMatrix();
+    
+    // Apply _targetNode's transform.
+    CGAffineTransform t = [_targetNode nodeToWorldTransform];
+    CGAffineToGL(&t, transformGL_);
+	
+	glMultMatrixf(transformGL_);
 	
 	// Draw the outline.
     CGSize s = _targetNode.contentSize;	
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glLineWidth(1.0f);
-    
     CGPoint vertices[] = {
         ccp(0, s.height),
         ccp(s.width, s.height),
         ccp(s.width, 0),
         ccp(0, 0)
     };
-    
     ccDrawPoly(vertices, 4, YES);
+    
+    // Draw color layer.
+    [_fill visit];
 	
+    glPopMatrix();
+}
+
+- (void) draw
+{
+    [super draw];
+    
+    [self drawHighlight];
 }
 
 @end
