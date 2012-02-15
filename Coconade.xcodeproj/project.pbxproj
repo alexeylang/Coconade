@@ -196,6 +196,7 @@
 		E0B4521312C3AEBE0007F742 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516B12C3AEBE0007F742 /* utlist.h */; };
 		E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516C12C3AEBE0007F742 /* ZipUtils.h */; };
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
+		FD0906E314EBE25E00C91CBF /* NSObject+AMCPasteboard.m in Sources */ = {isa = PBXBuildFile; fileRef = FD0906E214EBE25E00C91CBF /* NSObject+AMCPasteboard.m */; };
 		FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65F214E6B0DF003DCA81 /* CCNScene.m */; };
@@ -422,6 +423,8 @@
 		E0B4516C12C3AEBE0007F742 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E0B4516D12C3AEBE0007F742 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
 		E0F9256D1224207200EF2362 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FD0906E114EBE25E00C91CBF /* NSObject+AMCPasteboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AMCPasteboard.h"; sourceTree = "<group>"; };
+		FD0906E214EBE25E00C91CBF /* NSObject+AMCPasteboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AMCPasteboard.m"; sourceTree = "<group>"; };
 		FD1F65E614E699D3003DCA81 /* CCNode+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Helpers.h"; sourceTree = "<group>"; };
 		FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Helpers.m"; sourceTree = "<group>"; };
 		FD1F65F114E6B0DF003DCA81 /* CCNScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNScene.h; sourceTree = "<group>"; };
@@ -553,6 +556,8 @@
 				6D13ADE71385A768004FA7F1 /* NSString+RelativePath.m */,
 				6D1FEC09138074630039076A /* DebugLog.h */,
 				6D1FEC0A138074630039076A /* DebugLog.m */,
+				FD0906E114EBE25E00C91CBF /* NSObject+AMCPasteboard.h */,
+				FD0906E214EBE25E00C91CBF /* NSObject+AMCPasteboard.m */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -1101,6 +1106,7 @@
 				FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */,
 				FD7877F414E7E1EE00D128F2 /* CCNController.m in Sources */,
 				FD7877F814E7E26800D128F2 /* CCNModel.m in Sources */,
+				FD0906E314EBE25E00C91CBF /* NSObject+AMCPasteboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
