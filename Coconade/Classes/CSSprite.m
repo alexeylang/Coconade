@@ -30,7 +30,6 @@
 #import "CSObjectController.h"
 #import "CSModel.h"
 #import "NSString+RelativePath.h"
-#import "NSObject+AMCPasteboard.h"
 #import "CCNode+Helpers.h"
 
 @interface CCNode (Internal)
