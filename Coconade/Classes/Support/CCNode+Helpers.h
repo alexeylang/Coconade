@@ -37,3 +37,17 @@
 - (NSString *) setUniqueName: (NSString *) nonUniqueName;
 
 @end
+
+
+@interface CCNode (PasteboardSupport) <NSPasteboardReading, NSPasteboardWriting> 
+
+#pragma mark NSPasteboardWriting
+- (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard;
+- (id)pasteboardPropertyListForType:(NSString *)type;
+
+
+#pragma mark NSPasteboardReading
++ (NSArray *)readableTypesForPasteboard:(NSPasteboard *)pasteboard;
++ (NSPasteboardReadingOptions)readingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pboard;
+
+@end

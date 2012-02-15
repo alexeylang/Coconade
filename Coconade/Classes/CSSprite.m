@@ -232,45 +232,4 @@
 	}
 }
 
-#pragma mark - Pasteboard support
-// TODO: move these stuff to CCNode
-
-- (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard 
-{
-    return [super writableTypesForPasteboard: pasteboard];
-}
-
-- (id)pasteboardPropertyListForType:(NSString *)type 
-{
-    return [super pasteboardPropertyListForType: type];
-}
-
-#pragma mark NSPasteboardReading
-+ (NSArray *)readableTypesForPasteboard:(NSPasteboard *)pasteboard 
-{    
-    return [NSObject readableTypesForPasteboard: pasteboard];
-}
-
-+ (NSPasteboardReadingOptions)readingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pboard 
-{
-    return [NSObject readingOptionsForType:type pasteboard: pboard];
-}
-
-// Reimplement init from pasteboard method, to create new node with unique name.
-- (id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type
-{
-    [self release];
-    
-    // Ensure name to be unique before creating instance of CCNode, cause setting
-    // name property of CCNOde will instantly register it in CCNodeRegistry, overwrting
-    // existing node with same name. 
-    // But we want to save both nodes in CCNodeRegistry, so name must be changed in dictionary.
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary: propertyList];
-    NSString *name = [dict objectForKey:@"name"];
-    NSString *uniqueName = [[self class] uniqueNameWithName: name];
-    [dict setObject:uniqueName forKey:@"name"];    
-    
-    return [[NSObject objectWithDictionaryRepresentation: dict] retain];
-}
-
 @end
