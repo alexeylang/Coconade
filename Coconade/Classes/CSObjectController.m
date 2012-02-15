@@ -814,7 +814,6 @@
 
 - (void)addNodesFromPasteboard
 {
-	[[CCTextureCache sharedTextureCache] removeUnusedTextures];
     NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
     NSDictionary *options = [NSDictionary dictionary];
     
