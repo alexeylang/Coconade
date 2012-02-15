@@ -837,7 +837,7 @@
     
     NSArray *newSprites = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CSSprite class]] options:options];
     
-	[self addSpritesWithArray: newSprites];
+    [self performSelector:@selector(addSpritesWithArray:) onThread:[[CCDirector sharedDirector] runningThread] withObject:newSprites waitUntilDone:NO];
 }
 
 
