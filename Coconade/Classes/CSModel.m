@@ -26,6 +26,7 @@
 
 #import "CSModel.h"
 #import "cocos2d.h"
+#import "CCNScene.h"
 
 @implementation CSModel
 
@@ -80,15 +81,20 @@
 {
 	// make sure that sprites aren't same key or both nil
 	if( ![selectedSprite_ isEqualTo:aSprite] )
-	{
-        //< TODO: deselect here (setIsSelected = NO).
-		
+	{		
 		selectedSprite_ = aSprite;
 		
 		// select new sprite
 		CCNode *new = selectedSprite_;
 		if(new)
 		{
+            CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+            if ([scene isKindOfClass: [CCNScene class] ])
+            {
+                CCNSelection *selection = scene.selection;
+                scene.selection.targetNode = new;
+            }
+            
             id <CCRGBAProtocol> newWithRGBAProtocol = nil; 
             
             if ([new conformsToProtocol: @protocol(CCRGBAProtocol)])
@@ -107,7 +113,6 @@
 			CGPoint anchor = [new anchorPoint];
 			NSColor *col = [NSColor colorWithDeviceRed:[newWithRGBAProtocol color].r/255.0f green:[newWithRGBAProtocol color].g/255.0f blue:[newWithRGBAProtocol color].b/255.0f alpha:255];
 			
-            // TODO: select here (setIsSelected = YES).
 			[self setName:[new name]];
 			[self setPosX:pos.x];
 			[self setPosY:pos.y];
