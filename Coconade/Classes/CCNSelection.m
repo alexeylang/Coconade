@@ -125,7 +125,7 @@
 	[super draw];
 	
 	// Draw the outline.
-    CGSize s = contentSize_;	
+    CGSize s = _targetNode.contentSize;	
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glLineWidth(1.0f);
     
