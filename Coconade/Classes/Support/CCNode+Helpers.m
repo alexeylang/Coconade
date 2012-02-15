@@ -19,4 +19,28 @@
     return CGRectContainsPoint(nodeRect, eventLocationInNode);
 }
 
+
++ (NSString *) uniqueNameWithName: (NSString *) nonUniqueName
+{
+	NSString *name = [NSString stringWithString: nonUniqueName];
+	
+    NSUInteger i = 1;
+    CCNode *nodeForName = [[CCNodeRegistry sharedRegistry] nodeByName: name];
+	while( nodeForName )
+	{
+		NSAssert(i != NSUIntegerMax, @"CCNode::uniqueNameWithName: There's too many nodes with same name!");
+		name = [nonUniqueName stringByAppendingFormat:@"_%u", i++];
+	}
+	
+    return name;
+}
+
+- (NSString *) setUniqueName: (NSString *) nonUniqueName
+{
+    NSString *uniqueName = [[self class] uniqueNameWithName: nonUniqueName];
+    self.name = uniqueName;
+    
+    return self.name;
+}
+
 @end

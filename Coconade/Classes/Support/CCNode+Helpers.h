@@ -23,4 +23,17 @@
  */
 + (BOOL)isEvent: (NSEvent *)event locatedInNode: (CCNode *) node;
 
+/** Returns unique name (name that isn't used currently by any other node
+ * in CCNodeCache).
+ * Returned string is created by concatanating (if needed) nonUniqueName
+ * and a prefix, likelike "_17".
+ */
++ (NSString *) uniqueNameWithName: (NSString *) nonUniqueName;
+
+/** Sets nodes name, ensuring that it's unique by using
+ * +uniqueNameWithName:
+ * Returns uniqueName, that was set as node's name.
+ */
+- (NSString *) setUniqueName: (NSString *) nonUniqueName;
+
 @end
