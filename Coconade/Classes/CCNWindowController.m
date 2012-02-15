@@ -65,35 +65,35 @@
     splitView.autoresizesSubviews = YES;
     splitView.dividerStyle = NSSplitViewDividerStylePaneSplitter;
     splitView.delegate = self;
-    
-    NSTextView *textView1 = [[NSTextView new] autorelease];
-    textView1.backgroundColor = [NSColor redColor];
-    textView1.frame = CGRectMake(0.0f, 
-                                 0.0f, 
-                                 splitView.frame.size.width / 3.0f, 
-                                 splitView.frame.size.height);
-    [splitView addSubview:textView1];
-    
-    NSView *glViewContainer = [[NSView new] autorelease];
-    glViewContainer.frame = CGRectMake(0.0f, 
-                                       splitView.frame.size.width / 3.0f, 
-                                       splitView.frame.size.width / 3.0f, 
-                                       splitView.frame.size.height);
-    [glViewContainer addSubview:self.glView];
-    glViewContainer.autoresizesSubviews = NO;
-    [splitView addSubview:glViewContainer];
-    
-    NSTextView *textView3 = [[NSTextView new] autorelease];
-    textView3.backgroundColor = [NSColor greenColor];
-    textView3.frame = CGRectMake(0.0f, 
-                                 2.0 * splitView.frame.size.width / 3.0f, 
-                                 splitView.frame.size.width / 3.0f, 
-                                 splitView.frame.size.height);
-    [splitView addSubview:textView3];
-    
     [splitView setVertical:YES];
+    
+    CGRect leftFrame = CGRectMake(0.0f, 
+                                  0.0f, 
+                                  kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
+                                  splitView.frame.size.height);
+    NSTextView *leftView = [[[NSTextView alloc] initWithFrame:leftFrame] autorelease];
+    leftView.backgroundColor = [NSColor redColor];
+    [splitView addSubview:leftView];
+    
+    CGRect centerFrame = CGRectMake(0.0f, 
+                                    0.0f, 
+                                    splitView.frame.size.width - kCCNWindowControllerSplitViewLeftViewDefaultWidth - 
+                                        kCCNWindowControllerSplitViewRightViewDefaultWidth, 
+                                    splitView.frame.size.height);
+    NSView *centerView = [[[NSView alloc] initWithFrame:centerFrame] autorelease];
+    [centerView addSubview:self.glView];
+    centerView.autoresizesSubviews = NO;
+    [splitView addSubview:centerView];
+    
+    CGRect rightFrame = CGRectMake(splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
+                                   0.0f, 
+                                   kCCNWindowControllerSplitViewRightViewDefaultWidth, 
+                                   splitView.frame.size.height);
+    NSTextView *rightView = [[NSTextView alloc] initWithFrame:rightFrame];
+    rightView.backgroundColor = [NSColor greenColor];
+    [splitView addSubview:rightView];
+    
     [splitView adjustSubviews];
-    [splitView setNeedsDisplay:YES];
     [self.window.contentView addSubview:splitView];
     
     // Create and setup toolbar
