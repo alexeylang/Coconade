@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "CCNSelection.h" 
 
 /** @class CCNScene Scene subclass that is used as running scene in Coconade.
  * CCNScene incapsulates Cocos2D nodes that are used as a part of Coconade UI
@@ -19,6 +20,7 @@
 {
     CCNode *_targetNode;
     CCSprite *_backgroundSprite;
+    CCNSelection *_selection;
     
     BOOL _showBorders;
     BOOL _updateForScreenReshapeNextVisit;
@@ -43,6 +45,9 @@
 
 /** Repeated sprite that is used as a background. */
 @property(readwrite, retain) CCSprite *backgroundSprite;
+
+/** Selection Effect & Tools for Selected Node. */
+@property(readonly, retain) CCNSelection *selection;
 
 /** Thread-safe version of updateForScreenReshape.  */
 - (void) updateForScreenReshapeSafely: (NSNotification *) aNotification;

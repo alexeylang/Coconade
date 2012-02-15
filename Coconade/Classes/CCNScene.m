@@ -13,6 +13,7 @@
 
 @synthesize showBorders = _showBorders;
 @synthesize targetNode = _targetNode;
+@synthesize selection = _selection;
 
 @dynamic backgroundSprite;
 
@@ -69,6 +70,7 @@
         // Prepare background - repeated sprite.
 		self.backgroundSprite = [CCSprite spriteWithFile:@"checkerboard.png"];
         
+        _selection = [[CCNSelection node] retain];
     }
     
     return self;
@@ -159,6 +161,9 @@
         }
         
     }
+    
+    // Always render selection - it will be invisible if no targetNode set for it.
+    [_selection visit];
 }
 
 @end
