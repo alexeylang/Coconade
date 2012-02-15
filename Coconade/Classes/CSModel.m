@@ -83,18 +83,18 @@
 	if( ![selectedSprite_ isEqualTo:aSprite] )
 	{		
 		selectedSprite_ = aSprite;
+        
+        CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+        if ([scene isKindOfClass: [CCNScene class] ])
+        {
+            CCNSelection *selection = scene.selection;
+            scene.selection.targetNode = aSprite;
+        }
 		
 		// select new sprite
 		CCNode *new = selectedSprite_;
 		if(new)
-		{
-            CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
-            if ([scene isKindOfClass: [CCNScene class] ])
-            {
-                CCNSelection *selection = scene.selection;
-                scene.selection.targetNode = new;
-            }
-            
+		{            
             id <CCRGBAProtocol> newWithRGBAProtocol = nil; 
             
             if ([new conformsToProtocol: @protocol(CCRGBAProtocol)])
