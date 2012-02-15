@@ -87,7 +87,6 @@
         CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
         if ([scene isKindOfClass: [CCNScene class] ])
         {
-            CCNSelection *selection = scene.selection;
             scene.selection.targetNode = aSprite;
         }
 		
