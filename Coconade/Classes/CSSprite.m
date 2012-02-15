@@ -233,6 +233,7 @@
 }
 
 #pragma mark - Pasteboard support
+// TODO: move these stuff to CCNode
 
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard 
 {
