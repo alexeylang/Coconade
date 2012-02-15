@@ -133,8 +133,7 @@
 			NSString *newName = [modelObject_ name];
 			if( ![currentName isEqualToString:newName] )
 			{
-				[sprite setName:newName];
-				[self ensureUniqueNameForSprite:sprite];
+				[sprite setUniqueName:newName];
 				[nameField_ setStringValue:[sprite name]];
 			}
 		}
@@ -297,19 +296,6 @@
 
 #pragma mark Sprites
 
-- (void) ensureUniqueNameForSprite: (CSSprite *) aSprite
-{
-	NSString *originalName = [aSprite name];
-	NSString *name = [NSString stringWithString: originalName];
-	NSUInteger i = 0;
-	while( ([modelObject_ spriteWithName: name] != nil) && ([modelObject_ spriteWithName: name] != aSprite) )
-	{
-		NSAssert(i <= NSUIntegerMax, @"CSObjectController#ensureUniqueNameForSprite: Added too many of the same sprite");
-		name = [originalName stringByAppendingFormat:@"_%u", i++];
-	}
-	aSprite.name = name;
-}
-
 - (NSArray *) allowedFileTypes
 {
 	return [NSArray arrayWithObjects:@"png", @"gif", @"jpg", @"jpeg", @"tif", @"tiff", @"bmp", @"ccz", @"pvr", nil];
@@ -397,9 +383,7 @@
 		NSString *name = [NSString stringWithString:originalName];
 		
 		CSSprite *sprite = [CSSprite spriteWithFile:filename];
-		[sprite setName:name];
-		
-		[self ensureUniqueNameForSprite: sprite];
+		[sprite setUniqueName:name];
 		
 		@synchronized( [modelObject_ spriteArray] )
 		{
@@ -834,7 +818,6 @@
 	
 	for(CSSprite *sprite in sprites)
 	{
-		[self ensureUniqueNameForSprite: sprite];
 		@synchronized( [modelObject_ spriteArray] )
 		{			
 			[[modelObject_ spriteArray] addObject:sprite];
