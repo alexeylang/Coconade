@@ -30,6 +30,8 @@
 #define kCCNWindowControllerToolbarItemSpritesListName          @"Sprites List"
 #define kCCNWindowControllerToolbarItemSpritesListImage         @"icon7-c.png"
 
+#define kCCNWindowControllerSplitViewLeftViewDefaultWidth       300.0f
+#define kCCNWindowControllerSplitViewRightViewDefaultWidth      300.0f
 
 @implementation CCNWindowController
 
