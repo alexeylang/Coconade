@@ -25,11 +25,11 @@
 	NSString *name = [NSString stringWithString: nonUniqueName];
 	
     NSUInteger i = 1;
-    CCNode *nodeForName = [[CCNodeRegistry sharedRegistry] nodeByName: name];
-	while( nodeForName )
+	while( [[CCNodeRegistry sharedRegistry] nodeByName: name] )
 	{
 		NSAssert(i != NSUIntegerMax, @"CCNode::uniqueNameWithName: There's too many nodes with same name!");
-		name = [nonUniqueName stringByAppendingFormat:@"_%u", i++];
+		name = [nonUniqueName stringByAppendingFormat:@"_%u", i];
+        i++;
 	}
 	
     return name;
