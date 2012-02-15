@@ -19,9 +19,9 @@
     
     CCNode *_targetNode;
     
-    CCLayerColor *fill_;
-	CCSprite *anchor_;
-	CCLabelBMFont *positionLabel_;
+    CCLayerColor *_fill;
+	CCSprite *_anchor;
+	CCLabelBMFont *_positionLabel;
 }
 
 /** Node that will be highlated by CCNSelection.

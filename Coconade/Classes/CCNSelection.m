@@ -19,16 +19,16 @@
 {
 	if((self=[super init]))
 	{
-		fill_ = [[CCLayerColor layerWithColor:ccc4(30,144,255,25.5f)] retain];
-		[self addChild:fill_];
+		_fill = [[CCLayerColor layerWithColor:ccc4(30,144,255,25.5f)] retain];
+		[self addChild:_fill]; //< TODO: remove
 		
-		anchor_ = [[CCSprite spriteWithFile:@"anchor.png"] retain];
-		[anchor_ setOpacity:200];
-		[self addChild:anchor_];
+		_anchor = [[CCSprite spriteWithFile:@"anchor.png"] retain];
+		[_anchor setOpacity:200];
+		[self addChild:_anchor]; //< TODO: remove
 		
 		NSString *posText = [NSString stringWithFormat:@"%f, %f", [self position].x, [self position].y];
-		positionLabel_ = [[CCLabelBMFont labelWithString:posText fntFile:@"arial.fnt"] retain];
-		[anchor_ addChild:positionLabel_];
+		_positionLabel = [[CCLabelBMFont labelWithString:posText fntFile:@"arial.fnt"] retain];
+		[_anchor addChild:_positionLabel];
 	}
 	
 	return self;
@@ -36,9 +36,9 @@
 
 - (void)dealloc
 {
-	[fill_ release]; fill_ = nil;
-	[anchor_ release]; anchor_ = nil;
-	[positionLabel_ release]; positionLabel_ = nil;
+	[_fill release]; _fill = nil;
+	[_anchor release]; _anchor = nil;
+	[_positionLabel release]; _positionLabel = nil;
     
 	[super dealloc];
 }
@@ -52,39 +52,39 @@
     CGSize size = [_targetNode contentSize];
     if (CGSizeEqualToSize(size, CGSizeZero))
     {
-        anchor_.visible = NO;
+        _anchor.visible = NO;
     }
     else
     {
-        anchor_.visible = YES;
+        _anchor.visible = YES;
         
         if( ![_targetNode isRelativeAnchorPoint] )
         {
-            anchor_.position = CGPointZero;
+            _anchor.position = CGPointZero;
         }
         else
         {
-            anchor_.position = ccp(size.width*_targetNode.anchorPoint.x, size.height*_targetNode.anchorPoint.y);
+            _anchor.position = ccp(size.width*_targetNode.anchorPoint.x, size.height*_targetNode.anchorPoint.y);
         }
     }
     
     // Fill Layer.
     if (CGSizeEqualToSize(size, CGSizeZero))
     {
-        fill_.visible = NO;
+        _fill.visible = NO;
     }
     else
     {
-        fill_.visible = YES;
-        [fill_ changeWidth:size.width height:size.height];
+        _fill.visible = YES;
+        [_fill changeWidth:size.width height:size.height];
     }
     
     
     // Position Label.
-    CGSize s = [anchor_ contentSize];
+    CGSize s = [_anchor contentSize];
 	NSString *posText = [NSString stringWithFormat:@"%g, %g", floorf( [_targetNode position].x ), floorf( [_targetNode position].y )];
-	[positionLabel_ setString:posText];
-	[positionLabel_ setPosition:ccp(s.width/2, -10)];
+	[_positionLabel setString:posText];
+	[_positionLabel setPosition:ccp(s.width/2, -10)];
 }
 
 -(void) transform
@@ -114,8 +114,8 @@
     // Children
     [self updateElements];
     
-	[fill_ visit];
-    [anchor_ visit];
+	[_fill visit];
+    [_anchor visit];
 	
 	glPopMatrix();
 }
