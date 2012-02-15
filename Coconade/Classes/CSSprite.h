@@ -44,7 +44,7 @@
 	Also it supports NSCoding and provides methods to load & save self to/from 
  NSDictionary.
  */
-@interface CSSprite : CCSprite <NSCoding,NSPasteboardReading, NSPasteboardWriting>
+@interface CSSprite : CCSprite <NSPasteboardReading, NSPasteboardWriting>
 {
 	BOOL isSelected_;
 	

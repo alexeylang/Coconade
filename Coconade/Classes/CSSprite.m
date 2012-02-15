@@ -30,6 +30,7 @@
 #import "CSObjectController.h"
 #import "CSModel.h"
 #import "NSString+RelativePath.h"
+#import "NSObject+AMCPasteboard.h"
 
 @interface CCNode (Internal)
 
@@ -230,73 +231,27 @@
 	}
 }
 
-#pragma mark - Pasteboard & NSCoding support.
-// TODO: move these logics to CCNode.h & CCNController
-
-static NSString *dictRepresentation = @"dictionaryRepresentation";
-
-- (id)initWithCoder:(NSCoder *)coder 
-{
-    if (self = [super init]) 
-	{
-        NSDictionary *dict = [coder decodeObjectForKey:dictRepresentation]; 
-		[self initWithDictionaryRepresentation:dict]; //< TODO: realloc here.
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder 
-{
-    [encoder encodeObject:[self dictionaryRepresentation] forKey:dictRepresentation];
-}
-
-#pragma mark NSPasteboardWriting
-
-// TODO: change to org.cocos2d-iphone.XXX form for Coconade.
-// Where XXX is name of Cocos2D class: CCNode, CCSprite, etc...
-NSString *CSSpriteUTI = @"org.cocos2d-iphone.cocoshop.CSSprite";
+#pragma mark - Pasteboard support
 
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard 
 {
-    static NSArray *writableTypes = nil;
-    
-    if (!writableTypes) {
-        writableTypes = [[NSArray alloc] initWithObjects:CSSpriteUTI, nil];
-    }
-    return writableTypes;
+    return [super writableTypesForPasteboard: pasteboard];
 }
 
 - (id)pasteboardPropertyListForType:(NSString *)type 
 {
-    if ([type isEqualToString:CSSpriteUTI]) 
-	{
-        return [NSKeyedArchiver archivedDataWithRootObject:self];
-    }
-	
-    return nil;
+    return [super pasteboardPropertyListForType: type];
 }
 
 #pragma mark NSPasteboardReading
 + (NSArray *)readableTypesForPasteboard:(NSPasteboard *)pasteboard 
 {    
-    static NSArray *readableTypes = nil;
-    if (!readableTypes) 
-	{
-        readableTypes = [[NSArray alloc] initWithObjects:CSSpriteUTI, nil];
-    }
-    return readableTypes;
+    return [NSObject readableTypesForPasteboard: pasteboard];
 }
 
 + (NSPasteboardReadingOptions)readingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pboard 
 {
-    if ([type isEqualToString:CSSpriteUTI]) 
-	{
-        /*
-         This means you don't need to implement code for this type in initWithPasteboardPropertyList:ofType: -- initWithCoder: is invoked instead.
-         */
-        return NSPasteboardReadingAsKeyedArchive;
-    }
-    return 0;
+    return [NSObject readingOptionsForType:type pasteboard: pboard];
 }
 
 @end
