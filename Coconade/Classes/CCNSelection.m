@@ -116,7 +116,6 @@
     
 	[fill_ visit];
     [anchor_ visit];
-    [positionLabel_ visit];
 	
 	glPopMatrix();
 }
