@@ -15,19 +15,27 @@
 
 #pragma mark Init/DeInit
 
+// XXX: Optimization: update children properties only when needed 
+// (changed targetNode to non-nil or targetNode's propertie changed. )
+
 - (id)init
 {
 	if((self=[super init]))
 	{
-		_fill = [[CCLayerColor layerWithColor:ccc4(30,144,255,25.5f)] retain];
+        // Prepare selection fill color.
+		_fill = [[CCLayerColor layerWithColor:ccc4(30,144,255,75.5f)] retain];
 		[self addChild:_fill]; //< TODO: remove
 		
+        // Prepare targetNode's anchor point indicator.
 		_anchor = [[CCSprite spriteWithFile:@"anchor.png"] retain];
 		[_anchor setOpacity:200];
 		[self addChild:_anchor]; //< TODO: remove
 		
+        // Prepare label that shows current targetNode's position - add it as child to anchorPoint indicator.
 		NSString *posText = [NSString stringWithFormat:@"%f, %f", [self position].x, [self position].y];
 		_positionLabel = [[CCLabelBMFont labelWithString:posText fntFile:@"arial.fnt"] retain];
+        CGSize s = [_anchor contentSize];
+        _positionLabel.position = ccp(s.width/2, -10);
 		[_anchor addChild:_positionLabel];
 	}
 	
@@ -85,10 +93,12 @@
     
     
     // Position Label.
-    CGSize s = [_anchor contentSize];
-	NSString *posText = [NSString stringWithFormat:@"%g, %g", floorf( [_targetNode position].x ), floorf( [_targetNode position].y )];
-	[_positionLabel setString:posText];
-	[_positionLabel setPosition:ccp(s.width/2, -10)];
+    // TODO: optimize: update string only on targetNode's position change.
+	NSString *posText = [NSString stringWithFormat:@"%g, %g", 
+                         floorf( _targetNode.position.x ), 
+                         floorf( _targetNode.position.y ) 
+                         ];
+	_positionLabel.string = posText;
 }
 
 
@@ -100,18 +110,12 @@
 	if (!_targetNode)
 		return;
 
-	
     // Self draw.
 	[self draw];
     
-    
-    // Children
+    // Children.
     [self updateElements];
-    
-	
     [_anchor visit];
-	
-	
 }
 
 - (void)drawHighlight
