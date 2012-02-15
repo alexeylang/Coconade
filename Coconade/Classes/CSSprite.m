@@ -48,8 +48,6 @@
 {
 	if((self=[super init]))
 	{
-		[self setName:nil];
-		
 		fill_ = [[CCLayerColor layerWithColor:ccc4(30,144,255,25.5f)] retain];
 		[self addChild:fill_];
 		
@@ -94,20 +92,6 @@
 }
 
 #pragma mark Properties
-
-// TODO: move to CCNModel or CCNController
-- (void)setName:(NSString *)aName
-{
-	if(name_ != aName)
-	{
-		// make the key alphanumerical + underscore
-		NSCharacterSet *charactersToKeep = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"];
-		aName = [[aName componentsSeparatedByCharactersInSet:[charactersToKeep invertedSet]] componentsJoinedByString:@"_"];		
-		
-		[name_ release];
-		name_ = [aName copy];
-	}
-}
 
 - (void)setAnchorPoint:(CGPoint)anchor
 {
