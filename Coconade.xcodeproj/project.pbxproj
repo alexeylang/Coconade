@@ -580,24 +580,17 @@
 		E02A83D1129F000100341C97 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FD2C665314EC30610020E187 /* RustyShitToRemove */,
 				6D13ADE01385A4CC004FA7F1 /* Support */,
-				49A14062135BCA0A000C3BD8 /* CSSprite.h */,
-				49A14063135BCA0A000C3BD8 /* CSSprite.m */,
-				496706FC135B9E1B0074D05A /* CSModel.h */,
 				FD7877F214E7E1EE00D128F2 /* CCNController.h */,
 				FD7877F314E7E1EE00D128F2 /* CCNController.m */,
 				FD7877F614E7E26800D128F2 /* CCNModel.h */,
 				FD7877F714E7E26800D128F2 /* CCNModel.m */,
 				FD2C664F14EC27070020E187 /* CCNSelection.h */,
 				FD2C665014EC27070020E187 /* CCNSelection.m */,
-				496706FB135B9E1B0074D05A /* CSModel.m */,
-				496706F8135B9DDE0074D05A /* CSObjectController.h */,
-				496706F9135B9DDE0074D05A /* CSObjectController.m */,
 				4930EBB0136363FF006E5DA5 /* CSGestureEventDelegate.h */,
 				6D4702CC135F52BC00FDEADD /* CSMacGLView.h */,
 				6D4702CD135F52BC00FDEADD /* CSMacGLView.m */,
-				6DFAD27113609A4B00006D0B /* CSTableViewDataSource.h */,
-				6DFAD27213609A4B00006D0B /* CSTableViewDataSource.m */,
 				E02A83FB129F023B00341C97 /* main.m */,
 				E02A83D2129F000100341C97 /* cocoshopAppDelegate.h */,
 				E02A83D3129F000100341C97 /* cocoshopAppDelegate.m */,
@@ -798,6 +791,21 @@
 				E0B4516D12C3AEBE0007F742 /* ZipUtils.m */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		FD2C665314EC30610020E187 /* RustyShitToRemove */ = {
+			isa = PBXGroup;
+			children = (
+				49A14062135BCA0A000C3BD8 /* CSSprite.h */,
+				49A14063135BCA0A000C3BD8 /* CSSprite.m */,
+				496706FC135B9E1B0074D05A /* CSModel.h */,
+				496706FB135B9E1B0074D05A /* CSModel.m */,
+				6DFAD27113609A4B00006D0B /* CSTableViewDataSource.h */,
+				6DFAD27213609A4B00006D0B /* CSTableViewDataSource.m */,
+				496706F8135B9DDE0074D05A /* CSObjectController.h */,
+				496706F9135B9DDE0074D05A /* CSObjectController.m */,
+			);
+			name = RustyShitToRemove;
 			sourceTree = "<group>";
 		};
 		FDD94C4614E5C97D00E1CF18 /* English.lproj */ = {
