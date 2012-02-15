@@ -56,11 +56,7 @@
     self.window.hasShadow = YES;
     self.window.acceptsMouseMovedEvents = NO;
     
-    // Create and setup glView
-    self.glView = [[[CSMacGLView alloc] init] autorelease];
-    //[self.window.contentView addSubview:self.glView];
-    [self.glView awakeFromNib];
-    
+    // Create and setup splitView & subviews
     NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: self.window.frame] autorelease];
     splitView.autoresizesSubviews = YES;
     splitView.dividerStyle = NSSplitViewDividerStylePaneSplitter;
@@ -81,6 +77,8 @@
                                         kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                     splitView.frame.size.height);
     NSView *centerView = [[[NSView alloc] initWithFrame:centerFrame] autorelease];
+    self.glView = [[[CSMacGLView alloc] init] autorelease];
+    [self.glView awakeFromNib];    
     [centerView addSubview:self.glView];
     centerView.autoresizesSubviews = NO;
     [splitView addSubview:centerView];
