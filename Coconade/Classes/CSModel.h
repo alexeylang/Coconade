@@ -26,12 +26,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class CSSprite;
+@class CCNode;
 @class CCLayerColor;
 
 @interface CSModel : NSObject
 {
-	CSSprite *selectedSprite_;
+	CCNode *selectedSprite_;
 	
 	NSMutableArray *spriteArray_;
 	
@@ -62,7 +62,7 @@
 /**
  * The selected sprite
  */
-@property(nonatomic, assign) CSSprite *selectedSprite;
+@property(nonatomic, assign) CCNode *selectedSprite;
 
 /**
  * Array of all the sprites
@@ -152,13 +152,13 @@
  * Returns sprite that is currently selected
  * @returns The selected sprite
  */
-- (CSSprite *)selectedSprite;
+- (CCNode *)selectedSprite;
 /**
  * Find sprite from name
  * @param name Name of the sprite
  * @returns The CSSprite with given name
  */
-- (CSSprite *)spriteWithName:(NSString *)name;
+- (CCNode *)spriteWithName:(NSString *)name;
 /**
  * Multiple selection sprite access
  * @returns Array of selected sprites, nil if no sprite is selected

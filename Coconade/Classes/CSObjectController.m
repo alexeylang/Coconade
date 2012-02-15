@@ -26,7 +26,6 @@
 
 #import "CSObjectController.h"
 #import "CSModel.h"
-#import "CSSprite.h"
 #import "cocoshopAppDelegate.h"
 #import "CSTableViewDataSource.h"
 #import "DebugLog.h"
@@ -123,10 +122,15 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	DebugLog(@"keyPath  = %@", keyPath);
+    CCNode *sprite = [modelObject_ selectedSprite];
+    CCSprite *realySprite = nil;
+    if ([sprite isKindOfClass: [CCSprite class]])
+    {
+        realySprite = (CCSprite *)sprite;
+    }
 	
 	if( [keyPath isEqualToString:@"name"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			NSString *currentName = [sprite name];
@@ -140,7 +144,6 @@
 	}
 	else if( [keyPath isEqualToString:@"posX"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			CGPoint currentPos = [sprite position];
@@ -151,7 +154,6 @@
 	}
 	else if( [keyPath isEqualToString:@"posY"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			CGPoint currentPos = [sprite position];
@@ -162,8 +164,6 @@
 	}
 	else if( [keyPath isEqualToString:@"posZ"] )
 	{
-		// Reorder Z order
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			CGFloat currentZ = [sprite zOrder];
@@ -173,7 +173,6 @@
 	}
 	else if( [keyPath isEqualToString:@"anchorX"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			CGPoint currentAnchor = [sprite anchorPoint];
@@ -183,7 +182,6 @@
 	}
 	else if( [keyPath isEqualToString:@"anchorY"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			CGPoint currentAnchor = [sprite anchorPoint];
@@ -193,7 +191,6 @@
 	}
 	else if( [keyPath isEqualToString:@"scaleX"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			[sprite setScaleX:[modelObject_ scaleX]];
@@ -201,7 +198,6 @@
 	}
 	else if( [keyPath isEqualToString:@"scaleY"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			[sprite setScaleY:[modelObject_ scaleY]];
@@ -209,42 +205,40 @@
 	}	
 	else if( [keyPath isEqualToString:@"flipX"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			NSInteger state = [modelObject_ flipX];
 			if(state == NSOnState)
 			{
-				[sprite setFlipX:YES];
+                
+				[realySprite setFlipX:YES];
 			}
 			else
 			{
-				[sprite setFlipX:NO];
+				[realySprite setFlipX:NO];
 			}
 		}
 	}
 	else if( [keyPath isEqualToString:@"flipY"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			NSInteger state = [modelObject_ flipY];
 			if(state == NSOnState)
 			{
-				[sprite setFlipY:YES];
+				[realySprite setFlipY:YES];
 			}
 			else
 			{
-				[sprite setFlipY:NO];
+				[realySprite setFlipY:NO];
 			}
 		}
 	}
 	else if( [keyPath isEqualToString:@"opacity"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
-			[sprite setOpacity:[modelObject_ opacity]];
+			[realySprite setOpacity:[modelObject_ opacity]];
 		}
 
 	}
@@ -259,15 +253,15 @@
 		g = [color greenComponent] * a * 255;
 		b = [color blueComponent] * a * 255;
 		
-		CSSprite *sprite = [modelObject_ selectedSprite];
+		CCNode *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
-			[sprite setColor:ccc3(r, g, b)];
+			[realySprite setColor:ccc3(r, g, b)];
 		}
 	}
 	else if( [keyPath isEqualToString:@"relativeAnchor"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
+		CCNode *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			NSInteger state = [modelObject_ relativeAnchor];
@@ -284,7 +278,7 @@
 	}
 	else if( [keyPath isEqualToString:@"rotation"] )
 	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
+		
 		if(sprite)
 		{
 			[sprite setRotation:[modelObject_ rotation]];
@@ -360,7 +354,7 @@
 	
 	@synchronized(spriteArray)
 	{
-		for(CSSprite *sprite in spriteArray)
+		for(CCNode *sprite in spriteArray)
 		{
 			if( ![sprite parent] )
 			{
@@ -382,7 +376,7 @@
 		NSString *originalName = [filename lastPathComponent];
 		NSString *name = [NSString stringWithString:originalName];
 		
-		CSSprite *sprite = [CSSprite spriteWithFile:filename];
+		CCNode *sprite = [CCSprite spriteWithFile:filename];
 		[sprite setUniqueName:name];
 		
 		@synchronized( [modelObject_ spriteArray] )
@@ -417,7 +411,7 @@
 	}	
 }
 
-- (void)deleteSprite:(CSSprite *)sprite
+- (void)deleteSprite:(CCNode *)sprite
 {
 	// delete sprite
 	if(sprite)
@@ -448,7 +442,7 @@
 	NSInteger index = [spriteTableView_ selectedRow];
 	if(index >= 0)
 	{
-		CSSprite *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
+		CCNode *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
 		[modelObject_ setSelectedSprite:sprite];
 	}
 	else
@@ -463,7 +457,7 @@
 	NSInteger index = [spriteTableView_ selectedRow];
 	if(index >= 0)
 	{
-		CSSprite *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
+		CCNode *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
 		[modelObject_ setSelectedSprite:sprite];
 		[modelObject_ setName:[[aNotification userInfo] objectForKey:@"name"]];
 		
@@ -492,7 +486,7 @@
 		[self setInfoPanelView: self.spriteInfoView];
 		
 		// get the index for the sprite
-		CSSprite *sprite = [modelObject_ selectedSprite];
+		CCNode *sprite = [modelObject_ selectedSprite];
 		if(sprite)
 		{
 			NSArray *array = [modelObject_ spriteArray];
@@ -628,7 +622,7 @@
 	{
 		NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
         NSDictionary *options = [NSDictionary dictionary];
-        return [generalPasteboard canReadObjectForClasses:[NSArray arrayWithObject:[CSSprite class]] options:options];
+        return [generalPasteboard canReadObjectForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
 	}
 	
 	// "Delete"
@@ -766,7 +760,7 @@
 	
 	if ( values && (index >= 0) && (index < [values count]) )
 	{
-		CSSprite *sprite = [values objectAtIndex:index];
+		CCNode *sprite = [values objectAtIndex:index];
 		[self deleteSprite:sprite];
 	}
 }
@@ -818,7 +812,7 @@
     NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
     NSDictionary *options = [NSDictionary dictionary];
     
-    NSArray *newNodes = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CSSprite class]] options:options];
+    NSArray *newNodes = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
 	
 	for(CCNode *node in newNodes)
 	{
@@ -846,7 +840,7 @@
 
 - (void)csMagnifyWithEvent:(NSEvent *)event
 {
-	CSSprite *sprite = [[self modelObject] selectedSprite];
+	CCNode *sprite = [[self modelObject] selectedSprite];
 	CSModel *model = [self modelObject];
 	if (sprite)
 	{
@@ -866,7 +860,7 @@
 
 - (void)csRotateWithEvent:(NSEvent *)event
 {
-	CSSprite *sprite = [[self modelObject] selectedSprite];
+	CCNode *sprite = [[self modelObject] selectedSprite];
 	if (sprite)
 	{
 		float currentRotation = [sprite rotation];
@@ -889,7 +883,7 @@
 #pragma mark Mouse Events
 
 
-- (CSSprite *)spriteForEvent:(NSEvent *)event
+- (CCNode *)spriteForEvent:(NSEvent *)event
 {
     CCArray *children = [[self curRootNode] children];
     
@@ -900,9 +894,9 @@
         NSUInteger reversedIndex = childrenCount - i - 1;
         
 		CCNode *child = [children objectAtIndex:reversedIndex];
-		if([child isKindOfClass:[CSSprite class]] && [CCNode isEvent:event locatedInNode:child])
+		if([child isKindOfClass:[CCNode class]] && [CCNode isEvent:event locatedInNode:child])
 		{
-			return (CSSprite *)child;
+			return (CCNode *)child;
 		}
 	}
 	
@@ -916,7 +910,7 @@
 	
 	CSModel *model = [self modelObject];
 	
-	CSSprite *sprite = [self spriteForEvent:event];
+	CCNode *sprite = [self spriteForEvent:event];
 	if(sprite)
 	{
 		// if this isn't the selected sprite, select it
@@ -930,7 +924,7 @@
 	}
 	
 	// if we touch outside of selected sprite, deselect it
-	CSSprite *selectedSprite = [model selectedSprite];
+	CCNode *selectedSprite = [model selectedSprite];
 	if(selectedSprite)
 	{
 		if(![CCNode isEvent:event locatedInNode:selectedSprite])
@@ -956,7 +950,7 @@
 	// drag the sprite
 	if(shouldDragSprite_)
 	{
-		CSSprite *sprite = [model selectedSprite];
+		CCNode *sprite = [model selectedSprite];
 		if(sprite)
 		{
 			// note that we don't change the position value directly

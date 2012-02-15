@@ -29,7 +29,6 @@
 #import "CSGestureEventDelegate.h"
 
 @class CSModel;
-@class CSSprite;
 @class CSTableViewDataSource;
 
 @interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CSGestureEventDelegate>
@@ -97,7 +96,7 @@
  */
 - (void) addSpritesWithFilesSafely:(NSArray *)files;
 
-- (void)deleteSprite:(CSSprite *)sprite;
+- (void)deleteSprite:(CCNode *)sprite;
 - (void)deleteAllSprites;
 
 #pragma mark  Notifications

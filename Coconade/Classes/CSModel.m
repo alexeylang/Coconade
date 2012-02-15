@@ -25,7 +25,7 @@
  */
 
 #import "CSModel.h"
-#import "CSSprite.h"
+#import "cocos2d.h"
 
 @implementation CSModel
 
@@ -76,40 +76,51 @@
 
 #pragma mark Sprite Access 
 
-- (void)setSelectedSprite:(CSSprite *)aSprite
+- (void)setSelectedSprite:(CCNode *)aSprite
 {
 	// make sure that sprites aren't same key or both nil
 	if( ![selectedSprite_ isEqualTo:aSprite] )
 	{
-		// deselect old sprite
-		if(selectedSprite_)
-		{
-			[selectedSprite_ setIsSelected:NO];
-		}
+        //< TODO: deselect here (setIsSelected = NO).
 		
 		selectedSprite_ = aSprite;
 		
 		// select new sprite
-		CSSprite *new = selectedSprite_;
+		CCNode *new = selectedSprite_;
 		if(new)
 		{
+            id <CCRGBAProtocol> newWithRGBAProtocol = nil; 
+            
+            if ([new conformsToProtocol: @protocol(CCRGBAProtocol)])
+            {
+                newWithRGBAProtocol = (id <CCRGBAProtocol>) new;
+            }
+            
+            CCSprite *newSprite = nil;
+            if ([new isKindOfClass: [CCSprite class]])
+            {
+                newSprite = (CCSprite *) newSprite;
+            }
+            
+            
 			CGPoint pos = [new position];
 			CGPoint anchor = [new anchorPoint];
-			NSColor *col = [NSColor colorWithDeviceRed:[new color].r/255.0f green:[new color].g/255.0f blue:[new color].b/255.0f alpha:255];
+			NSColor *col = [NSColor colorWithDeviceRed:[newWithRGBAProtocol color].r/255.0f green:[newWithRGBAProtocol color].g/255.0f blue:[newWithRGBAProtocol color].b/255.0f alpha:255];
 			
-			[new setIsSelected:YES];
+            // TODO: select here (setIsSelected = YES).
 			[self setName:[new name]];
 			[self setPosX:pos.x];
 			[self setPosY:pos.y];
 			[self setPosZ: [new zOrder]];
 			[self setAnchorX:anchor.x];
 			[self setAnchorY:anchor.y];
-			[self setFlipX:([new flipX]) ? NSOnState : NSOffState];
-			[self setFlipY:([new flipY]) ? NSOnState : NSOffState];
+			[self setFlipX:([newSprite flipX]) ? NSOnState : NSOffState];
+			[self setFlipY:([newSprite flipY]) ? NSOnState : NSOffState];
 			[self setRotation:[new rotation]];
 			[self setScaleX:[new scaleX]];
 			[self setScaleY:[new scaleY]];
-			[self setOpacity:[new opacity]];
+            [self setOpacity:[newWithRGBAProtocol opacity]];
+            
 			[self setColor:col];
 			[self setRelativeAnchor:([new isRelativeAnchorPoint]) ? NSOnState : NSOffState];
 		}
@@ -119,9 +130,9 @@
 	}
 }
 
-- (CSSprite *)spriteWithName: (NSString *) name
+- (CCNode *)spriteWithName: (NSString *) name
 {
-	for (CSSprite *sprite in spriteArray_)
+	for (CCNode *sprite in spriteArray_)
 	{
 		if ([sprite.name isEqualToString: name]) {
 			return sprite;

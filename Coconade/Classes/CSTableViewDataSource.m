@@ -24,7 +24,7 @@
  */
 
 #import "CSTableViewDataSource.h"
-#import "CSSprite.h"
+#import "CCNode.h"
 
 @implementation CSTableViewDataSource
 
@@ -47,7 +47,7 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-	return [(CSSprite *)[array_ objectAtIndex:rowIndex] name];
+	return [(CCNode *)[array_ objectAtIndex:rowIndex] name];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
@@ -57,7 +57,7 @@
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-	[(CSSprite *)[array_ objectAtIndex:rowIndex] setName: anObject];
+	[(CCNode *)[array_ objectAtIndex:rowIndex] setName: anObject];
 	
 	// Update other windows
 	NSDictionary *userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys: anObject, @"name", nil];
