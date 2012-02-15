@@ -12,8 +12,6 @@
 		496706FD135B9E1B0074D05A /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 496706FB135B9E1B0074D05A /* CSModel.m */; };
 		49A13F92135BC12E000C3BD8 /* Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F71135BC089000C3BD8 /* Add.tiff */; };
 		49A13F93135BC12E000C3BD8 /* Burn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F72135BC089000C3BD8 /* Burn.tiff */; };
-		49A14064135BCA0A000C3BD8 /* CSSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 49A14062135BCA0A000C3BD8 /* CSSprite.h */; };
-		49A14065135BCA0A000C3BD8 /* CSSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 49A14063135BCA0A000C3BD8 /* CSSprite.m */; };
 		49A1406C135BCB37000C3BD8 /* arial.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406A135BCB2D000C3BD8 /* arial.fnt */; };
 		49A1406D135BCB37000C3BD8 /* arial.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406B135BCB2D000C3BD8 /* arial.png */; };
 		49A1425E135BE3CA000C3BD8 /* anchor.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A1425D135BE3C1000C3BD8 /* anchor.png */; };
@@ -232,8 +230,6 @@
 		496706FC135B9E1B0074D05A /* CSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSModel.h; sourceTree = "<group>"; };
 		49A13F71135BC089000C3BD8 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add.tiff; sourceTree = "<group>"; };
 		49A13F72135BC089000C3BD8 /* Burn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Burn.tiff; sourceTree = "<group>"; };
-		49A14062135BCA0A000C3BD8 /* CSSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSprite.h; sourceTree = "<group>"; };
-		49A14063135BCA0A000C3BD8 /* CSSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSprite.m; sourceTree = "<group>"; };
 		49A1406A135BCB2D000C3BD8 /* arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arial.fnt; sourceTree = "<group>"; };
 		49A1406B135BCB2D000C3BD8 /* arial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arial.png; sourceTree = "<group>"; };
 		49A1425D135BE3C1000C3BD8 /* anchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anchor.png; sourceTree = "<group>"; };
@@ -796,8 +792,6 @@
 		FD2C665314EC30610020E187 /* RustyShitToRemove */ = {
 			isa = PBXGroup;
 			children = (
-				49A14062135BCA0A000C3BD8 /* CSSprite.h */,
-				49A14063135BCA0A000C3BD8 /* CSSprite.m */,
 				496706FC135B9E1B0074D05A /* CSModel.h */,
 				496706FB135B9E1B0074D05A /* CSModel.m */,
 				6DFAD27113609A4B00006D0B /* CSTableViewDataSource.h */,
@@ -913,7 +907,6 @@
 				E0B4521212C3AEBE0007F742 /* uthash.h in Headers */,
 				E0B4521312C3AEBE0007F742 /* utlist.h in Headers */,
 				E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */,
-				49A14064135BCA0A000C3BD8 /* CSSprite.h in Headers */,
 				4930EBB1136363FF006E5DA5 /* CSGestureEventDelegate.h in Headers */,
 				FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */,
 				FDD94C5914E5D05100E1CF18 /* CCNodeRegistry.h in Headers */,
@@ -1091,7 +1084,6 @@
 				E0B4520F12C3AEBE0007F742 /* TGAlib.m in Sources */,
 				E0B4521112C3AEBE0007F742 /* TransformUtils.m in Sources */,
 				E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */,
-				49A14065135BCA0A000C3BD8 /* CSSprite.m in Sources */,
 				FDD94C5514E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m in Sources */,
 				FDD94C5A14E5D05100E1CF18 /* CCNodeRegistry.m in Sources */,
 				FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */,
