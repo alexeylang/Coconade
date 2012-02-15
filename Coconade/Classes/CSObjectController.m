@@ -812,6 +812,7 @@
 	}
 }
 
+// SHOULD BE CALLED ON COCOS2D THREAD
 - (void)addNodesFromPasteboard
 {
     NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
@@ -821,6 +822,10 @@
 	
 	for(CCNode *node in newNodes)
 	{
+        // TODO: convert to CCNModel
+        // if there's selectedNode - add children to it.
+        // if there's no selectedNode - add children to currentRootNode.
+        // No synchronized needed - all CCNModel methods should be called in cocos2d thread.
 		@synchronized( [modelObject_ spriteArray] )
 		{			
 			[[modelObject_ spriteArray] addObject:node];
