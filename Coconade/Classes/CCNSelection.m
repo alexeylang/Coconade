@@ -114,19 +114,21 @@
 	if (!_targetNode)
 		return;
     
+    // Update position label, anchor point position indicator, etc.
     [self updateElements];
     
+    // Call CCNode#visit as usual.
     [super visit];
 }
 
 - (void)drawHighlight
 {
+    // We will use targetNode's transform to draw highlight, so we need independent matrix.
     glPushMatrix();
     
     // Apply _targetNode's transform.
     CGAffineTransform t = [_targetNode nodeToWorldTransform];
     CGAffineToGL(&t, transformGL_);
-	
 	glMultMatrixf(transformGL_);
 	
 	// Draw the outline.
@@ -144,9 +146,12 @@
     // Draw color layer.
     [_fill visit];
 	
+    
+    // End of drawing highlight - use normal matrix.
     glPopMatrix();
 }
 
+/** Overriden CCNode's method. Adds custom highlight drawing. */
 - (void) draw
 {
     [super draw];
