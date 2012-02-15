@@ -46,7 +46,7 @@
     [super dealloc];
 }
 
-#pragma mark Prapare Window
+#pragma mark Prepare Window & Subviews
 
 - (void) prepareWindow
 {
