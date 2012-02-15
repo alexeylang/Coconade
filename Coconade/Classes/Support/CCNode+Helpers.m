@@ -20,6 +20,10 @@
 }
 
 
+// TODO: think, should we use that andrews shit here:
+    // make the key alphanumerical + underscore
+    // NSCharacterSet *charactersToKeep = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"];
+    // aName = [[aName componentsSeparatedByCharactersInSet:[charactersToKeep invertedSet]] componentsJoinedByString:@"_"];	
 + (NSString *) uniqueNameWithName: (NSString *) nonUniqueName
 {
 	NSString *name = [NSString stringWithString: nonUniqueName];
