@@ -24,12 +24,11 @@
 	{
         // Prepare selection fill color.
 		_fill = [[CCLayerColor layerWithColor:ccc4(30,144,255,75.5f)] retain];
-		[self addChild:_fill]; //< TODO: remove
 		
         // Prepare targetNode's anchor point indicator.
 		_anchor = [[CCSprite spriteWithFile:@"anchor.png"] retain];
 		[_anchor setOpacity:200];
-		[self addChild:_anchor]; //< TODO: remove
+		[self addChild:_anchor];
 		
         // Prepare label that shows current targetNode's position - add it as child to anchorPoint indicator.
 		NSString *posText = [NSString stringWithFormat:@"%f, %f", [self position].x, [self position].y];
@@ -52,6 +51,11 @@
 }
 
  #pragma mark Transform
+
+- (void) transform
+{
+    // Don't apply any transform - work directly in parent's.
+}
 
 // Transform for "children".
 - (void) updateElements
@@ -109,13 +113,10 @@
 	// Quick return if targetNode not set.
 	if (!_targetNode)
 		return;
-
-    // Self draw.
-	[self draw];
     
-    // Children.
     [self updateElements];
-    [_anchor visit];
+    
+    [super visit];
 }
 
 - (void)drawHighlight
