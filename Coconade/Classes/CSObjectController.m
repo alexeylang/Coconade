@@ -812,32 +812,28 @@
 	}
 }
 
-- (void)addSpritesWithArray:(NSArray *)sprites
+- (void)addNodesFromPasteboard
 {
 	[[CCTextureCache sharedTextureCache] removeUnusedTextures];
+    NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
+    NSDictionary *options = [NSDictionary dictionary];
+    
+    NSArray *newNodes = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CSSprite class]] options:options];
 	
-	for(CSSprite *sprite in sprites)
+	for(CCNode *node in newNodes)
 	{
 		@synchronized( [modelObject_ spriteArray] )
 		{			
-			[[modelObject_ spriteArray] addObject:sprite];
+			[[modelObject_ spriteArray] addObject:node];
 		}
 		
 		[self updateSpritesFromModel];
 	}
-	
-	// reload the table
-	[spriteTableView_ reloadData];
 }
 
 - (IBAction) pasteMenuItemPressed: (id) sender
 {    
-    NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
-    NSDictionary *options = [NSDictionary dictionary];
-    
-    NSArray *newSprites = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CSSprite class]] options:options];
-    
-    [self performSelector:@selector(addSpritesWithArray:) onThread:[[CCDirector sharedDirector] runningThread] withObject:newSprites waitUntilDone:NO];
+    [self performSelector:@selector(addNodesFromPasteboard) onThread:[[CCDirector sharedDirector] runningThread] withObject:nil waitUntilDone:NO];
 }
 
 
