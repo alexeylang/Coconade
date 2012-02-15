@@ -199,6 +199,7 @@
 		FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65F214E6B0DF003DCA81 /* CCNScene.m */; };
+		FD2C665114EC27070020E187 /* CCNSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2C665014EC27070020E187 /* CCNSelection.m */; };
 		FD7877F414E7E1EE00D128F2 /* CCNController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7877F314E7E1EE00D128F2 /* CCNController.m */; };
 		FD7877F814E7E26800D128F2 /* CCNModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7877F714E7E26800D128F2 /* CCNModel.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
@@ -426,6 +427,8 @@
 		FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Helpers.m"; sourceTree = "<group>"; };
 		FD1F65F114E6B0DF003DCA81 /* CCNScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNScene.h; sourceTree = "<group>"; };
 		FD1F65F214E6B0DF003DCA81 /* CCNScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNScene.m; sourceTree = "<group>"; };
+		FD2C664F14EC27070020E187 /* CCNSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNSelection.h; sourceTree = "<group>"; };
+		FD2C665014EC27070020E187 /* CCNSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNSelection.m; sourceTree = "<group>"; };
 		FD7877F214E7E1EE00D128F2 /* CCNController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNController.h; sourceTree = "<group>"; };
 		FD7877F314E7E1EE00D128F2 /* CCNController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNController.m; sourceTree = "<group>"; };
 		FD7877F614E7E26800D128F2 /* CCNModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNModel.h; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 				FD7877F314E7E1EE00D128F2 /* CCNController.m */,
 				FD7877F614E7E26800D128F2 /* CCNModel.h */,
 				FD7877F714E7E26800D128F2 /* CCNModel.m */,
+				FD2C664F14EC27070020E187 /* CCNSelection.h */,
+				FD2C665014EC27070020E187 /* CCNSelection.m */,
 				496706FB135B9E1B0074D05A /* CSModel.m */,
 				496706F8135B9DDE0074D05A /* CSObjectController.h */,
 				496706F9135B9DDE0074D05A /* CSObjectController.m */,
@@ -1101,6 +1106,7 @@
 				FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */,
 				FD7877F414E7E1EE00D128F2 /* CCNController.m in Sources */,
 				FD7877F814E7E26800D128F2 /* CCNModel.m in Sources */,
+				FD2C665114EC27070020E187 /* CCNSelection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
