@@ -64,7 +64,7 @@
         }
         else
         {
-            anchor_.position = ccp(size.width*anchorPoint_.x, size.height*anchorPoint_.y);
+            anchor_.position = ccp(size.width*_targetNode.anchorPoint.x, size.height*_targetNode.anchorPoint.y);
         }
     }
     
@@ -82,7 +82,7 @@
     
     // Position Label.
     CGSize s = [anchor_ contentSize];
-	NSString *posText = [NSString stringWithFormat:@"%g, %g", floorf( [self position].x ), floorf( [self position].y )];
+	NSString *posText = [NSString stringWithFormat:@"%g, %g", floorf( [_targetNode position].x ), floorf( [_targetNode position].y )];
 	[positionLabel_ setString:posText];
 	[positionLabel_ setPosition:ccp(s.width/2, -10)];
 }
