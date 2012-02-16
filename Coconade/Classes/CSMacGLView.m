@@ -50,13 +50,6 @@
 {	
     if ( (self = [super init]) )
     {
-        // register for window resizing notification
-        NSWindow *window = [self window];
-        [[NSNotificationCenter defaultCenter] addObserver: self 
-                                                 selector: @selector(windowDidResizeNotification:) 
-                                                     name: NSWindowDidResizeNotification 
-                                                   object: window ];
-        
         // Setup Zoom Settings
         self.zoomSpeed = 0.01f;
         self.zoomFactorMin = 0.1f;
@@ -70,8 +63,6 @@
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
-	
 	[super dealloc];
 }
 
