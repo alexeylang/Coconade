@@ -32,11 +32,11 @@
 
 @implementation CSMacGLView
 
-@synthesize workspaceSize = workspaceSize_, 
-			zoomFactor = zoomFactor_, 
-			zoomSpeed = zoomSpeed_, 
-			zoomFactorMax = zoomFactorMax_, 
-			zoomFactorMin = zoomFactorMin_;
+@synthesize workspaceSize = _workspaceSize;
+@synthesize zoomFactor = _zoomFactor; 
+@synthesize zoomSpeed = _zoomSpeed;
+@synthesize zoomFactorMax = _zoomFactorMax; 
+@synthesize zoomFactorMin = _zoomFactorMin;
 
 - (cocoshopAppDelegate *) appDelegate
 {
@@ -56,7 +56,7 @@
         self.zoomFactorMax = 3.0f;	
         
         // Setup Projection
-        projection_ = kCCDirectorProjection2D;
+        _projection = kCCDirectorProjection2D;
     }
     return self;
 }
@@ -72,13 +72,13 @@
 
 - (void) setProjection:(ccDirectorProjection) newProjection
 {
-	projection_ = newProjection;
+	_projection = newProjection;
 	[self updateProjection];
 }
 
 - (ccDirectorProjection) projection
 {
-	return projection_;
+	return _projection;
 }
 
 // Resizes the View for Centering the Workspace in Window
@@ -144,7 +144,7 @@
 	CGPoint offset = offsetAspectRect.origin;
 	CGSize aspect = offsetAspectRect.size;	
 	
-	switch (projection_) {
+	switch (_projection) {
 		case kCCDirectorProjection2D:
 			glViewport(offset.x, offset.y, aspect.width, aspect.height);
 			glMatrixMode(GL_PROJECTION);
