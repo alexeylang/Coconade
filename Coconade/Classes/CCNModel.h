@@ -13,6 +13,9 @@
 /** @class CCNModel Main model class. Manages Coconade's project. */
 @interface CCNModel : NSObject
 {
+    // TODO: change to NSBundle
+    NSString *_projectFilePath;
+    
     /** Holds all hierarchies of a project with their children. */
     NSDictionary *_rootNodes;
     
@@ -20,6 +23,12 @@
     CCNode *_selectedNode; //< Weakref.
     NSArray *_currentNodes;
 }
+
+/** Holds path to current location of project's file.
+ * Can be changed during runtime - this means that next time project will
+ * be saved to that path.
+ */
+@property(readwrite, copy) NSString *projectFilePath;
 
 /** Current root node, that represents current hierarchy that is being edited.
  * Can be non-CCScene.

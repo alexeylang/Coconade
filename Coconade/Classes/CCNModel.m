@@ -10,6 +10,7 @@
 
 @implementation CCNModel
 
+@synthesize projectFilePath = _projectFilePath;
 @synthesize currentRootNode = _currentRootNode;
 @synthesize selectedNode = _selectedNode;
 @synthesize currentNodes = _currentNodes;
