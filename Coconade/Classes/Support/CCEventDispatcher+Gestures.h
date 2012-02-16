@@ -12,7 +12,7 @@
  * protocols, that adds gesture support on a Mac.
  * Implement it in your node to receive any of gesture events.
  */
-@protocol CCGesturesEventDelegate <NSObject>
+@protocol CCGestureEventDelegate <NSObject>
 
 @optional
 
@@ -52,7 +52,7 @@
  *
  * IMPORTANT: The delegate will be retained.
  */
--(void) addGestureDelegate:(id<CCGesturesEventDelegate>) delegate priority:(NSInteger)priority;
+-(void) addGestureDelegate:(id<CCGestureEventDelegate>) delegate priority:(NSInteger)priority;
 
 /** Removes a gesture delegate, releasing it. 
  * Gestures delegates are stored in touchDelegates list, so this method can

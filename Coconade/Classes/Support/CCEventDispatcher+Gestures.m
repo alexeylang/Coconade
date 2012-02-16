@@ -34,7 +34,7 @@ typedef struct _listEntry
 
 #pragma mark Add / Remove Gesture Delegates
 
--(void) addGestureDelegate:(id<CCGesturesEventDelegate>) delegate priority:(NSInteger)priority
+-(void) addGestureDelegate:(id<CCGestureEventDelegate>) delegate priority:(NSInteger)priority
 {
 	NSUInteger flags = 0;
 	
