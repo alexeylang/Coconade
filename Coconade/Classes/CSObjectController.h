@@ -97,10 +97,6 @@
 - (void)deleteSprite:(CCNode *)sprite;
 - (void)deleteAllSprites;
 
-#pragma mark  Notifications
-- (void)spriteTableSelectionDidChange:(NSNotification *)aNotification;
-- (void)didChangeSelectedSprite:(NSNotification *)aNotification;
-
 #pragma mark Save/Load
 - (NSDictionary *)dictionaryFromLayerForBaseDirPath: (NSString *) baseDirPath;
 - (void)saveProjectToFile:(NSString *)filename;

@@ -49,18 +49,6 @@
     CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
     glView.gestureEventsDelegate = self;
 	
-	// listen to change in table view
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spriteTableSelectionDidChange:) name:NSTableViewSelectionDidChangeNotification object:nil];
-	
-	// listen to notification when we deselect the sprite
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeSelectedSprite:) name:@"didChangeSelectedSprite" object:nil];
-	
-	// listen to rename in table view
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spriteTableSelectionDidRename:) name:@"didRenameSelectedSprite" object:nil];
-
-	// Disable Sprite Info for no Sprites at the beginning
-	[self didChangeSelectedSprite:nil];
-	
 	// This will make panels less distracting
 	[infoPanel_ setBecomesKeyOnlyIfNeeded: YES];
 	[spritesPanel_ setBecomesKeyOnlyIfNeeded: YES];
@@ -457,30 +445,6 @@
 	//frame.size = [aView frame].size;
 	[infoPanel_ setContentView:aView];
 	//[infoPanel_ setFrame: frame display: YES];
-}
-
-- (void)didChangeSelectedSprite:(NSNotification *)aNotification
-{
-	if( ![modelObject_ selectedSprite] )
-	{
-		// Editing Background
-		[self setInfoPanelView: self.backgroundInfoView];
-		[spriteTableView_ deselectAll:nil];
-	}
-	else
-	{
-		// Editing Selected Sprite 
-		[self setInfoPanelView: self.spriteInfoView];
-		
-		// get the index for the sprite
-		CCNode *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			NSArray *array = [modelObject_ spriteArray];
-			NSIndexSet *set = [NSIndexSet indexSetWithIndex:[array indexOfObject:sprite]];
-			[spriteTableView_ selectRowIndexes:set byExtendingSelection:NO];
-		}
-	}
 }
 
 #pragma mark Save / Load

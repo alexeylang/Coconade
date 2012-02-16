@@ -128,9 +128,6 @@
 			[self setColor:col];
 			[self setRelativeAnchor:([new isRelativeAnchorPoint]) ? NSOnState : NSOffState];
 		}
-		
-		// tell controller we changed the selected sprite
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"didChangeSelectedSprite" object:nil];
 	}
 }
 
