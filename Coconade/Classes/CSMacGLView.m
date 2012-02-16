@@ -38,7 +38,6 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 @synthesize zoomSpeed = zoomSpeed_;
 @synthesize zoomFactorMax = zoomFactorMax_; 
 @synthesize zoomFactorMin = zoomFactorMin_;
-@synthesize gestureEventsDelegate = _gestureEventsDelegate;
 @dynamic workspaceSize;
 
 - (CGSize) workspaceSize
@@ -352,31 +351,4 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	[[self enclosingScrollView] scrollWheel: theEvent];	
 	[super scrollWheel: theEvent];
 }
-
-
-
-- (void)magnifyWithEvent:(NSEvent *)event
-{
-	if ( [self.gestureEventsDelegate respondsToSelector:@selector(csMagnifyWithEvent:)] )
-	{
-		[self.gestureEventsDelegate csMagnifyWithEvent:event];
-	}
-}
-
-- (void)rotateWithEvent:(NSEvent *)event
-{
-	if ( [self.gestureEventsDelegate respondsToSelector:@selector(csRotateWithEvent:)] )
-	{
-		[self.gestureEventsDelegate csRotateWithEvent:event];
-	}
-}
-
-- (void)swipeWithEvent:(NSEvent *)event
-{
-	if ( [self.gestureEventsDelegate respondsToSelector:@selector(csSwipeWithEvent:)] )
-	{
-		[self.gestureEventsDelegate csSwipeWithEvent:event];
-	}
-}
-
 @end

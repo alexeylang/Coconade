@@ -47,8 +47,6 @@
     // TODO: move to CCNController
     [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin];
 	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
-    CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
-    glView.gestureEventsDelegate = self;
 	
 	// SHIT
     {
@@ -61,10 +59,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
-    
-    // TODO: move
-    CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
-    glView.gestureEventsDelegate = nil;
     
     // TODO: shouldn't be done in dealloc - CCEventDispatcher retains delegates.
     [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];

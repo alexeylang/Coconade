@@ -39,11 +39,7 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
 	CGFloat zoomSpeed_; 
 	CGFloat zoomFactorMax_;
 	CGFloat zoomFactorMin_;
-    
-    id <CSGestureEventDelegate> _gestureEventsDelegate;
 }
-
-@property (readwrite, assign) id <CSGestureEventDelegate> gestureEventsDelegate;
 
 #pragma mark Workspace
 
