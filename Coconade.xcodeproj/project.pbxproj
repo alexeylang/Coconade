@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4930EBB1136363FF006E5DA5 /* CSGestureEventDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4930EBB0136363FF006E5DA5 /* CSGestureEventDelegate.h */; };
 		496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 496706F9135B9DDE0074D05A /* CSObjectController.m */; };
 		496706FD135B9E1B0074D05A /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 496706FB135B9E1B0074D05A /* CSModel.m */; };
 		49A13F92135BC12E000C3BD8 /* Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F71135BC089000C3BD8 /* Add.tiff */; };
@@ -224,7 +223,6 @@
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		4930EBB0136363FF006E5DA5 /* CSGestureEventDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSGestureEventDelegate.h; sourceTree = "<group>"; };
 		496706F8135B9DDE0074D05A /* CSObjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSObjectController.h; sourceTree = "<group>"; };
 		496706F9135B9DDE0074D05A /* CSObjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSObjectController.m; sourceTree = "<group>"; };
 		496706FB135B9E1B0074D05A /* CSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSModel.m; sourceTree = "<group>"; };
@@ -591,7 +589,6 @@
 				FD7877F714E7E26800D128F2 /* CCNModel.m */,
 				FD2C664F14EC27070020E187 /* CCNSelection.h */,
 				FD2C665014EC27070020E187 /* CCNSelection.m */,
-				4930EBB0136363FF006E5DA5 /* CSGestureEventDelegate.h */,
 				6D4702CC135F52BC00FDEADD /* CSMacGLView.h */,
 				6D4702CD135F52BC00FDEADD /* CSMacGLView.m */,
 				E02A83FB129F023B00341C97 /* main.m */,
@@ -912,7 +909,6 @@
 				E0B4521212C3AEBE0007F742 /* uthash.h in Headers */,
 				E0B4521312C3AEBE0007F742 /* utlist.h in Headers */,
 				E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */,
-				4930EBB1136363FF006E5DA5 /* CSGestureEventDelegate.h in Headers */,
 				FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */,
 				FDD94C5914E5D05100E1CF18 /* CCNodeRegistry.h in Headers */,
 			);

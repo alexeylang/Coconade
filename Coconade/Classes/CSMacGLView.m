@@ -27,7 +27,6 @@
 #import "CSMacGLView.h"
 #import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
-#import "CSGestureEventDelegate.h"
 #import "DebugLog.h"
 
 NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewWorkspaceSizeDidChangeNotification";
