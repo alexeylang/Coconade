@@ -67,7 +67,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 /** Trackpad's PinchIn/PinchOut Gesture event handler
  * Scales selectedNode.
  */
-- (void)ccMagnifyWithEvent:(NSEvent *)event
+- (BOOL)ccMagnifyWithEvent:(NSEvent *)event
 {
 	CCNode *node = self.model.selectedNode;
 	if (node)
@@ -83,13 +83,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // Set new scale.
         node.scaleX = newScaleX;
         node.scaleY = newScaleY;
+        
+        return YES;
 	}
+    
+    return NO;
 }
 
 /** Trackpad's TwoFingerRotate Gesture event handler.
  * Rotates selectedNode.
  */
-- (void)ccRotateWithEvent:(NSEvent *)event
+- (BOOL)ccRotateWithEvent:(NSEvent *)event
 {
 	CCNode *node = self.model.selectedNode;
 	if (node)
@@ -109,7 +113,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 		
         // Set new rotation.
 		node.rotation = newRotation;
+        
+        return YES;
 	}
+    
+    return NO;
 }
 
 #pragma mark Mouse Events

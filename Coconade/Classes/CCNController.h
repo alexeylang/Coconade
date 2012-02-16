@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
+#import "CCEventDispatcher+Gestures.h"
 
 @class CCNModel;
 
 /** @class CCNController Main logic controller for Coconade. */
-@interface CCNController : NSObject
+@interface CCNController : NSObject <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate>
 {
     CCNModel *_model;
     
