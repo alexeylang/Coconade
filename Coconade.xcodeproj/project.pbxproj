@@ -547,16 +547,13 @@
 		6D13ADE01385A4CC004FA7F1 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				FDC7410514ED972900E0B860 /* CCEventDispatcher+Gestures.h */,
-				FDC7410614ED972900E0B860 /* CCEventDispatcher+Gestures.m */,
+				FDC7412914EDA8AE00E0B860 /* TrackpadGesturesSupport */,
 				FD1F65E614E699D3003DCA81 /* CCNode+Helpers.h */,
 				FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */,
 				6D13ADE61385A768004FA7F1 /* NSString+RelativePath.h */,
 				6D13ADE71385A768004FA7F1 /* NSString+RelativePath.m */,
 				6D1FEC09138074630039076A /* DebugLog.h */,
 				6D1FEC0A138074630039076A /* DebugLog.m */,
-				FDC7410914ED9EB900E0B860 /* MacGLView+Gestures.h */,
-				FDC7410A14ED9EB900E0B860 /* MacGLView+Gestures.m */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -802,6 +799,17 @@
 				496706F9135B9DDE0074D05A /* CSObjectController.m */,
 			);
 			name = RustyShitToRemove;
+			sourceTree = "<group>";
+		};
+		FDC7412914EDA8AE00E0B860 /* TrackpadGesturesSupport */ = {
+			isa = PBXGroup;
+			children = (
+				FDC7410914ED9EB900E0B860 /* MacGLView+Gestures.h */,
+				FDC7410A14ED9EB900E0B860 /* MacGLView+Gestures.m */,
+				FDC7410514ED972900E0B860 /* CCEventDispatcher+Gestures.h */,
+				FDC7410614ED972900E0B860 /* CCEventDispatcher+Gestures.m */,
+			);
+			name = TrackpadGesturesSupport;
 			sourceTree = "<group>";
 		};
 		FDD94C4614E5C97D00E1CF18 /* English.lproj */ = {
