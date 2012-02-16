@@ -370,14 +370,14 @@
 	for(NSString *filename in files)
 	{		
         // TODO: creating sprite from file
-        {
+        // {
 		// create key for the sprite
 		NSString *originalName = [filename lastPathComponent];
 		NSString *name = [NSString stringWithString:originalName];
 		
 		CCNode *sprite = [CCSprite spriteWithFile:filename];
 		[sprite setUniqueName:name];
-        }//< TODO
+        //} < TODO
 		
 		@synchronized( [modelObject_ spriteArray] )
 		{
