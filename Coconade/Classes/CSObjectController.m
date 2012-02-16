@@ -883,6 +883,26 @@
 	return nil;
 }
 
+-(BOOL) ccScrollWheel:(NSEvent *)theEvent 
+{
+    CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
+    
+	// Zoom
+	if ( [theEvent modifierFlags] & NSCommandKeyMask )
+	{
+		glView.zoomFactor += [theEvent deltaY] * glView.zoomSpeed;
+		glView.zoomFactor = MAX(glView.zoomFactorMin, MIN(glView.zoomFactor, glView.zoomFactorMax));		
+		[glView updateWindow];		
+		
+		return YES;
+	}
+	
+	// Or Scroll
+	[[glView enclosingScrollView] scrollWheel: theEvent];	
+	
+    return YES;
+}
+
 - (BOOL)ccMouseDown:(NSEvent *)event
 {
 	shouldToggleVisibility_ = NO;

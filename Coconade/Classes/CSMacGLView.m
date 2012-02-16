@@ -317,38 +317,4 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	[self reshape]; //< without this line there will be no update with zoomFactor < 1
 }
 
-- (BOOL) zoomWithEvent:(NSEvent *)theEvent 
-{	
-	if ( [theEvent modifierFlags] & NSCommandKeyMask )
-	{
-		self.zoomFactor += [theEvent deltaY] * self.zoomSpeed;
-		
-		self.zoomFactor = MAX(self.zoomFactorMin, MIN(self.zoomFactor, self.zoomFactorMax));		
-		
-		[self updateWindow];		
-		
-		return YES;
-	}
-	
-	return NO;
-}
-
-#pragma mark Trackpad Gestures & Mouse Support
-
-// TODO: forward to CCEventDispatcher,
-// Add magnify, rotate, swipe methods to it & delegate.
-// In i.e. CCEventDispatcher+Extension.
-//
-// P.S. scrollWheel already there.
-
--(void) scrollWheel:(NSEvent *)theEvent 
-{
-	// Zoom
-	if ([self zoomWithEvent: theEvent])
-		return;
-	
-	// Or Scroll
-	[[self enclosingScrollView] scrollWheel: theEvent];	
-	[super scrollWheel: theEvent];
-}
 @end
