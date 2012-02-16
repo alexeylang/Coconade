@@ -6,6 +6,8 @@
 //  All rights reserved.
 //
 
+// TODO: rename to CCNMacGLView.
+
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
 
