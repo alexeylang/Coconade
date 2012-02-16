@@ -57,7 +57,6 @@
  */
 - (void) updateWindow;
 
-
 /**
  * Since CSMacGLView uses custom projection
  * we need a method, that will allow us to choose between 2D/3D projections
@@ -69,8 +68,8 @@
  */
 @property (readwrite) ccDirectorProjection projection;
 
-
 #pragma mark Zoom
+
 /**
  * Zoom factor just like in GIMP or other graphics editors
  * Zooms the node with changing glViewport

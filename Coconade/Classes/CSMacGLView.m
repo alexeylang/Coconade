@@ -30,6 +30,7 @@
 #import "CSGestureEventDelegate.h"
 #import "DebugLog.h"
 
+
 @implementation CSMacGLView
 
 @synthesize workspaceSize = _workspaceSize;
@@ -42,7 +43,6 @@
 {
 	return (cocoshopAppDelegate *)[[NSApplication sharedApplication ] delegate];
 }
-
 
 #pragma mark Init / DeInit
 
@@ -144,7 +144,8 @@
 	CGPoint offset = offsetAspectRect.origin;
 	CGSize aspect = offsetAspectRect.size;	
 	
-	switch (_projection) {
+	switch (_projection) 
+    {
 		case kCCDirectorProjection2D:
 			glViewport(offset.x, offset.y, aspect.width, aspect.height);
 			glMatrixMode(GL_PROJECTION);
@@ -234,7 +235,6 @@
 	
 	return p;
 }
-
 
 #pragma mark Drag & Drop Support
 
