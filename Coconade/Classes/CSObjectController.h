@@ -29,7 +29,6 @@
 #import "CSGestureEventDelegate.h"
 
 @class CSModel;
-@class CSTableViewDataSource;
 
 @interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CSGestureEventDelegate>
 {
@@ -39,7 +38,6 @@
     CGPoint prevLocation_;
     
     CSModel *modelObject_;
-	CSTableViewDataSource *dataSource_;
 	NSString *projectFilename_;
 	
 	// Info Editing View

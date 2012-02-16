@@ -27,7 +27,6 @@
 #import "CSObjectController.h"
 #import "CSModel.h"
 #import "cocoshopAppDelegate.h"
-#import "CSTableViewDataSource.h"
 #import "DebugLog.h"
 #import "NSString+RelativePath.h"
 #import "CCNScene.h"
@@ -49,15 +48,6 @@
 	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
     CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
     glView.gestureEventsDelegate = self;
-    
-	// add a data source to the table view
-	NSMutableArray *spriteArray = [modelObject_ spriteArray];
-	
-	@synchronized(spriteArray)
-	{
-		dataSource_ = [[CSTableViewDataSource dataSourceWithArray:spriteArray] retain];
-	}
-	[spriteTableView_ setDataSource:dataSource_];
 	
 	// listen to change in table view
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spriteTableSelectionDidChange:) name:NSTableViewSelectionDidChangeNotification object:nil];
@@ -90,7 +80,6 @@
 	self.spriteInfoView = nil;
 	self.backgroundInfoView = nil;
 	
-	[dataSource_ release];
 	[super dealloc];
 }
 
@@ -430,8 +419,6 @@
 		{
 			[[modelObject_ spriteArray] removeObject:sprite];
 		}
-		
-		[spriteTableView_ setDataSource: dataSource_];
 	}	
 }
 
