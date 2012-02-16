@@ -58,7 +58,7 @@ typedef struct _listEntry
 		
 		DL_FOREACH_SAFE( touchDelegates_, entry, tmp ) {
 			if ( entry->flags & kCCImplementsRotate) {
-				void *swallows = [entry->delegate performSelector:@selector(rotateWithEvent:) withObject:event];
+				void *swallows = [entry->delegate performSelector:@selector(ccRotateWithEvent:) withObject:event];
 				if( swallows )
 					break;
 			}
