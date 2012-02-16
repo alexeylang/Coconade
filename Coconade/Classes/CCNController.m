@@ -10,6 +10,7 @@
 #import "CCNController.h"
 #import "CCNModel.h"
 #import "CCNode+Helpers.h"
+#import "CSMacGLView.h"
 
 /** Virtual Key Codes for Keyboard Events.
  * Keycodes available here: http://forums.macrumors.com/showpost.php?p=8428116&postcount=2
@@ -112,6 +113,26 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 #pragma mark Mouse Events
+
+-(BOOL) ccScrollWheel:(NSEvent *)theEvent 
+{
+    CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
+    
+	// Zoom
+	if ( [theEvent modifierFlags] & NSCommandKeyMask )
+	{
+		glView.zoomFactor += [theEvent deltaY] * glView.zoomSpeed;
+		glView.zoomFactor = MAX(glView.zoomFactorMin, MIN(glView.zoomFactor, glView.zoomFactorMax));		
+		[glView updateWindow];		
+		
+		return YES;
+	}
+	
+	// Or Scroll
+	[[glView enclosingScrollView] scrollWheel: theEvent];	
+	
+    return YES;
+}
 
 - (BOOL)ccMouseDown:(NSEvent *)event
 {
