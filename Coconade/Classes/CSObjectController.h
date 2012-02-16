@@ -32,15 +32,23 @@
 
 @interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CSGestureEventDelegate>
 {
-    // Working with sprites.
+    // Events - already in CCNController
     BOOL shouldToggleVisibility_;
 	BOOL shouldDragSprite_;
     CGPoint prevLocation_;
+    //< Events
     
-    CSModel *modelObject_;
-	NSString *projectFilename_;
+    CSModel *modelObject_;      //< model, already in CCNController
+	NSString *projectFilename_; //< already in CCNModel
 	
-	// Info Editing View
+    
+    
+    
+    
+    
+    
+    
+	// ====== Interface Builder Shit - to remove. ======
 	IBOutlet NSPanel *infoPanel_;
 	NSView *spriteInfoView_;
 	NSView *backgroundInfoView_;
@@ -65,20 +73,16 @@
 	IBOutlet NSButton *relativeAnchorButton_;
 	IBOutlet NSTextField *rotationField_;
 	IBOutlet NSSlider *rotationSlider_;
-	
-	// Sprites List View	
 	IBOutlet NSPanel *spritesPanel_;
 	IBOutlet NSTableView *spriteTableView_;
-	
-	// Menus
 	IBOutlet NSMenuItem *showBordersMenuItem_;
 }
 
-@property(assign) IBOutlet CSModel *modelObject;
-@property(assign) NSTableView *spriteTableView;
-@property(retain) IBOutlet NSView *spriteInfoView;
-@property(retain) IBOutlet NSView *backgroundInfoView;
-@property(copy) NSString *projectFilename;
+@property(assign) IBOutlet CSModel *modelObject; //< OK
+@property(assign) NSTableView *spriteTableView; //<SHIT
+@property(retain) IBOutlet NSView *spriteInfoView; //< SHIT
+@property(retain) IBOutlet NSView *backgroundInfoView; //< SHIT
+@property(copy) NSString *projectFilename; //< OK
 
 #pragma mark Sprites
 

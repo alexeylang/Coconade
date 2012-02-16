@@ -263,6 +263,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 
 #pragma mark Drag & Drop Support
 
+// TODO: forward to dragAndDropDelegate
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender 
 {	
 	NSPasteboard *pboard;
@@ -281,6 +282,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
     return NSDragOperationNone;
 }
 
+// TODO: forward to dragAndDropDelegate
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender 
 {
     NSPasteboard *pboard;
@@ -334,6 +336,12 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 
 #pragma mark Trackpad Gestures & Mouse Support
 
+// TODO: forward to CCEventDispatcher,
+// Add magnify, rotate, swipe methods to it & delegate.
+// In i.e. CCEventDispatcher+Extension.
+//
+// P.S. scrollWheel already there.
+
 -(void) scrollWheel:(NSEvent *)theEvent 
 {
 	// Zoom
@@ -344,6 +352,8 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	[[self enclosingScrollView] scrollWheel: theEvent];	
 	[super scrollWheel: theEvent];
 }
+
+
 
 - (void)magnifyWithEvent:(NSEvent *)event
 {

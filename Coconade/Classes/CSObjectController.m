@@ -44,26 +44,33 @@
 
 - (void)awakeFromNib
 {
+    // TODO: move to CCNController
     [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin];
 	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
     CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
     glView.gestureEventsDelegate = self;
 	
-	// This will make panels less distracting
+	// SHIT
+    {
 	[infoPanel_ setBecomesKeyOnlyIfNeeded: YES];
 	[spritesPanel_ setBecomesKeyOnlyIfNeeded: YES];
+    }
+    //< SHIT
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     
+    // TODO: move
     CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
     glView.gestureEventsDelegate = nil;
     
+    // TODO: shouldn't be done in dealloc - CCEventDispatcher retains delegates.
     [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
     [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
     
+    //< TODO
 	self.projectFilename = nil;
 	self.spriteInfoView = nil;
 	self.backgroundInfoView = nil;
@@ -73,6 +80,8 @@
 
 #pragma mark Values Observer
 
+
+// SHIT
 - (void)registerAsObserver
 {	
 	[modelObject_ addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:NULL];
@@ -91,11 +100,13 @@
 	[modelObject_ addObserver:self forKeyPath:@"rotation" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
+// SHIT
 - (void)unregisterForChangeNotification
 {
 //	[modelObject_ removeObserver:self forKeyPath:@"name"];
 }
 
+// SHIT
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	DebugLog(@"keyPath  = %@", keyPath);
@@ -267,11 +278,14 @@
 
 #pragma mark Sprites
 
+// TODO: move, rename to allowedTextureFiles,
+// Use for "Add CCSPrite" menuItem.
 - (NSArray *) allowedFileTypes
 {
 	return [NSArray arrayWithObjects:@"png", @"gif", @"jpg", @"jpeg", @"tif", @"tiff", @"bmp", @"ccz", @"pvr", nil];
 }
 
+// TODO: move, refactor to filterFiles:withAllowedFileTypes:
 - (NSArray *) allowedFilesWithFiles: (NSArray *) files
 {
 	if (!files)
@@ -301,6 +315,8 @@
 
 // adds sprites on cocos thread
 // executes immediatly if curThread == cocosThread
+// TODO: move, probably refactor, currently used for drag n drop & adding sprites
+// from "Add Sprite" menu.
 - (void)addSpritesWithFilesSafely:(NSArray *)files
 {
 	NSThread *cocosThread = [[CCDirector sharedDirector] runningThread] ;
@@ -311,18 +327,21 @@
 			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
 }
 
+// Should be used from CCNModel
 - (CCNode *) curRootNode
 {
     CCNScene *scene = (CCNScene *) [[CCDirector sharedDirector] runningScene ];
     return scene.targetNode;
 }
 
+// TODO: think, maybe should be moved to CCNModel
 - (void) setCurRootNode: (CCNode *) aNode
 {
     CCNScene *scene = (CCNScene *) [[CCDirector sharedDirector] runningScene ];
     scene.targetNode = aNode;
 }
 
+// SHIT
 // adds new sprites as children if needed - should be called on Cocos2D Thread
 - (void) updateSpritesFromModel
 {
@@ -342,6 +361,7 @@
 	}
 }
 
+// TODO: refactor and move some part of it to CCNController
 // designated sprites adding method
 - (void)addSpritesWithFiles:(NSArray *)files
 {
@@ -349,12 +369,15 @@
 	
 	for(NSString *filename in files)
 	{		
+        // TODO: creating sprite from file
+        {
 		// create key for the sprite
 		NSString *originalName = [filename lastPathComponent];
 		NSString *name = [NSString stringWithString:originalName];
 		
 		CCNode *sprite = [CCSprite spriteWithFile:filename];
 		[sprite setUniqueName:name];
+        }//< TODO
 		
 		@synchronized( [modelObject_ spriteArray] )
 		{
@@ -368,6 +391,7 @@
 	[spriteTableView_ reloadData];
 }
 
+// SHIT
 - (void)deleteAllSprites
 {
 	// deselect everything
@@ -388,6 +412,7 @@
 	}	
 }
 
+// SHIT, but same functionality should be in CCNController.
 - (void)deleteSprite:(CCNode *)sprite
 {
 	// delete sprite
@@ -412,33 +437,6 @@
 
 #pragma mark Notifications
 
-- (void)spriteTableSelectionDidChange:(NSNotification *)aNotification
-{
-	NSInteger index = [spriteTableView_ selectedRow];
-	if(index >= 0)
-	{
-		CCNode *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
-		[modelObject_ setSelectedSprite:sprite];
-	}
-	else
-	{
-		[modelObject_ setSelectedSprite:nil];
-	}
-
-}
-
-- (void) spriteTableSelectionDidRename: (NSNotification *) aNotification
-{
-	NSInteger index = [spriteTableView_ selectedRow];
-	if(index >= 0)
-	{
-		CCNode *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
-		[modelObject_ setSelectedSprite:sprite];
-		[modelObject_ setName:[[aNotification userInfo] objectForKey:@"name"]];
-		
-	}
-}
-
 - (void) setInfoPanelView: (NSView *) aView
 {
 	//CGRect frame = [infoPanel_ frame];
@@ -449,15 +447,17 @@
 
 #pragma mark Save / Load
 
+// TODO: move save/load to model, save all rootNodes.
 - (NSDictionary *)dictionaryFromLayerForBaseDirPath: (NSString *) baseDirPath
 {
-    // TODO: move save/load to model, save all rootNodes.
+    
     // Just save current root node.
     // Ignore baseDirPath.
     
 	return [[self curRootNode] dictionaryRepresentation];
 }
 
+// TODO: move save/load to model, save all rootNodes.
 - (void)saveProjectToFile:(NSString *)filename
 {
 	NSDictionary *dict = [self dictionaryFromLayerForBaseDirPath:[filename stringByDeletingLastPathComponent]];
@@ -469,6 +469,7 @@
 
 #pragma mark Loading CSD Files
 
+// TODO: move save/load to model, save all rootNodes.
 - (void)loadProjectFromDictionarySafely:(NSDictionary *)dict
 {
 	NSThread *cocosThread = [[CCDirector sharedDirector] runningThread] ;
@@ -479,6 +480,7 @@
 			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
 }
 
+// TODO: move save/load to model, save all rootNodes.
 - (void)loadProjectFromDictionary:(NSDictionary *)dict
 {
     if (![dict count])
@@ -514,18 +516,21 @@
 
 #pragma mark IBActions - Windows
 
+// SHIT
 - (IBAction)openInfoPanel:(id)sender
 {
 	[infoPanel_ makeKeyAndOrderFront:nil];
 	[infoPanel_ setLevel:[[[[CCDirector sharedDirector] openGLView] window] level]+1];
 }
 
+// SHIT
 - (IBAction) openSpritesPanel: (id) sender
 {
 	[spritesPanel_ makeKeyAndOrderFront: nil];
 	[spritesPanel_ setLevel:[[[[CCDirector sharedDirector] openGLView] window] level]+1];
 }
 
+// SHIT
 - (IBAction)openMainWindow:(id)sender
 {
 	[[[[CCDirector sharedDirector] openGLView] window] makeKeyAndOrderFront:nil];
@@ -535,6 +540,7 @@
 
 #pragma mark IBActions - Save/Load
 
+// TODO: probably should be a part of something like CCNWindowController
 // if we're opened a file - we can revert to saved and save without save as
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
@@ -591,6 +597,7 @@
 	return YES;
 }
 
+// TODO: move save/load to model, save all rootNodes.
 - (IBAction)saveProject:(id)sender
 {
 	if (! self.projectFilename) 
@@ -602,7 +609,7 @@
 	[self saveProjectToFile:self.projectFilename];
 }
 
-
+// TODO: move save/load to model, save all rootNodes.
 - (IBAction)saveProjectAs:(id)sender
 {	
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -619,6 +626,8 @@
 	}];
 }
 
+// TODO: move to CCNController, remove unneded code, creating new project
+// should be simple - remove one model, load another - that's it.
 - (IBAction)newProject:(id)sender
 {
 	// remove all sprites
@@ -640,6 +649,7 @@
 	
 }
 
+// TODO: move to CCNController or CCNWindowController
 - (IBAction)openProject:(id)sender
 {
 	// initialize panel + set flags
@@ -667,6 +677,7 @@
 	}];
 }
 
+// TODO: move to CCNController or ( CCNController & CCNWindowController )
 - (IBAction)revertToSavedProject:(id)sender
 {
 	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:self.projectFilename];
@@ -675,6 +686,7 @@
 
 #pragma mark IBActions - Sprites
 
+// TODO: move to CCNController or ( CCNController & CCNWindowController )
 - (IBAction)addSprite:(id)sender
 {
 	// allowed file types
@@ -699,11 +711,13 @@
 	}];
 }
 
+// SHIT
 - (IBAction)spriteAddButtonClicked:(id)sender
 {
 	[self addSprite:sender];
 }
 
+// TODO: move to CCNController or ( CCNController & CCNWindowController )
 - (IBAction)spriteDeleteButtonClicked:(id)sender
 {
 	NSInteger index =  [spriteTableView_ selectedRow];
@@ -718,29 +732,34 @@
 
 #pragma mark IBActions - Zoom
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction)resetZoom:(id)sender
 {
 	[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] resetZoom];
 }
 
 #pragma mark IBActions - Menus
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) showBordersMenuItemPressed: (id) sender
 {
     CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
 	scene.showBorders = ([sender state] == NSOffState);
 }
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) deleteMenuItemPressed: (id) sender
 {
 	[self deleteSprite:[modelObject_ selectedSprite]];
 }
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) cutMenuItemPressed: (id) sender
 {
 	[self copyMenuItemPressed: sender];
 	[self deleteSprite:[modelObject_ selectedSprite]];
 }
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) copyMenuItemPressed: (id) sender
 {
 	// write selected sprite to pasteboard
@@ -757,6 +776,7 @@
 	}
 }
 
+// TODO: move to CCNController
 // SHOULD BE CALLED ON COCOS2D THREAD
 - (void)addNodesFromPasteboard
 {
@@ -780,10 +800,14 @@
 	}
 }
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) pasteMenuItemPressed: (id) sender
 {    
     [self performSelector:@selector(addNodesFromPasteboard) onThread:[[CCDirector sharedDirector] runningThread] withObject:nil waitUntilDone:NO];
 }
+
+
+// BELOW THIS LINE EVERYTHING IS MOVED TO CCNController
 
 
 #pragma mark - Events
