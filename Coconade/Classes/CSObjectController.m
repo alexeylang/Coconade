@@ -31,6 +31,7 @@
 #import "NSString+RelativePath.h"
 #import "CCNScene.h"
 #import "CCNode+Helpers.h"
+#import "CCEventDispatcher+Gestures.h"
 
 @implementation CSObjectController
 
@@ -47,6 +48,7 @@
     // TODO: move to CCNController
     [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin];
 	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
+    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin];
 	
 	// SHIT
     {
@@ -63,6 +65,7 @@
     // TODO: shouldn't be done in dealloc - CCEventDispatcher retains delegates.
     [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
     [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeGestureDelegate:self];
     
     //< TODO
 	self.projectFilename = nil;
@@ -807,7 +810,7 @@
 #pragma mark - Events
 #pragma mark Touch Events
 
-- (void)csMagnifyWithEvent:(NSEvent *)event
+- (BOOL)ccMagnifyWithEvent:(NSEvent *)event
 {
 	CCNode *sprite = [[self modelObject] selectedSprite];
 	CSModel *model = [self modelObject];
@@ -824,10 +827,14 @@
 		
 		[[self modelObject] setScaleX:newScaleX];
 		[[self modelObject] setScaleY:newScaleY];
+        
+        return YES;
 	}
+    
+    return NO;
 }
 
-- (void)csRotateWithEvent:(NSEvent *)event
+- (BOOL)ccRotateWithEvent:(NSEvent *)event
 {
 	CCNode *sprite = [[self modelObject] selectedSprite];
 	if (sprite)
@@ -846,7 +853,11 @@
 		newRotation = roundf(newRotation);
 		
 		[[self modelObject] setRotation:newRotation];
+        
+        return YES;
 	}
+    
+    return NO;
 }
 
 #pragma mark Mouse Events

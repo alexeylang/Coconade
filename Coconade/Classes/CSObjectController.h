@@ -26,11 +26,11 @@
 
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
-#import "CSGestureEventDelegate.h"
+#import "CCEventDispatcher+Gestures.h"
 
 @class CSModel;
 
-@interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CSGestureEventDelegate>
+@interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate>
 {
     // Events - already in CCNController
     BOOL shouldToggleVisibility_;
