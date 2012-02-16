@@ -46,22 +46,26 @@
 
 #pragma mark Init / DeInit
 
-- (void)awakeFromNib
+- (id)init
 {	
-	// register for window resizing notification
-	NSWindow *window = [self window];
-	[[NSNotificationCenter defaultCenter] addObserver: self 
-											 selector: @selector(windowDidResizeNotification:) 
-												 name: NSWindowDidResizeNotification 
-											   object: window ];
-	
-	// Setup Zoom Settings
-	self.zoomSpeed = 0.01f;
-	self.zoomFactorMin = 0.1f;
-	self.zoomFactorMax = 3.0f;	
-	
-	// Setup Projection
-	projection_ = kCCDirectorProjection2D;
+    if ( (self = [super init]) )
+    {
+        // register for window resizing notification
+        NSWindow *window = [self window];
+        [[NSNotificationCenter defaultCenter] addObserver: self 
+                                                 selector: @selector(windowDidResizeNotification:) 
+                                                     name: NSWindowDidResizeNotification 
+                                                   object: window ];
+        
+        // Setup Zoom Settings
+        self.zoomSpeed = 0.01f;
+        self.zoomFactorMin = 0.1f;
+        self.zoomFactorMax = 3.0f;	
+        
+        // Setup Projection
+        projection_ = kCCDirectorProjection2D;
+    }
+    return self;
 }
 
 - (void) dealloc
