@@ -78,7 +78,6 @@
                                     splitView.frame.size.height);
     NSView *centerView = [[[NSView alloc] initWithFrame:centerFrame] autorelease];
     self.glView = [[[CSMacGLView alloc] init] autorelease];
-    [self.glView awakeFromNib];    
     [centerView addSubview:self.glView];
     centerView.autoresizesSubviews = NO;
     [splitView addSubview:centerView];
