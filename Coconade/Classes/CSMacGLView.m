@@ -31,6 +31,18 @@
 #import "DebugLog.h"
 
 
+@interface CSMacGLView ()
+
+/* This methods calculates offset (rect.origin) and width & height aspect (rect.size) 
+ * of the viewport. 
+ * Normal center positioning doesnt work for CSMacGLView - we will simulate it with
+ * projection offset change & view resize. 
+ */
+- (CGRect) viewportRect;
+
+@end
+
+
 @implementation CSMacGLView
 
 @synthesize workspaceSize = _workspaceSize;
@@ -38,11 +50,6 @@
 @synthesize zoomSpeed = _zoomSpeed;
 @synthesize zoomFactorMax = _zoomFactorMax; 
 @synthesize zoomFactorMin = _zoomFactorMin;
-
-- (cocoshopAppDelegate *) appDelegate
-{
-	return (cocoshopAppDelegate *)[[NSApplication sharedApplication ] delegate];
-}
 
 #pragma mark Init / DeInit
 
@@ -66,7 +73,7 @@
 	[super dealloc];
 }
 
-#pragma mark  Own Projection
+#pragma mark Own Projection
 
 @dynamic projection;
 
@@ -87,57 +94,61 @@
 - (void) windowDidResizeNotification: (NSNotification *) aNotification
 {
 	// Size is equal to self.workspaceSize
-	CGSize size = [[CCDirector sharedDirector] winSizeInPixels];
+	CGSize size = [CCDirector sharedDirector].winSize;
 	
 	// Get the Real Size of Workspace in Pixels
 	float widthAspect = size.width * self.zoomFactor;
 	float heightAspect = size.height * self.zoomFactor;
 	
 	// Resize self frame if Real Size of Workspace is less than available space in the Window
-	CGSize superViewFrameSize = NSSizeToCGSize(	[[self superview] frame].size );
-	
-	NSSize frameSize = [self frame].size;
-	
-	if ( widthAspect < superViewFrameSize.width )
-		frameSize.width = superViewFrameSize.width;
-	else 
-		frameSize.width = widthAspect;
-		
-	
-	if ( heightAspect < superViewFrameSize.height )
-		frameSize.height = superViewFrameSize.height;
-	else 
-		frameSize.height = heightAspect;
-	
-	[self setFrameSize: frameSize ];
-		
+	CGSize superViewFrameSize = self.superview.frame.size;
+	CGSize frameSize = self.frame.size;
+
+	frameSize.width = MAX(widthAspect, superViewFrameSize.width);
+	frameSize.height = MAX(heightAspect, superViewFrameSize.height);
+	[self setFrameSize: frameSize];
 }
 
-// This methods calculates offset (rect.origin) and width & height aspect (rect.size) 
-// of the viewport. 
-// Normal center positioning doesnt work for CSMacGLView - we will simulate it with
-// projection offset change & view resize. 
 - (CGRect) viewportRect
 {
-	CGSize size = [[CCDirector sharedDirector] winSizeInPixels];
-	
-	CGRect rect = NSRectToCGRect([self visibleRect]);
-	CGPoint offset = CGPointMake( - rect.origin.x, - rect.origin.y );
+	CGSize size = [CCDirector sharedDirector].winSize;
+	CGRect rect = [self visibleRect];	
+	CGSize superViewFrameSize = self.superview.frame.size;
+    
+	CGPoint offset = CGPointMake(- rect.origin.x, - rect.origin.y);
 	float widthAspect = size.width * self.zoomFactor;
 	float heightAspect = size.height * self.zoomFactor;
 	
-	CGSize superViewFrameSize = NSSizeToCGSize(	[[self superview] frame].size );
-	
 	if ( widthAspect < superViewFrameSize.width )
+    {
 		offset.x = ( superViewFrameSize.width - widthAspect ) / 2.0f;
+    }
 	
 	if ( heightAspect < superViewFrameSize.height )
+    {
 		offset.y = ( superViewFrameSize.height - heightAspect ) / 2.0f;
+    }
 	
-	return CGRectMake( offset.x , offset.y, widthAspect, heightAspect );
+	return CGRectMake(offset.x , offset.y, widthAspect, heightAspect);
 }
 
-// works just like kCCDirectorProjection2D, but uses visibleRect instead of only size of the window
+// Updates window size, to show scrollers of NSScrollView
+- (void) updateWindow
+{
+	if ([(CCDirectorMac *)[CCDirector sharedDirector] isFullScreen])
+	{
+		[[self window] setFrame:[[self window] frame] display:YES animate:YES];
+	}
+	
+	// (this is the best implementation, that i found within a hour)
+	[[NSNotificationCenter defaultCenter] postNotificationName: NSWindowDidResizeNotification object:[self window]];
+	[self reshape]; //< without this line there will be no update with zoomFactor < 1, and i DUNNO Y
+}
+
+#pragma mark CCProjectionProtocol
+
+/* Works just like kCCDirectorProjection2D, but uses visibleRect instead 
+ * of only size of the window */
 - (void) updateProjection
 {	
 	CGRect offsetAspectRect = [self viewportRect];
@@ -166,8 +177,8 @@
 			
 			float eyeZ = [[CCDirector sharedDirector] getZEye];
 			
-			gluLookAt( self.workspaceSize.width/2, self.workspaceSize.height/2, eyeZ,
-					  self.workspaceSize.width/2, self.workspaceSize.height/2, 0,
+			gluLookAt(self.workspaceSize.width / 2, self.workspaceSize.height / 2, eyeZ,
+					  self.workspaceSize.width / 2, self.workspaceSize.height / 2, 0,
 					  0.0f, 1.0f, 0.0f);			
 			break;
 			
@@ -177,7 +188,9 @@
 	}
 }
 
-// reshape that uses self.workspaceSize instead of self bounds
+#pragma mark MacGLView
+
+/* Reshape that uses self.workspaceSize instead of self bounds */
 - (void) reshape
 {
 	// Set viewport equal to frame size first time, when Cocoshop is started
@@ -185,7 +198,7 @@
 	if (firstReshape)
 	{
 		self.zoomFactor = 1.0f;
-		self.workspaceSize = NSSizeToCGSize( [self frame].size );
+		self.workspaceSize = self.frame.size;
 	}
 	firstReshape = NO;
 	
@@ -195,29 +208,17 @@
 	CGLLockContext([[self openGLContext] CGLContextObj]);
 	
 	CCDirector *director = [CCDirector sharedDirector];
-	[director reshapeProjection: self.workspaceSize ];
+	[director reshapeProjection: self.workspaceSize];
 	
 	// avoid flicker
 	[director drawScene];
-	//	[self setNeedsDisplay:YES];
 	
 	CGLUnlockContext([[self openGLContext] CGLContextObj]);
 }
 
-// Updates window size, to show scrollers of NSScrollView
-- (void) updateWindow
-{
-	if ([(CCDirectorMac *)[CCDirector sharedDirector] isFullScreen])
-	{
-		[[self window] setFrame:[[self window] frame] display:YES animate:YES];
-	}
-	
-	// (this is the best implementation, that i found within a hour)
-	[[NSNotificationCenter defaultCenter] postNotificationName: NSWindowDidResizeNotification object:[self window]];
-	[self reshape]; //< without this line there will be no update with zoomFactor < 1, and i DUNNO Y
-}
+#pragma mark NSView
 
-// fixes cordinate conversion when zooming, or scrolling or centering is applied
+/* Fixes cordinate conversion when zooming, or scrolling or centering is applied */
 - (NSPoint)convertPoint:(NSPoint)aPoint fromView:(NSView *)aView
 {
 	NSPoint p = [super convertPoint: aPoint fromView: aView];
@@ -234,6 +235,13 @@
 	p.y /= self.zoomFactor;
 	
 	return p;
+}
+
+#pragma mark Helpers
+
+- (cocoshopAppDelegate *) appDelegate
+{
+	return (cocoshopAppDelegate *)[[NSApplication sharedApplication ] delegate];
 }
 
 #pragma mark Drag & Drop Support
