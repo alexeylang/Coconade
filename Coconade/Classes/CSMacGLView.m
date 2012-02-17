@@ -40,6 +40,11 @@
  */
 - (CGRect) viewportRect;
 
+/* Resizes the View for Centering the Workspace in Window
+ * This is needed cause it's impossible to set the position of contentNode of
+ * NSScrollView */
+- (void) fixFrameSize;
+
 @end
 
 
@@ -93,7 +98,7 @@
 /* Resizes the View for Centering the Workspace in Window
  * This is needed cause it's impossible to set the position of contentNode of
  * NSScrollView */
-- (void) windowDidResizeNotification: (NSNotification *) aNotification
+- (void) fixFrameSize
 {
 	// Size is equal to self.workspaceSize
 	CGSize size = [CCDirector sharedDirector].winSize;
@@ -137,14 +142,8 @@
 /* Updates window size, to show scrollers of NSScrollView */
 - (void) updateWindow
 {
-	if ([(CCDirectorMac *)[CCDirector sharedDirector] isFullScreen])
-	{
-		[[self window] setFrame:[[self window] frame] display:YES animate:YES];
-	}
-	
-	// (this is the best implementation, that i found within a hour)
-	[[NSNotificationCenter defaultCenter] postNotificationName: NSWindowDidResizeNotification object:[self window]];
-	[self reshape]; //< without this line there will be no update with zoomFactor < 1, and i DUNNO Y
+    [self fixFrameSize];
+	[self reshape];
 }
 
 #pragma mark CCProjectionProtocol
