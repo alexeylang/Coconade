@@ -88,9 +88,9 @@
 	return _projection;
 }
 
-// Resizes the View for Centering the Workspace in Window
-// This is needed cause it's impossible to set the position of contentNode of
-// NSScrollView
+/* Resizes the View for Centering the Workspace in Window
+ * This is needed cause it's impossible to set the position of contentNode of
+ * NSScrollView */
 - (void) windowDidResizeNotification: (NSNotification *) aNotification
 {
 	// Size is equal to self.workspaceSize
@@ -132,7 +132,7 @@
 	return CGRectMake(offset.x , offset.y, widthAspect, heightAspect);
 }
 
-// Updates window size, to show scrollers of NSScrollView
+/* Updates window size, to show scrollers of NSScrollView */
 - (void) updateWindow
 {
 	if ([(CCDirectorMac *)[CCDirector sharedDirector] isFullScreen])
