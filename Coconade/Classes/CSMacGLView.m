@@ -195,15 +195,6 @@
 /* Reshape that uses self.workspaceSize instead of self bounds */
 - (void) reshape
 {
-	// Set viewport equal to frame size first time, when Cocoshop is started
-	static BOOL firstReshape = YES;
-	if (firstReshape)
-	{
-		self.zoomFactor = 1.0f;
-		self.workspaceSize = self.frame.size;
-	}
-	firstReshape = NO;
-	
 	// We draw on a secondary thread through the display link
 	// When resizing the view, -reshape is called automatically on the main thread
 	// Add a mutex around to avoid the threads accessing the context simultaneously when resizing
