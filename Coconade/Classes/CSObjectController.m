@@ -45,7 +45,7 @@
 
 - (void)awakeFromNib
 {
-    // TODO: move to CCNController
+    // OK
     [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin];
 	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
     [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin];
@@ -62,12 +62,11 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     
-    // TODO: shouldn't be done in dealloc - CCEventDispatcher retains delegates.
+    // OK
     [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
     [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
     [[CCEventDispatcher sharedDispatcher] removeGestureDelegate:self];
     
-    //< TODO
 	self.projectFilename = nil;
 	self.spriteInfoView = nil;
 	self.backgroundInfoView = nil;
