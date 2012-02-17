@@ -12,6 +12,20 @@
 #import "CCNode+Helpers.h"
 #import "CSMacGLView.h"
 
+@interface CCNController (Private)
+
+/** Adds CCNController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
+- (void) registerWithEventDispatcher;
+
+/** Removes CCNController from CCEventDispatcher delegates lists.
+ * ATTENTION: shouldn't be used in CCNController#dealloc, cause CCEventDispatcher
+ * retains delegates, and dealloc will never happen if controller will not be 
+ * removed from delegates before.
+ */
+- (void) unregisterWithEventDispatcher;
+
+@end
+
 /** Virtual Key Codes for Keyboard Events.
  * Keycodes available here: http://forums.macrumors.com/showpost.php?p=8428116&postcount=2
  */
@@ -60,6 +74,20 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     
     return nil;
+}
+
+- (void) registerWithEventDispatcher
+{
+    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin];
+	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
+    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin];
+}
+
+- (void) unregisterWithEventDispatcher
+{
+    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeGestureDelegate:self];
 }
 
 #pragma mark Trackpad Gestures Events
