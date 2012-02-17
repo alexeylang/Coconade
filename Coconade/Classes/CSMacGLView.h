@@ -57,6 +57,11 @@
  */
 - (void) updateWindow;
 
+/* Resizes the View for Centering the Workspace in Window
+ * This is needed cause it's impossible to set the position of contentNode of
+ * NSScrollView */
+- (void) fixFrameSize;
+
 /**
  * Since CSMacGLView uses custom projection
  * we need a method, that will allow us to choose between 2D/3D projections
