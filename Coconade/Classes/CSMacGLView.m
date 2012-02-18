@@ -63,6 +63,7 @@
         self.zoomFactorMax = 3.0f;	
         self.workspaceSize = CGSizeMake(480.0f, 240.0f);
         self.zoomFactor = 1.0f;
+        self.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
         
         // Setup Projection
         _projection = kCCDirectorProjection2D;
