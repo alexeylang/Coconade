@@ -16,6 +16,8 @@
 /** @class CCNController Main logic controller for Coconade. */
 @interface CCNController : NSObject <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate, CCNMacGLViewDragAndDropDelegate>
 {
+    CSMacGLView *_glView;
+    
     CCNModel *_model;
     
     // Mouse events.
@@ -29,18 +31,11 @@
  */
 @property(readwrite, retain) CCNModel *model;
 
-#pragma mark Start / Stop
-
-/** Should be called after initing CCNController and before doing anything with him.
- * It's simillar to CCNode#onEnter method - registers controller in EventDispatcher, etc.
- */
-- (void) start;
-
-/** Should be called after finishing work with CCNController.
+/** Should be called after finishing work with CCNController & before releasing it.
  * It's simillar to CCNode#enExit method - unregisters controller in EventDispatcher, etc.
- * Without invoking this method CCNController will not get released.
+ * Without invoking this method CCNController will not be dealloced.
  */
-- (void) stop;
+- (void) halt;
 
 #pragma mark Project
 

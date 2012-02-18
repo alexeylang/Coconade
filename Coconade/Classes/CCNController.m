@@ -14,7 +14,9 @@
 #import "CSMacGLView.h"
 #import "NSObject+Blocks.h"
 
-@interface CCNController (Private)
+@interface CCNController ()
+/** Property to hold glView, provided from outside. */
+@property(readwrite, assign) CSMacGLView *glView;
 
 #pragma mark Import
 
@@ -91,17 +93,29 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 @implementation CCNController
 
 @synthesize model = _model;
+@synthesize glView = _glView;
 
-#pragma mark Start/Stop
+#pragma mark Init/DeInit
 
-- (void) start
+- (id) initWithGLView: (CSMacGLView *) glView
 {
-    [self registerWithEventDispatcher];
+    self = [super init];
+    if (self)
+    {
+        self.glView = glView;
+        
+        [self registerWithEventDispatcher];
+        
+        // Prepare for pasteboard support.
+        [self.glView registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
+    }
+    return self;
 }
 
-- (void) stop
+- (void) halt
 {
     [self unregisterWithEventDispatcher];
+    self.glView = nil;
 }
 
 #pragma mark Project
@@ -110,8 +124,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     self.model = [[CCNModel new] autorelease];
     
-    [(CSMacGLView *) [[CCDirector sharedDirector] openGLView] setWorkspaceSize:CGSizeMake(800, 600)];
     [(CCNScene *)[[CCDirector sharedDirector] runningScene] updateForScreenReshape];
+    [self.glView setWorkspaceSize:CGSizeMake(800, 600)];
 }
 
 // TODO: KVO the Model: selectedNode, curRootNode - update CCNScene when needed.
@@ -365,21 +379,19 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 #pragma mark Mouse Events
 
 -(BOOL) ccScrollWheel:(NSEvent *)theEvent 
-{
-    CSMacGLView *glView = (CSMacGLView *)[[CCDirector sharedDirector] openGLView];
-    
+{    
 	// Zoom
 	if ( [theEvent modifierFlags] & NSCommandKeyMask )
 	{
-		glView.zoomFactor += [theEvent deltaY] * glView.zoomSpeed;
-		glView.zoomFactor = MAX(glView.zoomFactorMin, MIN(glView.zoomFactor, glView.zoomFactorMax));		
-		[glView updateWindow];		
+		self.glView.zoomFactor += [theEvent deltaY] * self.glView.zoomSpeed;
+		self.glView.zoomFactor = MAX(self.glView.zoomFactorMin, MIN(self.glView.zoomFactor, self.glView.zoomFactorMax));		
+		[self.glView updateWindow];		
 		
 		return YES;
 	}
 	
 	// Or Scroll
-	[[glView enclosingScrollView] scrollWheel: theEvent];	
+	[[self.glView enclosingScrollView] scrollWheel: theEvent];	
 	
     return YES;
 }
