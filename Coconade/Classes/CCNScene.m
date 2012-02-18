@@ -141,36 +141,33 @@
         _updateForScreenReshapeNextVisit = NO;
     }
     
-    
-        // Render checkerboard if needed.
-        if (self.showCheckerboard)
+    // Render checkerboard if needed.
+    if (self.showCheckerboard)
         [_checkerboardSprite visit];
-        
-        // Render targetNode.
-        [_targetNode visit];
-        
-        // Render borders if needed.        
-        if (self.showBorders)
-        {
-            CGSize s = contentSize_;
-            GLfloat lineWidth = 2.0f;
-            GLfloat halfLineWidth = 0.5f * lineWidth; 
-            
-            // Use Inverted BG Color to Draw the Outline
-            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-            glLineWidth(lineWidth);
-            
-            CGPoint vertices[] = {
-                ccp(halfLineWidth, s.height - halfLineWidth),
-                ccp(s.width - halfLineWidth, s.height - halfLineWidth),
-                ccp(s.width - halfLineWidth, halfLineWidth),
-                ccp(halfLineWidth, halfLineWidth)
-            };
-            
-            ccDrawPoly(vertices, 4, YES);
-        }
-        
     
+    // Render targetNode.
+    [_targetNode visit];
+    
+    // Render borders if needed.        
+    if (self.showBorders)
+    {
+        CGSize s = contentSize_;
+        GLfloat lineWidth = 2.0f;
+        GLfloat halfLineWidth = 0.5f * lineWidth; 
+        
+        // Use Inverted BG Color to Draw the Outline
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glLineWidth(lineWidth);
+        
+        CGPoint vertices[] = {
+            ccp(halfLineWidth, s.height - halfLineWidth),
+            ccp(s.width - halfLineWidth, s.height - halfLineWidth),
+            ccp(s.width - halfLineWidth, halfLineWidth),
+            ccp(halfLineWidth, halfLineWidth)
+        };
+        
+        ccDrawPoly(vertices, 4, YES);
+    }
     
     // Always render selection - it will be invisible if no targetNode set for it.
     [_selection visit];
