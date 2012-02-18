@@ -17,24 +17,24 @@
 @synthesize targetNode = _targetNode;
 @synthesize selection = _selection;
 
-@dynamic backgroundSprite;
+@dynamic checkerboardSprite;
 
-- (CCSprite *) backgroundSprite
+- (CCSprite *) checkerboardSprite
 {
-    return [[_backgroundSprite retain] autorelease];
+    return [[_checkerboardSprite retain] autorelease];
 }
 
-- (void) setBackgroundSprite:(CCSprite *)backgroundSprite
+- (void) setCheckerboardSprite:(CCSprite *)checkerboardSprite
 {
-    if (backgroundSprite != _backgroundSprite)
+    if (checkerboardSprite != _checkerboardSprite)
     {
-        CCSprite *oldValue = _backgroundSprite;
-        _backgroundSprite = [backgroundSprite retain];
+        CCSprite *oldValue = _checkerboardSprite;
+        _checkerboardSprite = [checkerboardSprite retain];
         
         ccTexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-		[_backgroundSprite.texture setTexParameters:&params];
-		_backgroundSprite.position = ccp(0,0);
-        _backgroundSprite.anchorPoint = ccp(0,0);
+		[_checkerboardSprite.texture setTexParameters:&params];
+		_checkerboardSprite.position = ccp(0,0);
+        _checkerboardSprite.anchorPoint = ccp(0,0);
         
         [oldValue release];
     }
@@ -69,8 +69,8 @@
     {
         _updateForScreenReshapeNextVisit = YES;
         
-        // Prepare background - repeated sprite.
-		self.backgroundSprite = [CCSprite spriteWithFile:@"checkerboard.png"];
+        // Prepare checkerboard - repeated sprite.
+		self.checkerboardSprite = [CCSprite spriteWithFile:@"checkerboard.png"];
         
         _selection = [[CCNSelection node] retain];
         
@@ -86,7 +86,7 @@
 
 - (void) dealloc
 {
-    self.backgroundSprite = nil;
+    self.checkerboardSprite = nil;
     self.targetNode = nil;
     
     [super dealloc];
@@ -105,7 +105,7 @@
 	CGSize s = [CCDirector sharedDirector].winSize;
 	
 	// Update checkerboard size to fit winSize.
-    [self.backgroundSprite setTextureRect: CGRectMake(0, 0, s.width, s.height)];
+    [self.checkerboardSprite setTextureRect: CGRectMake(0, 0, s.width, s.height)];
 	
     // Update self size.
 	[self setContentSize: s];
@@ -142,7 +142,7 @@
     else
     {
         // Render background.
-        [_backgroundSprite visit];
+        [_checkerboardSprite visit];
         
         // Render targetNode.
         [_targetNode visit];

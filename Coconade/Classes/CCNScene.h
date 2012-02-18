@@ -19,7 +19,7 @@
 @interface CCNScene : CCScene 
 {
     CCNode *_targetNode;
-    CCSprite *_backgroundSprite;
+    CCSprite *_checkerboardSprite;
     CCNSelection *_selection;
     
     BOOL _showBorders;
@@ -44,7 +44,7 @@
 @property(readwrite, retain) CCNode *targetNode;
 
 /** Repeated sprite that is used as a background. */
-@property(readwrite, retain) CCSprite *backgroundSprite;
+@property(readwrite, retain) CCSprite *checkerboardSprite;
 
 /** Selection Effect & Tools for Selected Node. */
 @property(readonly, retain) CCNSelection *selection;
