@@ -28,6 +28,8 @@
 #import "DebugLog.h"
 #import "CCNScene.h"
 #import "CSModel.h"
+#import "NSObject+Blocks.h"
+#import "CCNModel.h"
 
 @implementation cocoshopAppDelegate
 @synthesize window=window_, glView=glView_, controller=controller_;
@@ -43,10 +45,28 @@
 		
 		if (self.appIsRunning)
 		{
-			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
-			[controller_ loadProjectFromDictionarySafely: dict];
-			controller_.projectFilename = self.filenameToOpen;
-			self.filenameToOpen = nil;
+			[self performBlockOnCocosThread:^()
+             {
+                 CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
+                 if (!newModel)
+                 {
+                     [self performBlockOnMainThread:^()
+                      {
+                          [[NSAlert alertWithMessageText: @"Can't open file." 
+                                           defaultButton: @"OK"
+                                         alternateButton: nil
+                                             otherButton: nil 
+                               informativeTextWithFormat: @"Can't create CCNModel from %@", self.filenameToOpen] runModal];
+                      }];
+                 }
+                 else
+                 {
+                     controller_.ccnController.model = newModel;
+                 }
+                 
+                 self.filenameToOpen = nil;
+             }];       
+
 		}
 		return YES;
 	}
@@ -94,11 +114,28 @@
     // Open file if needed ( self.filenameToOpen can be set in -application:openFile ).
 	if (self.filenameToOpen)
 	{
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: self.filenameToOpen];
-        controller_.projectFilename = self.filenameToOpen;
-        [controller_ loadProjectFromDictionarySafely: dict];			
-        self.filenameToOpen = nil;
-	}
+        [self performBlockOnCocosThread:^()
+         {
+             CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
+             if (!newModel)
+             {
+                 [self performBlockOnMainThread:^()
+                  {
+                      [[NSAlert alertWithMessageText: @"Can't open file." 
+                                       defaultButton: @"OK"
+                                     alternateButton: nil
+                                         otherButton: nil 
+                           informativeTextWithFormat: @"Can't create CCNModel from %@", self.filenameToOpen] runModal];
+                  }];
+             }
+             else
+             {
+                 controller_.ccnController.model = newModel;
+             }
+             
+             self.filenameToOpen = nil;
+         }];       
+	}//< if self.filenameToOpen
 }
 
 - (void)applicationWillUpdate:(NSNotification *)aNotification
