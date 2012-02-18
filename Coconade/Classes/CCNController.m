@@ -199,8 +199,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 - (void) modelUpdatedFromOldOne: (CCNModel *) oldModel
 {
     // Register in new.
-    [self.model addObserver:self forKeyPath:@"selectedNode" options: NSKeyValueObservingOptionNew context: NULL];
-    [self.model addObserver:self forKeyPath:@"currentRootNode" options: NSKeyValueObservingOptionNew context: NULL];
+    [self.model addObserver:self forKeyPath:@"selectedNode" options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial context: NULL];
+    [self.model addObserver:self forKeyPath:@"currentRootNode" options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial context: NULL];
     
     // Remove in old.
     [oldModel removeObserver: self forKeyPath: @"selectedNode"];
