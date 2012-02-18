@@ -274,14 +274,13 @@
 
 #pragma mark Sprites
 
-// TODO: move, rename to allowedTextureFiles,
-// Use for "Add CCSPrite" menuItem.
+// OK
 - (NSArray *) allowedFileTypes
 {
 	return [NSArray arrayWithObjects:@"png", @"gif", @"jpg", @"jpeg", @"tif", @"tiff", @"bmp", @"ccz", @"pvr", nil];
 }
 
-// TODO: move, refactor to filterFiles:withAllowedFileTypes:
+// OK
 - (NSArray *) allowedFilesWithFiles: (NSArray *) files
 {
 	if (!files)
@@ -309,10 +308,7 @@
 	return allowedFiles;
 }
 
-// adds sprites on cocos thread
-// executes immediatly if curThread == cocosThread
-// TODO: move, probably refactor, currently used for drag n drop & adding sprites
-// from "Add Sprite" menu.
+// OK
 - (void)addSpritesWithFilesSafely:(NSArray *)files
 {
 	NSThread *cocosThread = [[CCDirector sharedDirector] runningThread] ;
@@ -357,8 +353,7 @@
 	}
 }
 
-// TODO: refactor and move some part of it to CCNController
-// designated sprites adding method
+// OK
 - (void)addSpritesWithFiles:(NSArray *)files
 {
 	[[CCTextureCache sharedTextureCache] removeUnusedTextures];
