@@ -119,8 +119,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
         [self registerWithEventDispatcher];
         
-        // Prepare for pasteboard support.
+        // Prepare for pasteboard & drag & drop support.
         [self.glView registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
+        self.glView.dragAndDropDelegate = self;
     }
     return self;
 }
@@ -128,6 +129,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 - (void) halt
 {
     [self unregisterWithEventDispatcher];
+    self.glView.dragAndDropDelegate = nil;
     self.glView = nil;
 }
 
