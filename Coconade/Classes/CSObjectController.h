@@ -30,7 +30,7 @@
 #import "CCNController.h"
 
 @class CSModel;
-@interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate>
+@interface CSObjectController : NSObjectController
 {
 	CCNController *_ccnController;
     
