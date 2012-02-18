@@ -39,12 +39,15 @@
 
 - (void) performBlockOnCocosThread:(void (^)())aBlock 
 {
-    [self performBlock: aBlock onThread:[[CCDirector sharedDirector] runningThread] waitUntilDone: NO];
+    NSThread *cocosThread = [[CCDirector sharedDirector] runningThread];
+    
+    BOOL wait = [NSThread currentThread] == cocosThread;
+    [self performBlock: aBlock onThread: cocosThread waitUntilDone:wait ];
 }
 
 - (void) performBlockOnMainThread:(void (^)())aBlock
 {
-    [self performBlock: aBlock onThread:[NSThread mainThread] waitUntilDone: NO];
+    [self performBlock: aBlock onThread:[NSThread mainThread] waitUntilDone: [NSThread isMainThread]];
 }
 
 @end
