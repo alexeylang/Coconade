@@ -16,9 +16,6 @@
 
 @interface CCNController ()
 
-/** Helper property for fast access to Scene via CCDirector. */
-@property(readonly, retain) CCNScene *scene;
-
 /** Property to hold glView, provided from outside. */
 @property(readwrite, assign) CSMacGLView *glView;
 
@@ -97,15 +94,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 @implementation CCNController
 
 @synthesize model = _model;
-@dynamic scene;
-- (CCNScene *) scene
-{
-    CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
-    NSAssert([scene isKindOfClass: [CCNScene class]], @"CCNController#scene running scene isn't a CCNScene, it's %@", scene);
-    
-    return scene;
-}
-
+@synthesize scene = _scene;
 @synthesize glView = _glView;
 
 #pragma mark Init/DeInit

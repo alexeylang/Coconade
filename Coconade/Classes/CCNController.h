@@ -12,11 +12,12 @@
 #import "CSMacGLView.h"
 
 @class CCNModel;
-
+@class CCNScene;
 /** @class CCNController Main logic controller for Coconade. */
 @interface CCNController : NSObject <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate, CCNMacGLViewDragAndDropDelegate>
 {
     CSMacGLView *_glView;
+    CCNScene *_scene;
     
     CCNModel *_model;
     
@@ -25,6 +26,9 @@
 	BOOL _moveNodeOnMouseDrag;
     CGPoint _prevMouseLocation;
 }
+
+/** Scene that is used to hold everything in Coconade. */
+@property(readwrite, retain) CCNScene *scene;
 
 /** Model of current project. Changing model will lead to changing all
  * current open context.
