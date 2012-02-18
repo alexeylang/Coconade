@@ -141,13 +141,9 @@
         _updateForScreenReshapeNextVisit = NO;
     }
     
-    if ([_targetNode isKindOfClass:[CCScene class]])
-    {
-        [_targetNode visit];
-    }
-    else
-    {
-        // Render background.
+    
+        // Render checkerboard if needed.
+        if (self.showCheckerboard)
         [_checkerboardSprite visit];
         
         // Render targetNode.
@@ -174,7 +170,7 @@
             ccDrawPoly(vertices, 4, YES);
         }
         
-    }
+    
     
     // Always render selection - it will be invisible if no targetNode set for it.
     [_selection visit];
