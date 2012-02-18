@@ -29,6 +29,9 @@
  */
 @property(readwrite, copy) NSString *projectFilePath;
 
+/** Holds all hierarchies of a project with their children. */
+@property(readonly, retain) NSArray *rootNodes;
+
 /** Current root node, that represents current hierarchy that is being edited.
  * Can be non-CCScene.
  *
