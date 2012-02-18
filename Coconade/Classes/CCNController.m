@@ -489,9 +489,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
         
         // Calculate new position, considering that it can be located anywhere in the hierarchy.
-        CGPoint nodePositionInScene = CGPointApplyAffineTransform(node.position, [node nodeToWorldTransform]);
-        CGPoint newPositionInScene = ccpAdd(nodePositionInScene, diff);
-        CGPoint newPosition = CGPointApplyAffineTransform( newPositionInScene, [node worldToNodeTransform]);
+        CGPoint newPosition = node.position;
+        if (node.parent)
+        {        
+            CGPoint nodePositionInScene = CGPointApplyAffineTransform(node.position, [node.parent nodeToWorldTransform]);
+            CGPoint newPositionInScene = ccpAdd(nodePositionInScene, diff);
+            newPosition = CGPointApplyAffineTransform( newPositionInScene, [node.parent worldToNodeTransform]);
+        }
+        else
+        {
+            newPosition = ccpAdd(node.position, diff);
+        }
         
         // Apply new position.
         node.position = newPosition;
