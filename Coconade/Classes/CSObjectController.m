@@ -46,12 +46,6 @@
 
 #pragma mark Init / DeInit
 
-- (void)awakeFromNib
-{
-    self.ccnController = [[CCNController new] autorelease];
-    [self.ccnController start];
-}
-
 - (void)dealloc
 {
     self.ccnController = nil;
