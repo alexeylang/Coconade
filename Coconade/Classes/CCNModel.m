@@ -15,7 +15,33 @@
 @synthesize rootNodes = _rootNodes;
 @synthesize currentRootNode = _currentRootNode;
 @synthesize selectedNode = _selectedNode;
-@synthesize currentNodes = _currentNodes;
+@dynamic currentNodes;
+
+- (NSArray *) descendantsOfNode: (CCNode *) aNode
+{
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity: [aNode.children count] + 1];
+    
+    BOOL parentCounted = NO;
+    
+    for (CCNode *child in aNode.children)
+    {
+        if (child.zOrder >= 0)
+        {
+            [array addObject: aNode];
+            parentCounted = YES;
+        }
+        
+        [array addObjectsFromArray: [self descendantsOfNode: child]];
+    }
+    
+    return array;
+}
+
+- (NSArray *) currentNodes
+{
+    
+    return [self descendantsOfNode: self.currentRootNode];
+}
 
 #pragma mark Init/Loading
 
