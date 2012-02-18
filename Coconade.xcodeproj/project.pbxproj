@@ -200,6 +200,7 @@
 		E0B4521312C3AEBE0007F742 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516B12C3AEBE0007F742 /* utlist.h */; };
 		E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516C12C3AEBE0007F742 /* ZipUtils.h */; };
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
+		FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA54BFE014EFD66400F51289 /* CCNWindow.m */; };
 		FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
@@ -426,6 +427,8 @@
 		E0B4516C12C3AEBE0007F742 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E0B4516D12C3AEBE0007F742 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
 		E0F9256D1224207200EF2362 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FA54BFDF14EFD66400F51289 /* CCNWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindow.h; sourceTree = "<group>"; };
+		FA54BFE014EFD66400F51289 /* CCNWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindow.m; sourceTree = "<group>"; };
 		FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindowController.h; sourceTree = "<group>"; };
 		FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindowController.m; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
@@ -595,6 +598,8 @@
 				E02A83D3129F000100341C97 /* cocoshopAppDelegate.m */,
 				FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */,
 				FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */,
+				FA54BFDF14EFD66400F51289 /* CCNWindow.h */,
+				FA54BFE014EFD66400F51289 /* CCNWindow.m */,
 			);
 			name = Classes;
 			path = Coconade/Classes;
@@ -1099,6 +1104,7 @@
 				6D1FEC0B138074630039076A /* DebugLog.m in Sources */,
 				6D13ADE81385A768004FA7F1 /* NSString+RelativePath.m in Sources */,
 				FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */,
+				FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
