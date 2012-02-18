@@ -19,8 +19,10 @@
 /** Property to hold glView, provided from outside. */
 @property(readwrite, assign) CSMacGLView *glView;
 
-/** Adds self as observer to new model & updates everything related. */
-- (void) modelUpdated;
+/** Adds self as observer to new model, updates everything related &
+ * removes self as observer from old model
+ */
+- (void) modelUpdatedFromOldOne: (CCNModel *) oldModel;
 
 #pragma mark Import
 
@@ -109,9 +111,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         id oldValue = _model;
         _model = [model retain];
         
-        [self modelUpdated];
+        [self modelUpdatedFromOldOne: oldValue];
         
-        [oldValue removeObserver:self];
         [oldValue release];       
     }
 }
@@ -195,10 +196,15 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark Model KVO
 
-- (void) modelUpdated
+- (void) modelUpdatedFromOldOne: (CCNModel *) oldModel
 {
+    // Register in new.
     [self.model addObserver:self forKeyPath:@"selectedNode" options: NSKeyValueObservingOptionNew context: NULL];
     [self.model addObserver:self forKeyPath:@"currentRootNode" options: NSKeyValueObservingOptionNew context: NULL];
+    
+    // Remove in old.
+    [oldModel removeObserver: self forKeyPath: @"selectedNode"];
+    [oldModel removeObserver: self forKeyPath: @"currentRootNode"];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
