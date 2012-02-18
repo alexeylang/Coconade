@@ -35,6 +35,18 @@
  */
 @property(readwrite, retain) CCNModel *model;
 
+/** Returns new autoreleased controller, inited with given glView. 
+ * @see -initWithGLView:
+ */
++ (id) controllerWithGLView: (CSMacGLView *) glView;
+
+/** Designated init for CCNController.
+ *
+ * @param glView GLView in which Coconade will run, can't be nil, shouldn't b changed
+ * during runtime.
+ */
+- (id) initWithGLView: (CSMacGLView *) glView;
+
 /** Should be called after finishing work with CCNController & before releasing it.
  * It's simillar to CCNode#enExit method - unregisters controller in EventDispatcher, etc.
  * Without invoking this method CCNController will not be dealloced.
