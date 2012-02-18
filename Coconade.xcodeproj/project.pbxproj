@@ -200,6 +200,7 @@
 		FD7877F814E7E26800D128F2 /* CCNModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7877F714E7E26800D128F2 /* CCNModel.m */; };
 		FDC7410714ED972900E0B860 /* CCEventDispatcher+Gestures.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7410614ED972900E0B860 /* CCEventDispatcher+Gestures.m */; };
 		FDC7410B14ED9EB900E0B860 /* MacGLView+Gestures.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7410A14ED9EB900E0B860 /* MacGLView+Gestures.m */; };
+		FDC7413114EEEB0700E0B860 /* NSObject+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
 		FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */; };
@@ -430,6 +431,8 @@
 		FDC7410614ED972900E0B860 /* CCEventDispatcher+Gestures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCEventDispatcher+Gestures.m"; sourceTree = "<group>"; };
 		FDC7410914ED9EB900E0B860 /* MacGLView+Gestures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MacGLView+Gestures.h"; sourceTree = "<group>"; };
 		FDC7410A14ED9EB900E0B860 /* MacGLView+Gestures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MacGLView+Gestures.m"; sourceTree = "<group>"; };
+		FDC7412F14EEEB0700E0B860 /* NSObject+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; path = "NSObject+Blocks.h"; sourceTree = "<group>"; };
+		FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Blocks.m"; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		FDD94C4A14E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
 		FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoMagicCoding.h"; sourceTree = "<group>"; };
@@ -554,6 +557,8 @@
 				6D13ADE71385A768004FA7F1 /* NSString+RelativePath.m */,
 				6D1FEC09138074630039076A /* DebugLog.h */,
 				6D1FEC0A138074630039076A /* DebugLog.m */,
+				FDC7412F14EEEB0700E0B860 /* NSObject+Blocks.h */,
+				FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -1117,6 +1122,7 @@
 				FD2C665114EC27070020E187 /* CCNSelection.m in Sources */,
 				FDC7410714ED972900E0B860 /* CCEventDispatcher+Gestures.m in Sources */,
 				FDC7410B14ED9EB900E0B860 /* MacGLView+Gestures.m in Sources */,
+				FDC7413114EEEB0700E0B860 /* NSObject+Blocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
