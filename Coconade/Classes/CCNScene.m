@@ -8,6 +8,8 @@
 
 #import "CCNScene.h"
 
+#define kCCNSceneUserDefaultsKeyShowBorders @"CSMainLayerShowBorders" //< TODO: change to @"CCNSceneShowBorders"
+
 
 @implementation CCNScene
 
@@ -71,6 +73,12 @@
 		self.backgroundSprite = [CCSprite spriteWithFile:@"checkerboard.png"];
         
         _selection = [[CCNSelection node] retain];
+        
+        NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowBorders];
+        if (!showBordersState)
+            self.showBorders = YES;
+        else 
+            self.showBorders = [showBordersState intValue];
     }
     
     return self;

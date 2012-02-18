@@ -107,12 +107,6 @@
     // Prepare scene.
 	CCNScene *scene = [CCNScene node];
     
-    // Show Borders if needed (On first run)
-    NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey:@"CSMainLayerShowBorders"];
-    if (!showBordersState)
-        scene.showBorders = YES;
-    else 
-        scene.showBorders = [showBordersState intValue];
     
     CGSize s = [[CCDirector sharedDirector] winSize];
     [self.windowController.glView setWorkspaceSize: s];
