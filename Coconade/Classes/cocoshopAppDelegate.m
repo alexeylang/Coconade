@@ -26,16 +26,28 @@
 #import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
 #import "DebugLog.h"
+<<<<<<< HEAD
 #import "CCNScene.h"
 #import "CSModel.h"
 #import "NSObject+Blocks.h"
 #import "CCNModel.h"
+=======
+#import "CCNWindowController.h"
+#import "CCNWindow.h"
+
+>>>>>>> rewrite-for-coconade
 
 @implementation cocoshopAppDelegate
-@synthesize window=window_, glView=glView_, controller=controller_;
-@synthesize appIsRunning = appIsRunning_, filenameToOpen = filenameToOpen_;
 
+<<<<<<< HEAD
 // Can be called before -applicationDidFinishLaunching: if app is open by double-clicking csd file.
+=======
+@synthesize windowController = _windowController;
+@synthesize controller = _controller;
+@synthesize appIsRunning = _appIsRunning; 
+@synthesize filenameToOpen = _filenameToOpen;
+
+>>>>>>> rewrite-for-coconade
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if ([[filename pathExtension] isEqualToString: @"csd"])
@@ -45,6 +57,7 @@
 		
 		if (self.appIsRunning)
 		{
+<<<<<<< HEAD
 			[self performBlockOnCocosThread:^()
              {
                  CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
@@ -67,6 +80,12 @@
                  self.filenameToOpen = nil;
              }];       
 
+=======
+			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
+			[self.controller.mainLayer loadProjectFromDictionarySafely: dict];
+			self.controller.projectFilename = self.filenameToOpen;
+			self.filenameToOpen = nil;
+>>>>>>> rewrite-for-coconade
 		}
 		return YES;
 	}
@@ -76,22 +95,30 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
+    NSRect frame = [[NSScreen mainScreen] visibleFrame];
+    NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask | NSMiniaturizableWindowMask;
+    NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
+    CCNWindow *window = [[[CCNWindow alloc] initWithContentRect: contentRect 
+                                                      styleMask: styleMask
+                                                        backing: NSBackingStoreBuffered 
+                                                          defer: NO] autorelease];
+    self.windowController = [[CCNWindowController alloc] initWithWindow:window];
+    [self.windowController prepareWindow];
+    
+	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];
 	
 	[director setDisplayFPS:NO];
 	
 	// register for receiving filenames
-	[glView_ registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
-	[director setOpenGLView:glView_];
+	[self.windowController.glView registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
+	[director setOpenGLView:self.windowController.glView];
 	
 	// We use NoScale with own Projection for NSScrollView
 	[director setResizeMode:kCCDirectorResize_NoScale];
 	[director setProjection: kCCDirectorProjectionCustom];
-	[director setProjectionDelegate: glView_];
+	[director setProjectionDelegate: self.windowController.glView];
 	
-	// Enable "moving" mouse event. Default no.
-	[window_ setAcceptsMouseMovedEvents:NO];
-	
+<<<<<<< HEAD
     // Prepare scene.
 	CCNScene *scene = [CCNScene node];
     
@@ -136,6 +163,17 @@
              self.filenameToOpen = nil;
          }];       
 	}//< if self.filenameToOpen
+=======
+	CCScene *scene = [CCScene node];
+	CSMainLayer *layer = [CSMainLayer nodeWithController:self.controller];
+	[self.controller setMainLayer:layer];
+	[scene addChild:layer];
+	[director runWithScene:scene];
+	
+	self.appIsRunning = YES;
+    
+    [self.windowController.window makeKeyAndOrderFront: NSApp];
+>>>>>>> rewrite-for-coconade
 }
 
 - (void)applicationWillUpdate:(NSNotification *)aNotification
@@ -151,7 +189,8 @@
 - (void)dealloc
 {
 	[[CCDirector sharedDirector] release];
-	[window_ release];
+    self.windowController = nil;
+    
 	[super dealloc];
 }
 
@@ -162,6 +201,10 @@
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	[director setFullScreen: ! [director isFullScreen] ];
 	
+<<<<<<< HEAD
+=======
+	[self.controller.mainLayer updateForScreenReshapeSafely: nil ];
+>>>>>>> rewrite-for-coconade
 	[(CSMacGLView *)[director openGLView] updateWindow];
 }
 

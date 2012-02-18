@@ -33,8 +33,9 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
 
 @interface CSMacGLView : MacGLView <CCProjectionProtocol>
 {
-	ccDirectorProjection projection_;
+	ccDirectorProjection _projection;
 	
+<<<<<<< HEAD
 	CGSize workspaceSize_;
 	CGFloat zoomFactor_;	
 	CGFloat zoomSpeed_; 
@@ -42,6 +43,13 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
 	CGFloat zoomFactorMin_;
     
     id <CCNMacGLViewDragAndDropDelegate> _dragAndDropDelegate;
+=======
+	CGSize _workspaceSize;
+	CGFloat _zoomFactor;	
+	CGFloat _zoomSpeed; 
+	CGFloat _zoomFactorMax;
+	CGFloat _zoomFactorMin;
+>>>>>>> rewrite-for-coconade
 }
 
 @property (readwrite, assign) id <CCNMacGLViewDragAndDropDelegate> dragAndDropDelegate;
@@ -65,6 +73,10 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
  */
 - (void) updateWindow;
 
+/* Resizes the View for Centering the Workspace in Window
+ * This is needed cause it's impossible to set the position of contentNode of
+ * NSScrollView */
+- (void) fixFrameSize;
 
 /**
  * Since CSMacGLView uses custom projection
@@ -77,8 +89,8 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
  */
 @property (readwrite) ccDirectorProjection projection;
 
-
 #pragma mark Zoom
+
 /**
  * Zoom factor just like in GIMP or other graphics editors
  * Zooms the node with changing glViewport

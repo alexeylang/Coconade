@@ -27,24 +27,25 @@
 #import "CSMacGLView.h"
 
 @class CSObjectController;
+@class CCNWindowController;
 
 @interface cocoshopAppDelegate : NSObject <NSApplicationDelegate>
 {
-	NSWindow	*window_;
-	CSMacGLView	*glView_;
-	CSObjectController *controller_;
+    CCNWindowController *_windowController;
+	CSObjectController *_controller;
 	
-	BOOL appIsRunning_;
-	NSString *filenameToOpen_;
+	BOOL _appIsRunning;
+	NSString *_filenameToOpen;
 }
 
-@property (assign) IBOutlet NSWindow	*window;
-@property (assign) IBOutlet CSMacGLView	*glView;
+@property (readwrite, retain) CCNWindowController *windowController;
 @property (assign) IBOutlet CSObjectController *controller;
 @property (readwrite, copy) NSString *filenameToOpen;
 @property (readwrite) BOOL appIsRunning;
 
 - (IBAction)toggleFullScreen:(id)sender;
+
+/** Called before applicationDidFinishLaunching: if app is open by double-clicking csd file */
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
 
 @end
