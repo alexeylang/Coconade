@@ -27,20 +27,12 @@
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
 #import "CCEventDispatcher+Gestures.h"
+#import "CCNController.h"
 
 @class CSModel;
-
 @interface CSObjectController : NSObjectController  <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate>
 {
-    // Events - already in CCNController
-    BOOL shouldToggleVisibility_;
-	BOOL shouldDragSprite_;
-    CGPoint prevLocation_;
-    //< Events
-    
-    CSModel *modelObject_;      //< model, already in CCNController
-	NSString *projectFilename_; //< already in CCNModel
-	
+	CCNController *_ccnController;
     
     
     
@@ -78,71 +70,34 @@
 	IBOutlet NSMenuItem *showBordersMenuItem_;
 }
 
-@property(assign) IBOutlet CSModel *modelObject; //< OK
-@property(assign) NSTableView *spriteTableView; //<SHIT
-@property(retain) IBOutlet NSView *spriteInfoView; //< SHIT
-@property(retain) IBOutlet NSView *backgroundInfoView; //< SHIT
-@property(copy) NSString *projectFilename; //< OK
+#pragma mark The only needed thing
 
-#pragma mark Sprites
+@property(readwrite, retain) CCNController *ccnController;
 
-/**
- * filters array of filenames, leaving only allowed
- * @returns The filtered files
- */
-- (NSArray *)allowedFilesWithFiles:(NSArray *)files;
+#pragma mark TOTAL GARBAGE
 
-/**
- * adds sprites will filenames taken from array, doesn't do any filtering. executes safely on cocos2d thread
- * @param files Filenames of sprites to add
- */
-- (void) addSpritesWithFilesSafely:(NSArray *)files;
-
+@property(assign) IBOutlet CSModel *modelObject;
+@property(assign) NSTableView *spriteTableView;
+@property(retain) IBOutlet NSView *spriteInfoView;
+@property(retain) IBOutlet NSView *backgroundInfoView;
+@property(copy) NSString *projectFilename;
 - (void)deleteSprite:(CCNode *)sprite;
-- (void)deleteAllSprites;
-
-#pragma mark Save/Load
-- (NSDictionary *)dictionaryFromLayerForBaseDirPath: (NSString *) baseDirPath;
-- (void)saveProjectToFile:(NSString *)filename;
-
-#pragma mark IBActions - Windows
 - (IBAction)openInfoPanel:(id)sender;
 - (IBAction)openSpritesPanel: (id) sender;
 - (IBAction)openMainWindow:(id)sender;
-
-
-#pragma mark Loading CSD Files 
-/**
- * Call loadProjectFromDictionary: on cocos2d thread
- * @param dict Dictionary to load from
- */
-- (void)loadProjectFromDictionarySafely:(NSDictionary *)dict;
-/**
- * Load project to layer from dictionary
- * @param dict Dictionary to load from
- */
-- (void)loadProjectFromDictionary:(NSDictionary *)dict;
-
-#pragma mark IBActions - Save/Load
 - (IBAction)saveProject:(id)sender;
 - (IBAction)saveProjectAs:(id)sender;
 - (IBAction)newProject:(id)sender;
 - (IBAction)openProject:(id)sender;
 - (IBAction)revertToSavedProject:(id)sender;
-
-#pragma mark IBActions - Sprites
 - (IBAction)addSprite:(id)sender;
 - (IBAction)spriteAddButtonClicked:(id)sender;
 - (IBAction)spriteDeleteButtonClicked:(id)sender;
-
-#pragma mark IBActions - Zoom
 - (IBAction)resetZoom:(id)sender;
-
-#pragma mark IBAction - Menus
-- (IBAction) showBordersMenuItemPressed: (id) sender;
-- (IBAction) deleteMenuItemPressed: (id) sender;
-- (IBAction) cutMenuItemPressed: (id) sender;
-- (IBAction) copyMenuItemPressed: (id) sender;
-- (IBAction) pasteMenuItemPressed: (id) sender;
+- (IBAction)showBordersMenuItemPressed: (id) sender;
+- (IBAction)deleteMenuItemPressed: (id) sender;
+- (IBAction)cutMenuItemPressed: (id) sender;
+- (IBAction)copyMenuItemPressed: (id) sender;
+- (IBAction)pasteMenuItemPressed: (id) sender;
 
 @end
