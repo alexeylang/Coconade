@@ -47,6 +47,13 @@
 /** Removes old model & creates new empty instead. */
 - (void) newProject;
 
+#pragma mark Pasteboard
+
+/** Looks for any supported node in pasteboard and adds them with 
+ * -addNode:withUniqueNameFromName: 
+ */
+- (void)addNodesFromPasteboard;
+
 #pragma mark Import
 
 /** Returns array of file extensions (excludng dot), that are supported by Coconade
