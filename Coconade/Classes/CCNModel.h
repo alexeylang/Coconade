@@ -16,9 +16,8 @@
     // TODO: change to NSBundle
     NSString *_projectFilePath;
     
-    /** Holds all hierarchies of a project with their children. */
-    NSDictionary *_rootNodes;
     
+    NSMutableArray *_rootNodes;    
     CCNode *_currentRootNode; //< Weakref.
     CCNode *_selectedNode; //< Weakref.
     NSArray *_currentNodes;
