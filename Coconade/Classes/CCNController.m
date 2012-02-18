@@ -127,27 +127,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	
 	for(CCNode *node in newNodes)
 	{
-        CCNode *newParent = self.model.selectedNode;
-        if (!newParent)
-        {
-            newParent = self.model.currentRootNode;
-        }
-        
-        if ([newParent canBecomeParentOf: node])
-        {
-            // Add on top of rootNode.
-            CCNode *lastChild = [newParent.children lastObject];
-            int lastChildZ = lastChild.zOrder;
-            [newParent addChild:node z:lastChildZ];
-        }
-        else
-        {
-            // TODO: check if newParent is CCSPriteBAtchNode with another texture.
-            // If that CCSPriteBAtchNode has parent - add sprite to batchNode's parent
-            // and register warrning.
-            
-            // TODO: register problem.
-        }
+        [self addNode:node withUniqueNameFromName: nil];
 	}
 }
 
