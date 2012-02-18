@@ -82,9 +82,9 @@
         // Load showCheckerboard from UserDefaults.
         NSNumber *showCheckerboardState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowCheckerboard];
         if (!showCheckerboardState)
-            self.showBorders = YES;
+            self.showCheckerboard = YES;
         else 
-            self.showBorders = [showBordersState intValue];
+            self.showCheckerboard = [showCheckerboardState intValue];
     }
     
     return self;
