@@ -72,6 +72,7 @@
         
         _selection = [[CCNSelection node] retain];
         
+        // Load showBorders from UserDefaults.
         NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowBorders];
         if (!showBordersState)
             self.showBorders = YES;

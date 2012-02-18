@@ -32,6 +32,9 @@
 
 /**
  * When set to YES - CCNScene renders border around itself.
+ * Default value is YES.
+ *
+ * Saved in UserDefault with key = kCCNSceneUserDefaultsKeyShowBorders
  */
 @property(readwrite) BOOL showBorders;
 
