@@ -76,11 +76,12 @@
                                     splitView.frame.size.width - kCCNWindowControllerSplitViewLeftViewDefaultWidth - 
                                         kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                     splitView.frame.size.height);
-    NSView *centerView = [[[NSView alloc] initWithFrame:centerFrame] autorelease];
+    NSScrollView *centerScrollView = [[[NSScrollView alloc] initWithFrame:centerFrame] autorelease];
+    centerScrollView.hasHorizontalScroller = YES;
+    centerScrollView.hasVerticalScroller = YES;
     self.glView = [[[CSMacGLView alloc] init] autorelease];
-    [centerView addSubview:self.glView];
-    centerView.autoresizesSubviews = NO;
-    [splitView addSubview:centerView];
+    centerScrollView.documentView = self.glView;
+    [splitView addSubview:centerScrollView];
     
     CGRect rightFrame = CGRectMake(splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    0.0f, 
