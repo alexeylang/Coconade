@@ -24,9 +24,22 @@
     return [[[self alloc] initWithFile:file] autorelease];
 }
 
+- (id) init
+{
+    self = [super init];
+    if (self)
+    {
+        _rootNodes = [[NSMutableArray arrayWithCapacity: 1] retain];
+        [_rootNodes addObject:[CCScene node]];
+        self.currentRootNode = [_rootNodes objectAtIndex:0];
+    }
+    
+    return self;
+}
+
 - (id) initWithFile: (NSString *) file
 {
-    [self init];
+    self = [super init];
     if (self)
     {
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: file];
@@ -48,6 +61,8 @@
                 return nil;
             } 
         }
+        
+        self.currentRootNode = [_rootNodes objectAtIndex:0];
     }
     
     return self;
