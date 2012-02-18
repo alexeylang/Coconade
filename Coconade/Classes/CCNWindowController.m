@@ -164,14 +164,14 @@
 
 #pragma mark SplitView Delegate
 
-- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
+- (void)splitViewWillResizeSubviews:(NSNotification *)notification
 {
-    
+    [self.window disableUpdatesUntilFlush];
 }
 
-- (BOOL)splitView:(NSSplitView *)splitView shouldAdjustSizeOfSubview:(NSView *)view
+- (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
-    return NO;
+    [self.glView fixFrameSize];
 }
 
 @end
