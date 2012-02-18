@@ -99,12 +99,23 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark Init/DeInit
 
++ (id) controllerWithGLView: (CSMacGLView *) glView
+{
+    return [[[self alloc] initWithGLView: glView] autorelease];
+}
+
 - (id) initWithGLView: (CSMacGLView *) glView
 {
     self = [super init];
     if (self)
     {
         self.glView = glView;
+        
+        self.model = [[CCNModel new] autorelease];
+        
+        // Prepare scene.
+        self.scene = [CCNScene node];   
+        self.scene.targetNode = self.model.currentRootNode; //< TODO: update this value each time currentRootNode is changed.
         
         [self registerWithEventDispatcher];
         
@@ -118,6 +129,14 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     [self unregisterWithEventDispatcher];
     self.glView = nil;
+}
+
+- (void) dealloc
+{
+    self.scene = nil;
+    self.model = nil;
+        
+    [super dealloc];
 }
 
 #pragma mark Project
