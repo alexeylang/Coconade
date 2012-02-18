@@ -11,38 +11,10 @@
 #import "CSObjectController.h"
 #import "DebugLog.h"
 
-<<<<<<< HEAD
 NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewWorkspaceSizeDidChangeNotification";
 
-@implementation CSMacGLView
-
-@synthesize zoomFactor = zoomFactor_;
-@synthesize zoomSpeed = zoomSpeed_;
-@synthesize zoomFactorMax = zoomFactorMax_; 
-@synthesize zoomFactorMin = zoomFactorMin_;
-@synthesize dragAndDropDelegate = _dragAndDropDelegate;
-@dynamic workspaceSize;
-
-- (CGSize) workspaceSize
-{
-    return workspaceSize_;
-}
-
-- (void) setWorkspaceSize:(CGSize)workspaceSize
-{
-    CGSize oldSize = workspaceSize_;
-    workspaceSize_ = workspaceSize;
-    
-    if (!CGSizeEqualToSize(oldSize, workspaceSize))
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName: CCNMacGLViewWorkspaceSizeDidChangeNotification object:nil];
-        [self updateWindow];
-    }
-}
-=======
 
 @interface CSMacGLView ()
->>>>>>> rewrite-for-coconade
 
 /* This methods calculates offset (rect.origin) and width & height aspect (rect.size) 
  * of the viewport. 
@@ -56,11 +28,11 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 
 @implementation CSMacGLView
 
-@synthesize workspaceSize = _workspaceSize;
 @synthesize zoomFactor = _zoomFactor; 
 @synthesize zoomSpeed = _zoomSpeed;
 @synthesize zoomFactorMax = _zoomFactorMax; 
 @synthesize zoomFactorMin = _zoomFactorMin;
+@synthesize dragAndDropDelegate = _dragAndDropDelegate;
 
 #pragma mark Init / DeInit
 
@@ -87,7 +59,26 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	[super dealloc];
 }
 
-#pragma mark Own Projection
+#pragma mark Properties
+
+@dynamic workspaceSize;
+
+- (CGSize) workspaceSize
+{
+    return _workspaceSize;
+}
+
+- (void) setWorkspaceSize:(CGSize)workspaceSize
+{
+    CGSize oldSize = _workspaceSize;
+    _workspaceSize = workspaceSize;
+    
+    if (!CGSizeEqualToSize(oldSize, workspaceSize))
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName: CCNMacGLViewWorkspaceSizeDidChangeNotification object:nil];
+        [self updateWindow];
+    }
+}
 
 @dynamic projection;
 

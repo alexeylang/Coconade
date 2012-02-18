@@ -26,28 +26,22 @@
 #import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
 #import "DebugLog.h"
-<<<<<<< HEAD
 #import "CCNScene.h"
 #import "CSModel.h"
 #import "NSObject+Blocks.h"
 #import "CCNModel.h"
-=======
 #import "CCNWindowController.h"
 #import "CCNWindow.h"
 
->>>>>>> rewrite-for-coconade
 
 @implementation cocoshopAppDelegate
 
-<<<<<<< HEAD
-// Can be called before -applicationDidFinishLaunching: if app is open by double-clicking csd file.
-=======
 @synthesize windowController = _windowController;
 @synthesize controller = _controller;
 @synthesize appIsRunning = _appIsRunning; 
 @synthesize filenameToOpen = _filenameToOpen;
 
->>>>>>> rewrite-for-coconade
+// Can be called before -applicationDidFinishLaunching: if app is open by double-clicking csd file.
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if ([[filename pathExtension] isEqualToString: @"csd"])
@@ -57,7 +51,6 @@
 		
 		if (self.appIsRunning)
 		{
-<<<<<<< HEAD
 			[self performBlockOnCocosThread:^()
              {
                  CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
@@ -74,18 +67,11 @@
                  }
                  else
                  {
-                     controller_.ccnController.model = newModel;
+                     self.controller.ccnController.model = newModel;
                  }
                  
                  self.filenameToOpen = nil;
              }];       
-
-=======
-			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
-			[self.controller.mainLayer loadProjectFromDictionarySafely: dict];
-			self.controller.projectFilename = self.filenameToOpen;
-			self.filenameToOpen = nil;
->>>>>>> rewrite-for-coconade
 		}
 		return YES;
 	}
@@ -118,7 +104,6 @@
 	[director setProjection: kCCDirectorProjectionCustom];
 	[director setProjectionDelegate: self.windowController.glView];
 	
-<<<<<<< HEAD
     // Prepare scene.
 	CCNScene *scene = [CCNScene node];
     
@@ -130,7 +115,7 @@
         scene.showBorders = [showBordersState intValue];
     
     CGSize s = [[CCDirector sharedDirector] winSize];
-    [glView_ setWorkspaceSize: s];
+    [self.windowController.glView setWorkspaceSize: s];
     
 	CCLayer *defaultRootNode = [CCLayer node];    
 	scene.targetNode = defaultRootNode;
@@ -157,23 +142,14 @@
              }
              else
              {
-                 controller_.ccnController.model = newModel;
+                 self.controller.ccnController.model = newModel;
              }
              
              self.filenameToOpen = nil;
          }];       
 	}//< if self.filenameToOpen
-=======
-	CCScene *scene = [CCScene node];
-	CSMainLayer *layer = [CSMainLayer nodeWithController:self.controller];
-	[self.controller setMainLayer:layer];
-	[scene addChild:layer];
-	[director runWithScene:scene];
-	
-	self.appIsRunning = YES;
     
     [self.windowController.window makeKeyAndOrderFront: NSApp];
->>>>>>> rewrite-for-coconade
 }
 
 - (void)applicationWillUpdate:(NSNotification *)aNotification
@@ -201,10 +177,6 @@
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	[director setFullScreen: ! [director isFullScreen] ];
 	
-<<<<<<< HEAD
-=======
-	[self.controller.mainLayer updateForScreenReshapeSafely: nil ];
->>>>>>> rewrite-for-coconade
 	[(CSMacGLView *)[director openGLView] updateWindow];
 }
 

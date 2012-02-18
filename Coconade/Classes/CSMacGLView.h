@@ -35,21 +35,13 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
 {
 	ccDirectorProjection _projection;
 	
-<<<<<<< HEAD
-	CGSize workspaceSize_;
-	CGFloat zoomFactor_;	
-	CGFloat zoomSpeed_; 
-	CGFloat zoomFactorMax_;
-	CGFloat zoomFactorMin_;
-    
-    id <CCNMacGLViewDragAndDropDelegate> _dragAndDropDelegate;
-=======
 	CGSize _workspaceSize;
 	CGFloat _zoomFactor;	
 	CGFloat _zoomSpeed; 
 	CGFloat _zoomFactorMax;
 	CGFloat _zoomFactorMin;
->>>>>>> rewrite-for-coconade
+    
+    id <CCNMacGLViewDragAndDropDelegate> _dragAndDropDelegate;
 }
 
 @property (readwrite, assign) id <CCNMacGLViewDragAndDropDelegate> dragAndDropDelegate;
