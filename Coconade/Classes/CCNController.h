@@ -65,4 +65,18 @@
  */
 - (void)importSpritesWithFiles: (NSArray *) filenames;
 
+/** Adds given node to current selected one 
+ * (curRootNode or selected node).
+ * If node can't be added to that node - tries to add it to it's parent.
+ * If it can't be added to anything - registers a problem in CCNProblemManager
+ *
+ * @param aNode Node to add to hierarchy.
+ *
+ * @param name that will be used to create uniqueName and use as name for 
+ * added node.
+ * Can be nil - aNode.name than will be used instead.
+ * If a aNode.name is also nil - className of aNode will be used.
+ */
+- (void) addNode: (CCNode *) aNode withUniqueNameFromName: (NSString *) name;
+
 @end
