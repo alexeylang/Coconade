@@ -192,6 +192,8 @@
 		E0B4521312C3AEBE0007F742 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516B12C3AEBE0007F742 /* utlist.h */; };
 		E0B4521412C3AEBE0007F742 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B4516C12C3AEBE0007F742 /* ZipUtils.h */; };
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
+		FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA54BFE014EFD66400F51289 /* CCNWindow.m */; };
+		FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */; };
 		FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65F214E6B0DF003DCA81 /* CCNScene.m */; };
@@ -201,8 +203,7 @@
 		FDC7410714ED972900E0B860 /* CCEventDispatcher+Gestures.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7410614ED972900E0B860 /* CCEventDispatcher+Gestures.m */; };
 		FDC7410B14ED9EB900E0B860 /* MacGLView+Gestures.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7410A14ED9EB900E0B860 /* MacGLView+Gestures.m */; };
 		FDC7413114EEEB0700E0B860 /* NSObject+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */; };
-		FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA54BFE014EFD66400F51289 /* CCNWindow.m */; };
-		FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */; };
+		FDC7413814F0242100E0B860 /* NSArray+Reverse.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7413714F0242100E0B860 /* NSArray+Reverse.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
 		FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */; };
@@ -419,6 +420,10 @@
 		E0B4516C12C3AEBE0007F742 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E0B4516D12C3AEBE0007F742 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
 		E0F9256D1224207200EF2362 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FA54BFDF14EFD66400F51289 /* CCNWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindow.h; sourceTree = "<group>"; };
+		FA54BFE014EFD66400F51289 /* CCNWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindow.m; sourceTree = "<group>"; };
+		FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindowController.h; sourceTree = "<group>"; };
+		FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindowController.m; sourceTree = "<group>"; };
 		FD1F65E614E699D3003DCA81 /* CCNode+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Helpers.h"; sourceTree = "<group>"; };
 		FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Helpers.m"; sourceTree = "<group>"; };
 		FD1F65F114E6B0DF003DCA81 /* CCNScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNScene.h; sourceTree = "<group>"; };
@@ -433,12 +438,10 @@
 		FDC7410614ED972900E0B860 /* CCEventDispatcher+Gestures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCEventDispatcher+Gestures.m"; sourceTree = "<group>"; };
 		FDC7410914ED9EB900E0B860 /* MacGLView+Gestures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MacGLView+Gestures.h"; sourceTree = "<group>"; };
 		FDC7410A14ED9EB900E0B860 /* MacGLView+Gestures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MacGLView+Gestures.m"; sourceTree = "<group>"; };
-		FDC7412F14EEEB0700E0B860 /* NSObject+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; path = "NSObject+Blocks.h"; sourceTree = "<group>"; };
+		FDC7412F14EEEB0700E0B860 /* NSObject+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Blocks.h"; sourceTree = "<group>"; };
 		FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Blocks.m"; sourceTree = "<group>"; };
-		FA54BFDF14EFD66400F51289 /* CCNWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindow.h; sourceTree = "<group>"; };
-		FA54BFE014EFD66400F51289 /* CCNWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindow.m; sourceTree = "<group>"; };
-		FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindowController.h; sourceTree = "<group>"; };
-		FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindowController.m; sourceTree = "<group>"; };
+		FDC7413614F0242100E0B860 /* NSArray+Reverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Reverse.h"; sourceTree = "<group>"; };
+		FDC7413714F0242100E0B860 /* NSArray+Reverse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Reverse.m"; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		FDD94C4A14E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
 		FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoMagicCoding.h"; sourceTree = "<group>"; };
@@ -566,6 +569,8 @@
 				6D1FEC0A138074630039076A /* DebugLog.m */,
 				FDC7412F14EEEB0700E0B860 /* NSObject+Blocks.h */,
 				FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */,
+				FDC7413614F0242100E0B860 /* NSArray+Reverse.h */,
+				FDC7413714F0242100E0B860 /* NSArray+Reverse.m */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -1137,6 +1142,7 @@
 				FDC7413114EEEB0700E0B860 /* NSObject+Blocks.m in Sources */,
 				FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */,
 				FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */,
+				FDC7413814F0242100E0B860 /* NSArray+Reverse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
