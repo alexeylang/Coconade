@@ -60,11 +60,20 @@
 @property (readonly, retain) NSArray *currentNodes;
 
 
-/** Removes given node from current node hierarchy, that is being edited.
- * Does nothing if aNode is nil or isn't present in current hierarchy.
- * Can be called from any thread.
+/** Removes given node from model.
+ * It can be selectedNode, rootNode or curRootNode.
+ * Does nothing if aNode is nil or isn't present in model.
+ *
+ * If aNode is selectedNode - it will be unselected.
+ *
+ * If last rootNode is removed - new default one will be created to always have
+ * at least one rootNode.
+ *
+ * If aNode is currentRootNode - closest hierarchy will be selected as current instead.
+ *
+ * Should be called in Cocos2D thread.
  */
-- (void) removeNodeFromCurrentHierarchy: (CCNode *) aNode;
+- (void) removeNode: (CCNode *) aNode;
 
 
 @end
