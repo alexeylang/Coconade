@@ -8,6 +8,7 @@
 
 #import "CCNModel.h"
 #import "CCNode+Helpers.h"
+#import "NSArray+Reverse.h"
 #import "cocos2d.h"
 
 @implementation CCNModel
@@ -45,7 +46,8 @@
 
 - (NSArray *) currentNodes
 {
-    return [self descendantsOfNode: self.currentRootNode includingItself:NO];
+    NSArray *descendants = [self descendantsOfNode: self.currentRootNode includingItself:NO];    
+    return [descendants reversedArray];
 }
 
 #pragma mark Init/Loading
