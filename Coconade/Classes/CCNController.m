@@ -436,7 +436,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	{
 		case kCCNKeyCodeBackspace:
 		case kCCNKeyCodeDelete:
-			[self.model removeNodeFromCurrentHierarchy: node];
+			[self.model removeNode: node];
 			return YES;
 		default:
 			break;
