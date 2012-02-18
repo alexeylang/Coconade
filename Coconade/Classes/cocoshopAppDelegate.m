@@ -28,6 +28,7 @@
 #import "CSMainLayer.h"
 #import "DebugLog.h"
 #import "CCNWindowController.h"
+#import "CCNWindow.h"
 
 
 @implementation cocoshopAppDelegate
@@ -62,10 +63,10 @@
     NSRect frame = [[NSScreen mainScreen] visibleFrame];
     NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask | NSMiniaturizableWindowMask;
     NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
-    NSWindow *window = [[[NSWindow alloc] initWithContentRect: contentRect 
-                                                    styleMask: styleMask
-                                                      backing: NSBackingStoreBuffered 
-                                                        defer: NO] autorelease];
+    CCNWindow *window = [[[CCNWindow alloc] initWithContentRect: contentRect 
+                                                      styleMask: styleMask
+                                                        backing: NSBackingStoreBuffered 
+                                                          defer: NO] autorelease];
     self.windowController = [[CCNWindowController alloc] initWithWindow:window];
     [self.windowController prepareWindow];
     
