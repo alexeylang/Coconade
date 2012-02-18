@@ -11,8 +11,37 @@
 #import "CCNModel.h"
 #import "CCNode+Helpers.h"
 #import "CSMacGLView.h"
+#import "NSObject+Blocks.h"
 
 @interface CCNController (Private)
+
+#pragma mark Import
+
+/** Returns array of file extensions (excludng dot), that are supported by Coconade
+ * and can be used as images (textures).
+ */
+- (NSArray *) allowedImageFileTypes;
+
+/** Filters array of filenames, returning only such of them, that have allowed type
+ * (file extension is listed in allowedFileTypes).
+ *
+ * @param files Array of NSStrings with paths to files.
+ *
+ * @param allowedFileTypes Array of NSStrings with allowed file extensions (excluding dot sign).
+ *
+ * @return Array of NSStrings with paths to files, that are have allowed type.
+ * If there's no files allowed - empty array is returned.
+ */
+- (NSArray *) filterFiles: (NSArray *) files withAllowedFileTypes: (NSArray *) allowedFileTypes;
+
+/** Creates CCSprites from given filenames and adds it to current selected node
+ * (curRootNode or selected node).
+ * If sprite can't be added to that node - tries to add it to it's parent.
+ * If it can't be added to anything - registers a problem in CCNProblemManager
+ */
+- (void)importSpritesWithFiles: (NSArray *) filenames;
+
+#pragma mark Events Support
 
 /** Adds CCNController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
@@ -56,9 +85,137 @@ static const float kCCNIncrementPositionBig = 10.0f;
 static const float kCCNIncrementZOrderDefault = 1.0f;
 static const float kCCNIncrementZOrderBig = 10.0f;
 
+#pragma mark -
+
 @implementation CCNController
 
 @synthesize model = _model;
+
+#pragma mark - Import
+
+- (NSArray *) allowedImageFileTypes
+{
+	return [NSArray arrayWithObjects:@"png", @"gif", @"jpg", @"jpeg", @"tif", @"tiff", @"bmp", @"ccz", @"pvr", nil];
+}
+
+- (NSArray *) filterFiles: (NSArray *) files withAllowedFileTypes: (NSArray *) allowedFileTypes
+{
+	NSMutableArray *filteredFiles = [NSMutableArray arrayWithCapacity:[files count]];
+	
+	for (NSString *file in files)
+	{
+		if ( ![file isKindOfClass:[NSString class]] )
+			continue;
+		
+		NSString *curFileExtension = [file pathExtension];
+		
+		for (NSString *fileType in allowedFileTypes )
+		{
+			if ([fileType isEqualToString: curFileExtension])
+			{
+				[filteredFiles addObject:file];
+				break;
+			}
+		}
+	}
+	
+	return filteredFiles;
+}
+
+- (void)importSpritesWithFiles: (NSArray *) filenames
+{
+    NSArray *imageFilenames = [self filterFiles:filenames withAllowedFileTypes:[self allowedImageFileTypes]];
+    
+	for(NSString *filename in imageFilenames)
+	{
+        NSString *originalName = [filename lastPathComponent];
+        
+        @try 
+        {
+            // Create sprite with unique name.
+            CCNode *sprite = [CCSprite spriteWithFile:filename];
+            [sprite setUniqueName:originalName];
+            
+            CCNode *newParent = self.model.selectedNode;
+            if (!newParent)
+            {
+                newParent = self.model.currentRootNode;
+            }
+            
+            if ([newParent canBecomeParentOf: sprite])
+            {
+                // Add on top of rootNode.
+                CCNode *lastChild = [newParent.children lastObject];
+                int lastChildZ = lastChild.zOrder;
+                [newParent addChild:sprite z:lastChildZ];
+            }
+            else
+            {
+                // TODO: check if newParent is CCSPriteBAtchNode with another texture.
+                // If that CCSPriteBAtchNode has parent - add sprite to batchNode's parent
+                // and register warrning.
+                
+                // TODO: register problem.
+            }
+        }
+        @catch (NSException *exception) 
+        {
+            // TODO: register problem instead of NSAlert.
+            [NSAlert alertWithMessageText: @"Error adding sprite!" 
+                            defaultButton: @"OK" 
+                          alternateButton: nil 
+                              otherButton: nil 
+                informativeTextWithFormat: @"Can't add sprite with file: %@, got an exception: %@", originalName, exception];
+        }        
+	} //< for filename in files.
+}
+
+#pragma mark - Drag & Drop
+
+- (NSDragOperation)ccnMacGLView: (CSMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender 
+{	
+	NSPasteboard *pboard;
+    NSDragOperation sourceDragMask;
+	
+    sourceDragMask = [sender draggingSourceOperationMask];
+    pboard = [sender draggingPasteboard];
+	
+    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) 
+	{
+        if (sourceDragMask & NSDragOperationLink) 
+		{
+            return NSDragOperationLink;
+		}
+    }
+    return NSDragOperationNone;
+}
+
+// XXX: support drag & drop of things inside Coconade.
+// XXX: support .coconade bundle & AMC nodes files to be dropped in glView.
+- (BOOL)ccnMacGLView: (CSMacGLView *) glView performDragOperation:(id <NSDraggingInfo>)sender 
+{
+    NSPasteboard *pboard;
+    NSDragOperation sourceDragMask;
+	
+    sourceDragMask = [sender draggingSourceOperationMask];
+    pboard = [sender draggingPasteboard];
+	
+    // Files.
+    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+		
+        if (sourceDragMask & NSDragOperationLink) 
+		{			
+            // Import sprites safely on Cocos2D-iPhone thread.
+            [self performBlockOnCocosThread: ^()
+             {
+                 [self importSpritesWithFiles: files];
+             }];
+        }
+    }
+    
+    return YES;
+}
 
 #pragma mark - Events
 
