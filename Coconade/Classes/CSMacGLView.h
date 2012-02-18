@@ -11,6 +11,23 @@
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
 
+@class CSMacGLView;
+@protocol CCNMacGLViewDragAndDropDelegate <NSObject>
+
+@required
+
+/** Called on delegate when glView receives -draggingEntered: message
+ * Return value of this method will be returned in CCNMacGLView#draggingEntered:
+ */
+- (NSDragOperation)ccnMacGLView: (CSMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender;
+
+/** Called on delegate when glView receives -performDragOperation: message
+ * Return value of this method will be returned in CCNMacGLView#performDragOperation:
+ */
+- (BOOL)ccnMacGLView: (CSMacGLView *) glView performDragOperation:(id <NSDraggingInfo>)sender; 
+
+@end
+
 /** Notification that is sent, when CCNMacGLView instance's workspaceSize is changed. */
 FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification;
 
@@ -23,7 +40,11 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
 	CGFloat zoomSpeed_; 
 	CGFloat zoomFactorMax_;
 	CGFloat zoomFactorMin_;
+    
+    id <CCNMacGLViewDragAndDropDelegate> _dragAndDropDelegate;
 }
+
+@property (readwrite, assign) id <CCNMacGLViewDragAndDropDelegate> dragAndDropDelegate;
 
 #pragma mark Workspace
 

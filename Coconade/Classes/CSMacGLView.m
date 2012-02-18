@@ -19,6 +19,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 @synthesize zoomSpeed = zoomSpeed_;
 @synthesize zoomFactorMax = zoomFactorMax_; 
 @synthesize zoomFactorMin = zoomFactorMin_;
+@synthesize dragAndDropDelegate = _dragAndDropDelegate;
 @dynamic workspaceSize;
 
 - (CGSize) workspaceSize
@@ -243,48 +244,14 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 
 #pragma mark Drag & Drop Support
 
-// TODO: forward to dragAndDropDelegate
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender 
 {	
-	NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
-	
-    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
-	
-    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) 
-	{
-        if (sourceDragMask & NSDragOperationLink) 
-		{
-            return NSDragOperationLink;
-		}
-    }
-    return NSDragOperationNone;
+	return [self.dragAndDropDelegate ccnMacGLView: self draggingEntered: sender];
 }
 
-// TODO: forward to dragAndDropDelegate
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender 
 {
-    NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
-	
-    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
-	
-    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
-        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-		
-        if (sourceDragMask & NSDragOperationLink) 
-		{			
-			CSObjectController *controller = [self appDelegate].controller;
-			
-			NSArray *allowedFiles = [controller allowedFilesWithFiles: files];
-			
-			[controller addSpritesWithFilesSafely: allowedFiles];
-			
-        }
-    }
-    return YES;
+    return [self.dragAndDropDelegate ccnMacGLView: self performDragOperation: sender];
 }
 
 #pragma mark Zoom
