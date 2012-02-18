@@ -23,6 +23,7 @@
     CCNSelection *_selection;
     
     BOOL _showBorders;
+    BOOL _showCheckerboard;
     BOOL _updateForScreenReshapeNextVisit;
 }
 
@@ -31,11 +32,18 @@
  */
 @property(readwrite) BOOL showBorders;
 
-// TODO: implement:
 /**
- * When set to YES - CCNScene renders repeated backgroundSprite filling it's contentSize.
+ * When set to YES - CCNScene renders repeated checkerboardSprite filling it's contentSize.
+ * Default value is YES.
+ *
+ * Saved in UserDefault with key = kCCNSceneUserDefaultsKeyShowCheckerboard
+ * 
+ * @todo Add menu to control this.
+ * @todo Think: should we merge that property with showBorders.
+ * @todo Take a look at Cocoshop rewrite branch and think about using same 
+ * background around curRootNode.
  */
-//@property(readwrite) BOOL showBackground;
+@property(readwrite) BOOL showCheckerboard;
 
 /** Current selected root node of Coconade, that we work in.
  * It can be CCScene - then this class will delegate visit to targetNode.

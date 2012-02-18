@@ -14,6 +14,7 @@
 @implementation CCNScene
 
 @synthesize showBorders = _showBorders;
+@synthesize showCheckerboard = _showCheckerboard;
 @synthesize targetNode = _targetNode;
 @synthesize selection = _selection;
 
@@ -76,6 +77,13 @@
         
         NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowBorders];
         if (!showBordersState)
+            self.showBorders = YES;
+        else 
+            self.showBorders = [showBordersState intValue];
+        
+        // Load showCheckerboard from UserDefaults.
+        NSNumber *showCheckerboardState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowCheckerboard];
+        if (!showCheckerboardState)
             self.showBorders = YES;
         else 
             self.showBorders = [showBordersState intValue];
