@@ -17,6 +17,74 @@
 @synthesize selectedNode = _selectedNode;
 @synthesize currentNodes = _currentNodes;
 
+#pragma mark Init/Loading
+
++ (id) modelFromFile: (NSString *) file
+{
+    return [[[self alloc] initWithFile:file] autorelease];
+}
+
+- (id) initWithFile: (NSString *) file
+{
+    [self init];
+    if (self)
+    {
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: file];
+        if (![dict count])
+        {
+            [self release];
+            return nil;
+        }
+        
+        _rootNodes = [[NSMutableArray arrayWithCapacity: [dict count]] retain];
+        for (NSDictionary *rootNodeDictionaryRepresentation in dict)
+        {
+            @try {
+                CCNode *curRootNode = [NSObject objectWithDictionaryRepresentation:rootNodeDictionaryRepresentation];
+                [_rootNodes addObject: curRootNode];
+            }
+            @catch (NSException *exception) {
+                [self release];
+                return nil;
+            } 
+        }
+    }
+    
+    return self;
+}
+
+#pragma mark DeInit
+
+- (void) dealloc
+{
+    self.projectFilePath = nil;
+    self.selectedNode = nil;
+    self.currentRootNode = nil;
+    
+    [_rootNodes release];
+    _rootNodes = nil;   
+    
+    [super dealloc];
+}
+
+#pragma mark Saving
+
+- (void)saveToFile:(NSString *)filename
+{
+    // XXX: Saving as a dict will reset rootNode order. Export & Bundle should help.
+	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[self.rootNodes count]];
+	for (CCNode *node in self.rootNodes)
+    {
+        [dict setObject:node forKey:node.name];
+    }
+    [ dict writeToFile: filename atomically: YES];
+	
+	// Rembember filename for fast save next time.
+	self.projectFilePath = filename;
+}
+
+#pragma mark Working with Nodes
+
 - (void) removeNode: (CCNode *) aNode
 {
     // Was that node selected? 
