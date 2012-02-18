@@ -7,6 +7,7 @@
 //
 
 #import "CCNModel.h"
+#import "CCNode+Helpers.h"
 #import "cocos2d.h"
 
 @implementation CCNModel
@@ -58,6 +59,7 @@
         _rootNodes = [[NSMutableArray arrayWithCapacity: 1] retain];
         [_rootNodes addObject:[CCScene node]];
         self.currentRootNode = [_rootNodes objectAtIndex:0];
+        self.currentRootNode.name = [CCNode uniqueNameWithName: [self.currentRootNode className]];
     }
     
     return self;
@@ -81,6 +83,10 @@
             @try {
                 CCNode *curRootNode = [NSObject objectWithDictionaryRepresentation:rootNodeDictionaryRepresentation];
                 [_rootNodes addObject: curRootNode];
+                if (!curRootNode.name)
+                {
+                    curRootNode.name = [CCNode uniqueNameWithName: [curRootNode className]];
+                }
             }
             @catch (NSException *exception) {
                 [self release];

@@ -233,6 +233,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     // Make name unique.
     name = [CCNode uniqueNameWithName: name];
+    aNode.name = name;
     
     // Choose parent.
     CCNode *newParent = self.model.selectedNode;
