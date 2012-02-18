@@ -1,42 +1,43 @@
-/*
- * cocoshop
- *
- * Copyright (c) 2011 Andrew
- * Copyright (c) 2011 Stepan Generalov
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- */
+//
+//  CSMacGLView.m
+//  Coconade
+//
+//  Copyright (c) 2011-2012 Stepan Generalov.
+//  All rights reserved.
+//
 
 #import "CSMacGLView.h"
 #import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
-#import "CSGestureEventDelegate.h"
 #import "DebugLog.h"
+
+NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewWorkspaceSizeDidChangeNotification";
 
 @implementation CSMacGLView
 
-@synthesize workspaceSize = workspaceSize_, 
-			zoomFactor = zoomFactor_, 
-			zoomSpeed = zoomSpeed_, 
-			zoomFactorMax = zoomFactorMax_, 
-			zoomFactorMin = zoomFactorMin_;
+@synthesize zoomFactor = zoomFactor_;
+@synthesize zoomSpeed = zoomSpeed_;
+@synthesize zoomFactorMax = zoomFactorMax_; 
+@synthesize zoomFactorMin = zoomFactorMin_;
+@synthesize dragAndDropDelegate = _dragAndDropDelegate;
+@dynamic workspaceSize;
+
+- (CGSize) workspaceSize
+{
+    return workspaceSize_;
+}
+
+- (void) setWorkspaceSize:(CGSize)workspaceSize
+{
+    CGSize oldSize = workspaceSize_;
+    workspaceSize_ = workspaceSize;
+    
+    if (!CGSizeEqualToSize(oldSize, workspaceSize))
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName: CCNMacGLViewWorkspaceSizeDidChangeNotification object:nil];
+        [self updateWindow];
+    }
+}
 
 - (cocoshopAppDelegate *) appDelegate
 {
@@ -245,44 +246,12 @@
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender 
 {	
-	NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
-	
-    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
-	
-    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) 
-	{
-        if (sourceDragMask & NSDragOperationLink) 
-		{
-            return NSDragOperationLink;
-		}
-    }
-    return NSDragOperationNone;
+	return [self.dragAndDropDelegate ccnMacGLView: self draggingEntered: sender];
 }
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender 
 {
-    NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
-	
-    sourceDragMask = [sender draggingSourceOperationMask];
-    pboard = [sender draggingPasteboard];
-	
-    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
-        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-		
-        if (sourceDragMask & NSDragOperationLink) 
-		{			
-			CSObjectController *controller = [self appDelegate].controller;
-			
-			NSArray *allowedFiles = [controller allowedFilesWithFiles: files];
-			
-			[controller addSpritesWithFilesSafely: allowedFiles];
-			
-        }
-    }
-    return YES;
+    return [self.dragAndDropDelegate ccnMacGLView: self performDragOperation: sender];
 }
 
 #pragma mark Zoom
@@ -294,68 +263,6 @@
 	// Update Window
 	[[NSNotificationCenter defaultCenter] postNotificationName: NSWindowDidResizeNotification object:[self window]];
 	[self reshape]; //< without this line there will be no update with zoomFactor < 1
-}
-
-- (BOOL) zoomWithEvent:(NSEvent *)theEvent 
-{	
-	if ( [theEvent modifierFlags] & NSCommandKeyMask )
-	{
-		self.zoomFactor += [theEvent deltaY] * self.zoomSpeed;
-		
-		self.zoomFactor = MAX(self.zoomFactorMin, MIN(self.zoomFactor, self.zoomFactorMax));		
-		
-		[self updateWindow];		
-		
-		return YES;
-	}
-	
-	return NO;
-}
-
-#pragma mark Trackpad Gestures & Mouse Support
-
--(void) scrollWheel:(NSEvent *)theEvent 
-{
-	// Zoom
-	if ([self zoomWithEvent: theEvent])
-		return;
-	
-	// Or Scroll
-	[[self enclosingScrollView] scrollWheel: theEvent];	
-	[super scrollWheel: theEvent];
-}
-
-- (void)magnifyWithEvent:(NSEvent *)event
-{
-	// try to send magnification gesture to view
-	CSObjectController *controller = [[self appDelegate] controller];
-	
-	if ( [controller mainLayer] && [[controller mainLayer] respondsToSelector:@selector(csMagnifyWithEvent:)] )
-	{
-		[[controller mainLayer] csMagnifyWithEvent:event];
-	}
-}
-
-- (void)rotateWithEvent:(NSEvent *)event
-{
-	// try to send rotation gesture to view
-	CSObjectController *controller = [[self appDelegate] controller];
-	
-	if ( [controller mainLayer] && [[controller mainLayer] respondsToSelector:@selector(csRotateWithEvent:)] )
-	{
-		[[controller mainLayer] csRotateWithEvent:event];
-	}
-}
-
-- (void)swipeWithEvent:(NSEvent *)event
-{
-	// try to send swipe gesture to view
-	CSObjectController *controller = [[self appDelegate] controller];
-	
-	if ( [controller mainLayer] && [[controller mainLayer] respondsToSelector:@selector(csSwipeWithEvent:)] )
-	{
-		[[controller mainLayer] csSwipeWithEvent:event];
-	}
 }
 
 @end

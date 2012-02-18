@@ -25,15 +25,17 @@
 
 #import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
-#import "CSMainLayer.h"
 #import "DebugLog.h"
+#import "CCNScene.h"
+#import "CSModel.h"
+#import "NSObject+Blocks.h"
+#import "CCNModel.h"
 
 @implementation cocoshopAppDelegate
 @synthesize window=window_, glView=glView_, controller=controller_;
 @synthesize appIsRunning = appIsRunning_, filenameToOpen = filenameToOpen_;
 
-// called before applicationDidFinishLaunching: if app is open by double-clicking
-// csd file
+// Can be called before -applicationDidFinishLaunching: if app is open by double-clicking csd file.
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if ([[filename pathExtension] isEqualToString: @"csd"])
@@ -43,10 +45,28 @@
 		
 		if (self.appIsRunning)
 		{
-			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: filename];
-			[controller_ loadProjectFromDictionarySafely: dict];
-			controller_.projectFilename = self.filenameToOpen;
-			self.filenameToOpen = nil;
+			[self performBlockOnCocosThread:^()
+             {
+                 CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
+                 if (!newModel)
+                 {
+                     [self performBlockOnMainThread:^()
+                      {
+                          [[NSAlert alertWithMessageText: @"Can't open file." 
+                                           defaultButton: @"OK"
+                                         alternateButton: nil
+                                             otherButton: nil 
+                               informativeTextWithFormat: @"Can't create CCNModel from %@", self.filenameToOpen] runModal];
+                      }];
+                 }
+                 else
+                 {
+                     controller_.ccnController.model = newModel;
+                 }
+                 
+                 self.filenameToOpen = nil;
+             }];       
+
 		}
 		return YES;
 	}
@@ -72,14 +92,50 @@
 	// Enable "moving" mouse event. Default no.
 	[window_ setAcceptsMouseMovedEvents:NO];
 	
-	CCScene *scene = [CCScene node];
-	CSMainLayer *layer = [CSMainLayer nodeWithController:controller_];
-	[controller_ setMainLayer:layer];
-	[scene addChild:layer];
+    // Prepare scene.
+	CCNScene *scene = [CCNScene node];
+    
+    // Show Borders if needed (On first run)
+    NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey:@"CSMainLayerShowBorders"];
+    if (!showBordersState)
+        scene.showBorders = YES;
+    else 
+        scene.showBorders = [showBordersState intValue];
+    
+    CGSize s = [[CCDirector sharedDirector] winSize];
+    [glView_ setWorkspaceSize: s];
+    
+	CCLayer *defaultRootNode = [CCLayer node];    
+	scene.targetNode = defaultRootNode;
 	[director runWithScene:scene];
 	
 	self.appIsRunning = YES;
 
+    // Open file if needed ( self.filenameToOpen can be set in -application:openFile ).
+	if (self.filenameToOpen)
+	{
+        [self performBlockOnCocosThread:^()
+         {
+             CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
+             if (!newModel)
+             {
+                 [self performBlockOnMainThread:^()
+                  {
+                      [[NSAlert alertWithMessageText: @"Can't open file." 
+                                       defaultButton: @"OK"
+                                     alternateButton: nil
+                                         otherButton: nil 
+                           informativeTextWithFormat: @"Can't create CCNModel from %@", self.filenameToOpen] runModal];
+                  }];
+             }
+             else
+             {
+                 controller_.ccnController.model = newModel;
+             }
+             
+             self.filenameToOpen = nil;
+         }];       
+	}//< if self.filenameToOpen
 }
 
 - (void)applicationWillUpdate:(NSNotification *)aNotification
@@ -106,7 +162,6 @@
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	[director setFullScreen: ! [director isFullScreen] ];
 	
-	[ controller_.mainLayer updateForScreenReshapeSafely: nil ];
 	[(CSMacGLView *)[director openGLView] updateWindow];
 }
 

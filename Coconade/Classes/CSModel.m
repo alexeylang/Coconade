@@ -25,12 +25,12 @@
  */
 
 #import "CSModel.h"
-#import "CSSprite.h"
+#import "cocos2d.h"
+#import "CCNScene.h"
 
 @implementation CSModel
 
 @synthesize selectedSprite=selectedSprite_;
-@synthesize backgroundLayer=backgroundLayer_;
 @synthesize spriteArray=spriteArray_;
 
 @synthesize posX=posX_;
@@ -52,8 +52,6 @@
 @synthesize color=color_;
 
 @synthesize name=name_;
-@synthesize stageWidth=stageWidth_;
-@synthesize stageHeight=stageHeight_;
 
 #pragma mark Init / DeInit
 
@@ -62,11 +60,6 @@
 	if((self=[super init]))
 	{
 		[self setSpriteArray:[NSMutableArray array]];
-		
-		CCLayerColor *bgLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 0)];
-		[bgLayer setPosition:CGPointZero];
-		[bgLayer setAnchorPoint:CGPointZero];
-		[self setBackgroundLayer:bgLayer];
 	}
 	return self;
 }
@@ -79,81 +72,68 @@
 {
 	[self setSpriteArray:nil];
 	[self setColor:nil];
-	[self setBackgroundLayer:nil];
 	[super dealloc];
 }
 
 #pragma mark Sprite Access 
 
-- (void)setSelectedSprite:(CSSprite *)aSprite
+- (void)setSelectedSprite:(CCNode *)aSprite
 {
 	// make sure that sprites aren't same key or both nil
 	if( ![selectedSprite_ isEqualTo:aSprite] )
-	{
-		// deselect old sprite
-		if(selectedSprite_)
-		{
-			[selectedSprite_ setIsSelected:NO];
-		}
-		
+	{		
 		selectedSprite_ = aSprite;
+        
+        CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+        if ([scene isKindOfClass: [CCNScene class] ])
+        {
+            scene.selection.targetNode = aSprite;
+        }
 		
 		// select new sprite
-		CSSprite *new = selectedSprite_;
+		CCNode *new = selectedSprite_;
 		if(new)
-		{
+		{            
+            id <CCRGBAProtocol> newWithRGBAProtocol = nil; 
+            
+            if ([new conformsToProtocol: @protocol(CCRGBAProtocol)])
+            {
+                newWithRGBAProtocol = (id <CCRGBAProtocol>) new;
+            }
+            
+            CCSprite *newSprite = nil;
+            if ([new isKindOfClass: [CCSprite class]])
+            {
+                newSprite = (CCSprite *) newSprite;
+            }
+            
+            
 			CGPoint pos = [new position];
 			CGPoint anchor = [new anchorPoint];
-			NSColor *col = [NSColor colorWithDeviceRed:[new color].r/255.0f green:[new color].g/255.0f blue:[new color].b/255.0f alpha:255];
+			NSColor *col = [NSColor colorWithDeviceRed:[newWithRGBAProtocol color].r/255.0f green:[newWithRGBAProtocol color].g/255.0f blue:[newWithRGBAProtocol color].b/255.0f alpha:255];
 			
-			[new setIsSelected:YES];
 			[self setName:[new name]];
 			[self setPosX:pos.x];
 			[self setPosY:pos.y];
 			[self setPosZ: [new zOrder]];
 			[self setAnchorX:anchor.x];
 			[self setAnchorY:anchor.y];
-			[self setFlipX:([new flipX]) ? NSOnState : NSOffState];
-			[self setFlipY:([new flipY]) ? NSOnState : NSOffState];
+			[self setFlipX:([newSprite flipX]) ? NSOnState : NSOffState];
+			[self setFlipY:([newSprite flipY]) ? NSOnState : NSOffState];
 			[self setRotation:[new rotation]];
 			[self setScaleX:[new scaleX]];
 			[self setScaleY:[new scaleY]];
-			[self setOpacity:[new opacity]];
+            [self setOpacity:[newWithRGBAProtocol opacity]];
+            
 			[self setColor:col];
 			[self setRelativeAnchor:([new isRelativeAnchorPoint]) ? NSOnState : NSOffState];
 		}
-		else
-		{
-			CGPoint pos = [backgroundLayer_ position];
-			CGPoint anchor = [backgroundLayer_ anchorPoint];
-			NSColor *col = [NSColor colorWithDeviceRed:[backgroundLayer_ color].r/255.0f green:[backgroundLayer_ color].g/255.0f blue:[backgroundLayer_ color].b/255.0f alpha:255];
-			
-			// sync with actual bg layer properties
-			[self setName:@"Background Layer"];
-			[self setPosX:pos.x];
-			[self setPosY:pos.y];
-			[self setAnchorX:anchor.x];
-			[self setAnchorY:anchor.y];
-			[self setFlipX:NSOffState];
-			[self setFlipY:NSOffState];
-			[self setRotation:[backgroundLayer_ rotation]];
-			[self setScaleX:[backgroundLayer_ scaleX]];
-			[self setScaleY:[backgroundLayer_ scaleY]];
-			[self setOpacity:[backgroundLayer_ opacity]];
-			[self setColor:col];
-			[self setRelativeAnchor:([backgroundLayer_ isRelativeAnchorPoint]) ? NSOnState : NSOffState];
-			self.stageWidth = [[CCDirector sharedDirector] winSize].width;
-			self.stageHeight = [[CCDirector sharedDirector] winSize].height;
-		}
-		
-		// tell controller we changed the selected sprite
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"didChangeSelectedSprite" object:nil];
 	}
 }
 
-- (CSSprite *)spriteWithName: (NSString *) name
+- (CCNode *)spriteWithName: (NSString *) name
 {
-	for (CSSprite *sprite in spriteArray_)
+	for (CCNode *sprite in spriteArray_)
 	{
 		if ([sprite.name isEqualToString: name]) {
 			return sprite;
@@ -171,6 +151,18 @@
 		return [NSArray arrayWithObjects: [self selectedSprite], nil];
 	}
 	return nil;
+}
+
+#pragma mark AntiNibCrash Spikes
+
+- (float) stageWidth
+{
+    return 1337.0f;
+}
+
+- (float) stageHeight
+{
+    return 1337.0f;
 }
 
 @end

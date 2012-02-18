@@ -26,17 +26,19 @@
 
 #import "CSObjectController.h"
 #import "CSModel.h"
-#import "CSSprite.h"
-#import "CSMainLayer.h"
 #import "cocoshopAppDelegate.h"
-#import "CSTableViewDataSource.h"
 #import "DebugLog.h"
 #import "NSString+RelativePath.h"
+#import "CCNScene.h"
+#import "CCNode+Helpers.h"
+#import "CCEventDispatcher+Gestures.h"
+#import "CCNModel.h"
+#import "NSObject+Blocks.h"
 
 @implementation CSObjectController
 
+@synthesize ccnController = _ccnController;
 @synthesize modelObject=modelObject_;
-@synthesize mainLayer=mainLayer_;
 @synthesize spriteTableView=spriteTableView_;
 @synthesize spriteInfoView = spriteInfoView_;
 @synthesize backgroundInfoView = backgroundInfoView_;
@@ -46,621 +48,27 @@
 
 - (void)awakeFromNib
 {
-	// add a data source to the table view
-	NSMutableArray *spriteArray = [modelObject_ spriteArray];
-	
-	@synchronized(spriteArray)
-	{
-		dataSource_ = [[CSTableViewDataSource dataSourceWithArray:spriteArray] retain];
-	}
-	[spriteTableView_ setDataSource:dataSource_];
-	
-	// listen to change in table view
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spriteTableSelectionDidChange:) name:NSTableViewSelectionDidChangeNotification object:nil];
-	
-	// listen to notification when we deselect the sprite
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeSelectedSprite:) name:@"didChangeSelectedSprite" object:nil];
-	
-	// listen to rename in table view
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spriteTableSelectionDidRename:) name:@"didRenameSelectedSprite" object:nil];
-
-	// Disable Sprite Info for no Sprites at the beginning
-	[self didChangeSelectedSprite:nil];
-	
-	// This will make panels less distracting
-	[infoPanel_ setBecomesKeyOnlyIfNeeded: YES];
-	[spritesPanel_ setBecomesKeyOnlyIfNeeded: YES];
+    self.ccnController = [[CCNController new] autorelease];
+    [self.ccnController start];
 }
 
 - (void)dealloc
 {
-	self.projectFilename = nil;
-	self.spriteInfoView = nil;
-	self.backgroundInfoView = nil;
-	
-	[self setMainLayer:nil];
-	[dataSource_ release];
+    self.ccnController = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self];	
 	[super dealloc];
 }
 
-- (void)setMainLayer:(CSMainLayer *)view
+- (void)deleteSprite:(CCNode *)sprite
 {
-	// release old view, set the new view to mainLayer_ and
-	// set the view's controller to self
-	if(view != mainLayer_)
-	{
-		[view retain];
-		[mainLayer_ release];
-		mainLayer_ = view;
-		[view setController:self];
-		
-		// Using ivar, cause IB sucks
-		showBordersMenuItem_.state = (mainLayer_.showBorders) ? NSOnState : NSOffState;
-	}
-	
-	
+	[self.ccnController.model removeNode: sprite];
 }
 
-#pragma mark Values Observer
 
-- (void)registerAsObserver
-{
-	[modelObject_ addObserver:self forKeyPath:@"stageWidth" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"stageHeight" options:NSKeyValueObservingOptionNew context:NULL];
-	
-	[modelObject_ addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"posX" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"posY" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"posZ" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"anchorX" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"anchorY" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"scaleX" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"scaleY" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"flipX" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"flipY" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"opacity" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"color" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"relativeAnchor" options:NSKeyValueObservingOptionNew context:NULL];
-	[modelObject_ addObserver:self forKeyPath:@"rotation" options:NSKeyValueObservingOptionNew context:NULL];
-}
+#pragma mark IBActions
 
-- (void)unregisterForChangeNotification
-{
-//	[modelObject_ removeObserver:self forKeyPath:@"name"];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	DebugLog(@"keyPath  = %@", keyPath);
-	
-	if( [keyPath isEqualToString:@"name"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			NSString *currentName = [sprite name];
-			NSString *newName = [modelObject_ name];
-			if( ![currentName isEqualToString:newName] )
-			{
-				[sprite setName:newName];
-				[self ensureUniqueNameForSprite:sprite];
-				[nameField_ setStringValue:[sprite name]];
-			}
-		}
-	}
-	else if( [keyPath isEqualToString:@"posX"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			CGPoint currentPos = [sprite position];
-			currentPos.x = [modelObject_ posX];
-			[sprite setPosition:currentPos];
-		}
-		else
-		{
-			CGPoint currentPos = [[modelObject_ backgroundLayer] position];
-			currentPos.x = [modelObject_ posX];
-			[[modelObject_ backgroundLayer] setPosition:currentPos];
-		}
-
-	}
-	else if( [keyPath isEqualToString:@"posY"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			CGPoint currentPos = [sprite position];
-			currentPos.y = [modelObject_ posY];
-			[sprite setPosition:currentPos];
-		}
-		else
-		{
-			CGPoint currentPos = [[modelObject_ backgroundLayer] position];
-			currentPos.y = [modelObject_ posY];
-			[[modelObject_ backgroundLayer] setPosition:currentPos];
-		}
-
-	}
-	else if( [keyPath isEqualToString:@"posZ"] )
-	{
-		// Reorder Z order
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			CGFloat currentZ = [sprite zOrder];
-			currentZ = [modelObject_ posZ];
-			[[sprite parent] reorderChild: sprite z: currentZ ];
-		}
-	}
-	else if( [keyPath isEqualToString:@"anchorX"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			CGPoint currentAnchor = [sprite anchorPoint];
-			currentAnchor.x = [modelObject_ anchorX];
-			[sprite setAnchorPoint:currentAnchor];
-		}
-		else
-		{
-			CGPoint currentAnchor = [[modelObject_ backgroundLayer] anchorPoint];
-			currentAnchor.x = [modelObject_ anchorX];
-			[[modelObject_ backgroundLayer] setAnchorPoint:currentAnchor];
-		}
-	}
-	else if( [keyPath isEqualToString:@"anchorY"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			CGPoint currentAnchor = [sprite anchorPoint];
-			currentAnchor.y = [modelObject_ anchorY];
-			[sprite setAnchorPoint:currentAnchor];
-		}
-		else
-		{
-			CGPoint currentAnchor = [[modelObject_ backgroundLayer] anchorPoint];
-			currentAnchor.y = [modelObject_ anchorY];
-			[[modelObject_ backgroundLayer] setAnchorPoint:currentAnchor];
-		}		
-	}
-	else if( [keyPath isEqualToString:@"scaleX"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			[sprite setScaleX:[modelObject_ scaleX]];
-		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setScaleX:[modelObject_ scaleX]];
-		}
-	}
-	else if( [keyPath isEqualToString:@"scaleY"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			[sprite setScaleY:[modelObject_ scaleY]];
-		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setScaleY:[modelObject_ scaleY]];
-		}
-	}	
-	else if( [keyPath isEqualToString:@"flipX"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			NSInteger state = [modelObject_ flipX];
-			if(state == NSOnState)
-			{
-				[sprite setFlipX:YES];
-			}
-			else
-			{
-				[sprite setFlipX:NO];
-			}
-		}
-	}
-	else if( [keyPath isEqualToString:@"flipY"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			NSInteger state = [modelObject_ flipY];
-			if(state == NSOnState)
-			{
-				[sprite setFlipY:YES];
-			}
-			else
-			{
-				[sprite setFlipY:NO];
-			}
-		}
-	}
-	else if( [keyPath isEqualToString:@"opacity"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			[sprite setOpacity:[modelObject_ opacity]];
-		}
-		else 
-		{
-			[[modelObject_ backgroundLayer] setOpacity:[modelObject_ opacity]];
-		}
-
-	}
-	else if( [keyPath isEqualToString:@"color"] )
-	{
-		// grab rgba values
-		NSColor *color = [[modelObject_ color] colorUsingColorSpaceName:NSDeviceRGBColorSpace];
-		
-		CGFloat r, g, b, a;			
-		a = [color alphaComponent];
-		r = [color redComponent] * a * 255;
-		g = [color greenComponent] * a * 255;
-		b = [color blueComponent] * a * 255;
-		
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			[sprite setColor:ccc3(r, g, b)];
-		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setColor:ccc3(r, g, b)];
-		}
-	}
-	else if( [keyPath isEqualToString:@"relativeAnchor"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			NSInteger state = [modelObject_ relativeAnchor];
-			if(state == NSOnState)
-			{
-				[sprite setIsRelativeAnchorPoint:YES];
-			}
-			else
-			{
-				[sprite setIsRelativeAnchorPoint:NO];
-			}
-		}
-		else
-		{
-			NSInteger state = [modelObject_ relativeAnchor];
-			if(state == NSOnState)
-			{
-				[[modelObject_ backgroundLayer] setIsRelativeAnchorPoint:YES];
-			}
-			else
-			{
-				[[modelObject_ backgroundLayer] setIsRelativeAnchorPoint:NO];
-			}			
-		}
-
-	}
-	else if( [keyPath isEqualToString:@"rotation"] )
-	{
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			[sprite setRotation:[modelObject_ rotation]];
-		}
-		else
-		{
-			[[modelObject_ backgroundLayer] setRotation:[modelObject_ rotation]];
-		}
-	}
-	else if( [keyPath isEqualToString:@"stageWidth"] )
-	{
-		CGSize s = [[CCDirector sharedDirector] winSize];
-		s.width = modelObject_.stageWidth;
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: s];
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow ];
-		
-		[self.mainLayer updateForScreenReshapeSafely: nil];
-		
-	}
-	else if( [keyPath isEqualToString:@"stageHeight"] )
-	{
-		CGSize s = [[CCDirector sharedDirector] winSize];
-		s.height = modelObject_.stageHeight;
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: s];
-		[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow ];
-		
-		[self.mainLayer updateForScreenReshapeSafely: nil];
-	}
-	
-	[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-}
-
-#pragma mark Sprites
-
-- (void) ensureUniqueNameForSprite: (CSSprite *) aSprite
-{
-	NSString *originalName = [aSprite name];
-	NSString *name = [NSString stringWithString: originalName];
-	NSUInteger i = 0;
-	while( ([modelObject_ spriteWithName: name] != nil) && ([modelObject_ spriteWithName: name] != aSprite) )
-	{
-		NSAssert(i <= NSUIntegerMax, @"CSObjectController#ensureUniqueNameForSprite: Added too many of the same sprite");
-		name = [originalName stringByAppendingFormat:@"_%u", i++];
-	}
-	aSprite.name = name;
-}
-
-- (NSArray *) allowedFileTypes
-{
-	return [NSArray arrayWithObjects:@"png", @"gif", @"jpg", @"jpeg", @"tif", @"tiff", @"bmp", @"ccz", @"pvr", nil];
-}
-
-- (NSArray *) allowedFilesWithFiles: (NSArray *) files
-{
-	if (!files)
-		return nil;
-	
-	NSMutableArray *allowedFiles = [NSMutableArray arrayWithCapacity:[files count]];
-	
-	for (NSString *file in files)
-	{
-		if ( ![file isKindOfClass:[NSString class]] )
-			continue;
-		
-		NSString *curFileExtension = [file pathExtension];
-		
-		for (NSString *fileType in [self allowedFileTypes] )
-		{
-			if ([fileType isEqualToString: curFileExtension])
-			{
-				[allowedFiles addObject:file];
-				break;
-			}
-		}
-	}
-	
-	return allowedFiles;
-}
-
-// adds sprites on cocos thread
-// executes immediatly if curThread == cocosThread
-- (void)addSpritesWithFilesSafely:(NSArray *)files
-{
-	NSThread *cocosThread = [[CCDirector sharedDirector] runningThread] ;
-	
-	[self performSelector:@selector(addSpritesWithFiles:)
-				 onThread:cocosThread
-			   withObject:files 
-			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
-}
-
-// designated sprites adding method
-- (void)addSpritesWithFiles:(NSArray *)files
-{
-	[[CCTextureCache sharedTextureCache] removeUnusedTextures];
-	
-	for(NSString *filename in files)
-	{		
-		// create key for the sprite
-		NSString *originalName = [filename lastPathComponent];
-		NSString *name = [NSString stringWithString:originalName];
-		
-		CSSprite *sprite = [CSSprite spriteWithFile:filename];
-		[sprite setName:name];
-		
-		[self ensureUniqueNameForSprite: sprite];
-		
-		@synchronized( [modelObject_ spriteArray] )
-		{
-			[[modelObject_ spriteArray] addObject:sprite];
-		}
-		
-		// notify view that we added the sprite
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
-	}
-	
-	// reload the table
-	[spriteTableView_ reloadData];
-}
-
-- (void)deleteAllSprites
-{
-	// deselect everything
-	[modelObject_ setSelectedSprite:nil];
-		
-	// remove all sprites from main layer
-	for (CCNode * sprite in [modelObject_ spriteArray])
-	{
-		// only remove child if we're the parent
-		if( [sprite parent] == mainLayer_ )
-			[mainLayer_ removeChild:sprite cleanup:YES];
-	}
-		
-	// remove all sprites from the dictionary
-	@synchronized([modelObject_ spriteArray])
-	{
-		[[modelObject_ spriteArray] removeAllObjects];
-	}	
-}
-
-- (void)deleteSprite:(CSSprite *)sprite
-{
-	// delete sprite
-	if(sprite)
-	{
-		// deselect sprite 
-		[modelObject_ setSelectedSprite:nil];
-		[spriteTableView_ deselectAll:nil];
-		[spriteTableView_ setDataSource: nil];
-		
-		// only remove child if we're the parent
-		if( [sprite parent] == mainLayer_ )
-			[mainLayer_ removeChild:sprite cleanup:YES];
-		
-		// remove the sprite from the dictionary
-		@synchronized([modelObject_ spriteArray])
-		{
-			[[modelObject_ spriteArray] removeObject:sprite];
-		}
-		
-		[spriteTableView_ setDataSource: dataSource_];
-	}	
-}
-
-#pragma mark Notifications
-
-- (void)spriteTableSelectionDidChange:(NSNotification *)aNotification
-{
-	NSInteger index = [spriteTableView_ selectedRow];
-	if(index >= 0)
-	{
-		CSSprite *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
-		[modelObject_ setSelectedSprite:sprite];
-	}
-	else
-	{
-		[modelObject_ setSelectedSprite:nil];
-	}
-
-}
-
-- (void) spriteTableSelectionDidRename: (NSNotification *) aNotification
-{
-	NSInteger index = [spriteTableView_ selectedRow];
-	if(index >= 0)
-	{
-		CSSprite *sprite = [[modelObject_ spriteArray] objectAtIndex:index];
-		[modelObject_ setSelectedSprite:sprite];
-		[modelObject_ setName:[[aNotification userInfo] objectForKey:@"name"]];
-		
-	}
-}
-
-- (void) setInfoPanelView: (NSView *) aView
-{
-	//CGRect frame = [infoPanel_ frame];
-	//frame.size = [aView frame].size;
-	[infoPanel_ setContentView:aView];
-	//[infoPanel_ setFrame: frame display: YES];
-}
-
-- (void)didChangeSelectedSprite:(NSNotification *)aNotification
-{
-	if( ![modelObject_ selectedSprite] )
-	{
-		// Editing Background
-		[self setInfoPanelView: self.backgroundInfoView];
-		[spriteTableView_ deselectAll:nil];
-	}
-	else
-	{
-		// Editing Selected Sprite 
-		[self setInfoPanelView: self.spriteInfoView];
-		
-		// get the index for the sprite
-		CSSprite *sprite = [modelObject_ selectedSprite];
-		if(sprite)
-		{
-			NSArray *array = [modelObject_ spriteArray];
-			NSIndexSet *set = [NSIndexSet indexSetWithIndex:[array indexOfObject:sprite]];
-			[spriteTableView_ selectRowIndexes:set byExtendingSelection:NO];
-		}
-	}
-}
-
-#pragma mark Save / Load
-
-- (NSDictionary *)dictionaryFromLayerForBaseDirPath: (NSString *) baseDirPath
-{
-    // Just save background layer - it includes all sprites as children.
-    // Ignore baseDirPath.
-    
-	return [[modelObject_ backgroundLayer] dictionaryRepresentation];
-}
-
-- (void)saveProjectToFile:(NSString *)filename
-{
-	NSDictionary *dict = [self dictionaryFromLayerForBaseDirPath:[filename stringByDeletingLastPathComponent]];
-	[dict writeToFile:filename atomically:YES];
-	
-	// Rembember filename for fast save next time.
-	self.projectFilename = filename;
-}
-
-#pragma mark Loading CSD Files
-
-- (void)loadProjectFromDictionarySafely:(NSDictionary *)dict
-{
-	NSThread *cocosThread = [[CCDirector sharedDirector] runningThread] ;
-	
-	[self performSelector:@selector(loadProjectFromDictionary:)
-				 onThread:cocosThread
-			   withObject:dict
-			waitUntilDone:([[NSThread currentThread] isEqualTo:cocosThread])];
-}
-
-- (void)loadProjectFromDictionary:(NSDictionary *)dict
-{
-    if (![dict count])
-        return;
-    
-    // TODO: load content in try block, if any exception gets thrown - don't
-    // update anything - just show loading error alert and keep old scene.
-    
-    // Clear all existing sprites first.
-    [self deleteAllSprites];
-    [[self modelObject] setSelectedSprite: nil];
-    
-    // Load background layer without alloc.
-    CCLayerColor *bgLayer = [[self modelObject] backgroundLayer];
-    [bgLayer initWithDictionaryRepresentation: dict];
-    
-    // [Rusty: Cocoshop] Change workspace size from bgLayer.contentSize.
-    CGSize workspaceSize = bgLayer.contentSize;
-    [(CSMacGLView *)[[CCDirector sharedDirector] openGLView] setWorkspaceSize: workspaceSize];
-    [(CSMacGLView *)[[CCDirector sharedDirector] openGLView] updateWindow];
-    
-    // [Rusty: Cocoshop] Readd new sprites to model.
-    @synchronized ([[self modelObject] spriteArray])
-    {
-        for (CCSprite *child in [bgLayer children])
-        {
-            [[[self modelObject] spriteArray] addObject:child];
-        }
-    }
-    
-    // [Rusty: Cocoshop] Post stupid notification for some reason.
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
-}
-
-#pragma mark IBActions - Windows
-
-- (IBAction)openInfoPanel:(id)sender
-{
-	[infoPanel_ makeKeyAndOrderFront:nil];
-	[infoPanel_ setLevel:[[[[CCDirector sharedDirector] openGLView] window] level]+1];
-}
-
-- (IBAction) openSpritesPanel: (id) sender
-{
-	[spritesPanel_ makeKeyAndOrderFront: nil];
-	[spritesPanel_ setLevel:[[[[CCDirector sharedDirector] openGLView] window] level]+1];
-}
-
-- (IBAction)openMainWindow:(id)sender
-{
-	[[[[CCDirector sharedDirector] openGLView] window] makeKeyAndOrderFront:nil];
-	[infoPanel_ setLevel:NSNormalWindowLevel];
-	[spritesPanel_ setLevel:NSNormalWindowLevel];
-}
-
-#pragma mark IBActions - Save/Load
-
-// if we're opened a file - we can revert to saved and save without save as
+// TODO: move to CCNWindowController
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	DebugLog(@"fuck");
@@ -698,7 +106,7 @@
 	{
 		NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
         NSDictionary *options = [NSDictionary dictionary];
-        return [generalPasteboard canReadObjectForClasses:[NSArray arrayWithObject:[CSSprite class]] options:options];
+        return [generalPasteboard canReadObjectForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
 	}
 	
 	// "Delete"
@@ -710,11 +118,13 @@
 	}
 	
 	// "Show Borders"- using ivar, because NSOnState doesn't set right in IB
-	showBordersMenuItem_.state = (mainLayer_.showBorders) ? NSOnState : NSOffState;
+    CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+	showBordersMenuItem_.state = (scene.showBorders) ? NSOnState : NSOffState;
 	
 	return YES;
 }
 
+// TODO: move to CCNWindowController
 - (IBAction)saveProject:(id)sender
 {
 	if (! self.projectFilename) 
@@ -723,10 +133,13 @@
 		return;
 	}
 	
-	[self saveProjectToFile:self.projectFilename];
+	[self performBlockOnCocosThread: ^()
+     {
+         [self.ccnController.model saveToFile: self.ccnController.model.projectFilePath];
+     }];
 }
 
-
+// TODO: move to CCNWindowControler
 - (IBAction)saveProjectAs:(id)sender
 {	
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -737,30 +150,25 @@
 	[savePanel beginSheetModalForWindow:[[[CCDirector sharedDirector] openGLView] window] completionHandler:^(NSInteger result) {
 		if(result == NSOKButton)
 		{
-			NSString *file = [savePanel filename];
-			[self saveProjectToFile:file];
+            NSString *file = [savePanel filename];
+            
+            [self performBlockOnCocosThread: ^()
+             {
+                 [self.ccnController.model saveToFile: file];
+             }];
 		}
 	}];
 }
+
 - (IBAction)newProject:(id)sender
 {
-	// remove all sprites
-	[self deleteAllSprites];
-	
-	// reset background
-	modelObject_.color = [NSColor colorWithDeviceRed:0 green:0 blue:0 alpha:0];
-	modelObject_.opacity = 0;
-	modelObject_.stageWidth = 480;
-	modelObject_.stageHeight = 320;
-	
-	// reset filename
-	self.projectFilename = nil;
-	
-	// reload the table
-	[spriteTableView_ reloadData];
-	
+    [self performBlockOnCocosThread:^()
+     {
+         [self.ccnController newProject];	
+     }];
 }
 
+// TODO: move to CCNWindowController
 - (IBAction)openProject:(id)sender
 {
 	// initialize panel + set flags
@@ -777,29 +185,64 @@
 		{
 			NSArray *files = [openPanel filenames];
 			NSString *file = [files objectAtIndex:0];
-			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:file];
 			
-			if(dict)
+			if(file)
 			{
-				[self loadProjectFromDictionarySafely:dict];
-				self.projectFilename = file;
+                [self performBlockOnCocosThread:^()
+                 {
+                     CCNModel *newModel = [CCNModel modelFromFile: file ];
+                     if (!newModel)
+                     {
+                         [self performBlockOnMainThread:^()
+                          {
+                              [[NSAlert alertWithMessageText: @"Can't open file." 
+                                               defaultButton: @"OK"
+                                             alternateButton: nil
+                                                 otherButton: nil 
+                                   informativeTextWithFormat: @"Can't create CCNModel from %@", file] runModal];
+                          }];
+                     }
+                     else
+                     {
+                         self.ccnController.model = newModel;
+                     }
+                 }];
 			}
 		}
 	}];
 }
 
+// TODO: move to CCNWindowController
 - (IBAction)revertToSavedProject:(id)sender
 {
-	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:self.projectFilename];
-	[self loadProjectFromDictionarySafely:dict];
+    [self performBlockOnCocosThread:^()
+     {
+         CCNModel *newModel = [CCNModel modelFromFile: self.ccnController.model.projectFilePath ];
+         if (!newModel)
+         {
+             [self performBlockOnMainThread:^()
+              {
+                  [[NSAlert alertWithMessageText: @"Can't open file." 
+                                   defaultButton: @"OK"
+                                 alternateButton: nil
+                                     otherButton: nil 
+                       informativeTextWithFormat: @"Can't create CCNModel from %@", self.ccnController.model.projectFilePath] runModal];
+              }];
+         }
+         else
+         {
+             self.ccnController.model = newModel;
+         }
+     }];
 }
 
 #pragma mark IBActions - Sprites
 
+// TODO: move to CCNWindowController
 - (IBAction)addSprite:(id)sender
 {
 	// allowed file types
-	NSArray *allowedTypes = [self allowedFileTypes];
+	NSArray *allowedTypes = [self.ccnController allowedImageFileTypes];
 	
 	// initialize panel + set flags
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -815,52 +258,45 @@
 		{
 			NSArray *files = [openPanel filenames];
 			
-			[self addSpritesWithFilesSafely: files];
+            [self performBlockOnCocosThread:^()
+             {
+                 [self.ccnController importSpritesWithFiles: files];
+             }];
+			
 		}
 	}];
 }
 
-- (IBAction)spriteAddButtonClicked:(id)sender
-{
-	[self addSprite:sender];
-}
-
-- (IBAction)spriteDeleteButtonClicked:(id)sender
-{
-	NSInteger index =  [spriteTableView_ selectedRow];
-	NSArray *values = [modelObject_ spriteArray];
-	
-	if ( values && (index >= 0) && (index < [values count]) )
-	{
-		CSSprite *sprite = [values objectAtIndex:index];
-		[self deleteSprite:sprite];
-	}
-}
-
 #pragma mark IBActions - Zoom
 
+// TODO: move to CCNWindowController
 - (IBAction)resetZoom:(id)sender
 {
 	[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] resetZoom];
 }
 
 #pragma mark IBActions - Menus
+// TODO: forward
 - (IBAction) showBordersMenuItemPressed: (id) sender
 {
-	mainLayer_.showBorders = ([sender state] == NSOffState);
+    CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+	scene.showBorders = ([sender state] == NSOffState);
 }
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) deleteMenuItemPressed: (id) sender
 {
 	[self deleteSprite:[modelObject_ selectedSprite]];
 }
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) cutMenuItemPressed: (id) sender
 {
 	[self copyMenuItemPressed: sender];
 	[self deleteSprite:[modelObject_ selectedSprite]];
 }
 
+// TODO: move to CCNWindowController or CCNController
 - (IBAction) copyMenuItemPressed: (id) sender
 {
 	// write selected sprite to pasteboard
@@ -877,35 +313,68 @@
 	}
 }
 
-- (void)addSpritesWithArray:(NSArray *)sprites
-{
-	[[CCTextureCache sharedTextureCache] removeUnusedTextures];
-	
-	for(CSSprite *sprite in sprites)
-	{
-		[self ensureUniqueNameForSprite: sprite];
-		@synchronized( [modelObject_ spriteArray] )
-		{			
-			[[modelObject_ spriteArray] addObject:sprite];
-		}
-		
-		// notify view that we added the sprite
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"addedSprite" object:nil];
-	}
-	
-	// reload the table
-	[spriteTableView_ reloadData];
-}
-
 - (IBAction) pasteMenuItemPressed: (id) sender
 {    
-    NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
-    NSDictionary *options = [NSDictionary dictionary];
-    
-    NSArray *newSprites = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CSSprite class]] options:options];
-    
-	[self addSpritesWithArray: newSprites];
+    [self performBlockOnCocosThread:^()
+     {
+         [self.ccnController addNodesFromPasteboard];
+     }];
 }
 
+
+// BELOW THIS LINE EVERYTHING IS MOVED TO CCNController
+
+
+#pragma mark - Events
+#pragma mark Touch Events
+
+- (BOOL)ccMagnifyWithEvent:(NSEvent *)event
+{
+	return [self.ccnController ccMagnifyWithEvent:event];
+}
+
+- (BOOL)ccRotateWithEvent:(NSEvent *)event
+{
+	return [self.ccnController ccRotateWithEvent:event];
+}
+
+#pragma mark Mouse Events
+
+-(BOOL) ccScrollWheel:(NSEvent *)theEvent 
+{
+    return [self.ccnController ccScrollWheel: theEvent];
+}
+
+- (BOOL)ccMouseDown:(NSEvent *)event
+{
+	return [self.ccnController ccMouseDown: event];
+}
+
+- (BOOL)ccMouseDragged:(NSEvent *)event
+{
+	return [self.ccnController ccMouseDragged: event];
+}
+
+- (BOOL)ccMouseUp:(NSEvent *)event
+{
+	return [self.ccnController ccMouseUp: event];
+}
+
+#pragma mark Keyboard Events
+
+- (BOOL)ccKeyDown:(NSEvent *)event
+{
+    return [self.ccnController ccKeyDown: event];
+}
+
+// SHIT
+- (IBAction)spriteAddButtonClicked:(id)sender{}
+- (IBAction)spriteDeleteButtonClicked:(id)sender{}
+- (IBAction)openInfoPanel:(id)sender{}
+- (IBAction)openSpritesPanel: (id) sender{}
+- (IBAction)openMainWindow:(id)sender{}
+- (void)registerAsObserver{}
+- (void)unregisterForChangeNotification{}
+- (void)setInfoPanelView: (NSView *) aView{}
 
 @end

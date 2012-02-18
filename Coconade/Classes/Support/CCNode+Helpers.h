@@ -23,4 +23,45 @@
  */
 + (BOOL)isEvent: (NSEvent *)event locatedInNode: (CCNode *) node;
 
+/** Returns unique name (name that isn't used currently by any other node
+ * in CCNodeCache).
+ * Returned string is created by concatanating (if needed) nonUniqueName
+ * and a prefix, likelike "_17".
+ */
++ (NSString *) uniqueNameWithName: (NSString *) nonUniqueName;
+
+/** Sets nodes name, ensuring that it's unique by using
+ * +uniqueNameWithName:
+ * Returns uniqueName, that was set as node's name.
+ */
+- (NSString *) setUniqueName: (NSString *) nonUniqueName;
+
+@end
+
+
+@interface CCNode (PasteboardSupport) <NSPasteboardReading, NSPasteboardWriting> 
+
+#pragma mark NSPasteboardWriting
+- (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard;
+- (id)pasteboardPropertyListForType:(NSString *)type;
+
+
+#pragma mark NSPasteboardReading
++ (NSArray *)readableTypesForPasteboard:(NSPasteboard *)pasteboard;
++ (NSPasteboardReadingOptions)readingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pboard;
+
+@end
+
+
+
+@interface CCNode (Parenting)
+
+/** Returns YES if aNode can be added as child to this node,
+ * NO otherwise.
+ *
+ * I.e. only CCMenuItems can be added to CCMenu & only CCSprites with same texture
+ * can be added as children to CCSpriteBatchNode.
+ */
+- (BOOL) canBecomeParentOf: (CCNode *) aNode;
+
 @end

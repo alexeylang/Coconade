@@ -1,31 +1,35 @@
-/*
- * cocoshop
- *
- * Copyright (c) 2011 Stepan Generalov
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- */
+//
+//  CSMacGLView.h
+//  Coconade
+//
+//  Copyright (c) 2011-2012 Stepan Generalov.
+//  All rights reserved.
+//
+
+// TODO: rename to CCNMacGLView.
 
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
 
+@class CSMacGLView;
+@protocol CCNMacGLViewDragAndDropDelegate <NSObject>
+
+@required
+
+/** Called on delegate when glView receives -draggingEntered: message
+ * Return value of this method will be returned in CCNMacGLView#draggingEntered:
+ */
+- (NSDragOperation)ccnMacGLView: (CSMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender;
+
+/** Called on delegate when glView receives -performDragOperation: message
+ * Return value of this method will be returned in CCNMacGLView#performDragOperation:
+ */
+- (BOOL)ccnMacGLView: (CSMacGLView *) glView performDragOperation:(id <NSDraggingInfo>)sender; 
+
+@end
+
+/** Notification that is sent, when CCNMacGLView instance's workspaceSize is changed. */
+FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification;
 
 @interface CSMacGLView : MacGLView <CCProjectionProtocol>
 {
@@ -36,7 +40,11 @@
 	CGFloat zoomSpeed_; 
 	CGFloat zoomFactorMax_;
 	CGFloat zoomFactorMin_;
+    
+    id <CCNMacGLViewDragAndDropDelegate> _dragAndDropDelegate;
 }
+
+@property (readwrite, assign) id <CCNMacGLViewDragAndDropDelegate> dragAndDropDelegate;
 
 #pragma mark Workspace
 
@@ -47,8 +55,8 @@
  * Due to NSGLView restrictions and zoom functionalty of the CSMacGLView
  * this value isn't always equal to view's frame size.
  * 
- * After each change of this value you probably would like to call
- * updateWindow to reshape the view and update enclosing scrollView
+ * After each change of this value - updateWindow get's called automatically &
+ * CCNMacGLViewWorkspaceSizeDidChangeNotification is sent.
  */
 @property (readwrite) CGSize workspaceSize;
 
