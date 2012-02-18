@@ -19,6 +19,9 @@
 /** Property to hold glView, provided from outside. */
 @property(readwrite, assign) CSMacGLView *glView;
 
+/** Adds self as observer to new model & updates everything related. */
+- (void) modelUpdated;
+
 #pragma mark Import
 
 /** Returns array of file extensions (excludng dot), that are supported by Coconade
@@ -93,7 +96,26 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 @implementation CCNController
 
-@synthesize model = _model;
+@dynamic model;
+- (CCNModel *) model
+{
+    return [[_model retain] autorelease];
+}
+
+- (void) setModel:(CCNModel *)model
+{
+    if (_model != model)
+    {
+        id oldValue = _model;
+        _model = [model retain];
+        
+        [self modelUpdated];
+        
+        [oldValue removeObserver:self];
+        [oldValue release];       
+    }
+}
+
 @synthesize scene = _scene;
 @synthesize glView = _glView;
 
@@ -171,6 +193,28 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
 }
 
+#pragma mark Model KVO
+
+- (void) modelUpdated
+{
+    [self.model addObserver:self forKeyPath:@"selectedNode" options: NSKeyValueObservingOptionNew context: NULL];
+    [self.model addObserver:self forKeyPath:@"currentRootNode" options: NSKeyValueObservingOptionNew context: NULL];
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self.model)
+    {
+        if ([keyPath isEqualToString:@"selectedNode"])
+        {
+            self.scene.selection.targetNode = self.model.selectedNode;
+        }
+        else if ([keyPath isEqualToString:@"currentRootNode"])
+        {
+            self.scene.targetNode = self.model.currentRootNode;
+        }
+    }
+}
 
 // TODO: KVO the Model: selectedNode, curRootNode - update CCNScene when needed.
 
