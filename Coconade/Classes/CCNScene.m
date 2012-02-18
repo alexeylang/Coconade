@@ -8,9 +8,6 @@
 
 #import "CCNScene.h"
 
-#define kCCNSceneUserDefaultsKeyShowBorders @"CSMainLayerShowBorders" //< TODO: change to @"CCNSceneShowBorders"
-
-
 @implementation CCNScene
 
 @synthesize showBorders = _showBorders;

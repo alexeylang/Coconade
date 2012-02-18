@@ -10,6 +10,9 @@
 #import "cocos2d.h"
 #import "CCNSelection.h" 
 
+#define kCCNSceneUserDefaultsKeyShowBorders         @"CSMainLayerShowBorders" //< TODO: change to @"CCNSceneShowBorders"
+#define kCCNSceneUserDefaultsKeyShowCheckerboard    @"CCNSceneShowCheckerboard"
+
 /** @class CCNScene Scene subclass that is used as running scene in Coconade.
  * CCNScene incapsulates Cocos2D nodes that are used as a part of Coconade UI
  * (checkerboard background, scene borders, etc).
