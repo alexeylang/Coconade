@@ -18,21 +18,26 @@
 @synthesize selectedNode = _selectedNode;
 @dynamic currentNodes;
 
-- (NSArray *) descendantsOfNode: (CCNode *) aNode
+- (NSArray *) descendantsOfNode: (CCNode *) aNode includingItself: (BOOL) includeNode
 {
     NSMutableArray *array = [NSMutableArray arrayWithCapacity: [aNode.children count] + 1];
     
-    BOOL parentCounted = NO;
+    BOOL parentCounted = !includeNode;
     
     for (CCNode *child in aNode.children)
     {
-        if (child.zOrder >= 0)
+        if (!parentCounted && child.zOrder >= 0)
         {
             [array addObject: aNode];
             parentCounted = YES;
         }
         
-        [array addObjectsFromArray: [self descendantsOfNode: child]];
+        [array addObjectsFromArray: [self descendantsOfNode: child includingItself:YES]];
+    }
+    
+    if (!parentCounted)
+    {
+        [array addObject: aNode];
     }
     
     return array;
@@ -40,8 +45,7 @@
 
 - (NSArray *) currentNodes
 {
-    
-    return [self descendantsOfNode: self.currentRootNode];
+    return [self descendantsOfNode: self.currentRootNode includingItself:NO];
 }
 
 #pragma mark Init/Loading
@@ -122,7 +126,7 @@
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:[self.rootNodes count]];
 	for (CCNode *node in self.rootNodes)
     {
-        [dict setObject:node forKey:node.name];
+        [dict setObject:[node dictionaryRepresentation] forKey:node.name];
     }
     [ dict writeToFile: filename atomically: YES];
 	

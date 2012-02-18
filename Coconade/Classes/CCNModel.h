@@ -47,15 +47,15 @@
 @property (readwrite, assign) CCNode *selectedNode;
 
 /** Array of all nodes in current hierarchy that is being edited, including
- * currentRootNode, it's children, grandchildren, grandgrandchildren and so on.
+ * currentRootNode's children (but not currentRootNode itself), grandchildren, 
+ * grandgrandchildren and so on.
  * Used to iterate over all nodes in current hierarchy.
  * Changes automatically, when currentRootNode is changed.
  *
  * Nodes in this array are sorted by their order of arrival in scene.
  * First node is the one that's on top.
  *
- * Can't be nil, count is always >=1
- * (because there's always at least one root node in the project).
+ * Can't be nil.
  */
 @property (readonly, retain) NSArray *currentNodes;
 
