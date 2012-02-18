@@ -91,6 +91,25 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 @synthesize model = _model;
 
+#pragma mark Start/Stop
+
+- (void) start
+{
+    [self registerWithEventDispatcher];
+}
+
+- (void) stop
+{
+    [self unregisterWithEventDispatcher];
+}
+
+#pragma mark Project
+
+- (void) newProject
+{
+    self.model = [[CCNModel new] autorelease];
+}
+
 #pragma mark - Import
 
 - (NSArray *) allowedImageFileTypes

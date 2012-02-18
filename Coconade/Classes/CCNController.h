@@ -29,6 +29,24 @@
  */
 @property(readwrite, retain) CCNModel *model;
 
+#pragma mark Start / Stop
+
+/** Should be called after initing CCNController and before doing anything with him.
+ * It's simillar to CCNode#onEnter method - registers controller in EventDispatcher, etc.
+ */
+- (void) start;
+
+/** Should be called after finishing work with CCNController.
+ * It's simillar to CCNode#enExit method - unregisters controller in EventDispatcher, etc.
+ * Without invoking this method CCNController will not get released.
+ */
+- (void) stop;
+
+#pragma mark Project
+
+/** Removes old model & creates new empty instead. */
+- (void) newProject;
+
 #pragma mark Import
 
 /** Returns array of file extensions (excludng dot), that are supported by Coconade
