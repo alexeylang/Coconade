@@ -149,6 +149,27 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     [self.scene updateForScreenReshape];
 }
 
+- (void) loadProject: (NSString *) filepath
+{
+    CCNModel *newModel = [CCNModel modelFromFile: filepath ];
+    if (!newModel)
+    {
+        [self performBlockOnMainThread:^()
+         {
+             [[NSAlert alertWithMessageText: @"Can't open file." 
+                              defaultButton: @"OK"
+                            alternateButton: nil
+                                otherButton: nil 
+                  informativeTextWithFormat: @"Can't create CCNModel from %@", filepath] runModal];
+         }];
+    }
+    else
+    {
+        self.model = newModel;
+    }
+}
+
+
 // TODO: KVO the Model: selectedNode, curRootNode - update CCNScene when needed.
 
 #pragma mark Pasteboard

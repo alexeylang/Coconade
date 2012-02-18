@@ -58,6 +58,15 @@
 /** Removes old model & creates new empty instead. */
 - (void) newProject;
 
+/** Loads new model from given file and, if it succeeds - replaces
+ * old model with loaded one.
+ *
+ * @param filepath path to file that holds project.
+ *
+ * Should be called on cocos thread.
+ */
+- (void) loadProject: (NSString *) filepath;
+
 #pragma mark Pasteboard
 
 /** Looks for any supported node in pasteboard and adds them with 
