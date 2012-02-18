@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "CCNController.h"
 #import "CCNModel.h"
+#import "CCNScene.h"
 #import "CCNode+Helpers.h"
 #import "CSMacGLView.h"
 #import "NSObject+Blocks.h"
@@ -108,9 +109,47 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 - (void) newProject
 {
     self.model = [[CCNModel new] autorelease];
+    
+    [(CSMacGLView *) [[CCDirector sharedDirector] openGLView] setWorkspaceSize:CGSizeMake(800, 600)];
+    [(CCNScene *)[[CCDirector sharedDirector] runningScene] updateForScreenReshape];
 }
 
 // TODO: KVO the Model: selectedNode, curRootNode - update CCNScene when needed.
+
+#pragma mark Pasteboard
+
+- (void)addNodesFromPasteboard
+{
+    NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
+    NSDictionary *options = [NSDictionary dictionary];
+    
+    NSArray *newNodes = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
+	
+	for(CCNode *node in newNodes)
+	{
+        CCNode *newParent = self.model.selectedNode;
+        if (!newParent)
+        {
+            newParent = self.model.currentRootNode;
+        }
+        
+        if ([newParent canBecomeParentOf: node])
+        {
+            // Add on top of rootNode.
+            CCNode *lastChild = [newParent.children lastObject];
+            int lastChildZ = lastChild.zOrder;
+            [newParent addChild:node z:lastChildZ];
+        }
+        else
+        {
+            // TODO: check if newParent is CCSPriteBAtchNode with another texture.
+            // If that CCSPriteBAtchNode has parent - add sprite to batchNode's parent
+            // and register warrning.
+            
+            // TODO: register problem.
+        }
+	}
+}
 
 #pragma mark - Import
 
