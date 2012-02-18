@@ -110,6 +110,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     self.model = [[CCNModel new] autorelease];
 }
 
+// TODO: KVO the Model: selectedNode, curRootNode - update CCNScene when needed.
+
 #pragma mark - Import
 
 - (NSArray *) allowedImageFileTypes
