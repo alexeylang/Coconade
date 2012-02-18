@@ -53,25 +53,9 @@
 		{
 			[self performBlockOnCocosThread:^()
              {
-                 CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
-                 if (!newModel)
-                 {
-                     [self performBlockOnMainThread:^()
-                      {
-                          [[NSAlert alertWithMessageText: @"Can't open file." 
-                                           defaultButton: @"OK"
-                                         alternateButton: nil
-                                             otherButton: nil 
-                               informativeTextWithFormat: @"Can't create CCNModel from %@", self.filenameToOpen] runModal];
-                      }];
-                 }
-                 else
-                 {
-                     self.controller.ccnController.model = newModel;
-                 }
-                 
+                 [self.controller.ccnController loadProject: self.filenameToOpen];             
                  self.filenameToOpen = nil;
-             }];       
+             }];
 		}
 		return YES;
 	}
@@ -81,6 +65,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    // Prepare window & window controller.
     NSRect frame = [[NSScreen mainScreen] visibleFrame];
     NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask | NSMiniaturizableWindowMask;
     NSRect contentRect = [NSWindow contentRectForFrameRect:frame styleMask:styleMask];
@@ -91,29 +76,19 @@
     self.windowController = [[CCNWindowController alloc] initWithWindow:window];
     [self.windowController prepareWindow];
     
-	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];
-	
-	[director setDisplayFPS:NO];
-	
-	// register for receiving filenames
-	[self.windowController.glView registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
+    // Prepare CCDirector.
+	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];	
+	[director setDisplayFPS:NO];	
 	[director setOpenGLView:self.windowController.glView];
-	
-	// We use NoScale with own Projection for NSScrollView
-	[director setResizeMode:kCCDirectorResize_NoScale];
+	[director setResizeMode:kCCDirectorResize_NoScale]; //< We use NoScale with own Projection for NSScrollView
 	[director setProjection: kCCDirectorProjectionCustom];
 	[director setProjectionDelegate: self.windowController.glView];
-	
-    // Prepare scene.
-	CCNScene *scene = [CCNScene node];
-    
-    
-    CGSize s = [[CCDirector sharedDirector] winSize];
+	CGSize s = [[CCDirector sharedDirector] winSize];
     [self.windowController.glView setWorkspaceSize: s];
     
-	CCLayer *defaultRootNode = [CCLayer node];    
-	scene.targetNode = defaultRootNode;
-	[director runWithScene:scene];
+    // Prepare controller & run scene.
+    self.controller.ccnController = [CCNController controllerWithGLView: self.windowController.glView];
+    [director runWithScene: self.controller.ccnController.scene];
 	
 	self.appIsRunning = YES;
 
@@ -122,26 +97,10 @@
 	{
         [self performBlockOnCocosThread:^()
          {
-             CCNModel *newModel = [CCNModel modelFromFile: self.filenameToOpen ];
-             if (!newModel)
-             {
-                 [self performBlockOnMainThread:^()
-                  {
-                      [[NSAlert alertWithMessageText: @"Can't open file." 
-                                       defaultButton: @"OK"
-                                     alternateButton: nil
-                                         otherButton: nil 
-                           informativeTextWithFormat: @"Can't create CCNModel from %@", self.filenameToOpen] runModal];
-                  }];
-             }
-             else
-             {
-                 self.controller.ccnController.model = newModel;
-             }
-             
+             [self.controller.ccnController loadProject: self.filenameToOpen];             
              self.filenameToOpen = nil;
          }];       
-	}//< if self.filenameToOpen
+	}
     
     [self.windowController.window makeKeyAndOrderFront: NSApp];
 }
