@@ -51,3 +51,17 @@
 + (NSPasteboardReadingOptions)readingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pboard;
 
 @end
+
+
+
+@interface CCNode (Parenting)
+
+/** Returns YES if aNode can be added as child to this node,
+ * NO otherwise.
+ *
+ * I.e. only CCMenuItems can be added to CCMenu & only CCSprites with same texture
+ * can be added as children to CCSpriteBatchNode.
+ */
+- (BOOL) canBecomeParentOf: (CCNode *) aNode;
+
+@end

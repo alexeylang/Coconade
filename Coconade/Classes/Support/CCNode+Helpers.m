@@ -114,5 +114,15 @@ NSString *CCNodeDictionaryRepresentationKey = @"CCNodeAMC1.1DictionaryRepresenta
     return 0;
 }
 
+@end
+
+
+@implementation CCNode (Parenting)
+
+// TODO: check if it really can become parent or not.
+- (BOOL) canBecomeParentOf: (CCNode *) aNode
+{
+    return YES;
+}
 
 @end
