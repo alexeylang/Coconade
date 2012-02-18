@@ -77,6 +77,15 @@
  */
 - (id) initWithFile: (NSString *) filepath;
 
+#pragma mark Saving
+
+/** Saves rootNodes as dictionary to given file.
+ * If filename is different from projectFilePath - projectFilePath will be
+ * set to filename.
+ */
+- (void)saveToFile:(NSString *)filename;
+
+#pragma mark Working with Nodes
 
 /** Removes given node from model.
  * It can be selectedNode, rootNode or curRootNode.
