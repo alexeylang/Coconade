@@ -59,6 +59,24 @@
  */
 @property (readonly, retain) NSArray *currentNodes;
 
+#pragma mark Init/Loading
+
+/** Returns new autoreleased model, loaded from file. 
+ * @see -initWithFile:
+ */
++ (id) modelFromFile: (NSString *) filepath;
+
+/** Inits model from conents of given file.
+ *
+ * @param filepath path to file to init from, will be used to set projectFilePath.
+ * That file should be plist with AMC dictionary with rootNodes.
+ * @todo Support JSON files too.
+ *
+ * @return nil if there was any problem loading rootNodes from filepath or model
+ * object is everything is ok.
+ */
+- (id) initWithFile: (NSString *) filepath;
+
 
 /** Removes given node from model.
  * It can be selectedNode, rootNode or curRootNode.
