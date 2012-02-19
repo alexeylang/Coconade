@@ -45,6 +45,35 @@
     [self registerForDraggedTypes: [_dragAndDropDelegate ccnMacGLViewSupportedDraggedTypes: self]];    
 }
 
+@dynamic workspaceSize;
+- (CGSize) workspaceSize
+{
+    return _workspaceSize;
+}
+
+- (void) setWorkspaceSize:(CGSize)workspaceSize
+{
+    CGSize oldSize = _workspaceSize;
+    _workspaceSize = workspaceSize;
+    
+    if (!CGSizeEqualToSize(oldSize, workspaceSize))
+    {
+        [self updateView];
+    }
+}
+
+@dynamic projection;
+- (void) setProjection:(ccDirectorProjection) newProjection
+{
+	_projection = newProjection;
+	[self updateProjection];
+}
+
+- (ccDirectorProjection) projection
+{
+	return _projection;
+}
+
 #pragma mark Init / DeInit
 
 - (id)init
@@ -69,38 +98,7 @@
 	[super dealloc];
 }
 
-#pragma mark Properties
-
-@dynamic workspaceSize;
-
-- (CGSize) workspaceSize
-{
-    return _workspaceSize;
-}
-
-- (void) setWorkspaceSize:(CGSize)workspaceSize
-{
-    CGSize oldSize = _workspaceSize;
-    _workspaceSize = workspaceSize;
-    
-    if (!CGSizeEqualToSize(oldSize, workspaceSize))
-    {
-        [self updateView];
-    }
-}
-
-@dynamic projection;
-
-- (void) setProjection:(ccDirectorProjection) newProjection
-{
-	_projection = newProjection;
-	[self updateProjection];
-}
-
-- (ccDirectorProjection) projection
-{
-	return _projection;
-}
+#pragma mark Updates
 
 - (void) updateFrameSize
 {
