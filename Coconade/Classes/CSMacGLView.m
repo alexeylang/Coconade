@@ -92,7 +92,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	return _projection;
 }
 
-- (void) fixFrameSize
+- (void) updateFrameSize
 {
 	// Size is equal to self.workspaceSize
 	CGSize size = [CCDirector sharedDirector].winSize;
@@ -135,7 +135,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 
 - (void) updateWindow
 {
-    [self fixFrameSize];
+    [self updateFrameSize];
 	[self reshape];
 }
 

@@ -174,7 +174,7 @@
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
-    [self.glView fixFrameSize];
+    [self.glView updateFrameSize];
 }
 
 @end
