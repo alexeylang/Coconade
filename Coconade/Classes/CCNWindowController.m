@@ -57,6 +57,13 @@
     self.window.hasShadow = YES;
     self.window.acceptsMouseMovedEvents = NO;
     
+    // Create and setup toolbar
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:
+                           kCCNWindowControllerToolbarIdentifier] autorelease];
+    toolbar.displayMode = NSToolbarDisplayModeIconAndLabel;
+    toolbar.delegate = self;    
+    self.window.toolbar = toolbar;
+    
     // Create and setup splitView & subviews
     NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: self.window.frame] autorelease];
     splitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable; 
@@ -92,13 +99,6 @@
     
     [splitView adjustSubviews];
     [self.window.contentView addSubview:splitView];
-    
-    // Create and setup toolbar
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:
-                           kCCNWindowControllerToolbarIdentifier] autorelease];
-    toolbar.displayMode = NSToolbarDisplayModeIconAndLabel;
-    toolbar.delegate = self;    
-    self.window.toolbar = toolbar;
 }
 
 #pragma mark Toolbar Delegate
