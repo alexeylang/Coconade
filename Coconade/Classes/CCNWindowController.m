@@ -60,6 +60,7 @@
     // Create and setup splitView & subviews
     NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: self.window.frame] autorelease];
     splitView.autoresizesSubviews = YES;
+    splitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable; 
     splitView.dividerStyle = NSSplitViewDividerStyleThin;
     splitView.delegate = self;
     [splitView setVertical:YES];
