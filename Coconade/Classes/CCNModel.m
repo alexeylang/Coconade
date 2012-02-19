@@ -147,9 +147,6 @@
         self.selectedNode = nil;
     }
     
-    // Does it have parent? Remove from it.
-    [aNode.parent removeChild:aNode cleanup:YES];
-    
     // Was it a root node?
     if ( [_rootNodes containsObject: aNode])
     {
@@ -161,11 +158,12 @@
         [_rootNodes removeObject: aNode];
         
         // Ensure to always have at least one root node.
-        if ( [_rootNodes count] )
+        if ( ![_rootNodes count] )
         {
             [_rootNodes addObject:[CCScene node]];
         }
         
+        // Select new currentRootNode if we deleted the one that was current.
         if (wasCurRootNode)
         {
             // Switch to closest hierarchy.
@@ -173,6 +171,11 @@
             
             self.currentRootNode = [_rootNodes objectAtIndex: newI];    
         }
+    }
+    else // Not a root node.
+    {
+        // Does it have parent? Remove from it.
+        [aNode.parent removeChild:aNode cleanup:YES];
     }
 }
 
