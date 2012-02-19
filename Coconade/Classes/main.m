@@ -30,6 +30,16 @@
 
 int main(int argc, char *argv[])
 {
-	[CSMacGLView load_];
-    return NSApplicationMain(argc,  (const char **) argv);
+    int result = 0;
+    @try 
+    {
+        [CSMacGLView load_];
+        result = NSApplicationMain(argc,  (const char **) argv);
+    }
+    @catch (NSException *exception) 
+    {
+        NSLog(@"%@", exception);
+    }
+    
+    return result;
 }
