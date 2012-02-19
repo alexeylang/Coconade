@@ -2,7 +2,8 @@
 //  CSMacGLView.m
 //  Coconade
 //
-//  Copyright (c) 2011-2012 Stepan Generalov.
+//  Copyright (c) 2011-2012 Stepan Generalov
+//  Copyright (c) 2012 Alexey Lang
 //  All rights reserved.
 //
 

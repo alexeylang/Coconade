@@ -1,9 +1,10 @@
-/*
- * Coconade
- *
- * Copyright (c) 2012 Alexey Lang
- *
- */
+//
+//  CCNWindowController.m
+//  Coconade
+//
+//  Copyright (c) 2012 Alexey Lang
+//  All rights reserved.
+//
 
 #import "CCNWindowController.h"
 #import "CSMacGLView.h"

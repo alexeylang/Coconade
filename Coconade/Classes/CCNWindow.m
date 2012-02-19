@@ -1,9 +1,10 @@
-/*
- * Coconade
- *
- * Copyright (c) 2012 Alexey Lang
- *
- */
+//
+//  CCNWindow.m
+//  Coconade
+//
+//  Copyright (c) 2012 Alexey Lang
+//  All rights reserved.
+//
 
 #import "CCNWindow.h"
 
