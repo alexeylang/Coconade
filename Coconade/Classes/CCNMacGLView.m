@@ -30,7 +30,20 @@
 @synthesize zoomSpeed = _zoomSpeed;
 @synthesize zoomFactorMax = _zoomFactorMax; 
 @synthesize zoomFactorMin = _zoomFactorMin;
-@synthesize dragAndDropDelegate = _dragAndDropDelegate;
+@dynamic dragAndDropDelegate;
+- (id<CCNMacGLViewDragAndDropDelegate>) dragAndDropDelegate
+{
+    return _dragAndDropDelegate;
+}
+
+- (void) setDragAndDropDelegate:(id<CCNMacGLViewDragAndDropDelegate>)dragAndDropDelegate
+{
+    [self unregisterDraggedTypes];
+    
+    _dragAndDropDelegate = dragAndDropDelegate;
+    
+    [self registerForDraggedTypes: [_dragAndDropDelegate ccnMacGLViewSupportedDraggedTypes: self]];    
+}
 
 #pragma mark Init / DeInit
 

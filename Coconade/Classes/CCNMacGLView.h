@@ -84,6 +84,12 @@
 
 @required
 
+/** Called on delegate right after it is being set.
+ * This method must returns array of the pasteboard types that the glView will 
+ * accept as the destination of an dragging session.
+ */
+- (NSArray *) ccnMacGLViewSupportedDraggedTypes: (CCNMacGLView *) glView;
+
 /** Called on delegate when glView receives -draggingEntered: message
  * Return value of this method will be returned in CCNMacGLView#draggingEntered:
  */
