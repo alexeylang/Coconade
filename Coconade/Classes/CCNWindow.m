@@ -15,8 +15,8 @@
     if ( !_needsEnableUpdate )
     {
         NSDisableScreenUpdates();
+        _needsEnableUpdate = YES;
     }
-    _needsEnableUpdate = YES;
 }
 
 - (void) flushWindow
@@ -25,8 +25,8 @@
     
     if (_needsEnableUpdate)
     {
-        _needsEnableUpdate = NO;
         NSEnableScreenUpdates();
+        _needsEnableUpdate = NO;
     }
 }
 
