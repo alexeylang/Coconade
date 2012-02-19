@@ -35,7 +35,7 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
  * Due to NSGLView restrictions and zoom functionalty of the CSMacGLView
  * this value isn't always equal to view's frame size.
  * 
- * After each change of this value - updateWindow get's called automatically &
+ * After each change of this value - updateView get's called automatically &
  * CCNMacGLViewWorkspaceSizeDidChangeNotification is sent.
  */
 @property (readwrite) CGSize workspaceSize;
@@ -70,9 +70,9 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
 
 @property (readwrite, assign) id <CCNMacGLViewDragAndDropDelegate> dragAndDropDelegate;
 
-/** Updates window size, to show scrollers of NSScrollView
+/** Updates view size, to show scrollers of NSScrollView
  */
-- (void) updateWindow;
+- (void) updateView;
 
 /* Resizes the View for Centering the Workspace in Window
  * This is needed cause it's impossible to set the position of contentNode of

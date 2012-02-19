@@ -480,7 +480,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	{
 		self.glView.zoomFactor += [theEvent deltaY] * self.glView.zoomSpeed;
 		self.glView.zoomFactor = MAX(self.glView.zoomFactorMin, MIN(self.glView.zoomFactor, self.glView.zoomFactorMax));		
-		[self.glView updateWindow];		
+		[self.glView updateView];		
 		
 		return YES;
 	}

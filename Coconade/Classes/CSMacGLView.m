@@ -75,7 +75,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
     if (!CGSizeEqualToSize(oldSize, workspaceSize))
     {
         [[NSNotificationCenter defaultCenter] postNotificationName: CCNMacGLViewWorkspaceSizeDidChangeNotification object:nil];
-        [self updateWindow];
+        [self updateView];
     }
 }
 
@@ -133,7 +133,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	return CGRectMake(offset.x , offset.y, widthAspect, heightAspect);
 }
 
-- (void) updateWindow
+- (void) updateView
 {
     [self updateFrameSize];
 	[self reshape];
