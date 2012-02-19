@@ -67,8 +67,7 @@
                                   0.0f, 
                                   kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
                                   splitView.frame.size.height);
-    NSTextView *leftView = [[[NSTextView alloc] initWithFrame:leftFrame] autorelease];
-    leftView.backgroundColor = [NSColor redColor];
+    NSView *leftView = [[[NSView alloc] initWithFrame:leftFrame] autorelease];
     [splitView addSubview:leftView];
     
     CGRect centerFrame = CGRectMake(0.0f, 
@@ -87,8 +86,7 @@
                                    0.0f, 
                                    kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    splitView.frame.size.height);
-    NSTextView *rightView = [[NSTextView alloc] initWithFrame:rightFrame];
-    rightView.backgroundColor = [NSColor greenColor];
+    NSView *rightView = [[NSView alloc] initWithFrame:rightFrame];
     [splitView addSubview:rightView];
     
     [splitView adjustSubviews];
