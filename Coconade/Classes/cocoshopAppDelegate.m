@@ -27,7 +27,6 @@
 #import "CSObjectController.h"
 #import "DebugLog.h"
 #import "CCNScene.h"
-#import "CSModel.h"
 #import "NSObject+Blocks.h"
 #import "CCNModel.h"
 #import "CCNWindowController.h"

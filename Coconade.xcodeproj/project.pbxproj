@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 496706F9135B9DDE0074D05A /* CSObjectController.m */; };
-		496706FD135B9E1B0074D05A /* CSModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 496706FB135B9E1B0074D05A /* CSModel.m */; };
 		49A13F92135BC12E000C3BD8 /* Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F71135BC089000C3BD8 /* Add.tiff */; };
 		49A13F93135BC12E000C3BD8 /* Burn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F72135BC089000C3BD8 /* Burn.tiff */; };
 		49A1406C135BCB37000C3BD8 /* arial.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406A135BCB2D000C3BD8 /* arial.fnt */; };
@@ -229,8 +228,6 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		496706F8135B9DDE0074D05A /* CSObjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSObjectController.h; sourceTree = "<group>"; };
 		496706F9135B9DDE0074D05A /* CSObjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSObjectController.m; sourceTree = "<group>"; };
-		496706FB135B9E1B0074D05A /* CSModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSModel.m; sourceTree = "<group>"; };
-		496706FC135B9E1B0074D05A /* CSModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSModel.h; sourceTree = "<group>"; };
 		49A13F71135BC089000C3BD8 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add.tiff; sourceTree = "<group>"; };
 		49A13F72135BC089000C3BD8 /* Burn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Burn.tiff; sourceTree = "<group>"; };
 		49A1406A135BCB2D000C3BD8 /* arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arial.fnt; sourceTree = "<group>"; };
@@ -814,8 +811,6 @@
 		FD2C665314EC30610020E187 /* RustyShitToRemove */ = {
 			isa = PBXGroup;
 			children = (
-				496706FC135B9E1B0074D05A /* CSModel.h */,
-				496706FB135B9E1B0074D05A /* CSModel.m */,
 				496706F8135B9DDE0074D05A /* CSObjectController.h */,
 				496706F9135B9DDE0074D05A /* CSObjectController.m */,
 			);
@@ -1129,7 +1124,6 @@
 				FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */,
 				E02A83FC129F023B00341C97 /* main.m in Sources */,
 				496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */,
-				496706FD135B9E1B0074D05A /* CSModel.m in Sources */,
 				6D4702CE135F52BC00FDEADD /* CSMacGLView.m in Sources */,
 				6D1FEC0B138074630039076A /* DebugLog.m in Sources */,
 				6D13ADE81385A768004FA7F1 /* NSString+RelativePath.m in Sources */,

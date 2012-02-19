@@ -29,7 +29,6 @@
 #import "CCEventDispatcher+Gestures.h"
 #import "CCNController.h"
 
-@class CSModel;
 @interface CSObjectController : NSObjectController
 {
 	CCNController *_ccnController;
@@ -76,7 +75,6 @@
 
 #pragma mark TOTAL GARBAGE
 
-@property(assign) IBOutlet CSModel *modelObject;
 @property(assign) NSTableView *spriteTableView;
 @property(retain) IBOutlet NSView *spriteInfoView;
 @property(retain) IBOutlet NSView *backgroundInfoView;

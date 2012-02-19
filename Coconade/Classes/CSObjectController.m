@@ -25,7 +25,6 @@
  */
 
 #import "CSObjectController.h"
-#import "CSModel.h"
 #import "cocoshopAppDelegate.h"
 #import "DebugLog.h"
 #import "NSString+RelativePath.h"
@@ -38,7 +37,6 @@
 @implementation CSObjectController
 
 @synthesize ccnController = _ccnController;
-@synthesize modelObject=modelObject_;
 @synthesize spriteTableView=spriteTableView_;
 @synthesize spriteInfoView = spriteInfoView_;
 @synthesize backgroundInfoView = backgroundInfoView_;
@@ -308,7 +306,17 @@
      }];
 }
 
-// SHIT
+#pragma mark Shit to remove with Xib
+// Note: that ugly shit is still here, cause it will crash in loading xib
+// if we remove them now.
+//
+// Xib must die!!!!
+// VIVA LA REVOLUTION!!!
+
+- (id) model
+{
+    return [[NSClassFromString(@"CSModel") new] autorelease];
+}
 - (IBAction)spriteAddButtonClicked:(id)sender{}
 - (IBAction)spriteDeleteButtonClicked:(id)sender{}
 - (IBAction)openInfoPanel:(id)sender{}
@@ -317,5 +325,18 @@
 - (void)registerAsObserver{}
 - (void)unregisterForChangeNotification{}
 - (void)setInfoPanelView: (NSView *) aView{}
+
+@end
+
+@interface CSModel : NSObject 
+{
+}
+@end
+
+@implementation CSModel
+- (id)valueForUndefinedKey:(NSString *)key
+{
+    return nil;
+}
 
 @end
