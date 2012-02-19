@@ -65,7 +65,8 @@
     self.window.toolbar = toolbar;
     
     // Create and setup splitView & subviews
-    NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: self.window.frame] autorelease];
+    NSView *contentView = self.window.contentView;
+    NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: contentView.frame] autorelease];
     splitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable; 
     splitView.dividerStyle = NSSplitViewDividerStyleThin;
     splitView.delegate = self;
@@ -98,7 +99,7 @@
     [splitView addSubview:rightView];
     
     [splitView adjustSubviews];
-    [self.window.contentView addSubview:splitView];
+    [contentView addSubview:splitView];
 }
 
 #pragma mark Toolbar Delegate
