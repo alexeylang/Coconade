@@ -7,6 +7,7 @@
 
 #import "CCNWindowController.h"
 #import "CSMacGLView.h"
+#import "CCNWindow.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -165,7 +166,8 @@
 
 - (void)splitViewWillResizeSubviews:(NSNotification *)notification
 {
-    [self.window disableUpdatesUntilFlush];
+    CCNWindow *window = (CCNWindow *)self.window;
+    [window disableUpdatesUntilFlush];
 }
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
