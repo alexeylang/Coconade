@@ -26,7 +26,7 @@
 		6D1EEA44138EFE280091F76B /* icon7-c.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1EEA43138EFE280091F76B /* icon7-c.png */; };
 		6D1FEC0B138074630039076A /* DebugLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1FEC0A138074630039076A /* DebugLog.m */; };
 		6D3249821361CD6900165ABE /* checkerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D3249811361CD6900165ABE /* checkerboard.png */; };
-		6D4702CE135F52BC00FDEADD /* CSMacGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4702CD135F52BC00FDEADD /* CSMacGLView.m */; };
+		6D4702CE135F52BC00FDEADD /* CCNMacGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D4702CD135F52BC00FDEADD /* CCNMacGLView.m */; };
 		E01E6A3E121EDCD3001A484F /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E01E6A3D121EDCD3001A484F /* ApplicationServices.framework */; };
 		E01E6B36121EDCED001A484F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E036A79E121B5C870037C5C6 /* QuartzCore.framework */; };
 		E01E6B49121EDCF4001A484F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E036A79C121B5C720037C5C6 /* OpenGL.framework */; };
@@ -248,8 +248,8 @@
 		6D1FEC09138074630039076A /* DebugLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugLog.h; sourceTree = "<group>"; };
 		6D1FEC0A138074630039076A /* DebugLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugLog.m; sourceTree = "<group>"; };
 		6D3249811361CD6900165ABE /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerboard.png; sourceTree = "<group>"; };
-		6D4702CC135F52BC00FDEADD /* CSMacGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMacGLView.h; sourceTree = "<group>"; };
-		6D4702CD135F52BC00FDEADD /* CSMacGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMacGLView.m; sourceTree = "<group>"; };
+		6D4702CC135F52BC00FDEADD /* CCNMacGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CCNMacGLView.h; sourceTree = "<group>"; };
+		6D4702CD135F52BC00FDEADD /* CCNMacGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNMacGLView.m; sourceTree = "<group>"; };
 		6DB59F7413B7C1B90012FA60 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
 		6DC763F913AE48A3002BD9A1 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		6DECF9881389841E0070C774 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -600,8 +600,8 @@
 				FD7877F714E7E26800D128F2 /* CCNModel.m */,
 				FD2C664F14EC27070020E187 /* CCNSelection.h */,
 				FD2C665014EC27070020E187 /* CCNSelection.m */,
-				6D4702CC135F52BC00FDEADD /* CSMacGLView.h */,
-				6D4702CD135F52BC00FDEADD /* CSMacGLView.m */,
+				6D4702CC135F52BC00FDEADD /* CCNMacGLView.h */,
+				6D4702CD135F52BC00FDEADD /* CCNMacGLView.m */,
 				E02A83FB129F023B00341C97 /* main.m */,
 				E02A83D2129F000100341C97 /* cocoshopAppDelegate.h */,
 				E02A83D3129F000100341C97 /* cocoshopAppDelegate.m */,
@@ -1124,7 +1124,7 @@
 				FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */,
 				E02A83FC129F023B00341C97 /* main.m in Sources */,
 				496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */,
-				6D4702CE135F52BC00FDEADD /* CSMacGLView.m in Sources */,
+				6D4702CE135F52BC00FDEADD /* CCNMacGLView.m in Sources */,
 				6D1FEC0B138074630039076A /* DebugLog.m in Sources */,
 				6D13ADE81385A768004FA7F1 /* NSString+RelativePath.m in Sources */,
 				FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */,

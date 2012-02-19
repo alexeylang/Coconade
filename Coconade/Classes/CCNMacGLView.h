@@ -6,8 +6,6 @@
 //  All rights reserved.
 //
 
-// TODO: rename to CCNMacGLView.
-
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
 
@@ -16,7 +14,7 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
 
 
 @protocol CCNMacGLViewDragAndDropDelegate;
-@interface CSMacGLView : MacGLView <CCProjectionProtocol>
+@interface CCNMacGLView : MacGLView <CCProjectionProtocol>
 {
 	ccDirectorProjection _projection;
 	
@@ -94,10 +92,10 @@ FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification
  * Return value of this method will be returned in CCNMacGLView#draggingEntered:
  */
 
-- (NSDragOperation)ccnMacGLView: (CSMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender;
+- (NSDragOperation)ccnMacGLView: (CCNMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender;
 /** Called on delegate when glView receives -performDragOperation: message
  * Return value of this method will be returned in CCNMacGLView#performDragOperation:
  */
-- (BOOL)ccnMacGLView: (CSMacGLView *) glView performDragOperation:(id <NSDraggingInfo>)sender; 
+- (BOOL)ccnMacGLView: (CCNMacGLView *) glView performDragOperation:(id <NSDraggingInfo>)sender; 
 
 @end

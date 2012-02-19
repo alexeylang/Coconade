@@ -259,7 +259,7 @@
 // TODO: move to CCNWindowController
 - (IBAction)resetZoom:(id)sender
 {
-	[(CSMacGLView *)[[CCDirector sharedDirector] openGLView] resetZoom];
+	[(CCNMacGLView *)[[CCDirector sharedDirector] openGLView] resetZoom];
 }
 
 #pragma mark IBActions - Menus

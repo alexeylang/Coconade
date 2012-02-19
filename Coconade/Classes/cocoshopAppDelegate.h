@@ -24,7 +24,7 @@
  */
 
 #import "cocos2d.h"
-#import "CSMacGLView.h"
+#import "CCNMacGLView.h"
 
 @class CSObjectController;
 @class CCNWindowController;

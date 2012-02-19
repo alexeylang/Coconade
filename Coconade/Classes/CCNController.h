@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "CCEventDispatcher+Gestures.h"
-#import "CSMacGLView.h"
+#import "CCNMacGLView.h"
 
 @class CCNModel;
 @class CCNScene;
 /** @class CCNController Main logic controller for Coconade. */
 @interface CCNController : NSObject <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate, CCNMacGLViewDragAndDropDelegate>
 {
-    CSMacGLView *_glView;
+    CCNMacGLView *_glView;
     CCNScene *_scene;
     
     CCNModel *_model;
@@ -38,14 +38,14 @@
 /** Returns new autoreleased controller, inited with given glView. 
  * @see -initWithGLView:
  */
-+ (id) controllerWithGLView: (CSMacGLView *) glView;
++ (id) controllerWithGLView: (CCNMacGLView *) glView;
 
 /** Designated init for CCNController.
  *
  * @param glView GLView in which Coconade will run, can't be nil, shouldn't b changed
  * during runtime.
  */
-- (id) initWithGLView: (CSMacGLView *) glView;
+- (id) initWithGLView: (CCNMacGLView *) glView;
 
 /** Should be called after finishing work with CCNController & before releasing it.
  * It's simillar to CCNode#enExit method - unregisters controller in EventDispatcher, etc.

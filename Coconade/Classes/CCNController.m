@@ -11,13 +11,13 @@
 #import "CCNModel.h"
 #import "CCNScene.h"
 #import "CCNode+Helpers.h"
-#import "CSMacGLView.h"
+#import "CCNMacGLView.h"
 #import "NSObject+Blocks.h"
 
 @interface CCNController ()
 
 /** Property to hold glView, provided from outside. */
-@property(readwrite, assign) CSMacGLView *glView;
+@property(readwrite, assign) CCNMacGLView *glView;
 
 /** Adds self as observer to new model, updates everything related &
  * removes self as observer from old model
@@ -122,12 +122,12 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark Init/DeInit
 
-+ (id) controllerWithGLView: (CSMacGLView *) glView
++ (id) controllerWithGLView: (CCNMacGLView *) glView
 {
     return [[[self alloc] initWithGLView: glView] autorelease];
 }
 
-- (id) initWithGLView: (CSMacGLView *) glView
+- (id) initWithGLView: (CCNMacGLView *) glView
 {
     self = [super init];
     if (self)
@@ -380,7 +380,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Drag & Drop
 
-- (NSDragOperation)ccnMacGLView: (CSMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender 
+- (NSDragOperation)ccnMacGLView: (CCNMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender 
 {	
 	NSPasteboard *pboard;
     NSDragOperation sourceDragMask;
@@ -400,7 +400,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 // XXX: support drag & drop of things inside Coconade.
 // XXX: support .coconade bundle & AMC nodes files to be dropped in glView.
-- (BOOL)ccnMacGLView: (CSMacGLView *) glView performDragOperation:(id <NSDraggingInfo>)sender 
+- (BOOL)ccnMacGLView: (CCNMacGLView *) glView performDragOperation:(id <NSDraggingInfo>)sender 
 {
     NSPasteboard *pboard;
     NSDragOperation sourceDragMask;

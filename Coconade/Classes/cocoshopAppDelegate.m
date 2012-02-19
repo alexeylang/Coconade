@@ -130,7 +130,7 @@
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	[director setFullScreen: ! [director isFullScreen] ];
 	
-	[(CSMacGLView *)[director openGLView] updateView];
+	[(CCNMacGLView *)[director openGLView] updateView];
 }
 
 @end

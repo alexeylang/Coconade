@@ -7,7 +7,7 @@
 //
 
 #import "CCNWindowController.h"
-#import "CSMacGLView.h"
+#import "CCNMacGLView.h"
 #import "CCNWindow.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
@@ -89,7 +89,7 @@
     NSScrollView *centerScrollView = [[[NSScrollView alloc] initWithFrame:centerFrame] autorelease];
     centerScrollView.hasHorizontalScroller = YES;
     centerScrollView.hasVerticalScroller = YES;
-    self.glView = [[[CSMacGLView alloc] init] autorelease];
+    self.glView = [[[CCNMacGLView alloc] init] autorelease];
     centerScrollView.documentView = self.glView;
     [splitView addSubview:centerScrollView];
     

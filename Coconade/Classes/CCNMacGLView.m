@@ -7,7 +7,7 @@
 //  All rights reserved.
 //
 
-#import "CSMacGLView.h"
+#import "CCNMacGLView.h"
 #import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
 #import "DebugLog.h"
@@ -15,7 +15,7 @@
 NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewWorkspaceSizeDidChangeNotification";
 
 
-@interface CSMacGLView ()
+@interface CCNMacGLView ()
 
 /* This methods calculates offset (rect.origin) and width & height aspect (rect.size) 
  * of the viewport. 
@@ -27,7 +27,7 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 @end
 
 
-@implementation CSMacGLView
+@implementation CCNMacGLView
 
 @synthesize zoomFactor = _zoomFactor; 
 @synthesize zoomSpeed = _zoomSpeed;
