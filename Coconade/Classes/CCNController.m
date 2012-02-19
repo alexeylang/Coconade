@@ -486,7 +486,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	}
 	
 	// Or Scroll
-	[[self.glView enclosingScrollView] scrollWheel: theEvent];	
+    [ self performBlockOnMainThread:^()
+     {
+         [[self.glView enclosingScrollView] scrollWheel: theEvent];	
+     }];
 	
     return YES;
 }
