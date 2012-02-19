@@ -143,7 +143,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         [self registerWithEventDispatcher];
         
         // Prepare for pasteboard & drag & drop support.
-        [self.glView registerForDraggedTypes:[NSArray arrayWithObjects:  NSFilenamesPboardType, nil]];
         self.glView.dragAndDropDelegate = self;
     }
     return self;
@@ -379,6 +378,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 #pragma mark - Drag & Drop
+
+- (NSArray *) ccnMacGLViewSupportedDraggedTypes: (CCNMacGLView *) glView
+{
+    return [NSArray arrayWithObjects:  NSFilenamesPboardType, nil];
+}
 
 - (NSDragOperation)ccnMacGLView: (CCNMacGLView *) glView draggingEntered:(id <NSDraggingInfo>)sender 
 {	
