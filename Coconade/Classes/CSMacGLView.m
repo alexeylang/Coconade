@@ -44,7 +44,6 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
         self.zoomSpeed = 0.01f;
         self.zoomFactorMin = 0.1f;
         self.zoomFactorMax = 3.0f;	
-//        self.workspaceSize = CGSizeMake(480.0f, 320.0f);
         self.zoomFactor = 1.0f;
         self.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
         
