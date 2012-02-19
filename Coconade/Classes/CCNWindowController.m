@@ -34,6 +34,7 @@
 #define kCCNWindowControllerSplitViewLeftViewDefaultWidth       300.0f
 #define kCCNWindowControllerSplitViewRightViewDefaultWidth      300.0f
 
+
 @implementation CCNWindowController
 
 @synthesize glView = _glView;
