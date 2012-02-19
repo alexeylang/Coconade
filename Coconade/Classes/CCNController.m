@@ -226,7 +226,51 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark Pasteboard
 
-- (void)addNodesFromPasteboard
+// Currently supports only one node.
+- (BOOL) canCopyToPasteboard
+{
+    return ( self.model.selectedNode != nil );
+}
+
+// Currently supports only one node.
+- (BOOL) canCutToPasteboard;
+{
+    return [self canCopyToPasteboard];
+}
+
+- (BOOL) canPasteFromPasteboard
+{
+    NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
+    NSDictionary *options = [NSDictionary dictionary];
+    return [generalPasteboard canReadObjectForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
+}
+
+// Currently supports only one node.
+- (void)cutToPasteboard
+{
+    [self copyToPasteboard];
+    [self.model removeNode: self.model.selectedNode];
+}
+
+// Currently supports copying only one node.
+- (void)copyToPasteboard
+{
+    // write selected node to pasteboard.
+	NSArray *objectsToCopy = [NSArray arrayWithObject: self.model.selectedNode];
+	if (objectsToCopy)
+	{
+		NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+		[pasteboard clearContents];		
+		
+		if (![pasteboard writeObjects:objectsToCopy] )
+		{
+			DebugLog(@"Error writing to pasteboard, sprites = %@", objectsToCopy);
+		}
+	}
+}
+
+// Currently supports pasting only nodes.
+- (void)pasteFromPasteboard
 {
     NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
     NSDictionary *options = [NSDictionary dictionary];

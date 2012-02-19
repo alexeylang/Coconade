@@ -69,10 +69,40 @@
 
 #pragma mark Pasteboard
 
-/** Looks for any supported node in pasteboard and adds them with 
- * -addNode:withUniqueNameFromName: 
+/** Returns YES if there's anything selected now, that can be copied
+ * to pasteboard.
  */
-- (void)addNodesFromPasteboard;
+- (BOOL) canCopyToPasteboard;
+
+/** Returns YES if there's anything selected now, that can be copied
+ * to pasteboard.
+ */
+- (BOOL) canCutToPasteboard;
+
+/** Returns YES if there's anything in the pasteboard, that can be pasted.
+ */
+- (BOOL) canPasteFromPasteboard;
+
+/** Copies anything selected to pasteboard and deletes it.
+ * If nothing can't be cut to pasteboard - does nothing.
+ *
+ * Should be called on cocos thread.
+ */
+- (void)cutToPasteboard;
+
+/** Copies anything selected to pasteboard.
+ * If nothing can't be copied to pasteboard - does nothing.
+ *
+ * Should be called on cocos thread.
+ */
+- (void)copyToPasteboard;
+
+/** Looks for any supported stuff in pasteboard and adds it with 
+ * -addNode:withUniqueNameFromName: 
+ *
+ * Should be called on cocos thread.
+ */
+- (void)pasteFromPasteboard;
 
 #pragma mark Import
 

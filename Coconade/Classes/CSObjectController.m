@@ -299,11 +299,12 @@
      }];
 }
 
+// TODO: move to CCNWindowController
 - (IBAction) pasteMenuItemPressed: (id) sender
 {    
     [self performBlockOnCocosThread:^()
      {
-         [self.ccnController addNodesFromPasteboard];
+         [self.ccnController pasteFromPasteboard];
      }];
 }
 
