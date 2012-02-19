@@ -9,10 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
 
-/** Notification that is sent, when CCNMacGLView instance's workspaceSize is changed. */
-FOUNDATION_EXPORT NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification;
-
-
 @protocol CCNMacGLViewDragAndDropDelegate;
 @interface CCNMacGLView : MacGLView <CCProjectionProtocol>
 {

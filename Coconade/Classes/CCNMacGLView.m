@@ -12,9 +12,6 @@
 #import "CSObjectController.h"
 #import "DebugLog.h"
 
-NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewWorkspaceSizeDidChangeNotification";
-
-
 @interface CCNMacGLView ()
 
 /* This methods calculates offset (rect.origin) and width & height aspect (rect.size) 
@@ -75,7 +72,6 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
     
     if (!CGSizeEqualToSize(oldSize, workspaceSize))
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName: CCNMacGLViewWorkspaceSizeDidChangeNotification object:nil];
         [self updateView];
     }
 }
