@@ -92,9 +92,6 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	return _projection;
 }
 
-/* Resizes the View for Centering the Workspace in Window
- * This is needed cause it's impossible to set the position of contentNode of
- * NSScrollView */
 - (void) fixFrameSize
 {
 	// Size is equal to self.workspaceSize
@@ -136,7 +133,6 @@ NSString *const CCNMacGLViewWorkspaceSizeDidChangeNotification = @"CCNMacGLViewW
 	return CGRectMake(offset.x , offset.y, widthAspect, heightAspect);
 }
 
-/* Updates window size, to show scrollers of NSScrollView */
 - (void) updateWindow
 {
     [self fixFrameSize];
