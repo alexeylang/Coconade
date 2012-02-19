@@ -82,31 +82,26 @@
 	// "Cut"
 	if ([menuItem action] == @selector(cutMenuItemPressed:))
 	{
-		if ([modelObject_ selectedSprite])
-			return YES;
-		return NO;
+		return [self.ccnController canCutToPasteboard];
 	}
 	
 	// "Copy"
 	if ([menuItem action] == @selector(copyMenuItemPressed:))
 	{
-		if ([modelObject_ selectedSprite])
-			return YES;
-		return NO;
+		return [self.ccnController canCopyToPasteboard];
 	}
 	
 	// "Paste"
 	if ([menuItem action] == @selector(pasteMenuItemPressed:))
 	{
-		NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
-        NSDictionary *options = [NSDictionary dictionary];
-        return [generalPasteboard canReadObjectForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
+		return [self.ccnController canPasteFromPasteboard];
 	}
 	
 	// "Delete"
 	if ([menuItem action] == @selector(deleteMenuItemPressed:))
 	{
-		if ([modelObject_ selectedSprite])
+        // TODO: use ccnController method.
+		if (self.ccnController.model.selectedNode)
 			return YES;
 		return NO;
 	}
@@ -280,31 +275,28 @@
 // TODO: move to CCNWindowController or CCNController
 - (IBAction) deleteMenuItemPressed: (id) sender
 {
-	[self deleteSprite:[modelObject_ selectedSprite]];
+    [self performBlockOnCocosThread:^()
+     {
+         [self.ccnController.model removeNode:self.ccnController.model.selectedNode ];
+     }];
 }
 
 // TODO: move to CCNWindowController or CCNController
 - (IBAction) cutMenuItemPressed: (id) sender
 {
-	[self copyMenuItemPressed: sender];
-	[self deleteSprite:[modelObject_ selectedSprite]];
+	[self performBlockOnCocosThread:^()
+     {
+         [self.ccnController cutToPasteboard];
+     }];
 }
 
 // TODO: move to CCNWindowController or CCNController
 - (IBAction) copyMenuItemPressed: (id) sender
 {
-	// write selected sprite to pasteboard
-	NSArray *objectsToCopy = [modelObject_ selectedSprites];
-	if (objectsToCopy)
-	{
-		NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-		[pasteboard clearContents];		
-		
-		if (![pasteboard writeObjects:objectsToCopy] )
-		{
-			DebugLog(@"Error writing to pasteboard, sprites = %@", objectsToCopy);
-		}
-	}
+    [self performBlockOnCocosThread:^()
+     {
+         [self.ccnController copyToPasteboard];
+     }];
 }
 
 - (IBAction) pasteMenuItemPressed: (id) sender
