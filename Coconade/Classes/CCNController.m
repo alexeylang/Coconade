@@ -222,8 +222,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
 }
 
-// TODO: KVO the Model: selectedNode, curRootNode - update CCNScene when needed.
-
 #pragma mark Pasteboard
 
 // Currently supports only one node.

@@ -67,6 +67,10 @@
  */
 - (void) loadProject: (NSString *) filepath;
 
+
+// TODO: pargma marn Nodes
+// TODO: deleteSelectedNodes
+
 #pragma mark Pasteboard
 
 /** Returns YES if there's anything selected now, that can be copied

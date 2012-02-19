@@ -263,14 +263,15 @@
 }
 
 #pragma mark IBActions - Menus
-// TODO: forward
+
+// TODO: move to CCNWindowController
 - (IBAction) showBordersMenuItemPressed: (id) sender
 {
     CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
 	scene.showBorders = ([sender state] == NSOffState);
 }
 
-// TODO: move to CCNWindowController or CCNController
+// TODO: move to CCNWindowController
 - (IBAction) deleteMenuItemPressed: (id) sender
 {
     [self performBlockOnCocosThread:^()
@@ -279,7 +280,7 @@
      }];
 }
 
-// TODO: move to CCNWindowController or CCNController
+// TODO: move to CCNWindowController
 - (IBAction) cutMenuItemPressed: (id) sender
 {
 	[self performBlockOnCocosThread:^()
@@ -288,7 +289,7 @@
      }];
 }
 
-// TODO: move to CCNWindowController or CCNController
+// TODO: move to CCNWindowController
 - (IBAction) copyMenuItemPressed: (id) sender
 {
     [self performBlockOnCocosThread:^()
