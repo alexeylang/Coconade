@@ -84,8 +84,10 @@
         }
         
         _rootNodes = [[NSMutableArray arrayWithCapacity: [dict count]] retain];
-        for (NSDictionary *rootNodeDictionaryRepresentation in dict)
+        for (NSString *key in dict)
         {
+            NSDictionary *rootNodeDictionaryRepresentation = [dict objectForKey: key];
+            
             @try {
                 CCNode *curRootNode = [NSObject objectWithDictionaryRepresentation:rootNodeDictionaryRepresentation];
                 [_rootNodes addObject: curRootNode];
