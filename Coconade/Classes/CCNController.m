@@ -113,7 +113,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
         [self modelUpdatedFromOldOne: oldValue];
         
-        [oldValue release];       
+        [oldValue release];   
+        
+        // Ensure to have appropriate workspace size for currentRootNode.
+        self.glView.workspaceSize = _model.currentRootNode.contentSize;
+        [self.scene updateForScreenReshape];
     }
 }
 
@@ -263,7 +267,12 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         }
         else if ([keyPath isEqualToString:@"currentRootNode"])
         {
+            // Change currentRootNode.
             self.scene.targetNode = self.model.currentRootNode;
+            
+            // Ensure to have appropriate workspace size for currentRootNode.
+            self.glView.workspaceSize = self.model.currentRootNode.contentSize;
+            [self.scene updateForScreenReshape];
         }
     }
 }
