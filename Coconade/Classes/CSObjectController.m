@@ -71,13 +71,13 @@
 	// "Cut"
 	if ([menuItem action] == @selector(cutMenuItemPressed:))
 	{
-		return [self.ccnController canCutToPasteboard];
+		return [self.ccnController canCutSelectedToPasteboard];
 	}
 	
 	// "Copy"
 	if ([menuItem action] == @selector(copyMenuItemPressed:))
 	{
-		return [self.ccnController canCopyToPasteboard];
+		return [self.ccnController canCopySelectedToPasteboard];
 	}
 	
 	// "Paste"
@@ -89,7 +89,7 @@
 	// "Delete"
 	if ([menuItem action] == @selector(deleteMenuItemPressed:))
 	{
-        return [self.ccnController canDelete];
+        return [self.ccnController canDeleteSelected];
 	}
 	
 	// "Show Borders"- using ivar, because NSOnState doesn't set right in IB
@@ -245,7 +245,7 @@
 {
 	[self performBlockOnCocosThread:^()
      {
-         [self.ccnController cutToPasteboard];
+         [self.ccnController cutSelectedToPasteboard];
      }];
 }
 
@@ -254,7 +254,7 @@
 {
     [self performBlockOnCocosThread:^()
      {
-         [self.ccnController copyToPasteboard];
+         [self.ccnController copySelectedToPasteboard];
      }];
 }
 

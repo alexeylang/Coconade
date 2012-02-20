@@ -273,21 +273,21 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 #pragma mark Menu Items Validators
 
 // Currently supports only one node.
-- (BOOL) canDelete
+- (BOOL) canDeleteSelected
 {
     return ( self.model.selectedNode != nil );
 }
 
 // Currently supports only one node.
-- (BOOL) canCopyToPasteboard
+- (BOOL) canCopySelectedToPasteboard
 {
     return ( self.model.selectedNode != nil );
 }
 
 // Currently supports only one node.
-- (BOOL) canCutToPasteboard;
+- (BOOL) canCutSelectedToPasteboard;
 {
-    return [self canCopyToPasteboard];
+    return [self canCopySelectedToPasteboard];
 }
 
 - (BOOL) canPasteFromPasteboard
@@ -305,14 +305,14 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 // Currently supports only one node.
-- (void)cutToPasteboard
+- (void)cutSelectedToPasteboard
 {
-    [self copyToPasteboard];
+    [self copySelectedToPasteboard];
     [self.model removeNode: self.model.selectedNode];
 }
 
 // Currently supports copying only one node.
-- (void)copyToPasteboard
+- (void)copySelectedToPasteboard
 {
     // write selected node to pasteboard.
 	NSArray *objectsToCopy = [NSArray arrayWithObject: self.model.selectedNode];

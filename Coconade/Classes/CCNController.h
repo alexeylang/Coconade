@@ -111,19 +111,19 @@
 /** Returns YES if there's anything selected now that can be deleted.
  * Otherwise returns NO.
  */
-- (BOOL) canDelete;
+- (BOOL) canDeleteSelected;
 
 /** Returns YES if there's anything selected now, that can be copied
  * to pasteboard.
  * Otherwise returns NO.
  */
-- (BOOL) canCopyToPasteboard;
+- (BOOL) canCopySelectedToPasteboard;
 
 /** Returns YES if there's anything selected now, that can be copied
  * to pasteboard.
  * Otherwise returns NO.
  */
-- (BOOL) canCutToPasteboard;
+- (BOOL) canCutSelectedToPasteboard;
 
 /** Returns YES if there's anything in the pasteboard, that can be pasted.
  * Otherwise returns NO.
@@ -144,14 +144,14 @@
  *
  * Should be called on cocos thread.
  */
-- (void)cutToPasteboard;
+- (void) cutSelectedToPasteboard;
 
 /** Copies anything selected to pasteboard.
  * If nothing can't be copied to pasteboard - does nothing.
  *
  * Should be called on cocos thread.
  */
-- (void)copyToPasteboard;
+- (void) copySelectedToPasteboard;
 
 /** Looks for any supported stuff in pasteboard and adds it with 
  * -addNode:withUniqueNameFromName: 
