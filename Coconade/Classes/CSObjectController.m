@@ -31,7 +31,6 @@
 #import "CCNScene.h"
 #import "CCNode+Helpers.h"
 #import "CCEventDispatcher+Gestures.h"
-#import "CCNModel.h"
 #import "NSObject+Blocks.h"
 
 @implementation CSObjectController
@@ -64,11 +63,9 @@
 		return YES;
 	
 	// "Revert to Saved"
-	if ([menuItem action] == @selector(saveProject:))
+	if ([menuItem action] == @selector(revertToSavedProject:))
 	{
-		if (self.projectFilename)
-			return YES;
-		return NO;
+		return [self.ccnController canRevertToSavedProject];
 	}
 	
 	// "Cut"
@@ -92,10 +89,7 @@
 	// "Delete"
 	if ([menuItem action] == @selector(deleteMenuItemPressed:))
 	{
-        // TODO: use ccnController method.
-		if (self.ccnController.model.selectedNode)
-			return YES;
-		return NO;
+        return [self.ccnController canDelete];
 	}
 	
 	// "Show Borders"- using ivar, because NSOnState doesn't set right in IB
@@ -108,7 +102,7 @@
 // TODO: move to CCNWindowController
 - (IBAction)saveProject:(id)sender
 {
-	if (! self.projectFilename) 
+	if (! [self.ccnController canSaveProject]) 
 	{
 		[self saveProjectAs: sender];
 		return;
@@ -116,7 +110,7 @@
 	
 	[self performBlockOnCocosThread: ^()
      {
-         [self.ccnController.model saveToFile: self.ccnController.model.projectFilePath];
+         [self.ccnController saveProject];
      }];
 }
 
@@ -135,7 +129,7 @@
             
             [self performBlockOnCocosThread: ^()
              {
-                 [self.ccnController.model saveToFile: file];
+                 [self.ccnController saveProjectToFile: file]; //< TODO: use CCNController method instead.
              }];
 		}
 	}];
@@ -171,22 +165,7 @@
 			{
                 [self performBlockOnCocosThread:^()
                  {
-                     CCNModel *newModel = [CCNModel modelFromFile: file ];
-                     if (!newModel)
-                     {
-                         [self performBlockOnMainThread:^()
-                          {
-                              [[NSAlert alertWithMessageText: @"Can't open file." 
-                                               defaultButton: @"OK"
-                                             alternateButton: nil
-                                                 otherButton: nil 
-                                   informativeTextWithFormat: @"Can't create CCNModel from %@", file] runModal];
-                          }];
-                     }
-                     else
-                     {
-                         self.ccnController.model = newModel;
-                     }
+                     [self.ccnController loadProject: file];
                  }];
 			}
 		}
@@ -198,22 +177,7 @@
 {
     [self performBlockOnCocosThread:^()
      {
-         CCNModel *newModel = [CCNModel modelFromFile: self.ccnController.model.projectFilePath ];
-         if (!newModel)
-         {
-             [self performBlockOnMainThread:^()
-              {
-                  [[NSAlert alertWithMessageText: @"Can't open file." 
-                                   defaultButton: @"OK"
-                                 alternateButton: nil
-                                     otherButton: nil 
-                       informativeTextWithFormat: @"Can't create CCNModel from %@", self.ccnController.model.projectFilePath] runModal];
-              }];
-         }
-         else
-         {
-             self.ccnController.model = newModel;
-         }
+         [self.ccnController revertToSavedProject];
      }];
 }
 
@@ -270,7 +234,7 @@
 {
     [self performBlockOnCocosThread:^()
      {
-         [self.ccnController.model removeNode:self.ccnController.model.selectedNode ];
+         [self.ccnController deleteSelected];
      }];
 }
 
