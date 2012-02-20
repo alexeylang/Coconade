@@ -193,6 +193,53 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
 }
 
+- (void) revertToSavedProject
+{
+    if (self.model.projectFilePath)
+    {
+        [self loadProject: self.model.projectFilePath];
+    }
+}
+
+- (BOOL) canRevertToSavedProject
+{
+    if (self.model.projectFilePath)
+    {
+        // TODO: change to bundle.
+        return [[NSFileManager defaultManager] fileExistsAtPath: self.model.projectFilePath];
+    }
+    
+    return NO;
+}
+
+- (BOOL) canSaveProject
+{
+    if (self.model.projectFilePath)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (void) saveProject
+{
+    if (self.model.projectFilePath)
+    {
+        [self.model saveToFile:self.model.projectFilePath];
+    }
+}
+
+- (void) saveProjectToFile: (NSString *) filepath
+{
+    if (![filepath length])
+    {
+        return;
+    }
+    
+    [self.model saveToFile: filepath];
+}
+
 #pragma mark Model KVO
 
 - (void) modelUpdatedFromOldOne: (CCNModel *) oldModel
@@ -221,7 +268,15 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
 }
 
-#pragma mark Pasteboard
+#pragma mark - Edit Menu
+
+#pragma mark Menu Items Validators
+
+// Currently supports only one node.
+- (BOOL) canDelete
+{
+    return ( self.model.selectedNode != nil );
+}
 
 // Currently supports only one node.
 - (BOOL) canCopyToPasteboard
@@ -240,6 +295,13 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
     NSDictionary *options = [NSDictionary dictionary];
     return [generalPasteboard canReadObjectForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
+}
+
+#pragma mark Menu Items Callbacks
+
+- (void) deleteSelected
+{
+    [self.model removeNode: self.model.selectedNode];
 }
 
 // Currently supports only one node.

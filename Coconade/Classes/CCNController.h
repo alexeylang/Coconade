@@ -53,7 +53,7 @@
  */
 - (void) halt;
 
-#pragma mark Project
+#pragma mark - Project ("File" Menu Items Callbacks)
 
 /** Removes old model & creates new empty instead. */
 - (void) newProject;
@@ -67,25 +67,77 @@
  */
 - (void) loadProject: (NSString *) filepath;
 
+/** Loads new model from current projectFilePath if it is set.
+ * If loading succeeds - replaces old model with loaded one.
+ *
+ * Should be called on cocos thread.
+ * Does nothing if projectFilePath isn't set.
+ */
+- (void) revertToSavedProject;
 
-// TODO: pargma marn Nodes
-// TODO: deleteSelectedNodes
+/** Returns YES if there's any current projectFilepath
+ * specified and project can be reloaded from it.
+ * Otherwise returns NO.
+ */
+- (BOOL) canRevertToSavedProject;
 
-#pragma mark Pasteboard
+/** Returns YES if there's any current projectFilepath
+ * specified and project can be saved to it, without providing
+ * filepath from the outside.
+ * Otherwise returns NO.
+ */
+- (BOOL) canSaveProject;
+
+/** Saves current model to current projectFilePath.
+ * If projectFilePath isn't specified - does nothing.
+ *
+ * @see -saveProjectToFile:
+ * @see -canSaveProject
+ */
+- (void) saveProject;
+
+/** Saves current model to given file.
+ * Sets projectFilePath to filepath.
+ *
+ * @param filepath Path to project file, where project should be saved.
+ * This method does nothing if filepath is nil or empty string.
+ */
+- (void) saveProjectToFile: (NSString *) filepath;
+
+#pragma mark - Edit Menu
+
+#pragma mark Edit Menu Items Validators
+
+/** Returns YES if there's anything selected now that can be deleted.
+ * Otherwise returns NO.
+ */
+- (BOOL) canDelete;
 
 /** Returns YES if there's anything selected now, that can be copied
  * to pasteboard.
+ * Otherwise returns NO.
  */
 - (BOOL) canCopyToPasteboard;
 
 /** Returns YES if there's anything selected now, that can be copied
  * to pasteboard.
+ * Otherwise returns NO.
  */
 - (BOOL) canCutToPasteboard;
 
 /** Returns YES if there's anything in the pasteboard, that can be pasted.
+ * Otherwise returns NO.
  */
 - (BOOL) canPasteFromPasteboard;
+
+#pragma mark Edit Menu Items Callbacks
+
+/** Deletes anything selected.
+ * If there's nothing that can be deleted - does nothing.
+ *
+ * Should be called on cocos thread.
+ */
+- (void) deleteSelected;
 
 /** Copies anything selected to pasteboard and deletes it.
  * If nothing can't be cut to pasteboard - does nothing.
@@ -108,7 +160,7 @@
  */
 - (void)pasteFromPasteboard;
 
-#pragma mark Import
+#pragma mark  - Import
 
 /** Returns array of file extensions (excludng dot), that are supported by Coconade
  * and can be used as images (textures).
