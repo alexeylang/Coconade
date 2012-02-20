@@ -103,6 +103,7 @@
         }
         
         self.currentRootNode = [_rootNodes objectAtIndex:0];
+        self.projectFilePath = file;
     }
     
     return self;
