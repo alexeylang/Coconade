@@ -95,6 +95,8 @@
 	// "Show Borders"- using ivar, because NSOnState doesn't set right in IB
     CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
 	showBordersMenuItem_.state = (scene.showBorders) ? NSOnState : NSOffState;
+    
+    // TODO: add showCheckerboard.
 	
 	return YES;
 }
