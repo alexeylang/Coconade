@@ -52,12 +52,6 @@
 	[super dealloc];
 }
 
-- (void)deleteSprite:(CCNode *)sprite
-{
-	[self.ccnController.model removeNode: sprite];
-}
-
-
 #pragma mark IBActions
 
 // TODO: move to CCNWindowController

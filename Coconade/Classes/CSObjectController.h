@@ -79,7 +79,6 @@
 @property(retain) IBOutlet NSView *spriteInfoView;
 @property(retain) IBOutlet NSView *backgroundInfoView;
 @property(copy) NSString *projectFilename;
-- (void)deleteSprite:(CCNode *)sprite;
 - (IBAction)openInfoPanel:(id)sender;
 - (IBAction)openSpritesPanel: (id) sender;
 - (IBAction)openMainWindow:(id)sender;
