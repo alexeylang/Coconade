@@ -68,26 +68,52 @@
     
     // Create and setup main menu
     NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:@"MainMenu"] autorelease];
+    mainMenu.showsStateColumn = YES;
+    mainMenu.autoenablesItems = YES;
+    
     NSMenuItem *appMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: appMenuItem];
-    NSMenuItem *fileMenuItem = [[[NSMenuItem alloc] init] autorelease];
-    [mainMenu addItem: fileMenuItem];
-    
     NSMenu *appMenu = [[[NSMenu alloc] init] autorelease];
-    NSString *appName = [[NSProcessInfo processInfo] processName];
-    NSString *quitTitle = [@"Quit " stringByAppendingString:appName];
-    NSMenuItem *quitMenuItem = [[[NSMenuItem alloc] initWithTitle:quitTitle 
-                                                           action:@selector(terminate:) 
-                                                    keyEquivalent:@"q"] autorelease];
-    [appMenu addItem:quitMenuItem];
+    appMenu.showsStateColumn = YES;
+    appMenu.autoenablesItems = YES;
     [appMenuItem setSubmenu:appMenu];
     
+    [appMenu addItemWithTitle: @"About Coconade" 
+                       action: @selector(orderFrontStandardAboutPanel:) 
+                keyEquivalent: @""];
+    [appMenu addItem:[NSMenuItem separatorItem]];
+    [appMenu addItemWithTitle: @"Preferences…" 
+                       action: NULL
+                keyEquivalent: @","];
+    [appMenu addItem:[NSMenuItem separatorItem]];
+    [NSApp setServicesMenu: [[[NSMenu alloc] initWithTitle:@"Services"] autorelease]];
+    [appMenu addItemWithTitle: @"Services" 
+                       action: NULL
+                keyEquivalent: @""].submenu = [NSApp servicesMenu];
+    [appMenu addItem:[NSMenuItem separatorItem]];
+    [appMenu addItemWithTitle: @"Hide Coconade" 
+                       action: @selector(hide:) 
+                keyEquivalent: @"h"];
+    [[appMenu addItemWithTitle: @"Hide Others" 
+                       action: @selector(hideOtherApplications:) 
+                keyEquivalent: @"h"] setKeyEquivalentModifierMask: NSAlternateKeyMask|NSCommandKeyMask];
+    [appMenu addItemWithTitle: @"Show All" 
+                       action: @selector(unhideAllApplications:) 
+                keyEquivalent: @""];
+    [appMenu addItem:[NSMenuItem separatorItem]];
+    [appMenu addItemWithTitle: @"Quit Coconade" 
+                       action: @selector(terminate:) 
+                keyEquivalent: @"q"];
+    
+    NSMenuItem *fileMenuItem = [[[NSMenuItem alloc] init] autorelease];
+    [mainMenu addItem: fileMenuItem];
     NSMenu *fileMenu = [[[NSMenu alloc] initWithTitle:@"File"] autorelease];
-    NSMenuItem *openFileMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Open" 
-                                                           action:@selector(terminate:) 
-                                                    keyEquivalent:@"o"] autorelease];
-    [fileMenu addItem:openFileMenuItem];
     [fileMenuItem setSubmenu:fileMenu];
+   
+    NSMenuItem *openFileMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Open" 
+                                                               action:@selector(terminate:) 
+                                                        keyEquivalent:@"o"] autorelease];
+    [fileMenu addItem:openFileMenuItem];
     
     [NSApp setMainMenu:mainMenu];    
     
