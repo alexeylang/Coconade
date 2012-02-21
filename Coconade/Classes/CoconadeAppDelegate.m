@@ -24,7 +24,7 @@
  *
  */
 
-#import "cocoshopAppDelegate.h"
+#import "CoconadeAppDelegate.h"
 #import "CCNController.h"
 #import "DebugLog.h"
 #import "CCNScene.h"
@@ -34,7 +34,7 @@
 #import "CCNWindow.h"
 
 
-@implementation cocoshopAppDelegate
+@implementation CoconadeAppDelegate
 
 @synthesize windowController = _windowController;
 @synthesize controller = _controller;

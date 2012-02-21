@@ -29,7 +29,7 @@
 @class CCNController;
 @class CCNWindowController;
 
-@interface cocoshopAppDelegate : NSObject <NSApplicationDelegate>
+@interface CoconadeAppDelegate : NSObject <NSApplicationDelegate>
 {
     CCNWindowController *_windowController;
 	CCNController *_controller;
