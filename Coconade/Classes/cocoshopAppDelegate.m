@@ -119,6 +119,8 @@
 {
 	[[CCDirector sharedDirector] release];
     self.windowController = nil;
+    self.controller = nil;
+    self.filenameToOpen = nil;
     
 	[super dealloc];
 }
