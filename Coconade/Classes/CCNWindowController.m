@@ -62,15 +62,13 @@
 
 - (void) prepareMainMenu
 {
+    // Create main menu
     NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:@"MainMenu"] autorelease];
-    mainMenu.showsStateColumn = YES;
-    mainMenu.autoenablesItems = YES;
     
+    // Create application menu
     NSMenuItem *appMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: appMenuItem];
     NSMenu *appMenu = [[[NSMenu alloc] init] autorelease];
-    appMenu.showsStateColumn = YES;
-    appMenu.autoenablesItems = YES;
     [appMenuItem setSubmenu:appMenu];
     
     [appMenu addItemWithTitle: @"About Coconade" 
@@ -100,6 +98,7 @@
                        action: @selector(terminate:) 
                 keyEquivalent: @"q"];
     
+    // Create file menu
     NSMenuItem *fileMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: fileMenuItem];
     NSMenu *fileMenu = [[[NSMenu alloc] initWithTitle:@"File"] autorelease];
