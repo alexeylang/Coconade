@@ -29,4 +29,11 @@
  */
 - (void)rotateWithEvent:(NSEvent *)event;
 
+/** Informs the receiver that the user has begun a swipe gesture.
+ * (swipeWithEvent: event).
+ *
+ * @param event An event object representing the swipe gesture.
+ */
+- (void)swipeWithEvent:(NSEvent *)event;
+
 @end
