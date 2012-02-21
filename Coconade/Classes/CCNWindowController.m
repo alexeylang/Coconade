@@ -60,18 +60,8 @@
     self.window.toolbar = toolbar;
 }
 
-- (void) prepareWindow
+- (void) prepareMainMenu
 {
-    // Setup window
-    self.window.level = NSNormalWindowLevel;
-    self.window.backgroundColor = [NSColor whiteColor];
-    self.window.hasShadow = YES;
-    self.window.acceptsMouseMovedEvents = NO;
-    
-    // Create and setup toolbar
-    [self prepareToolbar];
-    
-    // Create and setup main menu
     NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:@"MainMenu"] autorelease];
     mainMenu.showsStateColumn = YES;
     mainMenu.autoenablesItems = YES;
@@ -100,8 +90,8 @@
                        action: @selector(hide:) 
                 keyEquivalent: @"h"];
     [[appMenu addItemWithTitle: @"Hide Others" 
-                       action: @selector(hideOtherApplications:) 
-                keyEquivalent: @"h"] setKeyEquivalentModifierMask: NSAlternateKeyMask|NSCommandKeyMask];
+                        action: @selector(hideOtherApplications:) 
+                 keyEquivalent: @"h"] setKeyEquivalentModifierMask: NSAlternateKeyMask|NSCommandKeyMask];
     [appMenu addItemWithTitle: @"Show All" 
                        action: @selector(unhideAllApplications:) 
                 keyEquivalent: @""];
@@ -114,13 +104,29 @@
     [mainMenu addItem: fileMenuItem];
     NSMenu *fileMenu = [[[NSMenu alloc] initWithTitle:@"File"] autorelease];
     [fileMenuItem setSubmenu:fileMenu];
-   
+    
     NSMenuItem *openFileMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Open" 
                                                                action:@selector(terminate:) 
                                                         keyEquivalent:@"o"] autorelease];
     [fileMenu addItem:openFileMenuItem];
     
     [NSApp setMainMenu:mainMenu];    
+
+}
+
+- (void) prepareWindow
+{
+    // Setup window
+    self.window.level = NSNormalWindowLevel;
+    self.window.backgroundColor = [NSColor whiteColor];
+    self.window.hasShadow = YES;
+    self.window.acceptsMouseMovedEvents = NO;
+    
+    // Create and setup toolbar
+    [self prepareToolbar];
+    
+    // Create and setup main menu
+    [self prepareMainMenu];
     
     // Create and setup splitView & subviews
     NSView *contentView = self.window.contentView;
