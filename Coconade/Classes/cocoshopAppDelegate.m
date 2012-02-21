@@ -129,7 +129,7 @@
 
 - (IBAction)toggleFullScreen: (id)sender
 {
-	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
+	CCDirectorMac *director = (CCDirectorMac *)[CCDirector sharedDirector];
 	[director setFullScreen: ! [director isFullScreen] ];
 	
 	[(CCNMacGLView *)[director openGLView] updateView];

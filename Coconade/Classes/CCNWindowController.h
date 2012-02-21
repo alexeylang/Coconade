@@ -15,7 +15,7 @@
  */
 @interface CCNWindowController : NSWindowController <NSToolbarDelegate, NSSplitViewDelegate>
 {
-	CCNMacGLView	*_glView;
+	CCNMacGLView *_glView;
 }
 
 /** Holds OpenGL view that used for representation all Cocos2D objects. */
