@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 496706F9135B9DDE0074D05A /* CSObjectController.m */; };
 		49A13F92135BC12E000C3BD8 /* Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F71135BC089000C3BD8 /* Add.tiff */; };
 		49A13F93135BC12E000C3BD8 /* Burn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F72135BC089000C3BD8 /* Burn.tiff */; };
 		49A1406C135BCB37000C3BD8 /* arial.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406A135BCB2D000C3BD8 /* arial.fnt */; };
@@ -204,7 +203,6 @@
 		FDC7413114EEEB0700E0B860 /* NSObject+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */; };
 		FDC7413814F0242100E0B860 /* NSArray+Reverse.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7413714F0242100E0B860 /* NSArray+Reverse.m */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
-		FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */; };
 		FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */; };
 		FDD94C5514E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */; };
 		FDD94C5914E5D05100E1CF18 /* CCNodeRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5714E5D05100E1CF18 /* CCNodeRegistry.h */; };
@@ -226,8 +224,6 @@
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		496706F8135B9DDE0074D05A /* CSObjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSObjectController.h; sourceTree = "<group>"; };
-		496706F9135B9DDE0074D05A /* CSObjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSObjectController.m; sourceTree = "<group>"; };
 		49A13F71135BC089000C3BD8 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add.tiff; sourceTree = "<group>"; };
 		49A13F72135BC089000C3BD8 /* Burn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Burn.tiff; sourceTree = "<group>"; };
 		49A1406A135BCB2D000C3BD8 /* arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arial.fnt; sourceTree = "<group>"; };
@@ -255,7 +251,7 @@
 		6DECF9881389841E0070C774 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E01E663D121CA00A001A484F /* libcocos2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E01E6A3D121EDCD3001A484F /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		E02A83D2129F000100341C97 /* CoconadeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CoconadeAppDelegate.h; sourceTree = "<group>"; };
+		E02A83D2129F000100341C97 /* CoconadeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoconadeAppDelegate.h; sourceTree = "<group>"; };
 		E02A83D3129F000100341C97 /* CoconadeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoconadeAppDelegate.m; sourceTree = "<group>"; };
 		E02A83EB129F01DF00341C97 /* cocoshop_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocoshop_Prefix.pch; sourceTree = "<group>"; };
 		E02A83EC129F01DF00341C97 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -440,7 +436,6 @@
 		FDC7413614F0242100E0B860 /* NSArray+Reverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Reverse.h"; sourceTree = "<group>"; };
 		FDC7413714F0242100E0B860 /* NSArray+Reverse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Reverse.m"; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
-		FDD94C4A14E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = MainMenu.xib; sourceTree = "<group>"; };
 		FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoMagicCoding.h"; sourceTree = "<group>"; };
 		FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoMagicCoding.m"; sourceTree = "<group>"; };
 		FDD94C5714E5D05100E1CF18 /* CCNodeRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeRegistry.h; sourceTree = "<group>"; };
@@ -592,7 +587,6 @@
 		E02A83D1129F000100341C97 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				FD2C665314EC30610020E187 /* RustyShitToRemove */,
 				6D13ADE01385A4CC004FA7F1 /* Support */,
 				FD7877F214E7E1EE00D128F2 /* CCNController.h */,
 				FD7877F314E7E1EE00D128F2 /* CCNController.m */,
@@ -808,15 +802,6 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		FD2C665314EC30610020E187 /* RustyShitToRemove */ = {
-			isa = PBXGroup;
-			children = (
-				496706F8135B9DDE0074D05A /* CSObjectController.h */,
-				496706F9135B9DDE0074D05A /* CSObjectController.m */,
-			);
-			name = RustyShitToRemove;
-			sourceTree = "<group>";
-		};
 		FDC7412914EDA8AE00E0B860 /* TrackpadGesturesSupport */ = {
 			isa = PBXGroup;
 			children = (
@@ -833,7 +818,6 @@
 			children = (
 				FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */,
 				FDD94C6914E5D63500E1CF18 /* MainMenu - copy.xib */,
-				FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */,
 			);
 			path = English.lproj;
 			sourceTree = "<group>";
@@ -1030,7 +1014,6 @@
 				6D1EEA3E138EF4D70091F76B /* icon7.png in Resources */,
 				6D1EEA44138EFE280091F76B /* icon7-c.png in Resources */,
 				FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */,
-				FDD94C4C14E5C97D00E1CF18 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,7 +1106,6 @@
 				E02A83D9129F000100341C97 /* CoconadeAppDelegate.m in Sources */,
 				FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */,
 				E02A83FC129F023B00341C97 /* main.m in Sources */,
-				496706FA135B9DDE0074D05A /* CSObjectController.m in Sources */,
 				6D4702CE135F52BC00FDEADD /* CCNMacGLView.m in Sources */,
 				6D1FEC0B138074630039076A /* DebugLog.m in Sources */,
 				6D13ADE81385A768004FA7F1 /* NSString+RelativePath.m in Sources */,
@@ -1157,14 +1139,6 @@
 				FDD94C4814E5C97D00E1CF18 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		FDD94C4914E5C97D00E1CF18 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FDD94C4A14E5C97D00E1CF18 /* English */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		FDD94C6914E5D63500E1CF18 /* MainMenu - copy.xib */ = {
