@@ -104,13 +104,41 @@
     NSMenu *fileMenu = [[[NSMenu alloc] initWithTitle:@"File"] autorelease];
     [fileMenuItem setSubmenu:fileMenu];
     
-    NSMenuItem *openFileMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Open" 
-                                                               action:@selector(terminate:) 
-                                                        keyEquivalent:@"o"] autorelease];
-    [fileMenu addItem:openFileMenuItem];
-    
+    [fileMenu addItemWithTitle: @"New" 
+                        action: NULL 
+                 keyEquivalent: @"n"];
+    [fileMenu addItemWithTitle: @"Open..." 
+                        action: NULL
+                 keyEquivalent: @"o"];
+    NSMenu *openRecentMenu = [[[NSMenu alloc] initWithTitle:@"Open Recent"] autorelease];
+    [openRecentMenu addItemWithTitle: @"Clear Menu" 
+                              action:@selector(clearRecentDocuments:) 
+                       keyEquivalent:@""];
+    [fileMenu addItemWithTitle: @"Open Recent" 
+                        action: NULL
+                 keyEquivalent: @""].submenu = openRecentMenu;
+    [fileMenu addItem:[NSMenuItem separatorItem]];
+    [fileMenu addItemWithTitle: @"Close" 
+                        action: @selector(performClose:) 
+                 keyEquivalent: @"w"];
+    [fileMenu addItemWithTitle: @"Save" 
+                        action: NULL
+                 keyEquivalent: @"s"];
+    [[fileMenu addItemWithTitle: @"Save As..." 
+                         action: NULL
+                  keyEquivalent: @"s"] setKeyEquivalentModifierMask: NSShiftKeyMask|NSCommandKeyMask];
+    [fileMenu addItemWithTitle: @"Revert to Saved" 
+                        action: NULL
+                 keyEquivalent: @""];
+    [fileMenu addItem:[NSMenuItem separatorItem]];
+    [[fileMenu addItemWithTitle: @"Page Setup..." 
+                         action: @selector(runPageLayout:)
+                  keyEquivalent: @"p"] setKeyEquivalentModifierMask: NSShiftKeyMask|NSCommandKeyMask];  
+    [fileMenu addItemWithTitle: @"Print..." 
+                        action: @selector(print:)
+                 keyEquivalent: @"p"];
+     
     [NSApp setMainMenu:mainMenu];    
-
 }
 
 - (void) prepareWindow
