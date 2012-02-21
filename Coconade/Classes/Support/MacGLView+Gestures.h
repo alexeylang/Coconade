@@ -23,7 +23,7 @@
 - (void)magnifyWithEvent:(NSEvent *)event;
 
 /** Informs the receiver that the user has begun a rotate gesture.
- * (magnidyWithEvent: event).
+ * (magnifyWithEvent: event).
  *
  * @param event An event object representing the rotate gesture.
  */
