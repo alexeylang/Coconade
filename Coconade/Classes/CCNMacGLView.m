@@ -8,7 +8,6 @@
 //
 
 #import "CCNMacGLView.h"
-#import "cocoshopAppDelegate.h"
 #import "CSObjectController.h"
 #import "DebugLog.h"
 
@@ -228,13 +227,6 @@
 	p.y /= self.zoomFactor;
 	
 	return p;
-}
-
-#pragma mark Helpers
-
-- (cocoshopAppDelegate *) appDelegate
-{
-	return (cocoshopAppDelegate *)[[NSApplication sharedApplication ] delegate];
 }
 
 #pragma mark Drag & Drop Support
