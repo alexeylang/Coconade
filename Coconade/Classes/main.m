@@ -10,19 +10,23 @@
 
 #import "cocos2d.h"
 #import "CCNMacGLView.h"
+#import "CoconadeAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     int result = 0;
     @try 
     {
         [CCNMacGLView load_];
+        [NSApplication sharedApplication].delegate = [[[CoconadeAppDelegate alloc] init] autorelease];
         result = NSApplicationMain(argc,  (const char **) argv);
     }
     @catch (NSException *exception) 
     {
         NSLog(@"%@", exception);
     }
+    [pool drain];
     
     return result;
 }
