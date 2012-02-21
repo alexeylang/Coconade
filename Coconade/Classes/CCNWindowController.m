@@ -66,6 +66,31 @@
     toolbar.delegate = self;    
     self.window.toolbar = toolbar;
     
+    // Create and setup main menu
+    NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:@"MainMenu"] autorelease];
+    NSMenuItem *appMenuItem = [[[NSMenuItem alloc] init] autorelease];
+    [mainMenu addItem: appMenuItem];
+    NSMenuItem *fileMenuItem = [[[NSMenuItem alloc] init] autorelease];
+    [mainMenu addItem: fileMenuItem];
+    
+    NSMenu *appMenu = [[[NSMenu alloc] init] autorelease];
+    NSString *appName = [[NSProcessInfo processInfo] processName];
+    NSString *quitTitle = [@"Quit " stringByAppendingString:appName];
+    NSMenuItem *quitMenuItem = [[[NSMenuItem alloc] initWithTitle:quitTitle 
+                                                           action:@selector(terminate:) 
+                                                    keyEquivalent:@"q"] autorelease];
+    [appMenu addItem:quitMenuItem];
+    [appMenuItem setSubmenu:appMenu];
+    
+    NSMenu *fileMenu = [[[NSMenu alloc] initWithTitle:@"File"] autorelease];
+    NSMenuItem *openFileMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Open" 
+                                                           action:@selector(terminate:) 
+                                                    keyEquivalent:@"o"] autorelease];
+    [fileMenu addItem:openFileMenuItem];
+    [fileMenuItem setSubmenu:fileMenu];
+    
+    [NSApp setMainMenu:mainMenu];    
+    
     // Create and setup splitView & subviews
     NSView *contentView = self.window.contentView;
     NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: contentView.frame] autorelease];
