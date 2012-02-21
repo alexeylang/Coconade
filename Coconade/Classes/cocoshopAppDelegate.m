@@ -25,7 +25,7 @@
  */
 
 #import "cocoshopAppDelegate.h"
-#import "CSObjectController.h"
+#import "CCNController.h"
 #import "DebugLog.h"
 #import "CCNScene.h"
 #import "NSObject+Blocks.h"
@@ -53,7 +53,7 @@
 		{
 			[self performBlockOnCocosThread:^()
              {
-                 [self.controller.ccnController loadProject: self.filenameToOpen];             
+                 [self.controller loadProject: self.filenameToOpen];             
                  self.filenameToOpen = nil;
              }];
 		}
@@ -87,8 +87,8 @@
     [self.windowController.glView setWorkspaceSize: s];
     
     // Prepare controller & run scene.
-    self.controller.ccnController = [CCNController controllerWithGLView: self.windowController.glView];
-    [director runWithScene: self.controller.ccnController.scene];
+    self.controller = [CCNController controllerWithGLView: self.windowController.glView];
+    [director runWithScene: self.controller.scene];
 	
 	self.appIsRunning = YES;
 
@@ -97,7 +97,7 @@
 	{
         [self performBlockOnCocosThread:^()
          {
-             [self.controller.ccnController loadProject: self.filenameToOpen];             
+             [self.controller loadProject: self.filenameToOpen];             
              self.filenameToOpen = nil;
          }];       
 	}

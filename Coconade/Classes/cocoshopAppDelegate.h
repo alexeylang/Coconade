@@ -26,20 +26,20 @@
 #import "cocos2d.h"
 #import "CCNMacGLView.h"
 
-@class CSObjectController;
+@class CCNController;
 @class CCNWindowController;
 
 @interface cocoshopAppDelegate : NSObject <NSApplicationDelegate>
 {
     CCNWindowController *_windowController;
-	CSObjectController *_controller;
+	CCNController *_controller;
 	
 	BOOL _appIsRunning;
 	NSString *_filenameToOpen;
 }
 
 @property (readwrite, retain) CCNWindowController *windowController;
-@property (assign) IBOutlet CSObjectController *controller;
+@property (readwrite, retain) CCNController *controller;
 @property (readwrite, copy) NSString *filenameToOpen;
 @property (readwrite) BOOL appIsRunning;
 
