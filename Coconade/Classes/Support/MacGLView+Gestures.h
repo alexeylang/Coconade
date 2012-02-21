@@ -23,10 +23,17 @@
 - (void)magnifyWithEvent:(NSEvent *)event;
 
 /** Informs the receiver that the user has begun a rotate gesture.
- * (magnidyWithEvent: event).
+ * (magnifyWithEvent: event).
  *
  * @param event An event object representing the rotate gesture.
  */
 - (void)rotateWithEvent:(NSEvent *)event;
+
+/** Informs the receiver that the user has begun a swipe gesture.
+ * (swipeWithEvent: event).
+ *
+ * @param event An event object representing the swipe gesture.
+ */
+- (void)swipeWithEvent:(NSEvent *)event;
 
 @end

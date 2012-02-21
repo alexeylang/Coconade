@@ -34,6 +34,15 @@
  */
 - (BOOL)ccRotateWithEvent:(NSEvent *)event;
 
+/** Informs the receiver that the user has begun a swipe gesture.
+ * (swipeWithEvent: event).
+ *
+ * @param event An event object representing the swipe gesture. 
+ *
+ * Return YES to avoid propagating the event to other delegates.
+ */
+- (void)ccSwipeWithEvent:(NSEvent *)event;
+
 @end
 
 /** @category Gestures Additional methods for CCEventDispatcher

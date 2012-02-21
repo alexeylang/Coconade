@@ -12,6 +12,7 @@ enum
 {
     kCCImplementsMagnify = 1 << 17,
     kCCImplementsRotate  = 1 << 18,
+    kCCImplementsSwipe   = 1 << 19,
 };
 
 
@@ -40,6 +41,7 @@ typedef struct _listEntry
 	
 	flags |= ( [delegate respondsToSelector:@selector(ccMagnifyWithEvent:)] ? kCCImplementsMagnify : 0 );
 	flags |= ( [delegate respondsToSelector:@selector(ccRotateWithEvent:)] ? kCCImplementsRotate : 0 );
+    flags |= ( [delegate respondsToSelector:@selector(ccSwipeWithEvent:)] ? kCCImplementsSwipe : 0 );
 	
 	[self addDelegate:delegate priority:priority flags:flags list:&touchDelegates_];
 }
@@ -74,6 +76,21 @@ typedef struct _listEntry
 		DL_FOREACH_SAFE( touchDelegates_, entry, tmp ) {
 			if ( entry->flags & kCCImplementsMagnify) {
 				void *swallows = [entry->delegate performSelector:@selector(ccMagnifyWithEvent:) withObject:event];
+				if( swallows )
+					break;
+			}
+		}
+	}	
+}
+
+- (void)swipeWithEvent:(NSEvent *)event
+{
+	if( dispatchEvents_ ) {
+		tListEntry *entry, *tmp;
+		
+		DL_FOREACH_SAFE( touchDelegates_, entry, tmp ) {
+			if ( entry->flags & kCCImplementsSwipe) {
+				void *swallows = [entry->delegate performSelector:@selector(ccSwipeWithEvent:) withObject:event];
 				if( swallows )
 					break;
 			}
