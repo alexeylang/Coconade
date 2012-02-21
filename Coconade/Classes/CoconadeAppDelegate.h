@@ -9,9 +9,9 @@
 #import "cocos2d.h"
 #import "CCNMacGLView.h"
 
+
 @class CCNController;
 @class CCNWindowController;
-
 @interface CoconadeAppDelegate : NSObject <NSApplicationDelegate>
 {
     CCNWindowController *_windowController;
