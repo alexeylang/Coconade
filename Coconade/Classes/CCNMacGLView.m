@@ -8,7 +8,6 @@
 //
 
 #import "CCNMacGLView.h"
-#import "CSObjectController.h"
 #import "DebugLog.h"
 
 @interface CCNMacGLView ()
