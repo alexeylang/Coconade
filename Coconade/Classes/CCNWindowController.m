@@ -51,6 +51,15 @@
 
 #pragma mark Prepare Window & Subviews
 
+- (void) prepareToolbar
+{
+    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:
+                           kCCNWindowControllerToolbarIdentifier] autorelease];
+    toolbar.displayMode = NSToolbarDisplayModeIconAndLabel;
+    toolbar.delegate = self;    
+    self.window.toolbar = toolbar;
+}
+
 - (void) prepareWindow
 {
     // Setup window
@@ -60,11 +69,7 @@
     self.window.acceptsMouseMovedEvents = NO;
     
     // Create and setup toolbar
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:
-                           kCCNWindowControllerToolbarIdentifier] autorelease];
-    toolbar.displayMode = NSToolbarDisplayModeIconAndLabel;
-    toolbar.delegate = self;    
-    self.window.toolbar = toolbar;
+    [self prepareToolbar];
     
     // Create and setup main menu
     NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:@"MainMenu"] autorelease];
