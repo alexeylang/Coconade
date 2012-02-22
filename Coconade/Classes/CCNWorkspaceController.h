@@ -28,7 +28,7 @@
 }
 
 /** Property to hold glView, provided from outside. */
-@property(readwrite, assign) CCNMacGLView *glView;
+@property(readwrite, retain) CCNMacGLView *glView;
 
 /** Scene that is used to hold everything in Coconade. */
 @property(readwrite, retain) CCNScene *scene;

@@ -160,6 +160,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     self.scene = nil;
     self.model = nil;
+    self.glView = nil;    
         
     [super dealloc];
 }
