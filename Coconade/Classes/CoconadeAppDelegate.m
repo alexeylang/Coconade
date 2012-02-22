@@ -55,22 +55,24 @@
                                                       styleMask: styleMask
                                                         backing: NSBackingStoreBuffered 
                                                           defer: NO] autorelease];
-    self.windowController = [[CCNWindowController alloc] initWithWindow:window];
+    CCNMacGLView *glView = [[[CCNMacGLView alloc] init] autorelease];
+    CCNWorkspaceController *workspaceController = [CCNWorkspaceController controllerWithGLView:glView];
+    self.windowController = [CCNWindowController controllerWithWindow:window 
+                                                  workspaceController:workspaceController];
     [self.windowController prepareWindow];
     
     // Prepare CCDirector.
 	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];	
 	[director setDisplayFPS:NO];	
-	[director setOpenGLView:self.windowController.glView];
+	[director setOpenGLView:glView];
 	[director setResizeMode:kCCDirectorResize_NoScale]; //< We use NoScale with own Projection for NSScrollView
 	[director setProjection: kCCDirectorProjectionCustom];
-	[director setProjectionDelegate: self.windowController.glView];
+	[director setProjectionDelegate: glView];
 	CGSize s = [[CCDirector sharedDirector] winSize];
-    [self.windowController.glView setWorkspaceSize: s];
+    [glView setWorkspaceSize: s];
     
     // Prepare controller & run scene.
-    self.controller = [CCNWorkspaceController controllerWithGLView: self.windowController.glView];
-    [director runWithScene: self.controller.scene];
+    [director runWithScene: workspaceController.scene];
 	
 	self.appIsRunning = YES;
 
