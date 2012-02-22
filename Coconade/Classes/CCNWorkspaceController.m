@@ -16,9 +16,6 @@
 
 @interface CCNWorkspaceController ()
 
-/** Property to hold glView, provided from outside. */
-@property(readwrite, assign) CCNMacGLView *glView;
-
 /** Adds self as observer to new model, updates everything related &
  * removes self as observer from old model
  */
