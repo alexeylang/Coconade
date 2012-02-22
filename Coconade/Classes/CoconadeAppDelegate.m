@@ -19,7 +19,6 @@
 @implementation CoconadeAppDelegate
 
 @synthesize windowController = _windowController;
-@synthesize controller = _controller;
 @synthesize appIsRunning = _appIsRunning; 
 @synthesize filenameToOpen = _filenameToOpen;
 
@@ -35,7 +34,7 @@
 		{
 			[self performBlockOnCocosThread:^()
              {
-                 [self.controller loadProject: self.filenameToOpen];             
+                 [self.windowController.workspaceController loadProject: self.filenameToOpen];             
                  self.filenameToOpen = nil;
              }];
 		}
@@ -81,7 +80,7 @@
 	{
         [self performBlockOnCocosThread:^()
          {
-             [self.controller loadProject: self.filenameToOpen];             
+             [workspaceController loadProject: self.filenameToOpen];             
              self.filenameToOpen = nil;
          }];       
 	}
@@ -103,7 +102,6 @@
 {
 	[[CCDirector sharedDirector] release];
     self.windowController = nil;
-    self.controller = nil;
     self.filenameToOpen = nil;
     
 	[super dealloc];
