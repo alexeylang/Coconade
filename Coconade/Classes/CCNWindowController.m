@@ -157,6 +157,23 @@
                         action: NULL 
                  keyEquivalent: [NSString stringWithFormat:@"%c", 0x08]];
 
+    // Create view menu
+    NSMenuItem *viewMenuItem = [[[NSMenuItem alloc] init] autorelease];
+    [mainMenu addItem: viewMenuItem];
+    NSMenu *viewMenu = [[[NSMenu alloc] initWithTitle:@"View"] autorelease];
+    [viewMenuItem setSubmenu:viewMenu];
+    
+    [viewMenu addItemWithTitle: @"Show Borders" 
+                        action: NULL 
+                 keyEquivalent: @"b"];
+    [viewMenu addItem:[NSMenuItem separatorItem]];
+    [viewMenu addItemWithTitle: @"Toogle Full Screen" 
+                        action: NULL 
+                 keyEquivalent: @"f"];
+    [viewMenu addItemWithTitle: @"Reset Zoom" 
+                        action: NULL 
+                 keyEquivalent: @"0"];
+    
     [NSApp setMainMenu:mainMenu];    
 }
 
