@@ -138,6 +138,25 @@
                         action: @selector(print:)
                  keyEquivalent: @"p"];
      
+    // Create edit menu
+    NSMenuItem *editMenuItem = [[[NSMenuItem alloc] init] autorelease];
+    [mainMenu addItem: editMenuItem];
+    NSMenu *editMenu = [[[NSMenu alloc] initWithTitle:@"Edit"] autorelease];
+    [editMenuItem setSubmenu:editMenu];
+    
+    [editMenu addItemWithTitle: @"Cut" 
+                        action: NULL 
+                 keyEquivalent: @"x"];
+    [editMenu addItemWithTitle: @"Copy" 
+                        action: NULL 
+                 keyEquivalent: @"c"];
+    [editMenu addItemWithTitle: @"Paste" 
+                        action: NULL 
+                 keyEquivalent: @"v"];
+    [editMenu addItemWithTitle: @"Delete" 
+                        action: NULL 
+                 keyEquivalent: [NSString stringWithFormat:@"%c", 0x08]];
+
     [NSApp setMainMenu:mainMenu];    
 }
 
