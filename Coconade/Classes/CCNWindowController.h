@@ -9,7 +9,6 @@
 #import <AppKit/AppKit.h>
 
 
-@class CCNMacGLView;
 @class CCNWorkspaceController;
 @class CCNWindow;
 /** @class CCNWindowController controller for Coconade window and its subviews. 
@@ -17,12 +16,8 @@
  */
 @interface CCNWindowController : NSWindowController <NSToolbarDelegate, NSSplitViewDelegate>
 {
-	CCNMacGLView *_glView;
     CCNWorkspaceController *_workspaceController;
 }
-
-/** Holds OpenGL view that used for representation all Cocos2D objects. */
-@property (readwrite, retain) CCNMacGLView *glView;
 
 /** Holds workspace controller - main logic controller for Coconade. */
 @property (readwrite, retain) CCNWorkspaceController *workspaceController;

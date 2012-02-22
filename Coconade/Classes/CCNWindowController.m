@@ -39,7 +39,6 @@
 
 @implementation CCNWindowController
 
-@synthesize glView = _glView;
 @synthesize workspaceController = _workspaceController;
 
 #pragma mark Init/DeInit
@@ -64,7 +63,6 @@
 
 - (void) dealloc
 {
-    self.glView = nil;
     self.workspaceController = nil;
     
     [super dealloc];
