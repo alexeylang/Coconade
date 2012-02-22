@@ -191,6 +191,16 @@
                           action: @selector(arrangeInFront:) 
                    keyEquivalent: @""];
     
+    // Create help menu
+    NSMenuItem *helpMenuItem = [[[NSMenuItem alloc] init] autorelease];
+    [mainMenu addItem: helpMenuItem];
+    NSMenu *helpMenu = [[[NSMenu alloc] initWithTitle:@"Help"] autorelease];
+    [helpMenuItem setSubmenu:helpMenu];
+    
+    [helpMenu addItemWithTitle: @"Coconade Help" 
+                        action: @selector(showHelp:) 
+                 keyEquivalent: @"?"];
+    
     [NSApp setMainMenu:mainMenu];    
 }
 
