@@ -435,6 +435,7 @@
 		FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Blocks.m"; sourceTree = "<group>"; };
 		FDC7413614F0242100E0B860 /* NSArray+Reverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Reverse.h"; sourceTree = "<group>"; };
 		FDC7413714F0242100E0B860 /* NSArray+Reverse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Reverse.m"; sourceTree = "<group>"; };
+		FDC7414B14F5811A00E0B860 /* PRODUCT_BACKLOG.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = PRODUCT_BACKLOG.md; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoMagicCoding.h"; sourceTree = "<group>"; };
 		FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoMagicCoding.m"; sourceTree = "<group>"; };
@@ -506,6 +507,7 @@
 			isa = PBXGroup;
 			children = (
 				6DECF9881389841E0070C774 /* README.md */,
+				FDC7414B14F5811A00E0B860 /* PRODUCT_BACKLOG.md */,
 				6DC763F913AE48A3002BD9A1 /* CHANGELOG */,
 				6DB59F7413B7C1B90012FA60 /* AUTHORS */,
 				E02A83D1129F000100341C97 /* Classes */,
