@@ -40,16 +40,16 @@
  */
 + (id) controllerWithGLView: (CCNMacGLView *) glView;
 
-/** Designated init for CCNController.
+/** Designated init for CCNWorkspaceController.
  *
- * @param glView GLView in which Coconade will run, can't be nil, shouldn't b changed
+ * @param glView GLView in which Coconade will run, can't be nil, shouldn't be changed
  * during runtime.
  */
 - (id) initWithGLView: (CCNMacGLView *) glView;
 
-/** Should be called after finishing work with CCNController & before releasing it.
+/** Should be called after finishing work with CCNWorkspaceController & before releasing it.
  * It's simillar to CCNode#enExit method - unregisters controller in EventDispatcher, etc.
- * Without invoking this method CCNController will not be dealloced.
+ * Without invoking this method CCNWorkspaceController will not be dealloced.
  */
 - (void) halt;
 

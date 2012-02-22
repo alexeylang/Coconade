@@ -52,11 +52,11 @@
 
 #pragma mark Events Support
 
-/** Adds CCNController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
+/** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
 
-/** Removes CCNController from CCEventDispatcher delegates lists.
- * ATTENTION: shouldn't be used in CCNController#dealloc, cause CCEventDispatcher
+/** Removes CCNWorkspaceController from CCEventDispatcher delegates lists.
+ * ATTENTION: shouldn't be used in CCNWorkspaceController#dealloc, cause CCEventDispatcher
  * retains delegates, and dealloc will never happen if controller will not be 
  * removed from delegates before.
  */
