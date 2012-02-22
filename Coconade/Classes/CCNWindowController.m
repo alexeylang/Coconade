@@ -174,6 +174,23 @@
                         action: NULL 
                  keyEquivalent: @"0"];
     
+    // Create window menu
+    NSMenuItem *windowMenuItem = [[[NSMenuItem alloc] init] autorelease];
+    [mainMenu addItem: windowMenuItem];
+    NSMenu *windowMenu = [[[NSMenu alloc] initWithTitle:@"Window"] autorelease];
+    [windowMenuItem setSubmenu:windowMenu];
+    
+    [windowMenu addItemWithTitle: @"Minimize" 
+                          action: @selector(performMiniaturize:) 
+                   keyEquivalent: @"m"];
+    [windowMenu addItemWithTitle: @"Zoom" 
+                          action: @selector(performZoom:) 
+                   keyEquivalent: @""];
+    [windowMenu addItem:[NSMenuItem separatorItem]];
+    [windowMenu addItemWithTitle: @"Bring All to Front" 
+                          action: @selector(arrangeInFront:) 
+                   keyEquivalent: @""];
+    
     [NSApp setMainMenu:mainMenu];    
 }
 
