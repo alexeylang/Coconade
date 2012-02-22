@@ -27,6 +27,12 @@
 /** Holds workspace controller - main logic controller for Coconade. */
 @property (readwrite, retain) CCNWorkspaceController *workspaceController;
 
+/** Returns new autoreleased window controller with given window & workspaceController. 
+ * @see -initWithWindow:workspaceController:
+ */
++ (id) controllerWithWindow: (CCNWindow *) window 
+        workspaceController: (CCNWorkspaceController *) workspaceController;
+
 /** Designated init for CCNWindowController.
  *
  * @param window - main window of Coconade.

@@ -44,6 +44,13 @@
 
 #pragma mark Init/DeInit
 
++ (id) controllerWithWindow: (CCNWindow *) window 
+        workspaceController: (CCNWorkspaceController *) workspaceController
+{
+    return [[[self alloc] initWithWindow:window 
+                     workspaceController:workspaceController] autorelease];
+}
+
 - (id)  initWithWindow: (CCNWindow *) window 
    workspaceController: (CCNWorkspaceController *) workspaceController
 {
