@@ -1,5 +1,5 @@
 //
-//  CCNController.h
+//  CCNWorkspaceController.h
 //  Coconade
 //
 //  Copyright (c) 2012 Stepan Generalov
@@ -7,14 +7,14 @@
 //
 
 #import "cocos2d.h"
-#import "CCNController.h"
+#import "CCNWorkspaceController.h"
 #import "CCNModel.h"
 #import "CCNScene.h"
 #import "CCNode+Helpers.h"
 #import "CCNMacGLView.h"
 #import "NSObject+Blocks.h"
 
-@interface CCNController ()
+@interface CCNWorkspaceController ()
 
 /** Property to hold glView, provided from outside. */
 @property(readwrite, assign) CCNMacGLView *glView;
@@ -96,7 +96,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark -
 
-@implementation CCNController
+@implementation CCNWorkspaceController
 
 @dynamic model;
 - (CCNModel *) model

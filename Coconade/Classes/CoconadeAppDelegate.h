@@ -10,19 +10,19 @@
 #import "CCNMacGLView.h"
 
 
-@class CCNController;
+@class CCNWorkspaceController;
 @class CCNWindowController;
 @interface CoconadeAppDelegate : NSObject <NSApplicationDelegate>
 {
     CCNWindowController *_windowController;
-	CCNController *_controller;
+	CCNWorkspaceController *_controller;
 	
 	BOOL _appIsRunning;
 	NSString *_filenameToOpen;
 }
 
 @property (readwrite, retain) CCNWindowController *windowController;
-@property (readwrite, retain) CCNController *controller;
+@property (readwrite, retain) CCNWorkspaceController *controller;
 @property (readwrite, copy) NSString *filenameToOpen;
 @property (readwrite) BOOL appIsRunning;
 

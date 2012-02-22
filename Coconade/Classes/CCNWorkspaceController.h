@@ -1,5 +1,5 @@
 //
-//  CCNController.h
+//  CCNWorkspaceController.h
 //  Coconade
 //
 //  Copyright (c) 2012 Stepan Generalov
@@ -13,8 +13,8 @@
 
 @class CCNModel;
 @class CCNScene;
-/** @class CCNController Main logic controller for Coconade. */
-@interface CCNController : NSObject <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate, CCNMacGLViewDragAndDropDelegate>
+/** @class CCNWorkspaceController Main logic controller for Coconade. */
+@interface CCNWorkspaceController : NSObject <CCMouseEventDelegate, CCKeyboardEventDelegate, CCGestureEventDelegate, CCNMacGLViewDragAndDropDelegate>
 {
     CCNMacGLView *_glView;
     CCNScene *_scene;

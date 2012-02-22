@@ -7,7 +7,7 @@
 //
 
 #import "CoconadeAppDelegate.h"
-#import "CCNController.h"
+#import "CCNWorkspaceController.h"
 #import "DebugLog.h"
 #import "CCNScene.h"
 #import "NSObject+Blocks.h"
@@ -69,7 +69,7 @@
     [self.windowController.glView setWorkspaceSize: s];
     
     // Prepare controller & run scene.
-    self.controller = [CCNController controllerWithGLView: self.windowController.glView];
+    self.controller = [CCNWorkspaceController controllerWithGLView: self.windowController.glView];
     [director runWithScene: self.controller.scene];
 	
 	self.appIsRunning = YES;
