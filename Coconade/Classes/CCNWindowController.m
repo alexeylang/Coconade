@@ -44,6 +44,17 @@
 
 #pragma mark Init/DeInit
 
+- (id)  initWithWindow: (CCNWindow *) window 
+   workspaceController: (CCNWorkspaceController *) workspaceController
+{
+    if ( (self = [super init]) )
+    {
+        self.window = window;
+        self.workspaceController = workspaceController;
+    }
+    return self;
+}
+
 - (void) dealloc
 {
     self.glView = nil;
