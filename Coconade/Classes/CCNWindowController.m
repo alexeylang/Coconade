@@ -9,6 +9,7 @@
 #import "CCNWindowController.h"
 #import "CCNMacGLView.h"
 #import "CCNWindow.h"
+#import "CCNWorkspaceController.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -39,12 +40,14 @@
 @implementation CCNWindowController
 
 @synthesize glView = _glView;
+@synthesize workspaceController = _workspaceController;
 
 #pragma mark Init/DeInit
 
 - (void) dealloc
 {
     self.glView = nil;
+    self.workspaceController = nil;
     
     [super dealloc];
 }

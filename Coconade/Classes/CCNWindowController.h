@@ -10,16 +10,21 @@
 
 
 @class CCNMacGLView;
+@class CCNWorkspaceController;
 /** @class CCNWindowController controller for Coconade window and its subviews. 
  * Contains all logic of creating, setup and work menus, toolbars, views, etc.
  */
 @interface CCNWindowController : NSWindowController <NSToolbarDelegate, NSSplitViewDelegate>
 {
 	CCNMacGLView *_glView;
+    CCNWorkspaceController *_workspaceController;
 }
 
 /** Holds OpenGL view that used for representation all Cocos2D objects. */
 @property (readwrite, retain) CCNMacGLView *glView;
+
+/** Holds workspace controller - main logic controller for Coconade. */
+@property (readwrite, retain) CCNWorkspaceController *workspaceController;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc.
