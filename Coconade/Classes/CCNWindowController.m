@@ -236,14 +236,14 @@
     [viewMenuItem setSubmenu:viewMenu];
     
     [viewMenu addItemWithTitle: kCCNWindowControllerViewMenuShowBordersItemTitle 
-                        action: NULL 
+                        action: @selector(showBordersMenuItemPressed:) 
                  keyEquivalent: @"b"];
     [viewMenu addItem:[NSMenuItem separatorItem]];
     [viewMenu addItemWithTitle: kCCNWindowControllerViewMenuToogleFullScreenItemTitle 
-                        action: NULL 
+                        action: @selector(toggleFullScreen:) 
                  keyEquivalent: @"f"];
     [viewMenu addItemWithTitle: kCCNWindowControllerViewMenuResetZoomItemTitle 
-                        action: NULL 
+                        action: @selector(resetZoom:) 
                  keyEquivalent: @"0"];
     
     // Create window menu
@@ -545,6 +545,26 @@
      {
          [self.workspaceController deleteSelected];
      }];
+}
+
+#pragma mark ViewMenu related
+
+- (void) showBordersMenuItemPressed: (id) sender
+{
+    CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+    scene.showBorders = ([sender state] == NSOffState);
+}
+
+- (void)toggleFullScreen: (id)sender
+{
+	CCDirectorMac *director = (CCDirectorMac *)[CCDirector sharedDirector];
+	[director setFullScreen: ! [director isFullScreen] ];
+	[self.workspaceController.glView updateView];
+}
+
+- (void)resetZoom:(id)sender
+{
+    [self.workspaceController.glView resetZoom];
 }
 
 @end
