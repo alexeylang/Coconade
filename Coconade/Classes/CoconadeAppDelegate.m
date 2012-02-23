@@ -15,7 +15,7 @@
 #import "CCNWindowController.h"
 #import "CCNWindow.h"
 
-
+// TODO: rename to CCNAppDelegate to match naming style.
 @implementation CoconadeAppDelegate
 
 @synthesize windowController = _windowController;
@@ -25,7 +25,7 @@
 // Can be called before -applicationDidFinishLaunching: if app is open by double-clicking csd file.
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-	if ([[filename pathExtension] isEqualToString: @"csd"])
+	if ([[filename pathExtension] isEqualToString: @"csd"]) //< TODO: search for "csd" and replace it with "ccn"
 	{
 		DebugLog(@"Will Open File: %@", filename);
 		self.filenameToOpen = filename;
@@ -58,6 +58,8 @@
     CCNWorkspaceController *workspaceController = [CCNWorkspaceController controllerWithGLView:glView];
     self.windowController = [CCNWindowController controllerWithWindow:window 
                                                   workspaceController:workspaceController];
+    // TODO: looks like this is called onle from here, remove it here and move this call
+    // to CCNWindowController#initXXX ?
     [self.windowController prepareWindow];
     
     // Prepare CCDirector.
@@ -109,6 +111,7 @@
 
 #pragma mark AppDelegate - IBActions
 
+// TODO: move to CCNWindowController? At least it shouldn't be IBAction anymore.
 - (IBAction)toggleFullScreen: (id)sender
 {
 	CCDirectorMac *director = (CCDirectorMac *)[CCDirector sharedDirector];
