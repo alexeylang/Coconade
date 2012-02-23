@@ -79,6 +79,16 @@
 #define kCCNWindowControllerSplitViewRightViewDefaultWidth      300.0f
 
 
+@interface CCNWindowController ()
+
+/** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
+ * splitView, scrollView, etc.
+ */
+- (void) prepareWindow;
+
+@end
+
+
 @implementation CCNWindowController
 
 @synthesize workspaceController = _workspaceController;
@@ -99,6 +109,7 @@
     {
         self.window = window;
         self.workspaceController = workspaceController;
+        [self prepareWindow];
     }
     return self;
 }

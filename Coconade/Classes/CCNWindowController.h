@@ -37,9 +37,4 @@
 - (id)  initWithWindow: (CCNWindow *) window 
    workspaceController: (CCNWorkspaceController *) workspaceController;
 
-/** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
- * splitView, scrollView, etc.
- */
-- (void) prepareWindow;
-
 @end

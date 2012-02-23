@@ -58,9 +58,6 @@
     CCNWorkspaceController *workspaceController = [CCNWorkspaceController controllerWithGLView:glView];
     self.windowController = [CCNWindowController controllerWithWindow:window 
                                                   workspaceController:workspaceController];
-    // TODO: looks like this is called onle from here, remove it here and move this call
-    // to CCNWindowController#initXXX ?
-    [self.windowController prepareWindow];
     
     // Prepare CCDirector.
 	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];	
