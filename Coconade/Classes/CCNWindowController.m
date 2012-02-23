@@ -450,7 +450,7 @@
     [openPanel setCanChooseFiles:YES];
     [openPanel setAllowsMultipleSelection:YES];
     [openPanel setCanChooseDirectories:NO];
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"csd"]];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:kCCNWindowControllerCoconadeProjectFileExtension]];
     [openPanel setAllowsOtherFileTypes:NO];  
     
     // handle the open panel
@@ -475,7 +475,7 @@
 {   
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     [savePanel setCanCreateDirectories:YES];
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObjects:@"csd", @"ccb", nil]];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:kCCNWindowControllerCoconadeProjectFileExtension]];
     
     // handle the save panel
     [savePanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) 

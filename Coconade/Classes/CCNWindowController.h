@@ -8,6 +8,8 @@
 
 #import <AppKit/AppKit.h>
 
+#define kCCNWindowControllerCoconadeProjectFileExtension    @"ccn"
+
 
 @class CCNWorkspaceController;
 @class CCNWindow;
