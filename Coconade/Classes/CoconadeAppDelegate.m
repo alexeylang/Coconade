@@ -22,10 +22,10 @@
 @synthesize appIsRunning = _appIsRunning; 
 @synthesize filenameToOpen = _filenameToOpen;
 
-// Can be called before -applicationDidFinishLaunching: if app is open by double-clicking csd file.
+// Can be called before -applicationDidFinishLaunching: if app is open by double-clicking ccn file.
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-	if ([[filename pathExtension] isEqualToString: @"csd"]) //< TODO: search for "csd" and replace it with "ccn"
+	if ([[filename pathExtension] isEqualToString: kCCNWindowControllerCoconadeProjectFileExtension])
 	{
 		DebugLog(@"Will Open File: %@", filename);
 		self.filenameToOpen = filename;
