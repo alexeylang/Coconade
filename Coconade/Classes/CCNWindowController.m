@@ -433,7 +433,7 @@
     return YES;
 }
 
-#pragma mark FileMenu related
+#pragma mark FileMenu Callbacks
 
 - (void)newProject:(id)sender
 {
@@ -513,7 +513,7 @@
      }];
 }
 
-#pragma mark EditMenu related
+#pragma mark EditMenu Callbacks
 
 - (void) cutMenuItemPressed: (id) sender
 {
@@ -547,7 +547,7 @@
      }];
 }
 
-#pragma mark ViewMenu related
+#pragma mark ViewMenu Callbacks
 
 - (void) showBordersMenuItemPressed: (id) sender
 {
