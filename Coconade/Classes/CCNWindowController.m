@@ -33,6 +33,46 @@
 #define kCCNWindowControllerToolbarItemSpritesListName          @"Sprites List"
 #define kCCNWindowControllerToolbarItemSpritesListImage         @"icon7-c.png"
 
+#define kCCNWindowControllerMainMenuTitle                       @"MainMenu"
+#define kCCNWindowControllerMainMenuAboutCoconadeItemTitle      @"About Coconade"
+#define kCCNWindowControllerMainMenuPreferencesItemTitle        @"Preferences…"
+#define kCCNWindowControllerMainMenuServicesItemTitle           @"Services"
+#define kCCNWindowControllerMainMenuHideCoconadeItemTitle       @"Hide Coconade"
+#define kCCNWindowControllerMainMenuHideOthersItemTitle         @"Hide Others"
+#define kCCNWindowControllerMainMenuShowAllItemTitle            @"Show All"
+#define kCCNWindowControllerMainMenuQuitCoconadeItemTitle       @"Quit Coconade"
+
+#define kCCNWindowControllerFileMenuTitle                       @"File"
+#define kCCNWindowControllerFileMenuNewItemTitle                @"New"
+#define kCCNWindowControllerFileMenuOpenItemTitle               @"Open..."
+#define kCCNWindowControllerFileMenuOpenRecentMenuTitle         @"Open Recent"
+#define kCCNWindowControllerOpenRecentMenuClearItemTitle        @"Clear Menu"
+#define kCCNWindowControllerFileMenuCloseItemTitle              @"Close"
+#define kCCNWindowControllerFileMenuSaveItemTitle               @"Save"
+#define kCCNWindowControllerFileMenuSaveAsItemTitle             @"Save As..."
+#define kCCNWindowControllerFileMenuRevertSavedItemTitle        @"Revert to Saved"
+#define kCCNWindowControllerFileMenuPageSetupItemTitle          @"Page Setup..." 
+#define kCCNWindowControllerFileMenuPrintItemTitle              @"Print..."
+
+#define kCCNWindowControllerEditMenuTitle                       @"Edit"
+#define kCCNWindowControllerEditMenuCutItemTitle                @"Cut"
+#define kCCNWindowControllerEditMenuCopyItemTitle               @"Copy"
+#define kCCNWindowControllerEditMenuPasteItemTitle              @"Paste"
+#define kCCNWindowControllerEditMenuDeleteItemTitle             @"Delete"
+
+#define kCCNWindowControllerViewMenuTitle                       @"View"
+#define kCCNWindowControllerViewMenuShowBordersItemTitle        @"Show Borders"
+#define kCCNWindowControllerViewMenuToogleFullScreenItemTitle   @"Toogle Full Screen"
+#define kCCNWindowControllerViewMenuResetZoomItemTitle          @"Reset Zoom"
+
+#define kCCNWindowControllerWindowMenuTitle                     @"Window"
+#define kCCNWindowControllerWindowMenuMinimizeItemTitle         @"Minimize"
+#define kCCNWindowControllerWindowMenuZoomItemTitle             @"Zoom"
+#define kCCNWindowControllerWindowMenuBringAllToFrontItemTitle  @"Bring All to Front"
+
+#define kCCNWindowControllerHelpMenuTitle                       @"Help"
+#define kCCNWindowControllerHelpMenuCoconadeHelpItemTitle       @"Coconade Help"
+
 #define kCCNWindowControllerSplitViewLeftViewDefaultWidth       300.0f
 #define kCCNWindowControllerSplitViewRightViewDefaultWidth      300.0f
 
@@ -82,7 +122,7 @@
 - (void) prepareMainMenu
 {
     // Create main menu
-    NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:@"MainMenu"] autorelease];
+    NSMenu *mainMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerMainMenuTitle] autorelease];
     
     // Create application menu
     NSMenuItem *appMenuItem = [[[NSMenuItem alloc] init] autorelease];
@@ -90,133 +130,133 @@
     NSMenu *appMenu = [[[NSMenu alloc] init] autorelease];
     [appMenuItem setSubmenu:appMenu];
     
-    [appMenu addItemWithTitle: @"About Coconade" 
+    [appMenu addItemWithTitle: kCCNWindowControllerMainMenuAboutCoconadeItemTitle 
                        action: @selector(orderFrontStandardAboutPanel:) 
                 keyEquivalent: @""];
     [appMenu addItem:[NSMenuItem separatorItem]];
-    [appMenu addItemWithTitle: @"Preferences…" 
+    [appMenu addItemWithTitle: kCCNWindowControllerMainMenuPreferencesItemTitle 
                        action: NULL
                 keyEquivalent: @","];
     [appMenu addItem:[NSMenuItem separatorItem]];
-    [NSApp setServicesMenu: [[[NSMenu alloc] initWithTitle:@"Services"] autorelease]];
-    [appMenu addItemWithTitle: @"Services" 
+    [NSApp setServicesMenu: [[[NSMenu alloc] initWithTitle:kCCNWindowControllerMainMenuServicesItemTitle] autorelease]];
+    [appMenu addItemWithTitle: kCCNWindowControllerMainMenuServicesItemTitle 
                        action: NULL
                 keyEquivalent: @""].submenu = [NSApp servicesMenu];
     [appMenu addItem:[NSMenuItem separatorItem]];
-    [appMenu addItemWithTitle: @"Hide Coconade" 
+    [appMenu addItemWithTitle: kCCNWindowControllerMainMenuHideCoconadeItemTitle 
                        action: @selector(hide:) 
                 keyEquivalent: @"h"];
-    [[appMenu addItemWithTitle: @"Hide Others" 
+    [[appMenu addItemWithTitle: kCCNWindowControllerMainMenuHideOthersItemTitle 
                         action: @selector(hideOtherApplications:) 
                  keyEquivalent: @"h"] setKeyEquivalentModifierMask: NSAlternateKeyMask|NSCommandKeyMask];
-    [appMenu addItemWithTitle: @"Show All" 
+    [appMenu addItemWithTitle: kCCNWindowControllerMainMenuShowAllItemTitle 
                        action: @selector(unhideAllApplications:) 
                 keyEquivalent: @""];
     [appMenu addItem:[NSMenuItem separatorItem]];
-    [appMenu addItemWithTitle: @"Quit Coconade" 
+    [appMenu addItemWithTitle: kCCNWindowControllerMainMenuQuitCoconadeItemTitle 
                        action: @selector(terminate:) 
                 keyEquivalent: @"q"];
     
     // Create file menu
     NSMenuItem *fileMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: fileMenuItem];
-    NSMenu *fileMenu = [[[NSMenu alloc] initWithTitle:@"File"] autorelease];
+    NSMenu *fileMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerFileMenuTitle] autorelease];
     [fileMenuItem setSubmenu:fileMenu];
     
-    [fileMenu addItemWithTitle: @"New" 
-                        action: NULL 
+    [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuNewItemTitle 
+                        action: @selector(newProject:) 
                  keyEquivalent: @"n"];
-    [fileMenu addItemWithTitle: @"Open..." 
+    [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuOpenItemTitle 
                         action: NULL
                  keyEquivalent: @"o"];
-    NSMenu *openRecentMenu = [[[NSMenu alloc] initWithTitle:@"Open Recent"] autorelease];
-    [openRecentMenu addItemWithTitle: @"Clear Menu" 
-                              action:@selector(clearRecentDocuments:) 
-                       keyEquivalent:@""];
-    [fileMenu addItemWithTitle: @"Open Recent" 
+    NSMenu *openRecentMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerFileMenuOpenRecentMenuTitle] autorelease];
+    [openRecentMenu addItemWithTitle: kCCNWindowControllerOpenRecentMenuClearItemTitle 
+                              action: @selector(clearRecentDocuments:) 
+                       keyEquivalent: @""];
+    [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuOpenRecentMenuTitle 
                         action: NULL
                  keyEquivalent: @""].submenu = openRecentMenu;
     [fileMenu addItem:[NSMenuItem separatorItem]];
-    [fileMenu addItemWithTitle: @"Close" 
+    [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuCloseItemTitle 
                         action: @selector(performClose:) 
                  keyEquivalent: @"w"];
-    [fileMenu addItemWithTitle: @"Save" 
+    [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuSaveItemTitle 
                         action: NULL
                  keyEquivalent: @"s"];
-    [[fileMenu addItemWithTitle: @"Save As..." 
+    [[fileMenu addItemWithTitle: kCCNWindowControllerFileMenuSaveAsItemTitle 
                          action: NULL
                   keyEquivalent: @"s"] setKeyEquivalentModifierMask: NSShiftKeyMask|NSCommandKeyMask];
-    [fileMenu addItemWithTitle: @"Revert to Saved" 
+    [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuRevertSavedItemTitle 
                         action: NULL
                  keyEquivalent: @""];
     [fileMenu addItem:[NSMenuItem separatorItem]];
-    [[fileMenu addItemWithTitle: @"Page Setup..." 
+    [[fileMenu addItemWithTitle: kCCNWindowControllerFileMenuPageSetupItemTitle 
                          action: @selector(runPageLayout:)
                   keyEquivalent: @"p"] setKeyEquivalentModifierMask: NSShiftKeyMask|NSCommandKeyMask];  
-    [fileMenu addItemWithTitle: @"Print..." 
+    [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuPrintItemTitle 
                         action: @selector(print:)
                  keyEquivalent: @"p"];
      
     // Create edit menu
     NSMenuItem *editMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: editMenuItem];
-    NSMenu *editMenu = [[[NSMenu alloc] initWithTitle:@"Edit"] autorelease];
+    NSMenu *editMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerEditMenuTitle] autorelease];
     [editMenuItem setSubmenu:editMenu];
     
-    [editMenu addItemWithTitle: @"Cut" 
+    [editMenu addItemWithTitle: kCCNWindowControllerEditMenuCutItemTitle 
                         action: NULL 
                  keyEquivalent: @"x"];
-    [editMenu addItemWithTitle: @"Copy" 
+    [editMenu addItemWithTitle: kCCNWindowControllerEditMenuCopyItemTitle 
                         action: NULL 
                  keyEquivalent: @"c"];
-    [editMenu addItemWithTitle: @"Paste" 
+    [editMenu addItemWithTitle: kCCNWindowControllerEditMenuPasteItemTitle
                         action: NULL 
                  keyEquivalent: @"v"];
-    [editMenu addItemWithTitle: @"Delete" 
+    [editMenu addItemWithTitle: kCCNWindowControllerEditMenuDeleteItemTitle 
                         action: NULL 
                  keyEquivalent: [NSString stringWithFormat:@"%c", 0x08]];
 
     // Create view menu
     NSMenuItem *viewMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: viewMenuItem];
-    NSMenu *viewMenu = [[[NSMenu alloc] initWithTitle:@"View"] autorelease];
+    NSMenu *viewMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerViewMenuTitle] autorelease];
     [viewMenuItem setSubmenu:viewMenu];
     
-    [viewMenu addItemWithTitle: @"Show Borders" 
+    [viewMenu addItemWithTitle: kCCNWindowControllerViewMenuShowBordersItemTitle 
                         action: NULL 
                  keyEquivalent: @"b"];
     [viewMenu addItem:[NSMenuItem separatorItem]];
-    [viewMenu addItemWithTitle: @"Toogle Full Screen" 
+    [viewMenu addItemWithTitle: kCCNWindowControllerViewMenuToogleFullScreenItemTitle 
                         action: NULL 
                  keyEquivalent: @"f"];
-    [viewMenu addItemWithTitle: @"Reset Zoom" 
+    [viewMenu addItemWithTitle: kCCNWindowControllerViewMenuResetZoomItemTitle 
                         action: NULL 
                  keyEquivalent: @"0"];
     
     // Create window menu
     NSMenuItem *windowMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: windowMenuItem];
-    NSMenu *windowMenu = [[[NSMenu alloc] initWithTitle:@"Window"] autorelease];
+    NSMenu *windowMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerWindowMenuTitle] autorelease];
     [windowMenuItem setSubmenu:windowMenu];
     
-    [windowMenu addItemWithTitle: @"Minimize" 
+    [windowMenu addItemWithTitle: kCCNWindowControllerWindowMenuMinimizeItemTitle 
                           action: @selector(performMiniaturize:) 
                    keyEquivalent: @"m"];
-    [windowMenu addItemWithTitle: @"Zoom" 
+    [windowMenu addItemWithTitle: kCCNWindowControllerWindowMenuZoomItemTitle
                           action: @selector(performZoom:) 
                    keyEquivalent: @""];
     [windowMenu addItem:[NSMenuItem separatorItem]];
-    [windowMenu addItemWithTitle: @"Bring All to Front" 
+    [windowMenu addItemWithTitle: kCCNWindowControllerWindowMenuBringAllToFrontItemTitle 
                           action: @selector(arrangeInFront:) 
                    keyEquivalent: @""];
     
     // Create help menu
     NSMenuItem *helpMenuItem = [[[NSMenuItem alloc] init] autorelease];
     [mainMenu addItem: helpMenuItem];
-    NSMenu *helpMenu = [[[NSMenu alloc] initWithTitle:@"Help"] autorelease];
+    NSMenu *helpMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerHelpMenuTitle] autorelease];
     [helpMenuItem setSubmenu:helpMenu];
     
-    [helpMenu addItemWithTitle: @"Coconade Help" 
+    [helpMenu addItemWithTitle: kCCNWindowControllerHelpMenuCoconadeHelpItemTitle 
                         action: @selector(showHelp:) 
                  keyEquivalent: @"?"];
     
