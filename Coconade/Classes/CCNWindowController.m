@@ -363,6 +363,7 @@
     {
         toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemAddSpriteName;
         toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemAddSpriteImage];
+        toolbarItem.action = @selector(addSprite:);
     }
     else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemAddBigImageIdentifier]) 
     {
@@ -386,6 +387,35 @@
     }
     
     return toolbarItem;
+}
+
+#pragma mark Toolbar Callbacks
+
+- (void)addSprite:(id)sender
+{
+    // allowed file types
+    NSArray *allowedTypes = [self.workspaceController allowedImageFileTypes];
+    
+    // initialize panel + set flags
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseFiles:YES];
+    [openPanel setAllowsMultipleSelection:YES];
+    [openPanel setCanChooseDirectories:NO];
+    [openPanel setAllowedFileTypes:allowedTypes];
+    [openPanel setAllowsOtherFileTypes:NO];
+    
+    // handle the open panel
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) 
+     {
+         if (result == NSOKButton)
+         {
+             NSArray *files = [openPanel filenames];
+             [self performBlockOnCocosThread:^()
+              {
+                  [self.workspaceController importSpritesWithFiles: files];
+              }];
+         }
+     }];
 }
 
 #pragma mark SplitView Delegate
