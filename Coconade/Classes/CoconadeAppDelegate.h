@@ -23,8 +23,6 @@
 @property (readwrite, copy) NSString *filenameToOpen;
 @property (readwrite) BOOL appIsRunning;
 
-- (IBAction)toggleFullScreen:(id)sender;
-
 /** Called before applicationDidFinishLaunching: if app is open by double-clicking ccn file */
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
 

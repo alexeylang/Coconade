@@ -105,15 +105,4 @@
 	[super dealloc];
 }
 
-#pragma mark AppDelegate - IBActions
-
-// TODO: move to CCNWindowController? At least it shouldn't be IBAction anymore.
-- (IBAction)toggleFullScreen: (id)sender
-{
-	CCDirectorMac *director = (CCDirectorMac *)[CCDirector sharedDirector];
-	[director setFullScreen: ! [director isFullScreen] ];
-	
-	[(CCNMacGLView *)[director openGLView] updateView];
-}
-
 @end
