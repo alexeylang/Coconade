@@ -10,6 +10,7 @@
 #import "CCNMacGLView.h"
 #import "CCNWindow.h"
 #import "CCNWorkspaceController.h"
+#import "NSObject+Blocks.h"
 #import "CCNScene.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
@@ -168,7 +169,7 @@
                         action: @selector(newProject:) 
                  keyEquivalent: @"n"];
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuOpenItemTitle 
-                        action: NULL
+                        action: @selector(openProject:)
                  keyEquivalent: @"o"];
     NSMenu *openRecentMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerFileMenuOpenRecentMenuTitle] autorelease];
     [openRecentMenu addItemWithTitle: kCCNWindowControllerOpenRecentMenuClearItemTitle 
@@ -182,13 +183,13 @@
                         action: @selector(performClose:) 
                  keyEquivalent: @"w"];
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuSaveItemTitle 
-                        action: NULL
+                        action: @selector(saveProject:)
                  keyEquivalent: @"s"];
     [[fileMenu addItemWithTitle: kCCNWindowControllerFileMenuSaveAsItemTitle 
-                         action: NULL
+                         action: @selector(saveProjectAs:)
                   keyEquivalent: @"s"] setKeyEquivalentModifierMask: NSShiftKeyMask|NSCommandKeyMask];
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuRevertSavedItemTitle 
-                        action: NULL
+                        action: @selector(revertToSavedProject:)
                  keyEquivalent: @""];
     [fileMenu addItem:[NSMenuItem separatorItem]];
     [[fileMenu addItemWithTitle: kCCNWindowControllerFileMenuPageSetupItemTitle 
@@ -419,6 +420,86 @@
         menuItem.state = scene.showBorders ? NSOnState : NSOffState;
     }
     return YES;
+}
+
+#pragma mark FileMenu related
+
+- (void)newProject:(id)sender
+{
+    [self performBlockOnCocosThread:^() 
+     {
+         [self.workspaceController newProject];  
+     }];
+}
+
+- (void)openProject:(id)sender
+{
+    // initialize panel + set flags
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseFiles:YES];
+    [openPanel setAllowsMultipleSelection:YES];
+    [openPanel setCanChooseDirectories:NO];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"csd"]];
+    [openPanel setAllowsOtherFileTypes:NO];  
+    
+    // handle the open panel
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) 
+     {
+         if (result == NSOKButton)
+         {
+             NSArray *files = [openPanel filenames];
+             NSString *file = [files objectAtIndex:0];
+             if (file)
+             {
+                 [self performBlockOnCocosThread:^() 
+                  {
+                      [self.workspaceController loadProject: file];
+                  }];
+             }
+         }
+     }];
+}
+
+- (void)saveProjectAs:(id)sender
+{   
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    [savePanel setCanCreateDirectories:YES];
+    [savePanel setAllowedFileTypes:[NSArray arrayWithObjects:@"csd", @"ccb", nil]];
+    
+    // handle the save panel
+    [savePanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) 
+     {
+         if (result == NSOKButton)
+         {
+             NSString *file = [savePanel filename];
+             [self performBlockOnCocosThread: ^()
+              {
+                  [self.workspaceController saveProjectToFile: file];
+              }];
+         }
+     }];
+}
+
+- (void)saveProject:(id)sender
+{
+    if ( ![self.workspaceController canSaveProject] ) 
+    {
+        [self saveProjectAs: sender];
+        return;
+    }
+    
+    [self performBlockOnCocosThread: ^()
+     {
+         [self.workspaceController saveProject];
+     }];
+}
+
+- (void)revertToSavedProject:(id)sender
+{
+    [self performBlockOnCocosThread:^() 
+     {
+         [self.workspaceController revertToSavedProject];
+     }];
 }
 
 @end
