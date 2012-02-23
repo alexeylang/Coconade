@@ -10,6 +10,7 @@
 #import "CCNMacGLView.h"
 #import "CCNWindow.h"
 #import "CCNWorkspaceController.h"
+#import "CCNScene.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -386,6 +387,38 @@
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
     [self.workspaceController.glView updateFrameSize];
+}
+
+#pragma mark MainMenu related
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem  	
+{
+    if ([menuItem.title isEqualToString:kCCNWindowControllerFileMenuRevertSavedItemTitle])
+    {
+        return [self.workspaceController canRevertToSavedProject];
+    }
+    else if ([menuItem.title isEqualToString:kCCNWindowControllerEditMenuCutItemTitle])
+    {
+        return [self.workspaceController canCutSelectedToPasteboard];
+    }
+    else if ([menuItem.title isEqualToString:kCCNWindowControllerEditMenuCopyItemTitle])
+    {
+        return [self.workspaceController canCopySelectedToPasteboard];
+    }
+    else if ([menuItem.title isEqualToString:kCCNWindowControllerEditMenuPasteItemTitle])
+    {
+        return [self.workspaceController canPasteFromPasteboard];
+    }
+    else if ([menuItem.title isEqualToString:kCCNWindowControllerEditMenuDeleteItemTitle])
+    {
+        return [self.workspaceController canDeleteSelected];
+    }
+    else if ([menuItem.title isEqualToString:kCCNWindowControllerViewMenuShowBordersItemTitle])
+    {
+        CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
+        menuItem.state = scene.showBorders ? NSOnState : NSOffState;
+    }
+    return YES;
 }
 
 @end
