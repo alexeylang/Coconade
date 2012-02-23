@@ -10,7 +10,7 @@
 
 #import "cocos2d.h"
 #import "CCNMacGLView.h"
-#import "CoconadeAppDelegate.h"
+#import "CCNAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     @try 
     {
         [CCNMacGLView load_];
-        [NSApplication sharedApplication].delegate = [[[CoconadeAppDelegate alloc] init] autorelease];
+        [NSApplication sharedApplication].delegate = [[[CCNAppDelegate alloc] init] autorelease];
         result = NSApplicationMain(argc,  (const char **) argv);
     }
     @catch (NSException *exception) 

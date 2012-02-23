@@ -6,7 +6,7 @@
 //  All rights reserved.
 //
 
-#import "CoconadeAppDelegate.h"
+#import "CCNAppDelegate.h"
 #import "CCNWorkspaceController.h"
 #import "DebugLog.h"
 #import "CCNScene.h"
@@ -16,7 +16,7 @@
 #import "CCNWindow.h"
 
 // TODO: rename to CCNAppDelegate to match naming style.
-@implementation CoconadeAppDelegate
+@implementation CCNAppDelegate
 
 @synthesize windowController = _windowController;
 @synthesize appIsRunning = _appIsRunning; 

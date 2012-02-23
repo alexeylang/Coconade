@@ -11,7 +11,7 @@
 
 
 @class CCNWindowController;
-@interface CoconadeAppDelegate : NSObject <NSApplicationDelegate>
+@interface CCNAppDelegate : NSObject <NSApplicationDelegate>
 {
     CCNWindowController *_windowController;
 	
