@@ -217,16 +217,16 @@
     [editMenuItem setSubmenu:editMenu];
     
     [editMenu addItemWithTitle: kCCNWindowControllerEditMenuCutItemTitle 
-                        action: NULL 
+                        action: @selector(cutMenuItemPressed:) 
                  keyEquivalent: @"x"];
     [editMenu addItemWithTitle: kCCNWindowControllerEditMenuCopyItemTitle 
-                        action: NULL 
+                        action: @selector(copyMenuItemPressed:) 
                  keyEquivalent: @"c"];
     [editMenu addItemWithTitle: kCCNWindowControllerEditMenuPasteItemTitle
-                        action: NULL 
+                        action: @selector(pasteMenuItemPressed:) 
                  keyEquivalent: @"v"];
     [editMenu addItemWithTitle: kCCNWindowControllerEditMenuDeleteItemTitle 
-                        action: NULL 
+                        action: @selector(deleteMenuItemPressed:) 
                  keyEquivalent: [NSString stringWithFormat:@"%c", 0x08]];
 
     // Create view menu
@@ -510,6 +510,40 @@
     [self performBlockOnCocosThread:^() 
      {
          [self.workspaceController revertToSavedProject];
+     }];
+}
+
+#pragma mark EditMenu related
+
+- (void) cutMenuItemPressed: (id) sender
+{
+    [self performBlockOnCocosThread:^()
+     {
+         [self.workspaceController cutSelectedToPasteboard];
+     }];
+}
+
+- (void) copyMenuItemPressed: (id) sender
+{
+    [self performBlockOnCocosThread:^()
+     {
+         [self.workspaceController copySelectedToPasteboard];
+     }];
+}
+
+- (void) pasteMenuItemPressed: (id) sender
+{    
+    [self performBlockOnCocosThread:^()
+     {
+         [self.workspaceController pasteFromPasteboard];
+     }];
+}
+
+- (void) deleteMenuItemPressed: (id) sender
+{
+    [self performBlockOnCocosThread:^()
+     {
+         [self.workspaceController deleteSelected];
      }];
 }
 
