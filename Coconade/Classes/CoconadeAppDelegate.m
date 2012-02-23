@@ -22,7 +22,6 @@
 @synthesize appIsRunning = _appIsRunning; 
 @synthesize filenameToOpen = _filenameToOpen;
 
-// Can be called before -applicationDidFinishLaunching: if app is open by double-clicking ccn file.
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
 	if ([[filename pathExtension] isEqualToString: kCCNWindowControllerCoconadeProjectFileExtension])
