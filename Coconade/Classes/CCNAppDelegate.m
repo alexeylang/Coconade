@@ -15,7 +15,7 @@
 #import "CCNWindowController.h"
 #import "CCNWindow.h"
 
-// TODO: rename to CCNAppDelegate to match naming style.
+
 @implementation CCNAppDelegate
 
 @synthesize windowController = _windowController;
