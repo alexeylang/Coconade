@@ -51,7 +51,6 @@
 
 - (void) setWorkspaceSize:(CGSize)workspaceSize
 {
-    CGSize oldSize = _workspaceSize;
     _workspaceSize = workspaceSize;
     
     
