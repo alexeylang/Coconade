@@ -192,6 +192,8 @@
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
 		FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA54BFE014EFD66400F51289 /* CCNWindow.m */; };
 		FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */; };
+		FAEFA64E14F93AB70006E5CC /* left_panel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEFA64C14F93AB70006E5CC /* left_panel_icon.png */; };
+		FAEFA64F14F93AB70006E5CC /* right_panel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEFA64D14F93AB70006E5CC /* right_panel_icon.png */; };
 		FD1F65E914E699D3003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F014E69D75003DCA81 /* CCNode+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */; };
 		FD1F65F314E6B0DF003DCA81 /* CCNScene.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1F65F214E6B0DF003DCA81 /* CCNScene.m */; };
@@ -251,7 +253,7 @@
 		6DECF9881389841E0070C774 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E01E663D121CA00A001A484F /* libcocos2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E01E6A3D121EDCD3001A484F /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		E02A83D2129F000100341C97 /* CCNAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CCNAppDelegate.h; sourceTree = "<group>"; };
+		E02A83D2129F000100341C97 /* CCNAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNAppDelegate.h; sourceTree = "<group>"; };
 		E02A83D3129F000100341C97 /* CCNAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNAppDelegate.m; sourceTree = "<group>"; };
 		E02A83EB129F01DF00341C97 /* cocoshop_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cocoshop_Prefix.pch; sourceTree = "<group>"; };
 		E02A83EC129F01DF00341C97 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -417,13 +419,15 @@
 		FA54BFE014EFD66400F51289 /* CCNWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindow.m; sourceTree = "<group>"; };
 		FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindowController.h; sourceTree = "<group>"; };
 		FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindowController.m; sourceTree = "<group>"; };
+		FAEFA64C14F93AB70006E5CC /* left_panel_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_panel_icon.png; sourceTree = "<group>"; };
+		FAEFA64D14F93AB70006E5CC /* right_panel_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_panel_icon.png; sourceTree = "<group>"; };
 		FD1F65E614E699D3003DCA81 /* CCNode+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Helpers.h"; sourceTree = "<group>"; };
 		FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Helpers.m"; sourceTree = "<group>"; };
 		FD1F65F114E6B0DF003DCA81 /* CCNScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNScene.h; sourceTree = "<group>"; };
 		FD1F65F214E6B0DF003DCA81 /* CCNScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNScene.m; sourceTree = "<group>"; };
 		FD2C664F14EC27070020E187 /* CCNSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNSelection.h; sourceTree = "<group>"; };
 		FD2C665014EC27070020E187 /* CCNSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNSelection.m; sourceTree = "<group>"; };
-		FD7877F214E7E1EE00D128F2 /* CCNWorkspaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CCNWorkspaceController.h; sourceTree = "<group>"; };
+		FD7877F214E7E1EE00D128F2 /* CCNWorkspaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWorkspaceController.h; sourceTree = "<group>"; };
 		FD7877F314E7E1EE00D128F2 /* CCNWorkspaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWorkspaceController.m; sourceTree = "<group>"; };
 		FD7877F614E7E26800D128F2 /* CCNModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNModel.h; sourceTree = "<group>"; };
 		FD7877F714E7E26800D128F2 /* CCNModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNModel.m; sourceTree = "<group>"; };
@@ -530,6 +534,8 @@
 				E02A83EC129F01DF00341C97 /* Info.plist */,
 				E02A83F2129F01DF00341C97 /* fps_images.png */,
 				E02A8528129F109200341C97 /* icon.icns */,
+				FAEFA64C14F93AB70006E5CC /* left_panel_icon.png */,
+				FAEFA64D14F93AB70006E5CC /* right_panel_icon.png */,
 				49A13F71135BC089000C3BD8 /* Add.tiff */,
 				49A13F72135BC089000C3BD8 /* Burn.tiff */,
 				6D3249811361CD6900165ABE /* checkerboard.png */,
@@ -1016,6 +1022,8 @@
 				6D1EEA3E138EF4D70091F76B /* icon7.png in Resources */,
 				6D1EEA44138EFE280091F76B /* icon7-c.png in Resources */,
 				FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */,
+				FAEFA64E14F93AB70006E5CC /* left_panel_icon.png in Resources */,
+				FAEFA64F14F93AB70006E5CC /* right_panel_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
