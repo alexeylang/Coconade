@@ -98,6 +98,14 @@
                 {
                     curRootNode.name = [CCNode uniqueNameWithName: [curRootNode className]];
                 }
+                
+                // Root nodes MUST have positive contentSize.
+                if( curRootNode.contentSize.width <= 0 || curRootNode.contentSize.height <= 0)
+                {
+                    NSLog(@"CCNModel#initWithFile: Error! Non-positive contentSize in rootNode: %@ with dictionaryRepresentation: %@", curRootNode, rootNodeDictionaryRepresentation);
+                    [self release];
+                    return nil;
+                }
             }
             @catch (NSException *exception) {
                 [self release];
