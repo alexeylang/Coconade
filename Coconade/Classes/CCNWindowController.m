@@ -484,20 +484,31 @@
                                                 kCCNWindowControllerToolbarItemViewWidth, 
                                                 kCCNWindowControllerToolbarItemViewHeight);
         NSSegmentedControl *segmentControl = [[[NSSegmentedControl alloc] initWithFrame:segmentControlFrame] autorelease];
-        segmentControl.segmentCount = 2;
-        segmentControl.alignment = NSCenterTextAlignment; 
-        [segmentControl setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewLeftImage] 
-                      forSegment: 0];
-        [segmentControl setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewRightImage] 
-                      forSegment: 1];
-        [segmentControl setWidth: kCCNWindowControllerToolbarItemViewSegmentWidth 
-                      forSegment: 0];
-        [segmentControl setWidth: kCCNWindowControllerToolbarItemViewSegmentWidth 
-                      forSegment: 1];
-        [segmentControl setSegmentStyle:NSSegmentStyleTexturedSquare];
-        segmentControl.target = self;
-        //segmentControl.action = @selector(segmentClicked:);
+        
+        NSSegmentedCell *segmentCell = [segmentControl cell];
+        segmentCell.trackingMode = NSSegmentSwitchTrackingSelectAny;
+        segmentCell.segmentCount = 2;
+        segmentCell.alignment = NSCenterTextAlignment;
+        segmentCell.segmentStyle = NSSegmentStyleSmallSquare;
+        
+        [segmentCell setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewLeftImage] 
+                   forSegment: 0];
+        [segmentCell setWidth: kCCNWindowControllerToolbarItemViewSegmentWidth 
+                   forSegment: 0];
+        
+        [segmentCell setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewRightImage] 
+                   forSegment: 1];
+        [segmentCell setWidth: kCCNWindowControllerToolbarItemViewSegmentWidth 
+                   forSegment: 1];
+        
+        segmentCell.target = self;
+        segmentCell.action = @selector(segmentClicked:);
+        
         [toolbarItem setView:segmentControl];
+        
+        //TODO: save and load selected segments from UserDefaults
+        [segmentCell setSelected:YES forSegment:0];
+        [segmentCell setSelected:YES forSegment:1];        
     }
     
     return toolbarItem;
