@@ -102,6 +102,9 @@
  */
 - (void) prepareWindow;
 
+/** Animate changing frame for given NSView by using NSAnimationContext and animator object. */
+- (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay;
+
 @end
 
 
@@ -401,6 +404,16 @@
     {
         return splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewMinWidth;
     }
+}
+
+#pragma mark NSView Animation
+
+- (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay
+{    
+	[NSAnimationContext beginGrouping];
+	[[NSAnimationContext currentContext] setDuration:delay];
+	[[view animator] setFrame: frame];
+	[NSAnimationContext endGrouping];
 }
 
 #pragma mark Toolbar Delegate
