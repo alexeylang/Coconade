@@ -12,6 +12,7 @@
 #import "CCNWorkspaceController.h"
 #import "NSObject+Blocks.h"
 #import "CCNScene.h"
+#import "OSVersionHelper.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -491,8 +492,16 @@
         segmentCell.trackingMode = NSSegmentSwitchTrackingSelectAny;
         segmentCell.segmentCount = 2;
         segmentCell.alignment = NSCenterTextAlignment;
-        //TODO: to use "Xcode style" for segment control - need to prepare resources (png) for buttons
-        segmentCell.segmentStyle = NSSegmentStyleSmallSquare;
+        
+        int segmentStyle = NSSegmentStyleSmallSquare;
+        
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_7
+        if (lionFeaturesAvailable())
+        {
+            segmentStyle = NSSegmentStyleCapsule;
+        }
+#endif
+        segmentCell.segmentStyle = segmentStyle;
         
         [segmentCell setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewLeftImage] 
                    forSegment: 0];
