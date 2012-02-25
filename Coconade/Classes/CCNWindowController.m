@@ -78,6 +78,10 @@
 #define kCCNWindowControllerSplitViewLeftViewDefaultWidth       300.0f
 #define kCCNWindowControllerSplitViewRightViewDefaultWidth      300.0f
 
+#define kCCNWindowControllerSplitViewLeftViewMinWidth           200.0f
+#define kCCNWindowControllerSplitViewRightViewMinWidth          200.0f
+#define kCCNWindowControllerSplitViewCenterViewMinWidth         200.0f
+
 
 @interface CCNWindowController ()
 
@@ -439,6 +443,47 @@
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
     [self.workspaceController.glView updateFrameSize];
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
+{
+    return NO;
+}
+
+- (BOOL)                splitView:(NSSplitView *)splitView 
+            shouldCollapseSubview:(NSView *)subview 
+   forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
+{
+    return NO;
+}
+
+- (CGFloat)     splitView:(NSSplitView *)splitView 
+   constrainMinCoordinate:(CGFloat)proposedMinimumPosition 
+              ofSubviewAt:(NSInteger)dividerIndex
+{
+    if (dividerIndex == 0)
+    {
+        return kCCNWindowControllerSplitViewLeftViewMinWidth;    
+    }
+    else
+    {
+        return self.leftView.frame.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
+    }
+}
+
+- (CGFloat)     splitView:(NSSplitView *)splitView 
+   constrainMaxCoordinate:(CGFloat)proposedMaximumPosition 
+              ofSubviewAt:(NSInteger)dividerIndex
+{
+    if (dividerIndex == 0)
+    {
+        return splitView.frame.size.width - self.rightView.frame.size.width -   
+                kCCNWindowControllerSplitViewCenterViewMinWidth;
+    }
+    else
+    {
+        return splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewMinWidth;
+    }
 }
 
 #pragma mark MainMenu related
