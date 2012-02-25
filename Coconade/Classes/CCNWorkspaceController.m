@@ -135,7 +135,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         self.glView = glView;
         
-        self.model = [[CCNModel new] autorelease];
+        [self newProject];
         
         // Prepare scene.
         self.scene = [CCNScene node];   
@@ -168,12 +168,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 #pragma mark Project
 
 - (void) newProject
-{    
-    [self.glView setWorkspaceSize:CGSizeMake(800, 600)];
-    
-    // Create new model only after setting new workspaceSize (default scene
-    // will use CCDirector.winSize, which is updated only after resizing workspace size).
-    self.model = [[CCNModel new] autorelease];
+{
+    self.model = [[CCNModel new] autorelease];    
+    [self.glView setWorkspaceSize: self.model.currentRootNode.contentSize];
     
     [self.scene updateForScreenReshape];
 }
