@@ -34,7 +34,7 @@
 #define kCCNWindowControllerToolbarItemViewRightImage           @"right_panel_icon.png"
 #define kCCNWindowControllerToolbarItemViewWidth                66.0f
 #define kCCNWindowControllerToolbarItemViewHeight               25.0f
-#define kCCNWindowControllerToolbarItemViewSegmentWidth         30.0f
+#define kCCNWindowControllerToolbarItemViewSegmentWidth         29.0f
 
 #define kCCNWindowControllerMainMenuTitle                       @"MainMenu"
 #define kCCNWindowControllerMainMenuAboutCoconadeItemTitle      @"About Coconade"
