@@ -35,6 +35,14 @@
 #define kCCNWindowControllerToolbarItemSpritesListName          @"Sprites List"
 #define kCCNWindowControllerToolbarItemSpritesListImage         @"icon7-c.png"
 
+#define kCCNWindowControllerToolbarItemViewIdentifier           @"toolbarItemViewIdentifier"
+#define kCCNWindowControllerToolbarItemViewName                 @"View"
+#define kCCNWindowControllerToolbarItemViewLeftImage            @"left_panel_icon.png"
+#define kCCNWindowControllerToolbarItemViewRightImage           @"right_panel_icon.png"
+#define kCCNWindowControllerToolbarItemViewWidth                66.0f
+#define kCCNWindowControllerToolbarItemViewHeight               25.0f
+#define kCCNWindowControllerToolbarItemViewSegmentWidth         30.0f
+
 #define kCCNWindowControllerMainMenuTitle                       @"MainMenu"
 #define kCCNWindowControllerMainMenuAboutCoconadeItemTitle      @"About Coconade"
 #define kCCNWindowControllerMainMenuPreferencesItemTitle        @"Preferences…"
@@ -404,6 +412,7 @@
             kCCNWindowControllerToolbarItemAddBigImageIdentifier,
             kCCNWindowControllerToolbarItemAddLabelIdentifier,
             NSToolbarFlexibleSpaceItemIdentifier,
+            kCCNWindowControllerToolbarItemViewIdentifier,
             kCCNWindowControllerToolbarItemInfoIdentifier,
             kCCNWindowControllerToolbarItemSpritesListIdentifier,
             nil];
@@ -416,6 +425,7 @@
             kCCNWindowControllerToolbarItemAddBigImageIdentifier,
             kCCNWindowControllerToolbarItemAddLabelIdentifier,
             NSToolbarFlexibleSpaceItemIdentifier,
+            kCCNWindowControllerToolbarItemViewIdentifier,
             kCCNWindowControllerToolbarItemInfoIdentifier,
             kCCNWindowControllerToolbarItemSpritesListIdentifier,
             nil];
@@ -452,6 +462,29 @@
     {
         toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemSpritesListName;
         toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemSpritesListImage];
+    }
+    else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemViewIdentifier]) 
+    {
+        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemViewName;
+        CGRect segmentControlFrame = CGRectMake(0.0, 
+                                                0.0, 
+                                                kCCNWindowControllerToolbarItemViewWidth, 
+                                                kCCNWindowControllerToolbarItemViewHeight);
+        NSSegmentedControl *segmentControl = [[[NSSegmentedControl alloc] initWithFrame:segmentControlFrame] autorelease];
+        segmentControl.segmentCount = 2;
+        segmentControl.alignment = NSCenterTextAlignment; 
+        [segmentControl setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewLeftImage] 
+                      forSegment: 0];
+        [segmentControl setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewRightImage] 
+                      forSegment: 1];
+        [segmentControl setWidth: kCCNWindowControllerToolbarItemViewSegmentWidth 
+                      forSegment: 0];
+        [segmentControl setWidth: kCCNWindowControllerToolbarItemViewSegmentWidth 
+                      forSegment: 1];
+        [segmentControl setSegmentStyle:NSSegmentStyleTexturedSquare];
+        segmentControl.target = self;
+        //segmentControl.action = @selector(segmentClicked:);
+        [toolbarItem setView:segmentControl];
     }
     
     return toolbarItem;
