@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#define kCCNModelDefaultRootNodeClass           CCScene
 #define kCCNModelDefaultRootNodeContentSize()   CGSizeMake(480,320)
 
 @class CCNode;

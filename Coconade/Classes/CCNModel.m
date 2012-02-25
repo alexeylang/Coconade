@@ -63,7 +63,9 @@
     if (self)
     {
         _rootNodes = [[NSMutableArray arrayWithCapacity: 1] retain];
-        [_rootNodes addObject:[CCScene node]];
+        
+        // Create new currentRootNode with default class & size.
+        [_rootNodes addObject:[kCCNModelDefaultRootNodeClass node]];
         self.currentRootNode = [_rootNodes objectAtIndex:0];
         self.currentRootNode.name = [CCNode uniqueNameWithName: [self.currentRootNode className]];
         self.currentRootNode.contentSize = kCCNModelDefaultRootNodeContentSize();        
@@ -164,7 +166,7 @@
         // Ensure to always have at least one root node.
         if ( ![_rootNodes count] )
         {
-            [_rootNodes addObject:[CCScene node]];
+            [_rootNodes addObject:[kCCNModelDefaultRootNodeClass node]];
         }
         
         // Select new currentRootNode if we deleted the one that was current.
