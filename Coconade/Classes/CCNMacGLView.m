@@ -100,8 +100,8 @@
 
 - (void) updateFrameSize
 {
-	// Size is equal to self.workspaceSize
-	CGSize size = [CCDirector sharedDirector].winSize;
+	// Use self.workspaceSize, NOT CCDirector.winSize (can be non-equal at this step)!
+	CGSize size = self.workspaceSize;
 	
 	// Get the Real Size of Workspace in Pixels
 	float widthAspect = size.width * self.zoomFactor;
