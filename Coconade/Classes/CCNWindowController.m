@@ -539,9 +539,10 @@
     if ( [sender isKindOfClass:[NSSegmentedControl class]] )
     {
         NSSegmentedControl *segmentedControl = sender;
-        if (segmentedControl.selectedSegment == 0)
+        int segment = segmentedControl.selectedSegment;
+        if (segment == 0)
         {
-            if ([segmentedControl isSelectedForSegment:0])
+            if ([segmentedControl isSelectedForSegment:segment])
             {
                 [self animateView: self.leftView 
                   withTargetFrame: CGRectMake(self.leftView.frame.origin.x, 
@@ -562,7 +563,7 @@
         }
         else
         {
-            if ([segmentedControl isSelectedForSegment:1])
+            if ([segmentedControl isSelectedForSegment:segment])
             {
                 [self animateView: self.rightView 
                   withTargetFrame: CGRectMake(self.rightView.frame.origin.x - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
