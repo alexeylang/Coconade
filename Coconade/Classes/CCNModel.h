@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define kCCNModelDefaultRootNodeContentSize()   CGSizeMake(480,320)
+
 @class CCNode;
 
 /** @class CCNModel Main model class. Manages Coconade's project. */

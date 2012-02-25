@@ -66,6 +66,7 @@
         [_rootNodes addObject:[CCScene node]];
         self.currentRootNode = [_rootNodes objectAtIndex:0];
         self.currentRootNode.name = [CCNode uniqueNameWithName: [self.currentRootNode className]];
+        self.currentRootNode.contentSize = kCCNModelDefaultRootNodeContentSize();        
     }
     
     return self;
