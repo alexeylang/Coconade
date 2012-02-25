@@ -491,6 +491,7 @@
         segmentCell.trackingMode = NSSegmentSwitchTrackingSelectAny;
         segmentCell.segmentCount = 2;
         segmentCell.alignment = NSCenterTextAlignment;
+        //TODO: to use "Xcode style" for segment control - need to prepare resources (png) for buttons
         segmentCell.segmentStyle = NSSegmentStyleSmallSquare;
         
         [segmentCell setImage: [NSImage imageNamed: kCCNWindowControllerToolbarItemViewLeftImage] 
@@ -545,6 +546,7 @@
      }];
 }
 
+//TODO: save last size of views instead of using default size
 - (void)segmentClicked:(id)sender
 {
     if ( [sender isKindOfClass:[NSSegmentedControl class]] )
