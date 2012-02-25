@@ -94,6 +94,8 @@
             @try {
                 CCNode *curRootNode = [NSObject objectWithDictionaryRepresentation:rootNodeDictionaryRepresentation];
                 [_rootNodes addObject: curRootNode];
+                
+                // Ensure to have name for any rootNode.
                 if (!curRootNode.name)
                 {
                     curRootNode.name = [CCNode uniqueNameWithName: [curRootNode className]];
