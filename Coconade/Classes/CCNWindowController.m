@@ -90,7 +90,7 @@
 #define kCCNWindowControllerSplitViewRightViewMinWidth          200.0f
 #define kCCNWindowControllerSplitViewCenterViewMinWidth         200.0f
 
-#define kCCNWindowControllerSplitViewCollapseAnimationDelay     0.4f
+#define kCCNWindowControllerSplitViewCollapseAnimationDelay     0.2f
 
 
 @interface CCNWindowController ()
