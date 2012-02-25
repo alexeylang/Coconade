@@ -139,7 +139,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
         // Prepare scene.
         self.scene = [CCNScene node];   
-        self.scene.targetNode = self.model.currentRootNode; //< TODO: update this value each time currentRootNode is changed.
+        self.scene.targetNode = self.model.currentRootNode;
         
         [self registerWithEventDispatcher];
         
