@@ -27,7 +27,25 @@
 
 @implementation CCNMacGLView
 
-@synthesize zoomFactor = _zoomFactor; 
+@dynamic zoomFactor;
+- (CGFloat) zoomFactor
+{
+    return _zoomFactor;
+}
+
+- (void) setZoomFactor:(CGFloat)zoomFactor
+{
+    CGFloat oldZoom = _zoomFactor;
+    
+    _zoomFactor = MAX(_zoomFactorMin, MIN(zoomFactor, _zoomFactorMax));
+    
+    if (oldZoom != _zoomFactor)
+    {
+        [self updateView];
+    }
+}
+
+
 @synthesize zoomSpeed = _zoomSpeed;
 @synthesize zoomFactorMax = _zoomFactorMax; 
 @synthesize zoomFactorMin = _zoomFactorMin;
