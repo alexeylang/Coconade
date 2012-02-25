@@ -447,14 +447,14 @@
 
 - (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
 {
-    return NO;
+    return (subview != self.centerScrollView);
 }
 
 - (BOOL)                splitView:(NSSplitView *)splitView 
             shouldCollapseSubview:(NSView *)subview 
    forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
 {
-    return NO;
+    return (subview != self.centerScrollView);
 }
 
 - (CGFloat)     splitView:(NSSplitView *)splitView 
