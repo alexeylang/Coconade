@@ -52,10 +52,8 @@
 - (void) setWorkspaceSize:(CGSize)workspaceSize
 {
     _workspaceSize = workspaceSize;
-    
-    
-        [self updateView];
-    
+       
+    [self updateView];
 }
 
 @dynamic projection;
