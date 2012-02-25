@@ -341,6 +341,60 @@
     [contentView addSubview:splitView];
 }
 
+#pragma mark SplitView Delegate
+
+- (void)splitViewWillResizeSubviews:(NSNotification *)notification
+{
+    CCNWindow *window = (CCNWindow *)self.window;
+    [window disableUpdatesUntilFlush];
+}
+
+- (void)splitViewDidResizeSubviews:(NSNotification *)notification
+{
+    [self.workspaceController.glView updateFrameSize];
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
+{
+    return (subview != self.centerScrollView);
+}
+
+- (BOOL)                splitView:(NSSplitView *)splitView 
+            shouldCollapseSubview:(NSView *)subview 
+   forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
+{
+    return (subview != self.centerScrollView);
+}
+
+- (CGFloat)     splitView:(NSSplitView *)splitView 
+   constrainMinCoordinate:(CGFloat)proposedMinimumPosition 
+              ofSubviewAt:(NSInteger)dividerIndex
+{
+    if (dividerIndex == 0)
+    {
+        return kCCNWindowControllerSplitViewLeftViewMinWidth;    
+    }
+    else
+    {
+        return self.leftView.frame.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
+    }
+}
+
+- (CGFloat)     splitView:(NSSplitView *)splitView 
+   constrainMaxCoordinate:(CGFloat)proposedMaximumPosition 
+              ofSubviewAt:(NSInteger)dividerIndex
+{
+    if (dividerIndex == 0)
+    {
+        return splitView.frame.size.width - self.rightView.frame.size.width -   
+                kCCNWindowControllerSplitViewCenterViewMinWidth;
+    }
+    else
+    {
+        return splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewMinWidth;
+    }
+}
+
 #pragma mark Toolbar Delegate
 
 - (NSArray *) toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
@@ -430,60 +484,6 @@
               }];
          }
      }];
-}
-
-#pragma mark SplitView Delegate
-
-- (void)splitViewWillResizeSubviews:(NSNotification *)notification
-{
-    CCNWindow *window = (CCNWindow *)self.window;
-    [window disableUpdatesUntilFlush];
-}
-
-- (void)splitViewDidResizeSubviews:(NSNotification *)notification
-{
-    [self.workspaceController.glView updateFrameSize];
-}
-
-- (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
-{
-    return (subview != self.centerScrollView);
-}
-
-- (BOOL)                splitView:(NSSplitView *)splitView 
-            shouldCollapseSubview:(NSView *)subview 
-   forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex
-{
-    return (subview != self.centerScrollView);
-}
-
-- (CGFloat)     splitView:(NSSplitView *)splitView 
-   constrainMinCoordinate:(CGFloat)proposedMinimumPosition 
-              ofSubviewAt:(NSInteger)dividerIndex
-{
-    if (dividerIndex == 0)
-    {
-        return kCCNWindowControllerSplitViewLeftViewMinWidth;    
-    }
-    else
-    {
-        return self.leftView.frame.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
-    }
-}
-
-- (CGFloat)     splitView:(NSSplitView *)splitView 
-   constrainMaxCoordinate:(CGFloat)proposedMaximumPosition 
-              ofSubviewAt:(NSInteger)dividerIndex
-{
-    if (dividerIndex == 0)
-    {
-        return splitView.frame.size.width - self.rightView.frame.size.width -   
-                kCCNWindowControllerSplitViewCenterViewMinWidth;
-    }
-    else
-    {
-        return splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewMinWidth;
-    }
 }
 
 #pragma mark MainMenu related
