@@ -54,10 +54,9 @@
     CGSize oldSize = _workspaceSize;
     _workspaceSize = workspaceSize;
     
-    if (!CGSizeEqualToSize(oldSize, workspaceSize))
-    {
+    
         [self updateView];
-    }
+    
 }
 
 @dynamic projection;
