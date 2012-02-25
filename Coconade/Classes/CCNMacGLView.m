@@ -10,6 +10,9 @@
 #import "CCNMacGLView.h"
 #import "DebugLog.h"
 
+/** Margins around workspace to make it better to see where workspace ends. */
+#define kCCNMacGLViewWorkspaceMargin 20.0f
+
 @interface CCNMacGLView ()
 
 /* This methods calculates offset (rect.origin) and width & height aspect (rect.size) 
@@ -107,13 +110,13 @@
 	CGSize superViewFrameSize = self.superview.frame.size;
 	CGSize frameSize = self.frame.size;
 
-	frameSize.width = MAX(widthAspect, superViewFrameSize.width);
-	frameSize.height = MAX(heightAspect, superViewFrameSize.height);
+	frameSize.width = MAX(widthAspect + 2 * kCCNMacGLViewWorkspaceMargin, superViewFrameSize.width);
+	frameSize.height = MAX(heightAspect + 2 * kCCNMacGLViewWorkspaceMargin, superViewFrameSize.height);
 	[self setFrameSize: frameSize];
 }
 
 - (CGRect) viewportRect
-{
+{    
 	CGSize size = [CCDirector sharedDirector].winSize;
 	CGRect rect = [self visibleRect];	
 	CGSize superViewFrameSize = self.superview.frame.size;
@@ -125,14 +128,26 @@
 	if ( widthAspect < superViewFrameSize.width )
     {
 		offset.x = ( superViewFrameSize.width - widthAspect ) / 2.0f;
+        offset.x -= kCCNMacGLViewWorkspaceMargin;
+        widthAspect += 2 * kCCNMacGLViewWorkspaceMargin;
+    }
+    else
+    {
+        offset.x += kCCNMacGLViewWorkspaceMargin;        
     }
 	
 	if ( heightAspect < superViewFrameSize.height )
     {
 		offset.y = ( superViewFrameSize.height - heightAspect ) / 2.0f;
+        offset.y -= kCCNMacGLViewWorkspaceMargin;
+        heightAspect += 2 * kCCNMacGLViewWorkspaceMargin;
+    }
+    else
+    {
+        offset.y += kCCNMacGLViewWorkspaceMargin;
     }
 	
-	return CGRectMake(offset.x , offset.y, widthAspect, heightAspect);
+	return CGRectMake(offset.x, offset.y, widthAspect, heightAspect);
 }
 
 - (void) updateView
