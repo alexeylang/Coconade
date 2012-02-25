@@ -63,8 +63,8 @@
 	[director setDisplayFPS:NO];	
 	[director setOpenGLView:glView];
 	[director setResizeMode:kCCDirectorResize_NoScale]; //< We use NoScale with own Projection for NSScrollView
-	[director setProjection: kCCDirectorProjectionCustom];
 	[director setProjectionDelegate: glView];
+    [director setProjection: kCCDirectorProjectionCustom]; //< Projection delegate must be set before projection itself to apply custom projection immediately.
 	CGSize s = [[CCDirector sharedDirector] winSize];
     [glView setWorkspaceSize: s];
     
