@@ -593,7 +593,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	// Zoom
 	if ( [theEvent modifierFlags] & NSCommandKeyMask )
 	{
-		self.glView.zoomFactor += [theEvent deltaY] * self.glView.zoomSpeed;
+        [self performBlockOnMainThread:^()
+         {
+             self.glView.zoomFactor += [theEvent deltaY] * self.glView.zoomSpeed;
+         }];
 		
 		return YES;
 	}
