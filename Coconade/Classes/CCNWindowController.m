@@ -81,6 +81,10 @@
 
 @interface CCNWindowController ()
 
+@property (readwrite, retain) NSView *leftView;
+@property (readwrite, retain) NSScrollView *centerScrollView;
+@property (readwrite, retain) NSView *rightView;
+
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc.
  */
@@ -92,6 +96,9 @@
 @implementation CCNWindowController
 
 @synthesize workspaceController = _workspaceController;
+@synthesize leftView = _leftView;
+@synthesize centerScrollView = _centerScrollView;
+@synthesize rightView = _rightView;
 
 #pragma mark Init/DeInit
 
@@ -117,6 +124,9 @@
 - (void) dealloc
 {
     self.workspaceController = nil;
+    self.leftView = nil;
+    self.centerScrollView = nil;
+    self.rightView = nil;
     
     [super dealloc];
 }
@@ -302,26 +312,26 @@
                                   0.0f, 
                                   kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
                                   splitView.frame.size.height);
-    NSView *leftView = [[[NSView alloc] initWithFrame:leftFrame] autorelease];
-    [splitView addSubview:leftView];
+    self.leftView = [[[NSView alloc] initWithFrame:leftFrame] autorelease];
+    [splitView addSubview:self.leftView];
     
     CGRect centerFrame = CGRectMake(0.0f, 
                                     0.0f, 
                                     splitView.frame.size.width - kCCNWindowControllerSplitViewLeftViewDefaultWidth - 
                                         kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                     splitView.frame.size.height);
-    NSScrollView *centerScrollView = [[[NSScrollView alloc] initWithFrame:centerFrame] autorelease];
-    centerScrollView.hasHorizontalScroller = YES;
-    centerScrollView.hasVerticalScroller = YES;
-    centerScrollView.documentView = self.workspaceController.glView;
-    [splitView addSubview:centerScrollView];
+    self.centerScrollView = [[[NSScrollView alloc] initWithFrame:centerFrame] autorelease];
+    self.centerScrollView.hasHorizontalScroller = YES;
+    self.centerScrollView.hasVerticalScroller = YES;
+    self.centerScrollView.documentView = self.workspaceController.glView;
+    [splitView addSubview:self.centerScrollView];
     
     CGRect rightFrame = CGRectMake(splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    0.0f, 
                                    kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    splitView.frame.size.height);
-    NSView *rightView = [[NSView alloc] initWithFrame:rightFrame];
-    [splitView addSubview:rightView];
+    self.rightView = [[[NSView alloc] initWithFrame:rightFrame] autorelease];
+    [splitView addSubview:self.rightView];
     
     [splitView adjustSubviews];
     [contentView addSubview:splitView];

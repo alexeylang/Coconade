@@ -19,6 +19,9 @@
 @interface CCNWindowController : NSWindowController <NSToolbarDelegate, NSSplitViewDelegate>
 {
     CCNWorkspaceController *_workspaceController;
+    NSView *_leftView;
+    NSScrollView *_centerScrollView;
+    NSView *_rightView;
 }
 
 /** Holds workspace controller - main logic controller for Coconade. */
