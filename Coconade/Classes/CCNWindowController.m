@@ -90,6 +90,8 @@
 #define kCCNWindowControllerSplitViewRightViewMinWidth          200.0f
 #define kCCNWindowControllerSplitViewCenterViewMinWidth         200.0f
 
+#define kCCNWindowControllerSplitViewCollapseAnimationDelay     0.4f
+
 
 @interface CCNWindowController ()
 
@@ -541,6 +543,56 @@
               }];
          }
      }];
+}
+
+- (void)segmentClicked:(id)sender
+{
+    if ( [sender isKindOfClass:[NSSegmentedControl class]] )
+    {
+        NSSegmentedControl *segmentedControl = sender;
+        if (segmentedControl.selectedSegment == 0)
+        {
+            if ([segmentedControl isSelectedForSegment:0])
+            {
+                [self animateView: self.leftView 
+                  withTargetFrame: CGRectMake(self.leftView.frame.origin.x, 
+                                              self.leftView.frame.origin.y, 
+                                              kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
+                                              self.leftView.frame.size.height)
+                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
+            }
+            else
+            {
+                [self animateView: self.leftView 
+                  withTargetFrame: CGRectMake(self.leftView.frame.origin.x, 
+                                              self.leftView.frame.origin.y, 
+                                              0.0f, 
+                                              self.leftView.frame.size.height)
+                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
+            }
+        }
+        else
+        {
+            if ([segmentedControl isSelectedForSegment:1])
+            {
+                [self animateView: self.rightView 
+                  withTargetFrame: CGRectMake(self.rightView.frame.origin.x - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
+                                              self.rightView.frame.origin.y, 
+                                              kCCNWindowControllerSplitViewRightViewDefaultWidth, 
+                                              self.rightView.frame.size.height)
+                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
+            }
+            else
+            {
+                [self animateView: self.rightView 
+                  withTargetFrame: CGRectMake(self.rightView.frame.origin.x + self.rightView.frame.size.width, 
+                                              self.rightView.frame.origin.y, 
+                                              0.0f, 
+                                              self.rightView.frame.size.height)
+                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
+            }
+        }
+    }
 }
 
 #pragma mark MainMenu related
