@@ -28,14 +28,6 @@
 #define kCCNWindowControllerToolbarItemAddLabelName             @"Add Label"
 #define kCCNWindowControllerToolbarItemAddLabelImage            @"icon3.png"
 
-#define kCCNWindowControllerToolbarItemInfoIdentifier           @"toolbarItemInfoIdentifier"
-#define kCCNWindowControllerToolbarItemInfoName                 @"Info"
-#define kCCNWindowControllerToolbarItemInfoImage                @"icon4-b.png"
-
-#define kCCNWindowControllerToolbarItemSpritesListIdentifier    @"toolbarItemSpritesListIdentifier"
-#define kCCNWindowControllerToolbarItemSpritesListName          @"Sprites List"
-#define kCCNWindowControllerToolbarItemSpritesListImage         @"icon7-c.png"
-
 #define kCCNWindowControllerToolbarItemViewIdentifier           @"toolbarItemViewIdentifier"
 #define kCCNWindowControllerToolbarItemViewName                 @"View"
 #define kCCNWindowControllerToolbarItemViewLeftImage            @"left_panel_icon.png"
@@ -429,8 +421,6 @@
             kCCNWindowControllerToolbarItemAddLabelIdentifier,
             NSToolbarFlexibleSpaceItemIdentifier,
             kCCNWindowControllerToolbarItemViewIdentifier,
-            kCCNWindowControllerToolbarItemInfoIdentifier,
-            kCCNWindowControllerToolbarItemSpritesListIdentifier,
             nil];
 }
 
@@ -442,8 +432,6 @@
             kCCNWindowControllerToolbarItemAddLabelIdentifier,
             NSToolbarFlexibleSpaceItemIdentifier,
             kCCNWindowControllerToolbarItemViewIdentifier,
-            kCCNWindowControllerToolbarItemInfoIdentifier,
-            kCCNWindowControllerToolbarItemSpritesListIdentifier,
             nil];
 }
 
@@ -468,16 +456,6 @@
     {
         toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemAddLabelName;
         toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemAddLabelImage];
-    }
-    else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemInfoIdentifier]) 
-    {
-        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemInfoName;
-        toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemInfoImage];
-    }
-    else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemSpritesListIdentifier]) 
-    {
-        toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemSpritesListName;
-        toolbarItem.image = [NSImage imageNamed: kCCNWindowControllerToolbarItemSpritesListImage];
     }
     else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemViewIdentifier]) 
     {
