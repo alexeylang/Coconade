@@ -152,18 +152,18 @@
     if (self.showBorders)
     {
         CGSize s = contentSize_;
-        GLfloat lineWidth = 2.0f;
+        GLfloat lineWidth = 3.0f;
         GLfloat halfLineWidth = 0.5f * lineWidth; 
         
         // Use Inverted BG Color to Draw the Outline
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glColor4f(0.46f, 0.27f, 0.14f, 1.0f);
         glLineWidth(lineWidth);
         
         CGPoint vertices[] = {
-            ccp(halfLineWidth, s.height - halfLineWidth),
-            ccp(s.width - halfLineWidth, s.height - halfLineWidth),
-            ccp(s.width - halfLineWidth, halfLineWidth),
-            ccp(halfLineWidth, halfLineWidth)
+            ccp(halfLineWidth - 1, s.height - halfLineWidth + 1),
+            ccp(s.width - halfLineWidth + 1, s.height - halfLineWidth + 1),
+            ccp(s.width - halfLineWidth + 1, halfLineWidth - 1),
+            ccp(halfLineWidth - 1, halfLineWidth - 1)
         };
         
         ccDrawPoly(vertices, 4, YES);
