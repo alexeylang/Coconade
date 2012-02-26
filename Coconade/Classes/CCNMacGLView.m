@@ -116,20 +116,17 @@
 #pragma mark Updates
 
 - (void) updateFrameSize
-{
-	// Use self.workspaceSize, NOT CCDirector.winSize (can be non-equal at this step)!
-	CGSize size = self.workspaceSize;
-	
+{	
 	// Get the Real Size of Workspace in Pixels
-	float widthAspect = size.width * self.zoomFactor;
-	float heightAspect = size.height * self.zoomFactor;
+	float widthInPixelsAfterZoom = self.workspaceSize.width * self.zoomFactor;
+	float heightInPixelsAfterZoom = self.workspaceSize.height * self.zoomFactor;
 	
 	// Resize self frame if Real Size of Workspace is less than available space in the Window
 	CGSize superViewFrameSize = self.superview.frame.size;
-	CGSize frameSize = self.frame.size;
+	CGSize frameSize = CGSizeMake(0,0);
 
-	frameSize.width = MAX(widthAspect, superViewFrameSize.width);
-	frameSize.height = MAX(heightAspect, superViewFrameSize.height);
+	frameSize.width = MAX(widthInPixelsAfterZoom, superViewFrameSize.width);
+	frameSize.height = MAX(heightInPixelsAfterZoom, superViewFrameSize.height);
 	[self setFrameSize: frameSize];
 }
 
