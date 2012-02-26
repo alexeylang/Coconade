@@ -2,8 +2,8 @@
 //  OSVersionHelper.h
 //  Coconade
 //
-//  Created by Stepan Generalov on 26.02.12.
-//  Copyright (c) 2012 sg@game-insight.com. All rights reserved.
+//  Copyright (c) 2012 Stepan Generalov
+//  All rights reserved.
 //
 
 #ifndef Coconade_OSVersionHelper_h
