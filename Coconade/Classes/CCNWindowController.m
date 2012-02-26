@@ -64,7 +64,7 @@
 #define kCCNWindowControllerEditMenuDeleteItemTitle             @"Delete"
 
 #define kCCNWindowControllerViewMenuTitle                       @"View"
-#define kCCNWindowControllerViewMenuShowBordersItemTitle        @"Show Borders"
+#define kCCNWindowControllerViewMenuShowBordersItemTitle        @"Show Borders & Checkerboard"
 #define kCCNWindowControllerViewMenuToogleFullScreenItemTitle   @"Toogle Full Screen"
 #define kCCNWindowControllerViewMenuResetZoomItemTitle          @"Reset Zoom"
 
