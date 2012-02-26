@@ -65,8 +65,7 @@
 	[director setResizeMode:kCCDirectorResize_NoScale]; //< We use NoScale with own Projection for NSScrollView
 	[director setProjectionDelegate: glView];
     [director setProjection: kCCDirectorProjectionCustom]; //< Projection delegate must be set before projection itself to apply custom projection immediately.
-	CGSize s = [[CCDirector sharedDirector] winSize];
-    [glView setWorkspaceSize: s];
+    [glView setWorkspaceSize: workspaceController.model.currentRootNode.contentSize];
     
     // Prepare controller & run scene.
     [director runWithScene: workspaceController.scene];
