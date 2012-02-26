@@ -417,6 +417,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     NSArray *imageFilenames = [self filterFiles:filenames withAllowedFileTypes:[self allowedImageFileTypes]];
     
+    CGPoint newPositionInScene = positionInScene;
+    CGPoint positionShift = ccp(10,10);
 	for(NSString *filename in imageFilenames)
 	{
         NSString *originalName = [filename lastPathComponent];
@@ -426,6 +428,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             // Create sprite with unique name.
             CCNode *sprite = [CCSprite spriteWithFile:filename];            
             [self addNode: sprite withUniqueNameFromName: originalName];
+            
+            // Reposition sprite where desired.
+            if (sprite.parent)
+            {        
+                sprite.position = CGPointApplyAffineTransform( newPositionInScene, [sprite.parent worldToNodeTransform]);
+            }
+            
+            // Increment position for next sprite.
+            newPositionInScene = ccpAdd(newPositionInScene, positionShift);
+            
+            // TODO: select all imported files, deselect any previous.
         }
         @catch (NSException *exception) 
         {
@@ -488,12 +501,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             // Import sprites safely on Cocos2D-iPhone thread.
             [self performBlockOnCocosThread: ^()
              {                 
-                 CCSprite *test = [CCSprite spriteWithFile:@"anchor.png"];
-                 [self.scene.targetNode addChild:test];
-                 test.position = p;
-                 
-                 
-                 [self importSpritesWithFiles: files];
+                 [self importSpritesWithFiles: files withPositionInScene:p];
              }];
         }
     }
