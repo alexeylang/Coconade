@@ -486,10 +486,20 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
 		
         if (sourceDragMask & NSDragOperationLink) 
-		{			
+		{		
+            // Get position of drag operation in scene coordinates.
+            CGPoint p = NSPointToCGPoint([self.glView convertPoint:[sender draggingLocation] fromView:nil]);
+            p = [(CCDirectorMac *)[CCDirector sharedDirector] convertToLogicalCoordinates: p];
+            
+            
             // Import sprites safely on Cocos2D-iPhone thread.
             [self performBlockOnCocosThread: ^()
-             {
+             {                 
+                 CCSprite *test = [CCSprite spriteWithFile:@"anchor.png"];
+                 [self.scene.targetNode addChild:test];
+                 test.position = p;
+                 
+                 
                  [self importSpritesWithFiles: files];
              }];
         }
