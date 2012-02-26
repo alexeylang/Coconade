@@ -11,7 +11,7 @@
 #import "DebugLog.h"
 
 /** Margins around workspace to make it better to see where workspace ends. */
-#define kCCNMacGLViewWorkspaceMargin 20.0f
+#define kCCNMacGLViewWorkspaceMargin 120.0f
 
 @interface CCNMacGLView ()
 
