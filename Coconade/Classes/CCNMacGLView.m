@@ -143,23 +143,20 @@
     // cause by default OpenGLView always renders in it's visible rect.
 	CGPoint offset = CGPointMake(- visibleRect.origin.x, - visibleRect.origin.y);
     
-    // Size of the superView, don't know why is it used here, we can use visibleRect insted maybe?
-	CGSize superViewFrameSize = self.superview.frame.size;
-    
 	// Size that viewPort needs to render whole workspace with applied zoom.
 	float viewportWidth = glSurfaceSize.width * self.zoomFactor;
 	float viewportHeight = glSurfaceSize.height * self.zoomFactor;
 	
     // Change offset.x to move viewport to the center of glView if there's enough width to render all workspace width.
-	if ( viewportWidth < superViewFrameSize.width )
+	if ( viewportWidth < visibleRect.size.width )
     {
-		offset.x = ( superViewFrameSize.width - viewportWidth ) / 2.0f;
+		offset.x = ( visibleRect.size.width - viewportWidth ) / 2.0f;
     }
 	
     // Change offset.y to move viewport to the center of glView if there's enough height to render all workspace height.
-	if ( viewportHeight < superViewFrameSize.height )
+	if ( viewportHeight < visibleRect.size.height )
     {
-		offset.y = ( superViewFrameSize.height - viewportHeight ) / 2.0f;
+		offset.y = ( visibleRect.size.height - viewportHeight ) / 2.0f;
     }
 	
     // Return new rect of the viewport.
