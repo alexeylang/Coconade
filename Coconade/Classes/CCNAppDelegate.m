@@ -62,6 +62,7 @@
 	CCDirectorMac *director = (CCDirectorMac *) [CCDirector sharedDirector];	
 	[director setDisplayFPS:NO];	
 	[director setOpenGLView:glView];
+    glClearColor(0.91f, 0.91f, 0.91f, 1.0f);
 	[director setResizeMode:kCCDirectorResize_NoScale]; //< We use NoScale with own Projection for NSScrollView
 	[director setProjectionDelegate: glView];
     [director setProjection: kCCDirectorProjectionCustom]; //< Projection delegate must be set before projection itself to apply custom projection immediately.
