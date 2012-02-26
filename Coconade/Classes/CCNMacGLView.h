@@ -68,9 +68,9 @@
  */
 - (void) updateView;
 
-/* Resizes the View for Centering the Workspace in Window
- * This is needed cause it's impossible to set the position of contentNode of
- * NSScrollView */
+/* Resizes CCNMacGLView to size that is enough to display whole workspace, taking 
+ * zoomFactor into account.
+ */
 - (void) updateFrameSize;
 
 /** Reset the zoom to default
