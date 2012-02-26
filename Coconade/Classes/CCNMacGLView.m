@@ -117,32 +117,35 @@
 
 - (void) updateFrameSize
 {	
-	// Get the Real Size of Workspace in Pixels
+	// Get the real size that needed to show whole workspace.
 	float widthInPixelsAfterZoom = self.workspaceSize.width * self.zoomFactor;
 	float heightInPixelsAfterZoom = self.workspaceSize.height * self.zoomFactor;
 	
-	// Resize self frame if Real Size of Workspace is less than available space in the Window
+	// Get available size in superview.
 	CGSize superViewFrameSize = self.superview.frame.size;
 	CGSize frameSize = CGSizeMake(0,0);
 
+    // Use superview's width if there's enough space.
     if (superViewFrameSize.width > widthInPixelsAfterZoom)
     {
         frameSize.width = superViewFrameSize.width;
     }
-    else
+    else // Use needed width if there's not enough space.
     {
         frameSize.width = widthInPixelsAfterZoom + 2 * kCCNMacGLViewWorkspaceMargin;
     }
     
+    // Use superview's height if there's enough space.
     if (superViewFrameSize.height > heightInPixelsAfterZoom)
     {
         frameSize.height = superViewFrameSize.height;
     }
-    else
+    else // Use needed height if there's not enough space.
     {
         frameSize.height = heightInPixelsAfterZoom + 2 * kCCNMacGLViewWorkspaceMargin;
     }
     
+    // Update frameSize.
 	[self setFrameSize: frameSize];
 }
 
