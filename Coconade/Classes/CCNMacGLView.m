@@ -244,10 +244,12 @@
 	
 	// Apply offset only when Centered 
 	CGPoint offset = [self viewportRect].origin;
-	offset.x = MAX(offset.x, 0);
-	offset.y = MAX(offset.y, 0);
-	p.x -= offset.x;
-	p.y -= offset.y;
+    CGPoint visibleRectOrigin = [self visibleRect].origin;
+    
+	//offset.x = MAX(offset.x, 0);
+	//offset.y = MAX(offset.y, 0);
+	p.x -= offset.x + visibleRectOrigin.x;
+	p.y -= offset.y + visibleRectOrigin.y;
 	
 	// Apply Zooming
 	p.x /= self.zoomFactor;
