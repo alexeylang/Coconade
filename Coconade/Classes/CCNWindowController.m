@@ -300,7 +300,7 @@
 {
     // Setup window
     self.window.level = NSNormalWindowLevel;
-    self.window.backgroundColor = [NSColor colorWithSRGBRed:0.95f green:0.95f blue:0.95f alpha:1.0f];
+    self.window.backgroundColor = [NSColor colorWithDeviceRed:0.95f green:0.95f blue:0.95f alpha:1.0f];
     self.window.hasShadow = YES;
     self.window.acceptsMouseMovedEvents = NO;
     
