@@ -118,8 +118,8 @@
 - (void) updateFrameSize
 {	
 	// Get the Real Size of Workspace in Pixels
-	float widthInPixelsAfterZoom = self.workspaceSize.width * self.zoomFactor;
-	float heightInPixelsAfterZoom = self.workspaceSize.height * self.zoomFactor;
+	float widthInPixelsAfterZoom = self.workspaceSize.width * self.zoomFactor + 2 * kCCNMacGLViewWorkspaceMargin;
+	float heightInPixelsAfterZoom = self.workspaceSize.height * self.zoomFactor + 2 * kCCNMacGLViewWorkspaceMargin;
 	
 	// Resize self frame if Real Size of Workspace is less than available space in the Window
 	CGSize superViewFrameSize = self.superview.frame.size;
@@ -138,6 +138,10 @@
     // visible rect of glView is a part, that is now visible, after being moved
     // and croped by superviews.
 	CGRect visibleRect = [self visibleRect];
+    
+    // Move visibleRect left & down for further calculations to have symmetric margins.
+    visibleRect.origin.x -= kCCNMacGLViewWorkspaceMargin;
+    visibleRect.origin.y -= kCCNMacGLViewWorkspaceMargin;
     
     // offset for viewPort - this will actual move glView contents by scrolling,
     // cause by default OpenGLView always renders in it's visible rect.
