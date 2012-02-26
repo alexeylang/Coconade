@@ -40,13 +40,6 @@
  */
 - (NSArray *) filterFiles: (NSArray *) files withAllowedFileTypes: (NSArray *) allowedFileTypes;
 
-/** Creates CCSprites from given filenames and adds it to current selected node
- * (curRootNode or selected node).
- * If sprite can't be added to that node - tries to add it to it's parent.
- * If it can't be added to anything - registers a problem in CCNProblemManager
- */
-- (void)importSpritesWithFiles: (NSArray *) filenames;
-
 #pragma mark Events Support
 
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
@@ -420,7 +413,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 }
 
-- (void)importSpritesWithFiles: (NSArray *) filenames
+- (void)importSpritesWithFiles: (NSArray *) filenames withPositionInScene: (CGPoint) positionInScene
 {
     NSArray *imageFilenames = [self filterFiles:filenames withAllowedFileTypes:[self allowedImageFileTypes]];
     

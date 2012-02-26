@@ -527,7 +527,7 @@
              NSArray *files = [openPanel filenames];
              [self performBlockOnCocosThread:^()
               {
-                  [self.workspaceController importSpritesWithFiles: files];
+                  [self.workspaceController importSpritesWithFiles: files withPositionInScene: CGPointZero];
               }];
          }
      }];

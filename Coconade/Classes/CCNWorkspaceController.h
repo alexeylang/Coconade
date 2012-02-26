@@ -177,9 +177,9 @@
  * If sprite can't be added to that node - tries to add it to it's parent.
  * If it can't be added to anything - registers a problem in CCNProblemManager
  *
- * @todo remove method prototype from public interface or private interface in implementation file
+ * @param positionInScene Position in world coordinates, near what sprites should be positioned.
  */
-- (void)importSpritesWithFiles: (NSArray *) filenames;
+- (void)importSpritesWithFiles: (NSArray *) filenames withPositionInScene: (CGPoint) positionInScene;
 
 /** Adds given node to current selected one 
  * (curRootNode or selected node).
