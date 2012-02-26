@@ -132,25 +132,38 @@
 
 - (CGRect) viewportRect
 {    
-	CGSize size = [CCDirector sharedDirector].winSize;
-	CGRect rect = [self visibleRect];	
+    // Actual size of surface that is rendered.
+	CGSize glSurfaceSize = [CCDirector sharedDirector].winSize;
+    
+    // visible rect of glView is a part, that is now visible, after being moved
+    // and croped by superviews.
+	CGRect visibleRect = [self visibleRect];
+    
+    // offset for viewPort - this will actual move glView contents by scrolling,
+    // cause by default OpenGLView always renders in it's visible rect.
+	CGPoint offset = CGPointMake(- visibleRect.origin.x, - visibleRect.origin.y);
+    
+    // Size of the superView, don't know why is it used here, we can use visibleRect insted maybe?
 	CGSize superViewFrameSize = self.superview.frame.size;
     
-	CGPoint offset = CGPointMake(- rect.origin.x, - rect.origin.y);
-	float widthAspect = size.width * self.zoomFactor;
-	float heightAspect = size.height * self.zoomFactor;
+	// Size that viewPort needs to render whole workspace with applied zoom.
+	float viewportWidth = glSurfaceSize.width * self.zoomFactor;
+	float viewportHeight = glSurfaceSize.height * self.zoomFactor;
 	
-	if ( widthAspect < superViewFrameSize.width )
+    // Change offset.x to move viewport to the center of glView if there's enough width to render all workspace width.
+	if ( viewportWidth < superViewFrameSize.width )
     {
-		offset.x = ( superViewFrameSize.width - widthAspect ) / 2.0f;
+		offset.x = ( superViewFrameSize.width - viewportWidth ) / 2.0f;
     }
 	
-	if ( heightAspect < superViewFrameSize.height )
+    // Change offset.y to move viewport to the center of glView if there's enough height to render all workspace height.
+	if ( viewportHeight < superViewFrameSize.height )
     {
-		offset.y = ( superViewFrameSize.height - heightAspect ) / 2.0f;
+		offset.y = ( superViewFrameSize.height - viewportHeight ) / 2.0f;
     }
 	
-	return CGRectMake(offset.x, offset.y, widthAspect, heightAspect);
+    // Return new rect of the viewport.
+	return CGRectMake(offset.x, offset.y, viewportWidth, viewportHeight);
 }
 
 - (void) updateView
