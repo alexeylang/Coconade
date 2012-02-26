@@ -118,15 +118,31 @@
 - (void) updateFrameSize
 {	
 	// Get the Real Size of Workspace in Pixels
-	float widthInPixelsAfterZoom = self.workspaceSize.width * self.zoomFactor + 2 * kCCNMacGLViewWorkspaceMargin;
-	float heightInPixelsAfterZoom = self.workspaceSize.height * self.zoomFactor + 2 * kCCNMacGLViewWorkspaceMargin;
+	float widthInPixelsAfterZoom = self.workspaceSize.width * self.zoomFactor;
+	float heightInPixelsAfterZoom = self.workspaceSize.height * self.zoomFactor;
 	
 	// Resize self frame if Real Size of Workspace is less than available space in the Window
 	CGSize superViewFrameSize = self.superview.frame.size;
 	CGSize frameSize = CGSizeMake(0,0);
 
-	frameSize.width = MAX(widthInPixelsAfterZoom, superViewFrameSize.width);
-	frameSize.height = MAX(heightInPixelsAfterZoom, superViewFrameSize.height);
+    if (superViewFrameSize.width > widthInPixelsAfterZoom)
+    {
+        frameSize.width = superViewFrameSize.width;
+    }
+    else
+    {
+        frameSize.width = widthInPixelsAfterZoom + 2 * kCCNMacGLViewWorkspaceMargin;
+    }
+    
+    if (superViewFrameSize.height > heightInPixelsAfterZoom)
+    {
+        frameSize.height = superViewFrameSize.height;
+    }
+    else
+    {
+        frameSize.height = heightInPixelsAfterZoom + 2 * kCCNMacGLViewWorkspaceMargin;
+    }
+    
 	[self setFrameSize: frameSize];
 }
 
