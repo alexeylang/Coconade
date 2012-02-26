@@ -128,8 +128,8 @@
 	CGSize superViewFrameSize = self.superview.frame.size;
 	CGSize frameSize = self.frame.size;
 
-	frameSize.width = MAX(widthAspect + 2 * kCCNMacGLViewWorkspaceMargin, superViewFrameSize.width);
-	frameSize.height = MAX(heightAspect + 2 * kCCNMacGLViewWorkspaceMargin, superViewFrameSize.height);
+	frameSize.width = MAX(widthAspect, superViewFrameSize.width);
+	frameSize.height = MAX(heightAspect, superViewFrameSize.height);
 	[self setFrameSize: frameSize];
 }
 
@@ -146,23 +146,11 @@
 	if ( widthAspect < superViewFrameSize.width )
     {
 		offset.x = ( superViewFrameSize.width - widthAspect ) / 2.0f;
-        offset.x -= kCCNMacGLViewWorkspaceMargin;
-        widthAspect += 2 * kCCNMacGLViewWorkspaceMargin;
-    }
-    else
-    {
-        offset.x += kCCNMacGLViewWorkspaceMargin;        
     }
 	
 	if ( heightAspect < superViewFrameSize.height )
     {
 		offset.y = ( superViewFrameSize.height - heightAspect ) / 2.0f;
-        offset.y -= kCCNMacGLViewWorkspaceMargin;
-        heightAspect += 2 * kCCNMacGLViewWorkspaceMargin;
-    }
-    else
-    {
-        offset.y += kCCNMacGLViewWorkspaceMargin;
     }
 	
 	return CGRectMake(offset.x, offset.y, widthAspect, heightAspect);
