@@ -10,8 +10,7 @@
 
 @implementation CCNScene
 
-@synthesize showBorders = _showBorders;
-@synthesize showCheckerboard = _showCheckerboard;
+@synthesize showBordersAndCheckerboard = _showBordersAndCheckerboard;
 @synthesize targetNode = _targetNode;
 @synthesize selection = _selection;
 
@@ -75,16 +74,9 @@
         // Load showBorders from UserDefaults.
         NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowBorders];
         if (!showBordersState)
-            self.showBorders = YES;
+            self.showBordersAndCheckerboard = YES;
         else 
-            self.showBorders = [showBordersState intValue];
-        
-        // Load showCheckerboard from UserDefaults.
-        NSNumber *showCheckerboardState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowCheckerboard];
-        if (!showCheckerboardState)
-            self.showCheckerboard = YES;
-        else 
-            self.showCheckerboard = [showCheckerboardState intValue];
+            self.showBordersAndCheckerboard = [showBordersState intValue];
     }
     
     return self;
@@ -141,15 +133,24 @@
         _updateForScreenReshapeNextVisit = NO;
     }
     
-    // Render checkerboard if needed.
-    if (self.showCheckerboard)
-        [_checkerboardSprite visit];
+    // Update color of checkerboard.
+    if (!self.showBordersAndCheckerboard)
+    {
+        _checkerboardSprite.color = ccBLACK;
+    }
+    else
+    {
+        _checkerboardSprite.color = ccWHITE;
+    }
+    
+    // Render checkerboard.
+    [_checkerboardSprite visit];
     
     // Render targetNode.
     [_targetNode visit];
     
     // Render borders if needed.        
-    if (self.showBorders)
+    if (self.showBordersAndCheckerboard)
     {
         CGSize s = contentSize_;
         GLfloat lineWidth = 3.0f;

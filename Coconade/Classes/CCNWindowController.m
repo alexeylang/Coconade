@@ -611,7 +611,7 @@
     else if ([menuItem.title isEqualToString:kCCNWindowControllerViewMenuShowBordersItemTitle])
     {
         CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
-        menuItem.state = scene.showBorders ? NSOnState : NSOffState;
+        menuItem.state = scene.showBordersAndCheckerboard ? NSOnState : NSOffState;
     }
     return YES;
 }
@@ -735,7 +735,7 @@
 - (void) showBordersMenuItemPressed: (id) sender
 {
     CCNScene *scene = (CCNScene *)[[CCDirector sharedDirector] runningScene];
-    scene.showBorders = ([sender state] == NSOffState);
+    scene.showBordersAndCheckerboard = ([sender state] == NSOffState);
 }
 
 - (void)toggleFullScreen: (id)sender
