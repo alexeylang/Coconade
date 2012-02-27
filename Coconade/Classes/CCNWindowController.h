@@ -26,6 +26,7 @@
     NSSegmentedControl *_viewSegmentedControl;
     
     CGFloat _lastLeftViewWidth;
+    CGFloat _lastRightViewWidth;
 }
 
 /** Holds workspace controller - main logic controller for Coconade. */
