@@ -11,6 +11,16 @@
 #import "NSArray+Reverse.h"
 #import "cocos2d.h"
 
+@interface CCNModel (SelectedNodesKVO)
+
+- (NSUInteger)countOfSelectedNodes;
+- (id)objectInSelectedNodesAtIndex:(NSUInteger)index;
+- (void)insertObject:(id)obj inSelectedNodesAtIndex:(NSUInteger)index;
+- (void)removeObjectFromSelectedNodesAtIndex:(NSUInteger)index;
+- (void)replaceObjectInSelectedNodesAtIndex:(NSUInteger)index withObject:(id)obj;
+
+@end
+
 @implementation CCNModel
 
 @synthesize projectFilePath = _projectFilePath;
@@ -155,7 +165,7 @@
     if ([_selectedNodes containsObject:aNode])
         return;
     
-    [_selectedNodes addObject: aNode];
+    [self insertObject:aNode inSelectedNodesAtIndex:[_selectedNodes count]];
     
     // TODO: remove
     [(CCSprite *) aNode setColor:ccRED];
@@ -169,7 +179,11 @@
     // TODO: remove setColor line.
     [(CCSprite *) aNode setColor:ccWHITE];
     
-    [_selectedNodes removeObject: aNode];
+    NSUInteger index = [_selectedNodes indexOfObject:aNode];
+    if (index != NSNotFound)
+    {
+        [self removeObjectFromSelectedNodesAtIndex: index];
+    }
 }
 
 - (void) deselectAllNodes
@@ -180,7 +194,11 @@
         [(CCSprite *)node setColor:ccWHITE];
     }
     
-    [_selectedNodes removeAllObjects];
+    NSUInteger count = [_selectedNodes count];
+    for (int i = 0; i < count; ++i)
+    {
+        [self removeObjectFromSelectedNodesAtIndex: 0];
+    }
 }
 
 #pragma mark Saving
@@ -236,6 +254,33 @@
         // Does it have parent? Remove from it.
         [aNode.parent removeChild:aNode cleanup:YES];
     }
+}
+
+#pragma mark SelectedNodes KVO-Compliance Methods
+
+- (NSUInteger)countOfSelectedNodes
+{
+    return [self.selectedNodes count];
+}
+
+- (id)objectInSelectedNodesAtIndex:(NSUInteger)index
+{
+    return [self.selectedNodes objectAtIndex: index];
+}
+
+- (void)insertObject:(id)obj inSelectedNodesAtIndex:(NSUInteger)index
+{
+    [self.selectedNodes insertObject:obj atIndex:index];
+}
+
+- (void)removeObjectFromSelectedNodesAtIndex:(NSUInteger)index
+{
+    [self.selectedNodes removeObjectAtIndex:index];
+}
+
+- (void)replaceObjectInSelectedNodesAtIndex:(NSUInteger)index withObject:(id)obj
+{
+    [self.selectedNodes replaceObjectAtIndex:index withObject:obj];
 }
 
 @end

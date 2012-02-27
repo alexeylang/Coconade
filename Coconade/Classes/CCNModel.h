@@ -47,7 +47,7 @@
  * Can't be nil - only empty - this means that currently no node is selected.
  * Will be changed to empty array automatically if currentRootNode will be changed to another root node.
  */
-@property(readonly, retain) NSArray *selectedNodes;
+@property(readonly, retain) NSMutableArray *selectedNodes;
 
 /** Array of all nodes in current hierarchy that is being edited, including
  * currentRootNode's children (but not currentRootNode itself), grandchildren, 
