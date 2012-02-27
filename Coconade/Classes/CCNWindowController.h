@@ -22,6 +22,7 @@
     NSView *_leftView;
     NSScrollView *_centerScrollView;
     NSView *_rightView;
+    NSSegmentedControl *_viewSegmentedControl;
 }
 
 /** Holds workspace controller - main logic controller for Coconade. */

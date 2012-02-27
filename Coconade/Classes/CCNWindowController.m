@@ -91,6 +91,7 @@
 @property (readwrite, retain) NSView *leftView;
 @property (readwrite, retain) NSScrollView *centerScrollView;
 @property (readwrite, retain) NSView *rightView;
+@property (readwrite, retain) NSSegmentedControl *viewSegmentedControl;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc.
@@ -109,6 +110,7 @@
 @synthesize leftView = _leftView;
 @synthesize centerScrollView = _centerScrollView;
 @synthesize rightView = _rightView;
+@synthesize viewSegmentedControl = _viewSegmentedControl;
 
 #pragma mark Init/DeInit
 
@@ -137,6 +139,7 @@
     self.leftView = nil;
     self.centerScrollView = nil;
     self.rightView = nil;
+    self.viewSegmentedControl = nil;
     
     [super dealloc];
 }
@@ -464,9 +467,9 @@
                                                 0.0, 
                                                 kCCNWindowControllerToolbarItemViewWidth, 
                                                 kCCNWindowControllerToolbarItemViewHeight);
-        NSSegmentedControl *segmentControl = [[[NSSegmentedControl alloc] initWithFrame:segmentControlFrame] autorelease];
+        self.viewSegmentedControl = [[[NSSegmentedControl alloc] initWithFrame:segmentControlFrame] autorelease];
         
-        NSSegmentedCell *segmentCell = [segmentControl cell];
+        NSSegmentedCell *segmentCell = [self.viewSegmentedControl cell];
         segmentCell.trackingMode = NSSegmentSwitchTrackingSelectAny;
         segmentCell.segmentCount = 2;
         segmentCell.alignment = NSCenterTextAlignment;
@@ -494,7 +497,7 @@
         segmentCell.target = self;
         segmentCell.action = @selector(segmentClicked:);
         
-        [toolbarItem setView:segmentControl];
+        [toolbarItem setView:self.viewSegmentedControl];
         
         //TODO: save and load selected segments from UserDefaults
         [segmentCell setSelected:YES forSegment:0];
