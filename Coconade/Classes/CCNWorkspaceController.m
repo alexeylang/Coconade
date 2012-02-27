@@ -648,7 +648,14 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // Add nodes to selection with holding Shift.
         if ( [event modifierFlags] & NSShiftKeyMask )
         {
-            [self.model selectNode: node];
+            if (![self.model.selectedNodes containsObject: node])
+            {
+                [self.model selectNode: node];
+            }
+            else // deselect selected nodes on second click when holding shift.
+            {
+                [self.model deselectNode: node];
+            }
         }
         else
         {
