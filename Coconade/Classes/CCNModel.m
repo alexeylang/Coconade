@@ -156,6 +156,9 @@
         return;
     
     [_selectedNodes addObject: aNode];
+    
+    // TODO: remove
+    [(CCSprite *) aNode setColor:ccRED];
 }
 
 - (void) deselectNode: (CCNode *) aNode
@@ -163,11 +166,19 @@
     if (!aNode)
         return;
     
+    // TODO: remove setColor line.
+    [(CCSprite *) aNode setColor:ccWHITE];
+    
     [_selectedNodes removeObject: aNode];
 }
 
 - (void) deselectAllNodes
 {
+    // TODO: remove for.
+    for (CCSprite *node in _selectedNodes)
+    {
+        [(CCSprite *)node setColor:ccWHITE];
+    }
     
     [_selectedNodes removeAllObjects];
 }
