@@ -23,7 +23,7 @@
 {
     CCNode *_targetNode;
     CCSprite *_checkerboardSprite;
-    CCNSelection *_selection;
+    NSMutableArray *_selections;
     
     BOOL _showBordersAndCheckerboard;
     BOOL _updateForScreenReshapeNextVisit;
@@ -47,13 +47,22 @@
 /** Repeated sprite that is used as a background. */
 @property(readwrite, retain) CCSprite *checkerboardSprite;
 
-/** Selection Effect & Tools for Selected Node. */
-@property(readonly, retain) CCNSelection *selection;
+#pragma mark Updates
 
 /** Thread-safe version of updateForScreenReshape.  */
 - (void) updateForScreenReshapeSafely: (NSNotification *) aNotification;
 
 /** Updates it's size & contents to fit current winSize. */
 - (void) updateForScreenReshape;
+
+#pragma mark Selection Controls
+
+/** Disables all selections highlights. */
+- (void) removeAllNodesSelections;
+
+/** Ensures that given node is highlighted with selection. 
+ * Does nothing if node is nil or already selected.
+ */
+- (void) addNodeToSelection: (CCNode *) aNode;
 
 @end

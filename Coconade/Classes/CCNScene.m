@@ -8,11 +8,18 @@
 
 #import "CCNScene.h"
 
+@interface CCNScene () 
+
+/** Selections (Highlight & Tools) for Selected Node. */
+@property(readwrite, retain) NSMutableArray *selections;
+
+@end
+
 @implementation CCNScene
 
 @synthesize showBordersAndCheckerboard = _showBordersAndCheckerboard;
 @synthesize targetNode = _targetNode;
-@synthesize selection = _selection;
+@synthesize selections = _selections;
 
 @dynamic checkerboardSprite;
 
@@ -69,7 +76,7 @@
         // Prepare checkerboard - repeated sprite.
 		self.checkerboardSprite = [CCSprite spriteWithFile:@"checkerboard.png"];
         
-        _selection = [[CCNSelection node] retain];
+        self.selections = [NSMutableArray arrayWithCapacity: 5];
         
         // Load showBorders from UserDefaults.
         NSNumber *showBordersState = [[NSUserDefaults standardUserDefaults] valueForKey: kCCNSceneUserDefaultsKeyShowBorders];
@@ -84,6 +91,7 @@
 
 - (void) dealloc
 {
+    self.selections = nil;
     self.checkerboardSprite = nil;
     self.targetNode = nil;
     
@@ -170,8 +178,37 @@
         ccDrawPoly(vertices, 4, YES);
     }
     
-    // Always render selection - it will be invisible if no targetNode set for it.
-    [_selection visit];
+    // Always render selections - it will be invisible if no targetNode set for it.
+    for (CCNSelection *selection in self.selections)
+    {
+        [selection visit];
+    }
+}
+
+#pragma mark Selection Controls
+
+- (void) removeAllNodesSelections
+{
+    [self.selections removeAllObjects];
+}
+
+/** Ensures that given node is highlighted with selection. */
+- (void) addNodeToSelection: (CCNode *) aNode
+{
+    if(!aNode)
+        return;
+    
+    // Ensure that node isn't selected already.
+    for (CCNSelection *selection in self.selections)
+    {
+        if (selection.targetNode == aNode)
+            return;
+    }
+    
+    // Select new node.
+    CCNSelection *selection = [[CCNSelection new] autorelease];
+    selection.targetNode = aNode;
+    [self.selections addObject:selection];
 }
 
 @end
