@@ -324,6 +324,7 @@
     splitView.delegate = self;
     [splitView setVertical:YES];
     
+    // Create and setup left view
     CGRect leftFrame = CGRectMake(0.0f, 
                                   0.0f, 
                                   kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
@@ -335,6 +336,7 @@
                        context:NULL];
     [splitView addSubview:self.leftView];
     
+    // Create and setup center scroll view
     CGRect centerFrame = CGRectMake(0.0f, 
                                     0.0f, 
                                     splitView.frame.size.width - kCCNWindowControllerSplitViewLeftViewDefaultWidth - 
@@ -346,6 +348,7 @@
     self.centerScrollView.documentView = self.workspaceController.glView;
     [splitView addSubview:self.centerScrollView];
     
+    // Create and setup right view
     CGRect rightFrame = CGRectMake(splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    0.0f, 
                                    kCCNWindowControllerSplitViewRightViewDefaultWidth, 
@@ -392,9 +395,11 @@
 {
     switch (dividerIndex) 
     {
+        // Divider between left view and center scroll view
         case 0:
             return kCCNWindowControllerSplitViewLeftViewMinWidth;    
             
+        // Divider between center scroll view and right view
         case 1:
             return self.leftView.frame.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
             
@@ -409,10 +414,12 @@
 {
     switch (dividerIndex) 
     {
+        // Divider between left view and center scroll view
         case 0:
             return splitView.frame.size.width - self.rightView.frame.size.width -   
                     kCCNWindowControllerSplitViewCenterViewMinWidth;
             
+        // Divider between center scroll view and right view
         case 1:
             return splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewMinWidth;
             
