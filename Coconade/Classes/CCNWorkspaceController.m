@@ -623,7 +623,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseDown:(NSEvent *)event
 {
-	_deselectNodeOnMouseUp = NO;
 	_moveNodeOnMouseDrag = NO;
 	
 	CCNode *node = [self nodeForEvent:event];
@@ -633,11 +632,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 		if(self.model.selectedNode != node)
         {
 			self.model.selectedNode = node;
-        }
-		else 
-        {
-            // Prepare to deselect it.
-			_deselectNodeOnMouseUp = YES;
         }
 		
 		_moveNodeOnMouseDrag = YES;
@@ -656,10 +650,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 - (BOOL)ccMouseDragged:(NSEvent *)event
-{
-	// Don't deselect nodes on mouse drag.
-	_deselectNodeOnMouseUp = NO;
-	
+{	
 	CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
 	// Move the node if needed.
@@ -692,13 +683,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 - (BOOL)ccMouseUp:(NSEvent *)event
-{
-	// Deselect node if planned.
-	if(_deselectNodeOnMouseUp)
-	{
-		self.model.selectedNode = nil;
-	}
-	
+{	
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	

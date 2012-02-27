@@ -22,7 +22,6 @@
     CCNModel *_model;
     
     // Mouse events.
-    BOOL _deselectNodeOnMouseUp;
 	BOOL _moveNodeOnMouseDrag;
     CGPoint _prevMouseLocation;
 }
