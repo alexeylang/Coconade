@@ -390,13 +390,16 @@
    constrainMinCoordinate:(CGFloat)proposedMinimumPosition 
               ofSubviewAt:(NSInteger)dividerIndex
 {
-    if (dividerIndex == 0)
+    switch (dividerIndex) 
     {
-        return kCCNWindowControllerSplitViewLeftViewMinWidth;    
-    }
-    else
-    {
-        return self.leftView.frame.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
+        case 0:
+            return kCCNWindowControllerSplitViewLeftViewMinWidth;    
+            
+        case 1:
+            return self.leftView.frame.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
+            
+        default:
+            return 0.0f;
     }
 }
 
@@ -404,14 +407,17 @@
    constrainMaxCoordinate:(CGFloat)proposedMaximumPosition 
               ofSubviewAt:(NSInteger)dividerIndex
 {
-    if (dividerIndex == 0)
+    switch (dividerIndex) 
     {
-        return splitView.frame.size.width - self.rightView.frame.size.width -   
-                kCCNWindowControllerSplitViewCenterViewMinWidth;
-    }
-    else
-    {
-        return splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewMinWidth;
+        case 0:
+            return splitView.frame.size.width - self.rightView.frame.size.width -   
+                    kCCNWindowControllerSplitViewCenterViewMinWidth;
+            
+        case 1:
+            return splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewMinWidth;
+            
+        default:
+            return 0.0f;
     }
 }
 
