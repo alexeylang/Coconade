@@ -22,8 +22,10 @@
     CCNModel *_model;
     
     // Mouse events.
-	BOOL _moveNodeOnMouseDrag;
     CGPoint _prevMouseLocation;
+    
+    // Dragging nodes.
+    CCNode *_nodeBeingDragged;
 }
 
 /** Property to hold glView, provided from outside. */

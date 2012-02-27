@@ -16,6 +16,8 @@
 
 @interface CCNWorkspaceController ()
 
+@property(readwrite, retain) CCNode *nodeBeingDragged;
+
 /** Adds self as observer to new model, updates everything related &
  * removes self as observer from old model
  */
@@ -113,6 +115,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 @synthesize scene = _scene;
 @synthesize glView = _glView;
+@synthesize nodeBeingDragged = _nodeBeingDragged;
 
 #pragma mark Init/DeInit
 
@@ -240,11 +243,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 - (void) modelUpdatedFromOldOne: (CCNModel *) oldModel
 {
     // Register in new.
-    [self.model addObserver:self forKeyPath:@"selectedNode" options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial context: NULL];
+    [self.model addObserver:self forKeyPath:@"selectedNodes" options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial context: NULL];
     [self.model addObserver:self forKeyPath:@"currentRootNode" options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial context: NULL];
     
     // Remove in old.
-    [oldModel removeObserver: self forKeyPath: @"selectedNode"];
+    [oldModel removeObserver: self forKeyPath: @"selectedNodes"];
     [oldModel removeObserver: self forKeyPath: @"currentRootNode"];
 }
 
@@ -252,9 +255,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     if (object == self.model)
     {
-        if ([keyPath isEqualToString:@"selectedNode"])
+        if ([keyPath isEqualToString:@"selectedNodes"])
         {
-            self.scene.selection.targetNode = self.model.selectedNode;
         }
         else if ([keyPath isEqualToString:@"currentRootNode"])
         {
@@ -275,13 +277,13 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 // Currently supports only one node.
 - (BOOL) canDeleteSelected
 {
-    return ( self.model.selectedNode != nil );
+    return ( [self.model.selectedNodes count] );
 }
 
 // Currently supports only one node.
 - (BOOL) canCopySelectedToPasteboard
 {
-    return ( self.model.selectedNode != nil );
+    return ( [self.model.selectedNodes count] );
 }
 
 // Currently supports only one node.
@@ -301,21 +303,24 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (void) deleteSelected
 {
-    [self.model removeNode: self.model.selectedNode];
+    for (CCNode *node in [self.model.selectedNodes copy])
+    {
+        [self.model removeNode: node];
+    }
 }
 
 // Currently supports only one node.
 - (void)cutSelectedToPasteboard
 {
     [self copySelectedToPasteboard];
-    [self.model removeNode: self.model.selectedNode];
+    [self deleteSelected];
 }
 
 // Currently supports copying only one node.
 - (void)copySelectedToPasteboard
 {
     // write selected node to pasteboard.
-	NSArray *objectsToCopy = [NSArray arrayWithObject: self.model.selectedNode];
+	NSArray *objectsToCopy = [NSArray arrayWithArray: self.model.selectedNodes];
 	if (objectsToCopy)
 	{
 		NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
@@ -388,10 +393,15 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     name = [CCNode uniqueNameWithName: name];
     aNode.name = name;
     
-    // Choose parent.
-    CCNode *newParent = self.model.selectedNode;
-    if (!newParent)
+    // Choose parent. Use only one selected node as parent.
+    CCNode *newParent = nil;    
+    if ([self.model.selectedNodes count] == 1)
     {
+        newParent = [self.model.selectedNodes objectAtIndex: 0];
+    }
+    else
+    {
+        // Use currentRootNode as parrent.
         newParent = self.model.currentRootNode;
     }
     
@@ -546,8 +556,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
  */
 - (BOOL)ccMagnifyWithEvent:(NSEvent *)event
 {
-	CCNode *node = self.model.selectedNode;
-	if (node)
+	for (CCNode *node in self.model.selectedNodes)
 	{
         // Get new scale from current and diff.
 		float newScaleX = node.scaleX + [event magnification];
@@ -572,8 +581,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
  */
 - (BOOL)ccRotateWithEvent:(NSEvent *)event
 {
-	CCNode *node = self.model.selectedNode;
-	if (node)
+	for (CCNode *node in self.model.selectedNodes)
 	{
         // Subtract event rotation, cause it's CCW (Node's rotation is CW).
 		float newRotation = node.rotation - [event rotation];
@@ -622,26 +630,32 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 - (BOOL)ccMouseDown:(NSEvent *)event
-{
-	_moveNodeOnMouseDrag = NO;
-	
+{	
 	CCNode *node = [self nodeForEvent:event];
 	if(node)
 	{
-		// If this isn't the selected sprite - select it.
-		if(self.model.selectedNode != node)
+        // Add nodes to selection with holding Shift.
+        if ( [event modifierFlags] & NSShiftKeyMask )
         {
-			self.model.selectedNode = node;
+            [self.model selectNode: node];
+        }
+        else
+        {
+            // If this isn't the selected sprite - select only it.
+            if(![self.model.selectedNodes containsObject: node])
+            {
+                [self.model deselectAllNodes];
+                [self.model selectNode: node];
+            }
         }
 		
-		_moveNodeOnMouseDrag = YES;
+        self.nodeBeingDragged = node;
 	}
-	
-	// If we touched outside of selected sprite, deselect it
-	if(self.model.selectedNode != node)
-	{
-		self.model.selectedNode = nil;
-	}
+    else
+    {
+        // Deselect all nodes when clicked in free space.
+        [self.model deselectAllNodes];
+    }
 	
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
@@ -654,8 +668,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
 	// Move the node if needed.
-    CCNode *node = self.model.selectedNode;
-	if(_moveNodeOnMouseDrag && node)
+    CCNode *node = self.nodeBeingDragged;
+	if(node)
 	{
         CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
         
@@ -684,6 +698,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseUp:(NSEvent *)event
 {	
+    // Stop dragging.
+    self.nodeBeingDragged = nil;
+    
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
@@ -696,15 +713,13 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
 	NSUInteger modifiers = [event modifierFlags];
 	unsigned short keyCode = [event keyCode];
-    
-    CCNode *node = self.model.selectedNode;
 	
 	// Deleting nodes from hierarchy.
 	switch(keyCode)
 	{
 		case kCCNKeyCodeBackspace:
 		case kCCNKeyCodeDelete:
-			[self.model removeNode: node];
+			[self deleteSelected];
 			return YES;
 		default:
 			break;
@@ -714,19 +729,24 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	if(modifiers & NSAlternateKeyMask)
 	{
 		CGFloat increment = (modifiers & NSShiftKeyMask) ? kCCNIncrementAnchorBig : kCCNIncrementAnchorDefault;
-		
+        
 		switch(keyCode)
 		{
+                // TODO: fix indent
 			case kCCNKeyCodeLeftArrow:
+                for (CCNode *node in self.model.selectedNodes)
                 node.anchorPoint = ccp( node.anchorPoint.x - increment, node.anchorPoint.y );
 				return YES;
 			case kCCNKeyCodeRightArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.anchorPoint = ccp( node.anchorPoint.x + increment, node.anchorPoint.y );
 				return YES;
 			case kCCNKeyCodeDownArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y - increment );
 				return YES;
 			case kCCNKeyCodeUpArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y + increment );
 				return YES;
 			default:
@@ -739,10 +759,13 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 		
 		switch(keyCode)
 		{
+                // TODO: fix indent
 			case kCCNKeyCodeLeftArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.rotation -= increment;
 				return YES;
 			case kCCNKeyCodeRightArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.rotation += increment;
 				return YES;
 			default:
@@ -756,19 +779,26 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
 		switch(keyCode)
 		{
+                // TODO: fix indent
+                
 			case kCCNKeyCodeLeftArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.position = ccp( node.position.x - positionIncrement, node.position.y );
 				return YES;
 			case kCCNKeyCodeRightArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.position = ccp( node.position.x + positionIncrement, node.position.y );
 				return YES;
 			case kCCNKeyCodeDownArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.position = ccp( node.position.x, node.position.y - positionIncrement );
 				return YES;
 			case kCCNKeyCodeUpArrow:
+                for (CCNode *node in self.model.selectedNodes)
 				node.position = ccp( node.position.x, node.position.y + positionIncrement );
 				return YES;
 			case kCCNKeyCodePageUp:
+                for (CCNode *node in self.model.selectedNodes)
                 if (node.parent)
                 {
                     [node.parent reorderChild:node z:node.zOrder + zOrderIncrement];
@@ -780,6 +810,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 				
 				return YES;
 			case kCCNKeyCodePageDown:
+                for (CCNode *node in self.model.selectedNodes)
 				if (node.parent)
                 {
                     [node.parent reorderChild:node z:node.zOrder - zOrderIncrement];
