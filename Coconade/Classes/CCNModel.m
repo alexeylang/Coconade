@@ -140,6 +140,38 @@
     [super dealloc];
 }
 
+#pragma mark Multiple Selection
+
+- (void) selectNode: (CCNode *) aNode
+{
+    if (!aNode)
+        return;
+    
+    // Don't select node that is not in current hierarchy.
+    if (![[self currentNodes] containsObject:aNode])
+        return;
+    
+    // Don't select node twice.
+    if ([_selectedNodes containsObject:aNode])
+        return;
+    
+    [_selectedNodes addObject: aNode];
+}
+
+- (void) deselectNode: (CCNode *) aNode
+{
+    if (!aNode)
+        return;
+    
+    [_selectedNodes removeObject: aNode];
+}
+
+- (void) deselectAllNodes
+{
+    
+    [_selectedNodes removeAllObjects];
+}
+
 #pragma mark Saving
 
 - (void)saveToFile:(NSString *)filename

@@ -80,6 +80,23 @@
  */
 - (id) initWithFile: (NSString *) filepath;
 
+#pragma mark Multiple Selection
+
+/** Adds node to selectedNodes.
+ * Does nothing if aNode is already selected, nil, or isn't present in current hierarchy.
+ */
+- (void) selectNode: (CCNode *) aNode;
+
+/** Remove node from selectedNodes.
+ * Does nothing if aNode is nil, or isn't present in current hierarchy.
+ */
+- (void) deselectNode: (CCNode *) aNode;
+
+/** Removes all nodes from selectedNodes.
+ * If there's already no nodes - does nothing.
+ */
+- (void) deselectAllNodes;
+
 #pragma mark Saving
 
 /** Saves rootNodes as dictionary to given file.
