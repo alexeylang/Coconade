@@ -257,6 +257,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         if ([keyPath isEqualToString:@"selectedNodes"])
         {
+            [self.scene removeAllNodesSelections];
+            for (CCNode *node in self.model.selectedNodes)
+            {
+                [self.scene addNodeToSelection: node];
+            }
         }
         else if ([keyPath isEqualToString:@"currentRootNode"])
         {
