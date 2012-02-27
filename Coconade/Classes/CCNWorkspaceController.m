@@ -734,22 +734,29 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
 		switch(keyCode)
 		{
-                // TODO: fix indent
 			case kCCNKeyCodeLeftArrow:
                 for (CCNode *node in self.model.selectedNodes)
-                node.anchorPoint = ccp( node.anchorPoint.x - increment, node.anchorPoint.y );
+                {
+                    node.anchorPoint = ccp( node.anchorPoint.x - increment, node.anchorPoint.y );
+                }
 				return YES;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.anchorPoint = ccp( node.anchorPoint.x + increment, node.anchorPoint.y );
+                {
+                    node.anchorPoint = ccp( node.anchorPoint.x + increment, node.anchorPoint.y );
+                }
 				return YES;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y - increment );
+                {
+                    node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y - increment );
+                }
 				return YES;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y + increment );
+                {
+                    node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y + increment );
+                }
 				return YES;
 			default:
 				return NO;
@@ -761,14 +768,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 		
 		switch(keyCode)
 		{
-                // TODO: fix indent
 			case kCCNKeyCodeLeftArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.rotation -= increment;
+                {
+                    node.rotation -= increment;
+                }
 				return YES;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.rotation += increment;
+                {
+                    node.rotation += increment;
+                }
 				return YES;
 			default:
 				return NO;
@@ -781,45 +791,55 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
 		switch(keyCode)
 		{
-                // TODO: fix indent
-                
 			case kCCNKeyCodeLeftArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.position = ccp( node.position.x - positionIncrement, node.position.y );
+                {
+                    node.position = ccp( node.position.x - positionIncrement, node.position.y );
+                }
 				return YES;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.position = ccp( node.position.x + positionIncrement, node.position.y );
+                {
+                    node.position = ccp( node.position.x + positionIncrement, node.position.y );
+                }
 				return YES;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.position = ccp( node.position.x, node.position.y - positionIncrement );
+                {
+                    node.position = ccp( node.position.x, node.position.y - positionIncrement );
+                }
 				return YES;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
-				node.position = ccp( node.position.x, node.position.y + positionIncrement );
+                {
+                    node.position = ccp( node.position.x, node.position.y + positionIncrement );
+                }
 				return YES;
 			case kCCNKeyCodePageUp:
                 for (CCNode *node in self.model.selectedNodes)
-                if (node.parent)
                 {
-                    [node.parent reorderChild:node z:node.zOrder + zOrderIncrement];
-                }
-                else
-                {
-                    [node setValue:[NSNumber numberWithInteger: node.zOrder + zOrderIncrement] forKey:@"zOrder_"];
+                    if (node.parent)
+                    {
+                        [node.parent reorderChild:node z:node.zOrder + zOrderIncrement];
+                    }
+                    else
+                    {
+                        [node setValue:[NSNumber numberWithInteger: node.zOrder + zOrderIncrement] forKey:@"zOrder_"];
+                    }
                 }
 				
 				return YES;
 			case kCCNKeyCodePageDown:
                 for (CCNode *node in self.model.selectedNodes)
-				if (node.parent)
                 {
-                    [node.parent reorderChild:node z:node.zOrder - zOrderIncrement];
-                }
-                else
-                {
-                    [node setValue:[NSNumber numberWithInteger: node.zOrder - zOrderIncrement] forKey:@"zOrder_"];
+                    if (node.parent)
+                    {
+                        [node.parent reorderChild:node z:node.zOrder - zOrderIncrement];
+                    }
+                    else
+                    {
+                        [node setValue:[NSNumber numberWithInteger: node.zOrder - zOrderIncrement] forKey:@"zOrder_"];
+                    }
                 }
 				return YES;
 			default:
