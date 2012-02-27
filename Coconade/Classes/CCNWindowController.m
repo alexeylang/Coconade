@@ -88,6 +88,7 @@
 
 @interface CCNWindowController ()
 
+@property (readwrite, retain) NSSplitView *mainSplitView;
 @property (readwrite, retain) NSView *leftView;
 @property (readwrite, retain) NSScrollView *centerScrollView;
 @property (readwrite, retain) NSView *rightView;
@@ -107,6 +108,7 @@
 @implementation CCNWindowController
 
 @synthesize workspaceController = _workspaceController;
+@synthesize mainSplitView = _mainSplitView;
 @synthesize leftView = _leftView;
 @synthesize centerScrollView = _centerScrollView;
 @synthesize rightView = _rightView;
@@ -139,6 +141,7 @@
     [self.rightView removeObserver:self forKeyPath: @"hidden"];
 
     self.workspaceController = nil;
+    self.mainSplitView = nil;
     self.leftView = nil;
     self.centerScrollView = nil;
     self.rightView = nil;
@@ -318,50 +321,50 @@
     
     // Create and setup splitView & subviews
     NSView *contentView = self.window.contentView;
-    NSSplitView *splitView = [[[NSSplitView alloc] initWithFrame: contentView.frame] autorelease];
-    splitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable; 
-    splitView.dividerStyle = NSSplitViewDividerStyleThin;
-    splitView.delegate = self;
-    [splitView setVertical:YES];
+    self.mainSplitView = [[[NSSplitView alloc] initWithFrame: contentView.frame] autorelease];
+    self.mainSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable; 
+    self.mainSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+    self.mainSplitView.delegate = self;
+    [self.mainSplitView setVertical:YES];
     
     // Create and setup left view
     CGRect leftFrame = CGRectMake(0.0f, 
                                   0.0f, 
                                   kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
-                                  splitView.frame.size.height);
+                                  self.mainSplitView.frame.size.height);
     self.leftView = [[[NSView alloc] initWithFrame:leftFrame] autorelease];
     [self.leftView addObserver:self 
                     forKeyPath:@"hidden" 
                        options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
                        context:NULL];
-    [splitView addSubview:self.leftView];
+    [self.mainSplitView addSubview:self.leftView];
     
     // Create and setup center scroll view
     CGRect centerFrame = CGRectMake(0.0f, 
                                     0.0f, 
-                                    splitView.frame.size.width - kCCNWindowControllerSplitViewLeftViewDefaultWidth - 
+                                    self.mainSplitView.frame.size.width - kCCNWindowControllerSplitViewLeftViewDefaultWidth - 
                                         kCCNWindowControllerSplitViewRightViewDefaultWidth, 
-                                    splitView.frame.size.height);
+                                    self.mainSplitView.frame.size.height);
     self.centerScrollView = [[[NSScrollView alloc] initWithFrame:centerFrame] autorelease];
     self.centerScrollView.hasHorizontalScroller = YES;
     self.centerScrollView.hasVerticalScroller = YES;
     self.centerScrollView.documentView = self.workspaceController.glView;
-    [splitView addSubview:self.centerScrollView];
+    [self.mainSplitView addSubview:self.centerScrollView];
     
     // Create and setup right view
-    CGRect rightFrame = CGRectMake(splitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
+    CGRect rightFrame = CGRectMake(self.mainSplitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    0.0f, 
                                    kCCNWindowControllerSplitViewRightViewDefaultWidth, 
-                                   splitView.frame.size.height);
+                                   self.mainSplitView.frame.size.height);
     self.rightView = [[[NSView alloc] initWithFrame:rightFrame] autorelease];
     [self.rightView addObserver:self 
                      forKeyPath:@"hidden" 
                         options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
                         context:NULL];
-    [splitView addSubview:self.rightView];
+    [self.mainSplitView addSubview:self.rightView];
     
-    [splitView adjustSubviews];
-    [contentView addSubview:splitView];
+    [self.mainSplitView adjustSubviews];
+    [contentView addSubview:self.mainSplitView];
 }
 
 #pragma mark SplitView Delegate

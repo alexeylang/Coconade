@@ -19,6 +19,7 @@
 @interface CCNWindowController : NSWindowController <NSToolbarDelegate, NSSplitViewDelegate>
 {
     CCNWorkspaceController *_workspaceController;
+    NSSplitView *_mainSplitView;
     NSView *_leftView;
     NSScrollView *_centerScrollView;
     NSView *_rightView;
