@@ -192,6 +192,8 @@
 
 - (void) removeNode: (CCNode *) aNode
 {
+    // Ensure to deselect first. 
+    [self deselectNode: aNode];
     
     // Was it a root node?
     if ( [_rootNodes containsObject: aNode])
