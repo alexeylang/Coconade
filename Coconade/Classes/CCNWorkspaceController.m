@@ -558,6 +558,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
  */
 - (BOOL)ccMagnifyWithEvent:(NSEvent *)event
 {
+    BOOL result = NO;
+    
 	for (CCNode *node in self.model.selectedNodes)
 	{
         // Get new scale from current and diff.
@@ -572,10 +574,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         node.scaleX = newScaleX;
         node.scaleY = newScaleY;
         
-        return YES;
+        result = YES;
 	}
     
-    return NO;
+    return result;
 }
 
 /** Trackpad's TwoFingerRotate Gesture event handler.
@@ -583,6 +585,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
  */
 - (BOOL)ccRotateWithEvent:(NSEvent *)event
 {
+    BOOL result = NO;
+    
 	for (CCNode *node in self.model.selectedNodes)
 	{
         // Subtract event rotation, cause it's CCW (Node's rotation is CW).
@@ -601,10 +605,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // Set new rotation.
 		node.rotation = newRotation;
         
-        return YES;
+        result = YES;
 	}
     
-    return NO;
+    return result;
 }
 
 #pragma mark Mouse Events
