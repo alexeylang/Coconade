@@ -341,9 +341,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     NSArray *newNodes = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
 	
+    [self.model deselectAllNodes];
 	for(CCNode *node in newNodes)
 	{
         [self addNode:node withUniqueNameFromName: nil];
+        [self.model selectNode:node];
 	}
 }
 
