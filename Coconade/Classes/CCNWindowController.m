@@ -377,6 +377,16 @@
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
+    // Check left view for zero width and if this is true - recover width from _lastLeftViewWidth
+    if ( !self.leftView.frame.size.width )
+    {
+        self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
+                                         self.leftView.frame.origin.y, 
+                                         _lastLeftViewWidth, 
+                                         self.leftView.frame.size.height);
+        [self.mainSplitView setPosition:0.0f ofDividerAtIndex:0];
+    }
+    
     [self.workspaceController.glView updateFrameSize];
 }
 
@@ -588,17 +598,24 @@
         int segment = segmentedControl.selectedSegment;
         if (segment == 0)
         {
+            // Show/hide left view
             if ([segmentedControl isSelectedForSegment:segment])
             {
+                // Set width to zero and show left view with animation
+                CGRect leftFrame = self.leftView.frame;
+                self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
+                                                 self.leftView.frame.origin.y, 
+                                                 0.0f, 
+                                                 self.leftView.frame.size.height);
+                [self.leftView setHidden:NO];
                 [self animateView: self.leftView 
-                  withTargetFrame: CGRectMake(self.leftView.frame.origin.x, 
-                                              self.leftView.frame.origin.y, 
-                                              kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
-                                              self.leftView.frame.size.height)
+                  withTargetFrame: leftFrame
                             delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
             }
             else
             {
+                // Save last width to _lastLeftViewWidth and hide left view
+                _lastLeftViewWidth = self.leftView.frame.size.width;
                 [self animateView: self.leftView 
                   withTargetFrame: CGRectMake(self.leftView.frame.origin.x, 
                                               self.leftView.frame.origin.y, 
