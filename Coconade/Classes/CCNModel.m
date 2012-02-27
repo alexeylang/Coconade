@@ -166,18 +166,12 @@
         return;
     
     [self insertObject:aNode inSelectedNodesAtIndex:[_selectedNodes count]];
-    
-    // TODO: remove
-    [(CCSprite *) aNode setColor:ccRED];
 }
 
 - (void) deselectNode: (CCNode *) aNode
 {
     if (!aNode)
         return;
-    
-    // TODO: remove setColor line.
-    [(CCSprite *) aNode setColor:ccWHITE];
     
     NSUInteger index = [_selectedNodes indexOfObject:aNode];
     if (index != NSNotFound)
@@ -187,13 +181,7 @@
 }
 
 - (void) deselectAllNodes
-{
-    // TODO: remove for.
-    for (CCSprite *node in _selectedNodes)
-    {
-        [(CCSprite *)node setColor:ccWHITE];
-    }
-    
+{    
     NSUInteger count = [_selectedNodes count];
     for (int i = 0; i < count; ++i)
     {
