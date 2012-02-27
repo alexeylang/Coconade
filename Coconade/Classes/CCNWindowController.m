@@ -135,6 +135,9 @@
 
 - (void) dealloc
 {
+    [self.leftView removeObserver:self forKeyPath: @"hidden"];
+    [self.rightView removeObserver:self forKeyPath: @"hidden"];
+
     self.workspaceController = nil;
     self.leftView = nil;
     self.centerScrollView = nil;
@@ -326,6 +329,10 @@
                                   kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
                                   splitView.frame.size.height);
     self.leftView = [[[NSView alloc] initWithFrame:leftFrame] autorelease];
+    [self.leftView addObserver:self 
+                    forKeyPath:@"hidden" 
+                       options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+                       context:NULL];
     [splitView addSubview:self.leftView];
     
     CGRect centerFrame = CGRectMake(0.0f, 
@@ -344,6 +351,10 @@
                                    kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    splitView.frame.size.height);
     self.rightView = [[[NSView alloc] initWithFrame:rightFrame] autorelease];
+    [self.rightView addObserver:self 
+                     forKeyPath:@"hidden" 
+                        options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+                        context:NULL];
     [splitView addSubview:self.rightView];
     
     [splitView adjustSubviews];
@@ -498,13 +509,29 @@
         segmentCell.action = @selector(segmentClicked:);
         
         [toolbarItem setView:self.viewSegmentedControl];
-        
-        //TODO: save and load selected segments from UserDefaults
-        [segmentCell setSelected:YES forSegment:0];
-        [segmentCell setSelected:YES forSegment:1];        
     }
     
     return toolbarItem;
+}
+
+#pragma mark LeftView & RightView KVO
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (object == self.leftView)
+    {
+        if ([keyPath isEqualToString:@"hidden"])
+        {
+            [self.viewSegmentedControl setSelected: !self.leftView.isHidden forSegment:0];
+        }
+    }
+    else if (object == self.rightView)
+    {
+        if ([keyPath isEqualToString:@"hidden"])
+        {
+            [self.viewSegmentedControl setSelected: !self.rightView.isHidden forSegment:1];
+        }
+    }
 }
 
 #pragma mark Toolbar Callbacks
