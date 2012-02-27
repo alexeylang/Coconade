@@ -16,7 +16,7 @@
 @synthesize projectFilePath = _projectFilePath;
 @synthesize rootNodes = _rootNodes;
 @synthesize currentRootNode = _currentRootNode;
-@synthesize selectedNode = _selectedNode;
+@synthesize selectedNodes = _selectedNodes;
 @dynamic currentNodes;
 
 - (NSArray *) descendantsOfNode: (CCNode *) aNode includingItself: (BOOL) includeNode
@@ -63,6 +63,7 @@
     if (self)
     {
         _rootNodes = [[NSMutableArray arrayWithCapacity: 1] retain];
+        _selectedNodes = [[NSMutableArray arrayWithCapacity: 5] retain];
         
         // Create new currentRootNode with default class & size.
         [_rootNodes addObject:[kCCNModelDefaultRootNodeClass node]];
@@ -127,7 +128,10 @@
 - (void) dealloc
 {
     self.projectFilePath = nil;
-    self.selectedNode = nil;
+    
+    [_selectedNodes release];
+    _selectedNodes = nil;
+    
     self.currentRootNode = nil;
     
     [_rootNodes release];
@@ -156,12 +160,6 @@
 
 - (void) removeNode: (CCNode *) aNode
 {
-    // Was that node selected? 
-    if (self.selectedNode == aNode)
-    {
-        // Unselect.
-        self.selectedNode = nil;
-    }
     
     // Was it a root node?
     if ( [_rootNodes containsObject: aNode])

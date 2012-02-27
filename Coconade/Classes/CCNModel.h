@@ -22,7 +22,7 @@
     
     NSMutableArray *_rootNodes;    
     CCNode *_currentRootNode; //< Weakref.
-    CCNode *_selectedNode; //< Weakref.
+    NSMutableArray *_selectedNodes;
     NSArray *_currentNodes;
 }
 
@@ -43,11 +43,11 @@
  */
 @property (readwrite, assign) CCNode *currentRootNode;
 
-/** Current selected node in current hierarchy, that is being edited.
- * Can be nil - this means that currently no node is selected.
- * Will be changed to nil if currentRootNode will be changed to another root node.
+/** Array of selected CCNodes in current hierarchy, that is being edited.
+ * Can't be nil - only empty - this means that currently no node is selected.
+ * Will be changed to empty array automatically if currentRootNode will be changed to another root node.
  */
-@property (readwrite, assign) CCNode *selectedNode;
+@property(readonly, retain) NSArray *selectedNodes;
 
 /** Array of all nodes in current hierarchy that is being edited, including
  * currentRootNode's children (but not currentRootNode itself), grandchildren, 
