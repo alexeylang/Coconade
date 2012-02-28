@@ -15,13 +15,16 @@
  *
  * @todo Add ability to transform target node via GUI of CCNSelection
  */
-@interface CCNSelection : CCNode {
+@interface CCNSelection : CCNode <CCMouseEventDelegate> {
     
     CCNode *_targetNode;
     
     CCLayerColor *_fill;
 	CCSprite *_anchor;
 	CCLabelBMFont *_positionLabel;
+    
+    BOOL _dragAnchor;
+    CGPoint _prevMouseLocation;
 }
 
 /** Node that will be highlated by CCNSelection.

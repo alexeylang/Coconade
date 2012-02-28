@@ -8,6 +8,7 @@
 
 #import "CCNSelection.h"
 #import "TransformUtils.h"
+#import "CCNode+Helpers.h"
 
 @implementation CCNSelection
 
@@ -157,6 +158,79 @@
     [super draw];
     
     [self drawHighlight];
+}
+
+#pragma mark Mouse Events
+
+- (void) onEnter
+{
+    [super onEnter];
+    
+    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority:NSIntegerMin];
+}
+
+- (void) onExit
+{
+    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
+    
+    [super onExit];
+}
+
+- (BOOL)ccMouseUp:(NSEvent *)event
+{
+    // Stop dragging.
+    _dragAnchor = NO;
+    
+    // Remember previous mouse location to move node.
+	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+	
+	return YES;
+}
+
+- (BOOL)ccMouseDown:(NSEvent *)event
+{	
+    _dragAnchor = NO;
+    
+    if ([CCNode isEvent:event locatedInNode:_anchor])
+    {
+        _dragAnchor = YES;
+    }
+
+    // Remember previous mouse location to move anchor.
+	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+	
+	return YES;
+}
+
+- (BOOL)ccMouseDragged:(NSEvent *)event
+{	    
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    if (_dragAnchor)
+    {
+        // Get new position of anchor in scene coordinates.
+        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
+        CGPoint anchorPositionInScene = CGPointApplyAffineTransform(_anchor.position, [_anchor.parent nodeToWorldTransform]);
+        anchorPositionInScene = ccpAdd(anchorPositionInScene, diff);
+        
+        // Get position of anchor in targetNode's coordinates.
+        CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, [_targetNode worldToNodeTransform]);
+        
+        // Compensate position change.
+        CGSize targetSize = _targetNode.contentSize;
+        CGPoint oldAnchor = _targetNode.anchorPoint;
+        CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
+        CGPoint positionCompensation = ccpSub(newAnchorInPoints, oldAnchorInPoints);
+        _targetNode.position = ccpAdd(_targetNode.position, positionCompensation);
+        
+        // Set new anchor normalized.
+        CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
+        _targetNode.anchorPoint = newAnchor;
+    }
+	
+    // Remember previous mouse location to move node.
+	_prevMouseLocation = mouseLocation;
+	
+	return YES;
 }
 
 @end
