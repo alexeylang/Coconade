@@ -381,25 +381,25 @@
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
-    // Check left view for zero width and if this is true - recover width from _lastLeftViewWidth
-    if ( !self.leftView.frame.size.width && _lastLeftViewWidth )
+    // Check left view for zero width and if this is true - recover width from _leftViewWidthBeforeAnimatedCollapse
+    if ( !self.leftView.frame.size.width && _leftViewWidthBeforeAnimatedCollapse )
     {
         self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
                                          self.leftView.frame.origin.y, 
-                                         _lastLeftViewWidth, 
+                                         _leftViewWidthBeforeAnimatedCollapse, 
                                          self.leftView.frame.size.height);
-        _lastLeftViewWidth = 0.0f;
+        _leftViewWidthBeforeAnimatedCollapse = 0.0f;
         [self.mainSplitView setPosition:0.0f ofDividerAtIndex:0];
     }
     
-    // Check right view for zero width and if this is true - recover width from _lastRightViewWidth
-    if ( !self.rightView.frame.size.width && _lastRightViewWidth )
+    // Check right view for zero width and if this is true - recover width from _rightViewWidthBeforeAnimatedCollapse
+    if ( !self.rightView.frame.size.width && _rightViewWidthBeforeAnimatedCollapse )
     {
-        self.rightView.frame = CGRectMake(self.rightView.frame.origin.x - _lastRightViewWidth, 
+        self.rightView.frame = CGRectMake(self.rightView.frame.origin.x - _rightViewWidthBeforeAnimatedCollapse, 
                                           self.rightView.frame.origin.y, 
-                                          _lastRightViewWidth, 
+                                          _rightViewWidthBeforeAnimatedCollapse, 
                                           self.rightView.frame.size.height);
-        _lastRightViewWidth = 0.0f;
+        _rightViewWidthBeforeAnimatedCollapse = 0.0f;
         [self.mainSplitView setPosition:self.mainSplitView.frame.size.width ofDividerAtIndex:1];
     }
     
@@ -455,7 +455,7 @@
 
 - (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
 {
-    if ( !_lastLeftViewWidth )
+    if ( !_leftViewWidthBeforeAnimatedCollapse )
     {
         self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
                                          self.leftView.frame.origin.y, 
@@ -463,7 +463,7 @@
                                          splitView.frame.size.height);
     }
     
-    if ( !_lastRightViewWidth )
+    if ( !_rightViewWidthBeforeAnimatedCollapse )
     {
         self.rightView.frame = CGRectMake(splitView.frame.size.width - self.rightView.frame.size.width, 
                                          self.rightView.frame.origin.y, 
@@ -659,8 +659,8 @@
                     }
                     else
                     {
-                        // Save last width to _lastLeftViewWidth and hide left view
-                        _lastLeftViewWidth = self.leftView.frame.size.width;
+                        // Save last width to _leftViewWidthBeforeAnimatedCollapse and hide left view
+                        _leftViewWidthBeforeAnimatedCollapse = self.leftView.frame.size.width;
                         targetFrame = zeroWidthFrame;
                     }
                 }                
@@ -689,8 +689,8 @@
                     }
                     else
                     {
-                        // Save last width to _lastRightViewWidth and hide right view
-                        _lastRightViewWidth = self.rightView.frame.size.width;
+                        // Save last width to _rightViewWidthBeforeAnimatedCollapse and hide right view
+                        _rightViewWidthBeforeAnimatedCollapse = self.rightView.frame.size.width;
                         targetFrame = zeroWidthFrame;
                     }
                 }

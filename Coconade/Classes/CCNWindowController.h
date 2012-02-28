@@ -25,8 +25,8 @@
     NSView *_rightView;
     NSSegmentedControl *_viewSegmentedControl;
     
-    CGFloat _lastLeftViewWidth;
-    CGFloat _lastRightViewWidth;
+    CGFloat _leftViewWidthBeforeAnimatedCollapse;
+    CGFloat _rightViewWidthBeforeAnimatedCollapse;
 }
 
 /** Holds workspace controller - main logic controller for Coconade. */
