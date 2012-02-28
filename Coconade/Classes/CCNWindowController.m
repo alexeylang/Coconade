@@ -595,7 +595,6 @@
      }];
 }
 
-//TODO: save last size of views instead of using default size
 - (void)segmentClicked:(id)sender
 {
     if ( [sender isKindOfClass:[NSSegmentedControl class]] )
