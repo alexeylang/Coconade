@@ -453,6 +453,31 @@
     }
 }
 
+- (void)splitView:(NSSplitView *)splitView resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+    if ( !_lastLeftViewWidth )
+    {
+        self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
+                                         self.leftView.frame.origin.y, 
+                                         self.leftView.frame.size.width, 
+                                         splitView.frame.size.height);
+    }
+    
+    if ( !_lastRightViewWidth )
+    {
+        self.rightView.frame = CGRectMake(splitView.frame.size.width - self.rightView.frame.size.width, 
+                                         self.rightView.frame.origin.y, 
+                                         self.rightView.frame.size.width, 
+                                         splitView.frame.size.height);
+    }
+    
+    self.centerScrollView.frame = CGRectMake(self.leftView.frame.origin.x + self.leftView.frame.size.width + splitView.dividerThickness, 
+                                             self.centerScrollView.frame.origin.y, 
+                                             splitView.frame.size.width - self.leftView.frame.size.width - 
+                                                self.rightView.frame.size.width - 2.0f * splitView.dividerThickness,
+                                             splitView.frame.size.height);
+}
+
 #pragma mark NSView Animation
 
 - (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay
