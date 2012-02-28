@@ -691,12 +691,29 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 - (BOOL)ccMouseDragged:(NSEvent *)event
-{	
-	CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-	
-	// Move the node if needed.
-    CCNode *node = self.nodeBeingDragged;
-	if(node)
+{	    
+    // Choose which nodes to drag - all selected nodes by default.
+    NSArray *nodesToMove = self.model.selectedNodes;
+    
+    // But if they have different parents - choose only one that was under cursor, when dragging started.
+    NSUInteger selectedNodesCount = [self.model.selectedNodes count];
+    if (selectedNodesCount)
+    {
+        CCNode *firstNode = [self.model.selectedNodes objectAtIndex: 0];
+        CCNode *parent = firstNode.parent;
+        for (CCNode *node in self.model.selectedNodes)
+        {
+            if (parent != node.parent)
+            {
+                nodesToMove = [NSArray arrayWithObject: self.nodeBeingDragged];
+                break;
+            }
+        }
+    }
+    
+    // Actually drag chosen nodes.
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+	for (CCNode *node in nodesToMove)
 	{
         CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
         
