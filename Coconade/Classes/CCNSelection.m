@@ -212,19 +212,22 @@
         CGPoint anchorPositionInScene = CGPointApplyAffineTransform(_anchor.position, [_anchor.parent nodeToWorldTransform]);
         anchorPositionInScene = ccpAdd(anchorPositionInScene, diff);
         
-        // Get position of anchor in targetNode's coordinates.
-        CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, [_targetNode worldToNodeTransform]);
-        
-        // Compensate position change.
+        // Get old anchor position in scene.
         CGSize targetSize = _targetNode.contentSize;
         CGPoint oldAnchor = _targetNode.anchorPoint;
         CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
-        CGPoint positionCompensation = ccpSub(newAnchorInPoints, oldAnchorInPoints);
-        _targetNode.position = ccpAdd(_targetNode.position, positionCompensation);
+        CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, [_targetNode nodeToWorldTransform]);
         
         // Set new anchor normalized.
+        CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, [_targetNode worldToNodeTransform]);
         CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
         _targetNode.anchorPoint = newAnchor;
+        
+        // Compensate position change.       
+        CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
+        _targetNode.position = ccpAdd(_targetNode.position, positionCompensation);
+        
+        
     }
 	
     // Remember previous mouse location to move node.
