@@ -189,6 +189,11 @@
 
 - (void) removeAllNodesSelections
 {
+    for (CCNSelection *selection in self.selections)
+    {
+        [selection onExit];
+    }
+    
     [self.selections removeAllObjects];
 }
 
@@ -209,6 +214,7 @@
     CCNSelection *selection = [[CCNSelection new] autorelease];
     selection.targetNode = aNode;
     [self.selections addObject:selection];
+    [selection onEnter];
 }
 
 @end
