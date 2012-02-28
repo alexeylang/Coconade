@@ -621,6 +621,12 @@
                         targetFrame = self.leftView.frame;
                         self.leftView.frame = zeroWidthFrame;
                         [self.leftView setHidden:NO];
+                        
+                        // Check width of target frame, if zero  - set default width
+                        if ( !targetFrame.size.width )
+                        {
+                            targetFrame.size.width = kCCNWindowControllerSplitViewLeftViewDefaultWidth;
+                        }
                     }
                     else
                     {
@@ -644,6 +650,13 @@
                         targetFrame = self.rightView.frame;
                         self.rightView.frame = zeroWidthFrame;
                         [self.rightView setHidden:NO];
+                        
+                        // Check width of target frame, if zero  - set default width
+                        if ( !targetFrame.size.width )
+                        {
+                            targetFrame.origin.x -= kCCNWindowControllerSplitViewRightViewDefaultWidth;
+                            targetFrame.size.width = kCCNWindowControllerSplitViewRightViewDefaultWidth;
+                        }
                     }
                     else
                     {
