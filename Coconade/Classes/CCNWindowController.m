@@ -606,62 +606,63 @@
     {
         NSSegmentedControl *segmentedControl = sender;
         int segment = segmentedControl.selectedSegment;
-        if (segment == 0)
+        BOOL selected = [segmentedControl isSelectedForSegment:segment];
+        NSView *targetView = nil;
+        CGRect targetFrame = CGRectZero;
+        switch (segment) 
         {
-            // Show/hide left view
-            if ([segmentedControl isSelectedForSegment:segment])
-            {
-                // Set width to zero and show left view with animation
-                CGRect leftFrame = self.leftView.frame;
-                self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
-                                                 self.leftView.frame.origin.y, 
-                                                 0.0f, 
-                                                 self.leftView.frame.size.height);
-                [self.leftView setHidden:NO];
-                [self animateView: self.leftView 
-                  withTargetFrame: leftFrame
-                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
-            }
-            else
-            {
-                // Save last width to _lastLeftViewWidth and hide left view
-                _lastLeftViewWidth = self.leftView.frame.size.width;
-                [self animateView: self.leftView 
-                  withTargetFrame: CGRectMake(self.leftView.frame.origin.x, 
-                                              self.leftView.frame.origin.y, 
-                                              0.0f, 
-                                              self.leftView.frame.size.height)
-                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
-            }
+            case 0: //< Show/hide left view
+                {
+                    targetView = self.leftView;
+                    CGRect zeroWidthFrame = CGRectMake(self.leftView.frame.origin.x, 
+                                                       self.leftView.frame.origin.y, 
+                                                       0.0f, 
+                                                       self.leftView.frame.size.height);
+                    if (selected)
+                    {
+                        // Set width to zero and show left view with animation
+                        targetFrame = self.leftView.frame;
+                        self.leftView.frame = zeroWidthFrame;
+                        [self.leftView setHidden:NO];
+                    }
+                    else
+                    {
+                        // Save last width to _lastLeftViewWidth and hide left view
+                        _lastLeftViewWidth = self.leftView.frame.size.width;
+                        targetFrame = zeroWidthFrame;
+                    }
+                }                
+                break;
+                
+            case 1: //< Show/hide right view
+                {
+                    targetView = self.rightView;
+                    CGRect zeroWidthFrame = CGRectMake(self.rightView.frame.origin.x + self.rightView.frame.size.width, 
+                                                       self.rightView.frame.origin.y, 
+                                                       0.0f, 
+                                                       self.rightView.frame.size.height);
+                    if (selected)
+                    {
+                        // Set width to zero and show right view with animation
+                        targetFrame = self.rightView.frame;
+                        self.rightView.frame = zeroWidthFrame;
+                        [self.rightView setHidden:NO];
+                    }
+                    else
+                    {
+                        // Save last width to _lastRightViewWidth and hide right view
+                        _lastRightViewWidth = self.rightView.frame.size.width;
+                        targetFrame = zeroWidthFrame;
+                    }
+                }
+                break;
+                
+            default:
+                break;
         }
-        else
-        {
-            // Show/hide right view
-            if ([segmentedControl isSelectedForSegment:segment])
-            {
-                // Set width to zero and show right view with animation
-                CGRect rightFrame = self.rightView.frame;
-                self.rightView.frame = CGRectMake(self.rightView.frame.origin.x - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
-                                                 self.rightView.frame.origin.y, 
-                                                 kCCNWindowControllerSplitViewRightViewDefaultWidth, 
-                                                 self.rightView.frame.size.height);
-                [self.rightView setHidden:NO];
-                [self animateView: self.rightView 
-                  withTargetFrame: rightFrame
-                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
-            }
-            else
-            {
-                // Save last width to _lastRightViewWidth and hide right view
-                _lastRightViewWidth = self.rightView.frame.size.width;
-                [self animateView: self.rightView 
-                  withTargetFrame: CGRectMake(self.rightView.frame.origin.x + self.rightView.frame.size.width, 
-                                              self.rightView.frame.origin.y, 
-                                              0.0f, 
-                                              self.rightView.frame.size.height)
-                            delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
-            }
-        }
+        [self animateView: targetView 
+          withTargetFrame: targetFrame
+                    delay: kCCNWindowControllerSplitViewCollapseAnimationDelay];
     }
 }
 
