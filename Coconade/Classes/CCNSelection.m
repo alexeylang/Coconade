@@ -184,7 +184,7 @@
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
-	return YES;
+	return NO;
 }
 
 - (BOOL)ccMouseDown:(NSEvent *)event
@@ -199,7 +199,7 @@
     // Remember previous mouse location to move anchor.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
-	return YES;
+	return _dragAnchor;
 }
 
 - (BOOL)ccMouseDragged:(NSEvent *)event
@@ -230,7 +230,7 @@
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
 	
-	return YES;
+    return _dragAnchor;
 }
 
 @end
