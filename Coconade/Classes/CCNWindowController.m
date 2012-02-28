@@ -83,6 +83,9 @@
 #define kCCNWindowControllerSplitViewRightViewMinWidth          200.0f
 #define kCCNWindowControllerSplitViewCenterViewMinWidth         200.0f
 
+#define kCCNWindowControllerWindowMinWidth                      800.0f
+#define kCCNWindowControllerWindowMinHeight                     600.0f
+
 #define kCCNWindowControllerSplitViewCollapseAnimationDelay     0.2f
 
 
@@ -312,6 +315,7 @@
     self.window.backgroundColor = [NSColor colorWithDeviceRed:0.95f green:0.95f blue:0.95f alpha:1.0f];
     self.window.hasShadow = YES;
     self.window.acceptsMouseMovedEvents = NO;
+    self.window.minSize = CGSizeMake(kCCNWindowControllerWindowMinWidth, kCCNWindowControllerWindowMinHeight);
     
     // Create and setup toolbar
     [self prepareToolbar];
