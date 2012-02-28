@@ -207,16 +207,15 @@
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
     if (_dragAnchor)
     {
-        // Get new position of anchor in scene coordinates.
-        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
-        CGPoint anchorPositionInScene = CGPointApplyAffineTransform(_anchor.position, [_anchor.parent nodeToWorldTransform]);
-        anchorPositionInScene = ccpAdd(anchorPositionInScene, diff);
-        
         // Get old anchor position in scene.
         CGSize targetSize = _targetNode.contentSize;
         CGPoint oldAnchor = _targetNode.anchorPoint;
         CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
         CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, [_targetNode nodeToWorldTransform]);
+        
+        // Get new position of anchor in scene coordinates.
+        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
+        CGPoint anchorPositionInScene = ccpAdd(oldAnchorInScene, diff);        
         
         // Set new anchor normalized.
         CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, [_targetNode worldToNodeTransform]);
@@ -226,8 +225,6 @@
         // Compensate position change.       
         CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
         _targetNode.position = ccpAdd(_targetNode.position, CGPointApplyAffineTransform(positionCompensation, [_targetNode.parent worldToNodeTransform]));
-        
-        
     }
 	
     // Remember previous mouse location to move node.
