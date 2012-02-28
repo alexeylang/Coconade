@@ -26,7 +26,7 @@
 		_fill = [[CCLayerColor layerWithColor:ccc4(30,144,255,75.5f)] retain];
 		
         // Prepare targetNode's anchor point indicator.
-		_anchor = [[CCSprite spriteWithFile:@"anchor.png"] retain];
+		_anchor = [[CCSprite spriteWithFile:@"CCNSelectionAnchor.png"] retain];
 		[_anchor setOpacity:200];
 		[self addChild:_anchor];
 		
