@@ -224,7 +224,9 @@
         
         // Compensate position change.       
         CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
-        _targetNode.position = ccpAdd(_targetNode.position, CGPointApplyAffineTransform(positionCompensation, [_targetNode.parent worldToNodeTransform]));
+        CGPoint targetPositionInScene =  CGPointApplyAffineTransform(_targetNode.position, [_targetNode.parent nodeToWorldTransform]);
+        targetPositionInScene = ccpAdd(targetPositionInScene, positionCompensation);
+        _targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, [_targetNode.parent worldToNodeTransform]);
     }
 	
     // Remember previous mouse location to move node.
