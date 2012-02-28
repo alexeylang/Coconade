@@ -378,22 +378,24 @@
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
     // Check left view for zero width and if this is true - recover width from _lastLeftViewWidth
-    if ( !self.leftView.frame.size.width )
+    if ( !self.leftView.frame.size.width && _lastLeftViewWidth )
     {
         self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
                                          self.leftView.frame.origin.y, 
                                          _lastLeftViewWidth, 
                                          self.leftView.frame.size.height);
+        _lastLeftViewWidth = 0.0f;
         [self.mainSplitView setPosition:0.0f ofDividerAtIndex:0];
     }
     
     // Check right view for zero width and if this is true - recover width from _lastRightViewWidth
-    if ( !self.rightView.frame.size.width )
+    if ( !self.rightView.frame.size.width && _lastRightViewWidth )
     {
         self.rightView.frame = CGRectMake(self.rightView.frame.origin.x - _lastRightViewWidth, 
                                           self.rightView.frame.origin.y, 
                                           _lastRightViewWidth, 
                                           self.rightView.frame.size.height);
+        _lastRightViewWidth = 0.0f;
         [self.mainSplitView setPosition:self.mainSplitView.frame.size.width ofDividerAtIndex:1];
     }
     
