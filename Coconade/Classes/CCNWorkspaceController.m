@@ -549,9 +549,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (void) registerWithEventDispatcher
 {
-    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin];
-	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin];
-    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin];
+    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin+1];
+	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin+1];
+    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin+1];
 }
 
 - (void) unregisterWithEventDispatcher
