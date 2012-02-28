@@ -607,10 +607,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 		if (newRotation < 0)
         {
 			newRotation += 360;
-        }        
-		
-		// Discard the frational part.
-		newRotation = roundf(newRotation);
+        }
 		
         // Set new rotation.
 		node.rotation = newRotation;
