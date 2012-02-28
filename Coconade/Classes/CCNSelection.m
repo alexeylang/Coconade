@@ -225,7 +225,7 @@
         
         // Compensate position change.       
         CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
-        _targetNode.position = ccpAdd(_targetNode.position, positionCompensation);
+        _targetNode.position = ccpAdd(_targetNode.position, CGPointApplyAffineTransform(positionCompensation, [_targetNode.parent worldToNodeTransform]));
         
         
     }
