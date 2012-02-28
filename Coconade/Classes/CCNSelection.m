@@ -207,26 +207,32 @@
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
     if (_dragAnchor)
     {
+        // Prepare affine transformations here once.
+        CGAffineTransform targetParentToWorld = [_targetNode.parent nodeToWorldTransform];
+        CGAffineTransform worldToTargetParent = CGAffineTransformInvert(targetParentToWorld);
+        CGAffineTransform targetToWorld = CGAffineTransformConcat([_targetNode nodeToParentTransform], targetParentToWorld);
+        CGAffineTransform worldToTarget = CGAffineTransformInvert(targetToWorld);
+        
         // Get old anchor position in scene.
         CGSize targetSize = _targetNode.contentSize;
         CGPoint oldAnchor = _targetNode.anchorPoint;
         CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
-        CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, [_targetNode nodeToWorldTransform]);
+        CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, targetToWorld);
         
         // Get new position of anchor in scene coordinates.
         CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
         CGPoint anchorPositionInScene = ccpAdd(oldAnchorInScene, diff);        
         
         // Set new anchor normalized.
-        CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, [_targetNode worldToNodeTransform]);
+        CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, worldToTarget);
         CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
         _targetNode.anchorPoint = newAnchor;
         
         // Compensate position change.       
         CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
-        CGPoint targetPositionInScene =  CGPointApplyAffineTransform(_targetNode.position, [_targetNode.parent nodeToWorldTransform]);
+        CGPoint targetPositionInScene =  CGPointApplyAffineTransform(_targetNode.position, targetParentToWorld);
         targetPositionInScene = ccpAdd(targetPositionInScene, positionCompensation);
-        _targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, [_targetNode.parent worldToNodeTransform]);
+        _targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, worldToTargetParent);
     }
 	
     // Remember previous mouse location to move node.
