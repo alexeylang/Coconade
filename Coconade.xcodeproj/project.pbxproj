@@ -11,7 +11,6 @@
 		49A13F93135BC12E000C3BD8 /* Burn.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 49A13F72135BC089000C3BD8 /* Burn.tiff */; };
 		49A1406C135BCB37000C3BD8 /* arial.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406A135BCB2D000C3BD8 /* arial.fnt */; };
 		49A1406D135BCB37000C3BD8 /* arial.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A1406B135BCB2D000C3BD8 /* arial.png */; };
-		49A1425E135BE3CA000C3BD8 /* anchor.png in Resources */ = {isa = PBXBuildFile; fileRef = 49A1425D135BE3C1000C3BD8 /* anchor.png */; };
 		6D13ADE81385A768004FA7F1 /* NSString+RelativePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D13ADE71385A768004FA7F1 /* NSString+RelativePath.m */; };
 		6D1EEA19138EE55B0091F76B /* icon1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1EEA16138EE55B0091F76B /* icon1.png */; };
 		6D1EEA1A138EE55B0091F76B /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1EEA17138EE55B0091F76B /* icon2.png */; };
@@ -230,7 +229,6 @@
 		49A13F72135BC089000C3BD8 /* Burn.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Burn.tiff; sourceTree = "<group>"; };
 		49A1406A135BCB2D000C3BD8 /* arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arial.fnt; sourceTree = "<group>"; };
 		49A1406B135BCB2D000C3BD8 /* arial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arial.png; sourceTree = "<group>"; };
-		49A1425D135BE3C1000C3BD8 /* anchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anchor.png; sourceTree = "<group>"; };
 		6D13ADE61385A768004FA7F1 /* NSString+RelativePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RelativePath.h"; sourceTree = "<group>"; };
 		6D13ADE71385A768004FA7F1 /* NSString+RelativePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RelativePath.m"; sourceTree = "<group>"; };
 		6D1EEA16138EE55B0091F76B /* icon1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1.png; sourceTree = "<group>"; };
@@ -543,7 +541,6 @@
 				6D3249811361CD6900165ABE /* checkerboard.png */,
 				49A1406A135BCB2D000C3BD8 /* arial.fnt */,
 				49A1406B135BCB2D000C3BD8 /* arial.png */,
-				49A1425D135BE3C1000C3BD8 /* anchor.png */,
 			);
 			name = Resources;
 			path = Coconade/Resources;
@@ -1019,7 +1016,6 @@
 				49A13F93135BC12E000C3BD8 /* Burn.tiff in Resources */,
 				49A1406C135BCB37000C3BD8 /* arial.fnt in Resources */,
 				49A1406D135BCB37000C3BD8 /* arial.png in Resources */,
-				49A1425E135BE3CA000C3BD8 /* anchor.png in Resources */,
 				6D3249821361CD6900165ABE /* checkerboard.png in Resources */,
 				6D1EEA19138EE55B0091F76B /* icon1.png in Resources */,
 				6D1EEA1A138EE55B0091F76B /* icon2.png in Resources */,
