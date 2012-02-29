@@ -471,10 +471,11 @@
                                          splitView.frame.size.height);
     }
     
-    self.centerScrollView.frame = CGRectMake(self.leftView.frame.origin.x + self.leftView.frame.size.width + splitView.dividerThickness, 
+    self.centerScrollView.frame = CGRectMake(self.leftView.visibleRect.origin.x + self.leftView.visibleRect.size.width + 
+                                                splitView.dividerThickness, 
                                              self.centerScrollView.frame.origin.y, 
-                                             splitView.frame.size.width - self.leftView.frame.size.width - 
-                                                self.rightView.frame.size.width - 2.0f * splitView.dividerThickness,
+                                             splitView.frame.size.width - self.leftView.visibleRect.size.width - 
+                                                self.rightView.visibleRect.size.width - 2.0f * splitView.dividerThickness,
                                              splitView.frame.size.height);
 }
 
