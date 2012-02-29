@@ -73,22 +73,14 @@
 {
     // Prepare scale mode elements.
     _scaleRight = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
-    _scaleRight.anchorPoint = ccp(0, 0.5f);
     _scaleRightTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
-    _scaleRightTop.anchorPoint = ccp(0,0);
     _scaleTop = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
-    _scaleTop.anchorPoint = ccp(0.5f, 0);
     _scaleLeftTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
     _scaleLeftTop.scaleX = -1.0f;
-    _scaleLeftTop.anchorPoint = ccp(0,0);
     _scaleLeft = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
-    _scaleLeft.anchorPoint = ccp(1.0f, 0.5f);
     _scaleLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
-    _scaleLeftBottom.anchorPoint = ccp(1.0f,1.0f);
     _scaleBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
-    _scaleBottom.anchorPoint = ccp(0.5f, 1);
     _scaleRightBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
-    _scaleRightBottom.anchorPoint = ccp(1.0f,1.0f);
     _scaleRightBottom.scaleX = -1.0f;
     
     // Add them as children.
