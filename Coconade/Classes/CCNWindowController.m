@@ -394,8 +394,7 @@
     [newDocs addObject:documentPath];
     if ( [newDocs count] > kCCNWindowControllerRecentDocumentsMaxCount )
     {
-        [newDocs removeObjectsInRange:NSMakeRange(kCCNWindowControllerRecentDocumentsMaxCount, 
-                                                  [newDocs count] - kCCNWindowControllerRecentDocumentsMaxCount)];
+        [newDocs removeObjectsInRange:NSMakeRange(0, [newDocs count] - kCCNWindowControllerRecentDocumentsMaxCount)];
     }
     [[NSUserDefaults standardUserDefaults] setObject:newDocs forKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
