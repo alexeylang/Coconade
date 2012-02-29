@@ -428,7 +428,7 @@
             return kCCNWindowControllerSplitViewLeftViewMinWidth;    
             
         case 1: //< Divider between center scroll view and right view
-            return self.leftView.frame.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
+            return self.leftView.visibleRect.size.width + kCCNWindowControllerSplitViewCenterViewMinWidth;
             
         default:
             return 0.0f;
@@ -442,7 +442,7 @@
     switch (dividerIndex) 
     {
         case 0: //< Divider between left view and center scroll view
-            return splitView.frame.size.width - self.rightView.frame.size.width -   
+            return splitView.frame.size.width - self.rightView.visibleRect.size.width -   
                     kCCNWindowControllerSplitViewCenterViewMinWidth;
             
         case 1: //< Divider between center scroll view and right view
