@@ -825,6 +825,7 @@
              NSString *file = [files objectAtIndex:0];
              if (file)
              {
+                 [self addRecentDocumentPath:file];
                  [self performBlockOnCocosThread:^() 
                   {
                       [self.workspaceController loadProject: file];
