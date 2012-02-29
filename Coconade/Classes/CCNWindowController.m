@@ -109,6 +109,9 @@
 /** Animate changing frame for given NSView by using NSAnimationContext and animator object. */
 - (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay;
 
+/** Update recent menu to show actual recent documents */
+- (void)updateRecentMenu;
+
 /** Remove from recent menu all recent documents menu items */
 - (void)clearRecentMenu;
 
@@ -230,6 +233,7 @@
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuOpenRecentMenuTitle 
                         action: NULL
                  keyEquivalent: @""].submenu = self.openRecentMenu;
+    [self updateRecentMenu];
     [fileMenu addItem:[NSMenuItem separatorItem]];
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuCloseItemTitle 
                         action: @selector(performClose:) 
@@ -398,6 +402,23 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:newDocs forKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [self updateRecentMenu];
+}
+
+- (void)updateRecentMenu
+{
+    NSArray *curDocs = [[NSUserDefaults standardUserDefaults] objectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
+    if ( [curDocs isKindOfClass:[NSArray class]] )
+    {
+        [self clearRecentMenu];
+        for (NSString *doc in curDocs)
+        {
+            [self.openRecentMenu insertItemWithTitle:doc 
+                                              action:@selector(openRecentDocument:) 
+                                       keyEquivalent:@"" 
+                                             atIndex:0];
+        }
+    }
 }
 
 - (void)clearRecentMenu
