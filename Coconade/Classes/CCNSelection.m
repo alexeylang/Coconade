@@ -254,13 +254,13 @@
 	glMultMatrixf(transformGL_);
 	
     
-    glLineStipple(1, 0xAAAA);
+    glLineStipple(3, 0xCCCC);
     glEnable(GL_LINE_STIPPLE);
     
 	// Draw the outline.
     CGSize s = _targetNode.contentSize;	
-    glColor4f(0.17f, 0.38f, 0.71f, 1.0f);
-    glLineWidth(1.0f);
+    glColor4f(0.07f, 0.28f, 0.71f, 1.0f);
+    glLineWidth(2.0f);
     CGPoint vertices[] = {
         ccp(0, s.height),
         ccp(s.width, s.height),
