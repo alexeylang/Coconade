@@ -382,20 +382,20 @@
 - (void) addRecentDocumentPath:(NSString *)documentPath
 {
     NSArray *curDocs = [[NSUserDefaults standardUserDefaults] objectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
-    if ( [curDocs isKindOfClass:[NSArray class]] )
+    if ( ![curDocs isKindOfClass:[NSArray class]] )
     {
-        NSMutableArray *newDocs = [NSMutableArray arrayWithArray:curDocs];
-        [newDocs removeObjectIdenticalTo:documentPath];
-        [newDocs insertObject:documentPath atIndex:0];
-        if ( [newDocs count] > kCCNWindowControllerRecentDocumentsMaxCount )
-        {
-            [newDocs removeObjectsInRange:NSMakeRange(kCCNWindowControllerRecentDocumentsMaxCount, 
-                                                      [newDocs count] - kCCNWindowControllerRecentDocumentsMaxCount)];
-        }
-        [[NSUserDefaults standardUserDefaults] setObject:newDocs forKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        //TODO: update NSMenu
+        curDocs = nil;
     }
+    NSMutableArray *newDocs = [NSMutableArray arrayWithArray:curDocs];
+    [newDocs removeObjectIdenticalTo:documentPath];
+    [newDocs addObject:documentPath];
+    if ( [newDocs count] > kCCNWindowControllerRecentDocumentsMaxCount )
+    {
+        [newDocs removeObjectsInRange:NSMakeRange(kCCNWindowControllerRecentDocumentsMaxCount, 
+                                                  [newDocs count] - kCCNWindowControllerRecentDocumentsMaxCount)];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:newDocs forKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark SplitView Delegate
