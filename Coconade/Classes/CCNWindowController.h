@@ -51,4 +51,8 @@
 - (id)  initWithWindow: (CCNWindow *) window 
    workspaceController: (CCNWorkspaceController *) workspaceController;
 
+#pragma mark Recent Menu
+
+- (void) addRecentDocumentPath:(NSString *)documentPath;
+
 @end

@@ -88,6 +88,9 @@
 
 #define kCCNWindowControllerSplitViewCollapseAnimationDelay     0.2f
 
+#define kCCNWindowControllerRecentDocumentsMaxCount             8
+#define kCCNWindowControllerUserDefaultsRecentDocumentsKey      @"CCNWindowControllerRecentDocuments"
+
 
 @interface CCNWindowController ()
 
@@ -369,6 +372,27 @@
     
     [self.mainSplitView adjustSubviews];
     [contentView addSubview:self.mainSplitView];
+}
+
+#pragma mark Recent Menu
+
+- (void) addRecentDocumentPath:(NSString *)documentPath
+{
+    NSArray *curDocs = [[NSUserDefaults standardUserDefaults] objectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
+    if ( [curDocs isKindOfClass:[NSArray class]] )
+    {
+        NSMutableArray *newDocs = [NSMutableArray arrayWithArray:curDocs];
+        [newDocs removeObjectIdenticalTo:documentPath];
+        [newDocs insertObject:documentPath atIndex:0];
+        if ( [newDocs count] > kCCNWindowControllerRecentDocumentsMaxCount )
+        {
+            [newDocs removeObjectsInRange:NSMakeRange(kCCNWindowControllerRecentDocumentsMaxCount, 
+                                                      [newDocs count] - kCCNWindowControllerRecentDocumentsMaxCount)];
+        }
+        [[NSUserDefaults standardUserDefaults] setObject:newDocs forKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        //TODO: update NSMenu
+    }
 }
 
 #pragma mark SplitView Delegate
