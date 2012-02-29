@@ -27,6 +27,8 @@
     
     CGFloat _leftViewWidthBeforeAnimatedCollapse;
     CGFloat _rightViewWidthBeforeAnimatedCollapse;
+    
+    NSMenu *_openRecentMenu;
 }
 
 #pragma mark Properties

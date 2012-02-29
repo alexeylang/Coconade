@@ -99,6 +99,7 @@
 @property (readwrite, retain) NSScrollView *centerScrollView;
 @property (readwrite, retain) NSView *rightView;
 @property (readwrite, retain) NSSegmentedControl *viewSegmentedControl;
+@property (readwrite, retain) NSMenu *openRecentMenu;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc.
@@ -119,6 +120,7 @@
 @synthesize centerScrollView = _centerScrollView;
 @synthesize rightView = _rightView;
 @synthesize viewSegmentedControl = _viewSegmentedControl;
+@synthesize openRecentMenu = _openRecentMenu;
 
 #pragma mark Init/DeInit
 
@@ -217,13 +219,14 @@
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuOpenItemTitle 
                         action: @selector(openProject:)
                  keyEquivalent: @"o"];
-    NSMenu *openRecentMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerFileMenuOpenRecentMenuTitle] autorelease];
-    [openRecentMenu addItemWithTitle: kCCNWindowControllerOpenRecentMenuClearItemTitle 
-                              action: @selector(clearRecentDocuments:) 
-                       keyEquivalent: @""];
+    self.openRecentMenu = [[[NSMenu alloc] initWithTitle:kCCNWindowControllerFileMenuOpenRecentMenuTitle] autorelease];
+    [self.openRecentMenu addItem:[NSMenuItem separatorItem]];
+    [self.openRecentMenu addItemWithTitle: kCCNWindowControllerOpenRecentMenuClearItemTitle 
+                                   action: @selector(clearRecentDocuments:) 
+                            keyEquivalent: @""];
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuOpenRecentMenuTitle 
                         action: NULL
-                 keyEquivalent: @""].submenu = openRecentMenu;
+                 keyEquivalent: @""].submenu = self.openRecentMenu;
     [fileMenu addItem:[NSMenuItem separatorItem]];
     [fileMenu addItemWithTitle: kCCNWindowControllerFileMenuCloseItemTitle 
                         action: @selector(performClose:) 
