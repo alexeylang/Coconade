@@ -109,6 +109,9 @@
 /** Animate changing frame for given NSView by using NSAnimationContext and animator object. */
 - (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay;
 
+/** Remove from recent menu all recent documents menu items */
+- (void)clearRecentMenu;
+
 @end
 
 
@@ -396,6 +399,14 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:newDocs forKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)clearRecentMenu
+{
+    while ([self.openRecentMenu.itemArray count] > 2) 
+    {
+        [self.openRecentMenu removeItemAtIndex:0];
+    }
 }
 
 #pragma mark SplitView Delegate
