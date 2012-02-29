@@ -277,7 +277,7 @@
     [self drawHighlight];
 }
 
-#pragma mark Mouse Events
+#pragma OnEnter/OnExit
 
 - (void) onEnter
 {
@@ -310,6 +310,8 @@
     
     [super onExit];
 }
+
+#pragma mark Mouse Events
 
 - (BOOL)ccMouseUp:(NSEvent *)event
 {
