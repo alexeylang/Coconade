@@ -835,6 +835,22 @@
      }];
 }
 
+- (void)openRecentDocument:(id)sender
+{
+    if ( [sender isKindOfClass:[NSMenuItem class]] )
+    {
+        NSMenuItem *menuItem = sender;
+        if (menuItem.title)
+        {
+            [self addRecentDocumentPath:menuItem.title];
+            [self performBlockOnCocosThread:^() 
+             {
+                 [self.workspaceController loadProject: menuItem.title];
+             }];
+        }        
+    }
+}
+
 - (void)saveProjectAs:(id)sender
 {   
     NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -853,6 +869,13 @@
               }];
          }
      }];
+}
+
+- (void)clearRecentDocuments:(id)sender
+{
+    [self clearRecentMenu];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveProject:(id)sender
