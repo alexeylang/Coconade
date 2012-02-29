@@ -116,6 +116,17 @@
     _scaleLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
     _scaleBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
     _scaleRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
+    
+    // Rotate.
+    CGFloat rotation = CC_RADIANS_TO_DEGREES( -atanf(transform.b / transform.a) );    
+    _scaleRight.rotation = rotation;
+    _scaleRightTop.rotation = rotation;
+    _scaleTop.rotation = rotation;
+    _scaleLeftTop.rotation = rotation;
+    _scaleLeft.rotation = rotation;
+    _scaleLeftBottom.rotation = rotation;
+    _scaleBottom.rotation = rotation;
+    _scaleRightBottom.rotation = rotation;
 }
 
 - (void) prepareRotateModeElements
