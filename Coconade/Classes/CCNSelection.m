@@ -108,6 +108,7 @@
     CGSize size = [_targetNode contentSize];
     CGAffineTransform transform = [_targetNode nodeToWorldTransform];
     
+    // Position.
     _scaleRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
     _scaleRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
     _scaleTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height), transform );
