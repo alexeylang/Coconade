@@ -44,7 +44,7 @@
 	if((self=[super init]))
 	{
         // Prepare selection fill color.
-		_fill = [[CCLayerColor layerWithColor:ccc4(255,255,255,45.5f)] retain];
+		_fill = [[CCLayerColor layerWithColor:ccc4(181,214,255,50.0f)] retain];
 		
         // Prepare targetNode's anchor point indicator.
 		_anchor = [[CCSprite spriteWithFile:@"CCNSelectionAnchor.png"] retain];
@@ -92,6 +92,19 @@
     [self addChild:_scaleRightBottom];
     [self addChild:_scaleRightTop];
     [self addChild:_scaleTop];
+    
+    // Use additive blending.
+    ccBlendFunc additiveInvertingBlend;
+    additiveInvertingBlend.src = GL_ONE;
+    additiveInvertingBlend.dst = GL_ONE_MINUS_DST_COLOR;    
+    _scaleBottom.blendFunc = additiveInvertingBlend;
+    _scaleLeft.blendFunc = additiveInvertingBlend;
+    _scaleLeftBottom.blendFunc = additiveInvertingBlend;
+    _scaleLeftTop.blendFunc = additiveInvertingBlend;
+    _scaleRight.blendFunc = additiveInvertingBlend;
+    _scaleRightBottom.blendFunc = additiveInvertingBlend;
+    _scaleRightTop.blendFunc = additiveInvertingBlend;
+    _scaleTop.blendFunc = additiveInvertingBlend;
     
 }
 
@@ -257,9 +270,12 @@
     glLineStipple(3, 0xCCCC);
     glEnable(GL_LINE_STIPPLE);
     
+    
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_DST_COLOR);
+    
 	// Draw the outline.
     CGSize s = _targetNode.contentSize;	
-    glColor4f(0.07f, 0.28f, 0.71f, 1.0f);
+    glColor4f(0.29f, 0.62f, 1.0f, 1.0f);
     glLineWidth(2.0f);
     CGPoint vertices[] = {
         ccp(0, s.height),
@@ -273,6 +289,8 @@
     [_fill visit];
     
     glDisable(GL_LINE_STIPPLE);
+    
+    glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
 	
     
     // End of drawing highlight - use normal matrix.
