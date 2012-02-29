@@ -44,7 +44,7 @@
 	if((self=[super init]))
 	{
         // Prepare selection fill color.
-		_fill = [[CCLayerColor layerWithColor:ccc4(30,144,255,75.5f)] retain];
+		_fill = [[CCLayerColor layerWithColor:ccc4(255,255,255,45.5f)] retain];
 		
         // Prepare targetNode's anchor point indicator.
 		_anchor = [[CCSprite spriteWithFile:@"CCNSelectionAnchor.png"] retain];
@@ -253,9 +253,13 @@
     CGAffineToGL(&t, transformGL_);
 	glMultMatrixf(transformGL_);
 	
+    
+    glLineStipple(1, 0xAAAA);
+    glEnable(GL_LINE_STIPPLE);
+    
 	// Draw the outline.
     CGSize s = _targetNode.contentSize;	
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    glColor4f(0.17f, 0.38f, 0.71f, 1.0f);
     glLineWidth(1.0f);
     CGPoint vertices[] = {
         ccp(0, s.height),
@@ -267,6 +271,8 @@
     
     // Draw color layer.
     [_fill visit];
+    
+    glDisable(GL_LINE_STIPPLE);
 	
     
     // End of drawing highlight - use normal matrix.
