@@ -104,7 +104,7 @@
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc.
  */
-- (void) prepareWindow;
+- (void)prepareWindow;
 
 /** Animate changing frame for given NSView by using NSAnimationContext and animator object. */
 - (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay;
