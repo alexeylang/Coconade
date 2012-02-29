@@ -10,6 +10,26 @@
 #import "TransformUtils.h"
 #import "CCNode+Helpers.h"
 
+@interface CCNSelection (ModeElements)
+
+/** Prepares 8 scale elements for all sides & corners of the selection & adds them as children. */
+- (void) prepareScaleModeElements;
+
+/** Prepares 4 rotate elements for corners, 4 skew elements for sides & adds them as children. */
+- (void) prepareRotateModeElements;
+
+/** Updates position of all 8 scale mode elements, to have them exactly at corners
+ * and center of the sides for current targetNode transformation.
+ */
+- (void) positionScaleModeElements;
+
+/** Updates position of all 4 rotation corner's & 4 skew side's elements to have 
+ * them exactly at their place for current targetNode transformation.
+ */
+- (void) positionRotateModeElements;
+
+@end
+
 @implementation CCNSelection
 
 @synthesize targetNode = _targetNode;
@@ -37,9 +57,75 @@
         CGSize s = [_anchor contentSize];
         _positionLabel.position = ccp(s.width/2, -10);
 		[_anchor addChild:_positionLabel];
+        
+        [self prepareScaleModeElements];
+        [self prepareRotateModeElements];
+        
+        // Select first mode to show only needed elements at start.
+        _mode = kCCNSelectionModeLast;
+        [self toggleMode];
 	}
 	
 	return self;
+}
+
+- (void) prepareScaleModeElements
+{
+    // Prepare scale mode elements.
+    _scaleRight = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
+    _scaleRight.anchorPoint = ccp(0, 0.5f);
+    _scaleRightTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _scaleRightTop.anchorPoint = ccp(0,0);
+    _scaleTop = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
+    _scaleTop.anchorPoint = ccp(0.5f, 0);
+    _scaleLeftTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _scaleLeftTop.scaleX = -1.0f;
+    _scaleLeftTop.anchorPoint = ccp(0,0);
+    _scaleLeft = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
+    _scaleLeft.anchorPoint = ccp(1.0f, 0.5f);
+    _scaleLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _scaleLeftBottom.anchorPoint = ccp(1.0f,1.0f);
+    _scaleBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
+    _scaleBottom.anchorPoint = ccp(0.5f, 1);
+    _scaleRightBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _scaleRightBottom.anchorPoint = ccp(1.0f,1.0f);
+    _scaleRightBottom.scaleX = -1.0f;
+    
+    // Add them as children.
+    [self addChild:_scaleBottom];
+    [self addChild:_scaleLeft];
+    [self addChild:_scaleLeftBottom];
+    [self addChild:_scaleLeftTop];
+    [self addChild:_scaleRight];
+    [self addChild:_scaleRightBottom];
+    [self addChild:_scaleRightTop];
+    [self addChild:_scaleTop];
+    
+}
+
+- (void) positionScaleModeElements
+{
+    CGSize size = [_targetNode contentSize];
+    CGAffineTransform transform = [_targetNode nodeToWorldTransform];
+    
+    _scaleRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
+    _scaleRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
+    _scaleTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height), transform );
+    _scaleLeftTop.position = CGPointApplyAffineTransform( ccp(0, size.height), transform );
+    _scaleLeft.position = CGPointApplyAffineTransform( ccp(0, 0.5f* size.height), transform );
+    _scaleLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
+    _scaleBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
+    _scaleRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
+}
+
+- (void) prepareRotateModeElements
+{
+    // TODO: do
+}
+
+- (void) positionRotateModeElements
+{
+    // TODO: do
 }
 
 - (void)dealloc
@@ -51,7 +137,24 @@
 	[super dealloc];
 }
 
- #pragma mark Transform
+#pragma mark Mode Control
+
+- (void) toggleMode
+{
+    _mode++;
+    
+    // Range sentinel.
+    if (_mode > kCCNSelectionModeLast)
+    {
+        _mode = kCCNSelectionModeFirst;
+    }
+    else if (_mode < kCCNSelectionModeFirst)
+    {
+        _mode = kCCNSelectionModeLast;
+    }
+}
+
+#pragma mark Transform
 
 - (void) transform
 {
@@ -104,6 +207,20 @@
                          floorf( _targetNode.position.y ) 
                          ];
 	_positionLabel.string = posText;
+    
+    // Mode elements.
+    switch (_mode) {
+        case kCCNSelectionModePositionAndScale:
+            [self positionScaleModeElements];
+            break;
+            
+        case kCCNSelectionModePositionAndRotate:
+            [self positionRotateModeElements];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
@@ -172,6 +289,24 @@
 - (void) onExit
 {
     [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
+    
+    // Loose weak refs.
+    _scaleRight = nil;
+    _scaleRightTop = nil;
+    _scaleTop = nil;
+    _scaleLeftTop = nil;
+    _scaleLeft = nil;
+    _scaleLeftBottom = nil;
+    _scaleBottom = nil;
+    _scaleRightBottom = nil;
+    _skewRight = nil;
+    _rotateRightTop = nil;
+    _skewTop = nil;
+    _rotateLeftTop = nil;
+    _skewLeft = nil;
+    _rotateLeftBottom = nil;
+    _skewBottom = nil;
+    _rotateRightBottom = nil;
     
     [super onExit];
 }
