@@ -29,8 +29,12 @@
     CGFloat _rightViewWidthBeforeAnimatedCollapse;
 }
 
+#pragma mark Properties
+
 /** Holds workspace controller - main logic controller for Coconade. */
 @property (readwrite, retain) CCNWorkspaceController *workspaceController;
+
+#pragma mark Init/Create
 
 /** Returns new autoreleased window controller with given window & workspaceController. 
  * @see -initWithWindow:workspaceController:
