@@ -404,6 +404,11 @@
 
 - (void)updateRecentMenu
 {
+    while ([self.openRecentMenu.itemArray count] > 2) 
+    {
+        [self.openRecentMenu removeItemAtIndex:0];
+    }
+    
     NSArray *curDocs = [[NSUserDefaults standardUserDefaults] objectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
     if ( [curDocs isKindOfClass:[NSArray class]] )
     {
