@@ -868,6 +868,7 @@
 {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [self updateRecentMenu];
 }
 
 - (void)saveProject:(id)sender
