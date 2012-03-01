@@ -391,7 +391,7 @@
         curDocs = nil;
     }
     NSMutableArray *newDocs = [NSMutableArray arrayWithArray:curDocs];
-    [newDocs removeObjectIdenticalTo:documentPath];
+    [newDocs removeObject:documentPath];
     [newDocs addObject:documentPath];
     if ( [newDocs count] > kCCNWindowControllerRecentDocumentsMaxCount )
     {
