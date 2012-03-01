@@ -112,9 +112,6 @@
 /** Update recent menu to show actual recent documents */
 - (void)updateRecentMenu;
 
-/** Remove from recent menu all recent documents menu items */
-- (void)clearRecentMenu;
-
 @end
 
 
@@ -410,7 +407,6 @@
     NSArray *curDocs = [[NSUserDefaults standardUserDefaults] objectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
     if ( [curDocs isKindOfClass:[NSArray class]] )
     {
-        [self clearRecentMenu];
         for (NSString *doc in curDocs)
         {
             [self.openRecentMenu insertItemWithTitle:doc 
@@ -418,14 +414,6 @@
                                        keyEquivalent:@"" 
                                              atIndex:0];
         }
-    }
-}
-
-- (void)clearRecentMenu
-{
-    while ([self.openRecentMenu.itemArray count] > 2) 
-    {
-        [self.openRecentMenu removeItemAtIndex:0];
     }
 }
 
@@ -873,7 +861,6 @@
 
 - (void)clearRecentDocuments:(id)sender
 {
-    [self clearRecentMenu];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kCCNWindowControllerUserDefaultsRecentDocumentsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
