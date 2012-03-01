@@ -669,7 +669,11 @@
      {
          if (result == NSOKButton)
          {
-             NSArray *files = [openPanel filenames];
+             NSMutableArray *files = [NSMutableArray arrayWithCapacity:10];
+             for (NSURL *fileURL in [openPanel URLs])
+             {
+                 [files addObject:fileURL.path];
+             }
              [self performBlockOnCocosThread:^()
               {
                   [self.workspaceController importSpritesWithFiles: files withPositionInScene: CGPointZero];
@@ -814,8 +818,8 @@
      {
          if (result == NSOKButton)
          {
-             NSArray *files = [openPanel filenames];
-             NSString *file = [files objectAtIndex:0];
+             NSArray *fileURLs = [openPanel URLs];
+             NSString *file = [[fileURLs objectAtIndex:0] path];
              if (file)
              {
                  [self addRecentDocumentPath:file];
@@ -855,7 +859,7 @@
      {
          if (result == NSOKButton)
          {
-             NSString *file = [savePanel filename];
+             NSString *file = [[savePanel URL] path];
              [self performBlockOnCocosThread: ^()
               {
                   [self.workspaceController saveProjectToFile: file];
