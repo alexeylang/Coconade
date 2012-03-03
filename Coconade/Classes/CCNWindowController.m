@@ -118,10 +118,8 @@
  * splitView, scrollView, etc. 
  */
 - (void)prepareWindow;
-
 /** Animate changing frame for given NSView by using NSAnimationContext and animator object. */
 - (void)animateView:(NSView *)view withTargetFrame:(NSRect)frame delay:(NSTimeInterval)delay;
-
 /** Update recent menu to show actual recent documents */
 - (void)updateRecentMenu;
 
