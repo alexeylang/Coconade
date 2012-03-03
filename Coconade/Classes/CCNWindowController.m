@@ -316,6 +316,7 @@
     self.window.hasShadow = YES;
     self.window.acceptsMouseMovedEvents = NO;
     self.window.minSize = CGSizeMake(kCCNWindowControllerWindowMinWidth, kCCNWindowControllerWindowMinHeight);
+    [self.window setAcceptsMouseMovedEvents: YES];
     
     // Create and setup toolbar
     [self prepareToolbar];
