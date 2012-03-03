@@ -184,6 +184,7 @@
 		E0B4521512C3AEBE0007F742 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E0B4516D12C3AEBE0007F742 /* ZipUtils.m */; };
 		FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA54BFE014EFD66400F51289 /* CCNWindow.m */; };
 		FA66498A15025CEB00DD394B /* CCNImageTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA66498915025CEB00DD394B /* CCNImageTextCell.m */; };
+		FA66498E15026F6E00DD394B /* CCNSeparatorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA66498D15026F6E00DD394B /* CCNSeparatorCell.m */; };
 		FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */; };
 		FAEFA64E14F93AB70006E5CC /* left_panel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEFA64C14F93AB70006E5CC /* left_panel_icon.png */; };
 		FAEFA64F14F93AB70006E5CC /* right_panel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEFA64D14F93AB70006E5CC /* right_panel_icon.png */; };
@@ -411,6 +412,8 @@
 		FA54BFE014EFD66400F51289 /* CCNWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindow.m; sourceTree = "<group>"; };
 		FA66498815025CEB00DD394B /* CCNImageTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNImageTextCell.h; sourceTree = "<group>"; };
 		FA66498915025CEB00DD394B /* CCNImageTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNImageTextCell.m; sourceTree = "<group>"; };
+		FA66498C15026F6E00DD394B /* CCNSeparatorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNSeparatorCell.h; sourceTree = "<group>"; };
+		FA66498D15026F6E00DD394B /* CCNSeparatorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNSeparatorCell.m; sourceTree = "<group>"; };
 		FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNWindowController.h; sourceTree = "<group>"; };
 		FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindowController.m; sourceTree = "<group>"; };
 		FAEFA64C14F93AB70006E5CC /* left_panel_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_panel_icon.png; sourceTree = "<group>"; };
@@ -611,6 +614,8 @@
 				FA54BFE014EFD66400F51289 /* CCNWindow.m */,
 				FA66498815025CEB00DD394B /* CCNImageTextCell.h */,
 				FA66498915025CEB00DD394B /* CCNImageTextCell.m */,
+				FA66498C15026F6E00DD394B /* CCNSeparatorCell.h */,
+				FA66498D15026F6E00DD394B /* CCNSeparatorCell.m */,
 			);
 			name = Classes;
 			path = Coconade/Classes;
@@ -1141,6 +1146,7 @@
 				FA54BFE114EFD66400F51289 /* CCNWindow.m in Sources */,
 				FDC7413814F0242100E0B860 /* NSArray+Reverse.m in Sources */,
 				FA66498A15025CEB00DD394B /* CCNImageTextCell.m in Sources */,
+				FA66498E15026F6E00DD394B /* CCNSeparatorCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
