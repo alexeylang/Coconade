@@ -8,14 +8,12 @@
 
 #import "CCNImageTextCell.h"
 
-#define kIconImageSize		16.0f
-
-#define kImageOriginXOffset 3.0f
-#define kImageOriginYOffset 1.0f
-
-#define kTextOriginXOffset	2.0f
-#define kTextOriginYOffset	2.0f
-#define kTextHeightAdjust	4.0f
+#define kIconImageSize          16.0f
+#define kImageOriginXOffset     3.0f
+#define kImageOriginYOffset     1.0f
+#define kTextOriginXOffset      2.0f
+#define kTextOriginYOffset      2.0f
+#define kTextHeightAdjust       4.0f
 
 
 @interface CCNImageTextCell ()
