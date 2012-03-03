@@ -325,7 +325,7 @@
     self.window.backgroundColor = [NSColor colorWithDeviceRed:0.95f green:0.95f blue:0.95f alpha:1.0f];
     self.window.hasShadow = YES;
     self.window.acceptsMouseMovedEvents = NO;
-    self.window.minSize = CGSizeMake(kCCNWindowControllerWindowMinWidth, kCCNWindowControllerWindowMinHeight);
+    self.window.minSize = NSMakeSize(kCCNWindowControllerWindowMinWidth, kCCNWindowControllerWindowMinHeight);
     
     // Create and setup toolbar
     [self prepareToolbar];
