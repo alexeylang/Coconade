@@ -107,7 +107,7 @@
 - (void)prepareWindow;
 
 /** Animate changing frame for given NSView by using NSAnimationContext and animator object. */
-- (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay;
+- (void)animateView:(NSView *)view withTargetFrame:(NSRect)frame delay:(NSTimeInterval)delay;
 
 /** Update recent menu to show actual recent documents */
 - (void)updateRecentMenu;
@@ -342,7 +342,7 @@
     [self.mainSplitView setVertical:YES];
     
     // Create and setup left view
-    CGRect leftFrame = CGRectMake(0.0f, 
+    NSRect leftFrame = NSMakeRect(0.0f, 
                                   0.0f, 
                                   kCCNWindowControllerSplitViewLeftViewDefaultWidth, 
                                   self.mainSplitView.frame.size.height);
@@ -354,7 +354,7 @@
     [self.mainSplitView addSubview:self.leftView];
     
     // Create and setup center scroll view
-    CGRect centerFrame = CGRectMake(0.0f, 
+    NSRect centerFrame = NSMakeRect(0.0f, 
                                     0.0f, 
                                     self.mainSplitView.frame.size.width - kCCNWindowControllerSplitViewLeftViewDefaultWidth - 
                                         kCCNWindowControllerSplitViewRightViewDefaultWidth, 
@@ -366,7 +366,7 @@
     [self.mainSplitView addSubview:self.centerScrollView];
     
     // Create and setup right view
-    CGRect rightFrame = CGRectMake(self.mainSplitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
+    NSRect rightFrame = NSMakeRect(self.mainSplitView.frame.size.width - kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    0.0f, 
                                    kCCNWindowControllerSplitViewRightViewDefaultWidth, 
                                    self.mainSplitView.frame.size.height);
@@ -435,7 +435,7 @@
     // Check left view for zero width and if this is true - recover width from _leftViewWidthBeforeAnimatedCollapse
     if ( !self.leftView.frame.size.width && _leftViewWidthBeforeAnimatedCollapse )
     {
-        self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
+        self.leftView.frame = NSMakeRect(self.leftView.frame.origin.x, 
                                          self.leftView.frame.origin.y, 
                                          _leftViewWidthBeforeAnimatedCollapse, 
                                          self.leftView.frame.size.height);
@@ -446,7 +446,7 @@
     // Check right view for zero width and if this is true - recover width from _rightViewWidthBeforeAnimatedCollapse
     if ( !self.rightView.frame.size.width && _rightViewWidthBeforeAnimatedCollapse )
     {
-        self.rightView.frame = CGRectMake(self.rightView.frame.origin.x - _rightViewWidthBeforeAnimatedCollapse, 
+        self.rightView.frame = NSMakeRect(self.rightView.frame.origin.x - _rightViewWidthBeforeAnimatedCollapse, 
                                           self.rightView.frame.origin.y, 
                                           _rightViewWidthBeforeAnimatedCollapse, 
                                           self.rightView.frame.size.height);
@@ -508,7 +508,7 @@
 {
     if ( !_leftViewWidthBeforeAnimatedCollapse )
     {
-        self.leftView.frame = CGRectMake(self.leftView.frame.origin.x, 
+        self.leftView.frame = NSMakeRect(self.leftView.frame.origin.x, 
                                          self.leftView.frame.origin.y, 
                                          self.leftView.frame.size.width, 
                                          splitView.frame.size.height);
@@ -516,13 +516,13 @@
     
     if ( !_rightViewWidthBeforeAnimatedCollapse )
     {
-        self.rightView.frame = CGRectMake(splitView.frame.size.width - self.rightView.frame.size.width, 
+        self.rightView.frame = NSMakeRect(splitView.frame.size.width - self.rightView.frame.size.width, 
                                          self.rightView.frame.origin.y, 
                                          self.rightView.frame.size.width, 
                                          splitView.frame.size.height);
     }
     
-    self.centerScrollView.frame = CGRectMake(self.leftView.visibleRect.origin.x + self.leftView.visibleRect.size.width + 
+    self.centerScrollView.frame = NSMakeRect(self.leftView.visibleRect.origin.x + self.leftView.visibleRect.size.width + 
                                                 splitView.dividerThickness, 
                                              self.centerScrollView.frame.origin.y, 
                                              splitView.frame.size.width - self.leftView.visibleRect.size.width - 
@@ -532,7 +532,7 @@
 
 #pragma mark NSView Animation
 
-- (void)animateView:(NSView *)view withTargetFrame:(CGRect)frame delay:(NSTimeInterval)delay
+- (void)animateView:(NSView *)view withTargetFrame:(NSRect)frame delay:(NSTimeInterval)delay
 {    
 	[NSAnimationContext beginGrouping];
 	[[NSAnimationContext currentContext] setDuration:delay];
@@ -589,7 +589,7 @@
     else if ([itemIdentifier isEqualTo:kCCNWindowControllerToolbarItemViewIdentifier]) 
     {
         toolbarItem.label = toolbarItem.paletteLabel = toolbarItem.toolTip = kCCNWindowControllerToolbarItemViewName;
-        CGRect segmentControlFrame = CGRectMake(0.0, 
+        NSRect segmentControlFrame = NSMakeRect(0.0, 
                                                 0.0, 
                                                 kCCNWindowControllerToolbarItemViewWidth, 
                                                 kCCNWindowControllerToolbarItemViewHeight);
@@ -690,13 +690,13 @@
         int segment = segmentedControl.selectedSegment;
         BOOL selected = [segmentedControl isSelectedForSegment:segment];
         NSView *targetView = nil;
-        CGRect targetFrame = CGRectZero;
+        NSRect targetFrame = NSZeroRect;
         switch (segment) 
         {
             case 0: //< Show/hide left view
                 {
                     targetView = self.leftView;
-                    CGRect zeroWidthFrame = CGRectMake(self.leftView.frame.origin.x, 
+                    NSRect zeroWidthFrame = NSMakeRect(self.leftView.frame.origin.x, 
                                                        self.leftView.frame.origin.y, 
                                                        0.0f, 
                                                        self.leftView.frame.size.height);
@@ -725,7 +725,7 @@
             case 1: //< Show/hide right view
                 {
                     targetView = self.rightView;
-                    CGRect zeroWidthFrame = CGRectMake(self.rightView.frame.origin.x + self.rightView.frame.size.width, 
+                    NSRect zeroWidthFrame = NSMakeRect(self.rightView.frame.origin.x + self.rightView.frame.size.width, 
                                                        self.rightView.frame.origin.y, 
                                                        0.0f, 
                                                        self.rightView.frame.size.height);
