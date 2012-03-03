@@ -55,6 +55,10 @@
 
 #pragma mark Recent Menu
 
+/** Add specified document path to the recent menu in main menu.
+ *
+ * @param documentPath - string with document path.
+ */
 - (void) addRecentDocumentPath:(NSString *)documentPath;
 
 @end

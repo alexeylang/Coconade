@@ -94,15 +94,28 @@
 
 @interface CCNWindowController ()
 
+/** Holds split view that contains left view with hierarchy of model,
+ * right view with fields for editing properties and central scroll view with
+ * main glView. 
+ */
 @property (readwrite, retain) NSSplitView *mainSplitView;
+/** Holds left view that represent hierarchy of model, this view looks like
+ * left panel in iTunes. 
+ */
 @property (readwrite, retain) NSView *leftView;
+/** Holds central scroll view with main glView. */
 @property (readwrite, retain) NSScrollView *centerScrollView;
+/** Holds right view with fields for editing properties. */
 @property (readwrite, retain) NSView *rightView;
+/** Holds segmented control that uses in main toolbar to show/hide left and
+ * right like in Xcode. 
+ */
 @property (readwrite, retain) NSSegmentedControl *viewSegmentedControl;
+/** Holds menu that contains last opened files. */
 @property (readwrite, retain) NSMenu *openRecentMenu;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
- * splitView, scrollView, etc.
+ * splitView, scrollView, etc. 
  */
 - (void)prepareWindow;
 
