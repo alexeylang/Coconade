@@ -100,7 +100,7 @@
         self.zoomFactorMin = 0.1f;
         self.zoomFactorMax = 3.0f;	
         self.zoomFactor = 1.0f;
-        self.frame = CGRectMake(0.0f, 0.0f, 480.0f, 320.0f);
+        self.frame = NSMakeRect(0.0f, 0.0f, 480.0f, 320.0f);
         
         // Setup Projection
         _projection = kCCDirectorProjection2D;
@@ -122,7 +122,7 @@
 	float heightInPixelsAfterZoom = self.workspaceSize.height * self.zoomFactor;
 	
 	// Get available size in superview.
-	CGSize superViewFrameSize = self.superview.frame.size;
+	CGSize superViewFrameSize = NSSizeToCGSize(self.superview.frame.size);
 	CGSize frameSize = CGSizeMake(0,0);
 
     // Use superview's width if there's enough space.
@@ -146,7 +146,7 @@
     }
     
     // Update frameSize.
-	[self setFrameSize: frameSize];
+	[self setFrameSize: NSSizeFromCGSize(frameSize)];
 }
 
 - (CGRect) viewportRect
@@ -156,7 +156,7 @@
     
     // visible rect of glView is a part, that is now visible, after being moved
     // and croped by superviews.
-	CGRect visibleRect = [self visibleRect];
+	NSRect visibleRect = [self visibleRect];
     
     // Move visibleRect left & down for further calculations to have symmetric margins.
     visibleRect.origin.x -= kCCNMacGLViewWorkspaceMargin;
@@ -263,7 +263,7 @@
 	
 	// Apply offset only when Centered 
 	CGPoint offset = [self viewportRect].origin;
-    CGPoint visibleRectOrigin = [self visibleRect].origin;
+    CGPoint visibleRectOrigin = NSPointToCGPoint([self visibleRect].origin);
     
 	//offset.x = MAX(offset.x, 0);
 	//offset.y = MAX(offset.y, 0);
