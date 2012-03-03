@@ -13,6 +13,7 @@
 #import "NSObject+Blocks.h"
 #import "CCNScene.h"
 #import "OSVersionHelper.h"
+#import "CCNImageTextCell.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -90,6 +91,8 @@
 
 #define kCCNWindowControllerRecentDocumentsMaxCount             8
 #define kCCNWindowControllerUserDefaultsRecentDocumentsKey      @"CCNWindowControllerRecentDocuments"
+
+#define kCCNWindowControllerModelOutlineTableColumnIdentifier   @"modelOutlineTableColumnIdentifier"
 
 
 @interface CCNWindowController ()
@@ -369,6 +372,19 @@
                        context:NULL];
     [self.mainSplitView addSubview:self.leftView];
     
+    // Create and setup model outline view
+    NSRect modelOutlineFrame = leftFrame;
+    self.modelOutlineView = [[[NSOutlineView alloc] initWithFrame:modelOutlineFrame] autorelease];
+    NSTableColumn *tableColumn = [[[NSTableColumn alloc] initWithIdentifier:kCCNWindowControllerModelOutlineTableColumnIdentifier] autorelease];
+    [self.modelOutlineView setOutlineTableColumn:tableColumn];
+	CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
+	[imageTextCell setEditable:YES];
+	[tableColumn setDataCell:imageTextCell];
+	[[[self.modelOutlineView enclosingScrollView] verticalScroller] setFloatValue:0.0];
+	[[[self.modelOutlineView enclosingScrollView] contentView] scrollToPoint:NSMakePoint(0,0)];
+	[self.modelOutlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
+    [self.mainSplitView addSubview:self.modelOutlineView];
+
     // Create and setup center scroll view
     NSRect centerFrame = NSMakeRect(0.0f, 
                                     0.0f, 
