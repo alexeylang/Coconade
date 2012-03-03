@@ -168,6 +168,7 @@
     self.centerScrollView = nil;
     self.rightView = nil;
     self.viewSegmentedControl = nil;
+    self.openRecentMenu = nil;
     
     [super dealloc];
 }
