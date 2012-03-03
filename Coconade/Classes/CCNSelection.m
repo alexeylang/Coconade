@@ -367,6 +367,10 @@
 	return _dragAnchor;
 }
 
+- (BOOL)ccMouseMoved:(NSEvent *)event
+{
+}
+
 - (BOOL)ccMouseDragged:(NSEvent *)event
 {	    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
