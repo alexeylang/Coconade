@@ -113,6 +113,8 @@
 @property (readwrite, retain) NSSegmentedControl *viewSegmentedControl;
 /** Holds menu that contains last opened files. */
 @property (readwrite, retain) NSMenu *openRecentMenu;
+/** Holds outline view that used to represent hierarchy of model. */
+@property (readwrite, retain) NSOutlineView *modelOutlineView;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc. 
@@ -131,6 +133,7 @@
 @synthesize workspaceController = _workspaceController;
 @synthesize mainSplitView = _mainSplitView;
 @synthesize leftView = _leftView;
+@synthesize modelOutlineView = _modelOutlineView;
 @synthesize centerScrollView = _centerScrollView;
 @synthesize rightView = _rightView;
 @synthesize viewSegmentedControl = _viewSegmentedControl;
@@ -165,6 +168,7 @@
     self.workspaceController = nil;
     self.mainSplitView = nil;
     self.leftView = nil;
+    self.modelOutlineView = nil;
     self.centerScrollView = nil;
     self.rightView = nil;
     self.viewSegmentedControl = nil;

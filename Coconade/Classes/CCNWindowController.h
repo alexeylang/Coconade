@@ -21,6 +21,7 @@
     CCNWorkspaceController *_workspaceController;
     NSSplitView *_mainSplitView;
     NSView *_leftView;
+    NSOutlineView *_modelOutlineView;
     NSScrollView *_centerScrollView;
     NSView *_rightView;
     NSSegmentedControl *_viewSegmentedControl;
