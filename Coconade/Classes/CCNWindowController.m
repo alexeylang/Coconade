@@ -99,7 +99,7 @@
  * main glView. 
  */
 @property (readwrite, retain) NSSplitView *mainSplitView;
-/** Holds left view that represent hierarchy of model, this view looks like
+/** Holds left view that represents hierarchy of model, this view looks like
  * left panel in iTunes. 
  */
 @property (readwrite, retain) NSView *leftView;
@@ -107,7 +107,7 @@
 @property (readwrite, retain) NSScrollView *centerScrollView;
 /** Holds right view with fields for editing properties. */
 @property (readwrite, retain) NSView *rightView;
-/** Holds segmented control that uses in main toolbar to show/hide left and
+/** Holds segmented control that used in main toolbar to show/hide left and
  * right like in Xcode. 
  */
 @property (readwrite, retain) NSSegmentedControl *viewSegmentedControl;
