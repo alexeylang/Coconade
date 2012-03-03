@@ -8,12 +8,12 @@
 
 #import "CCNImageTextCell.h"
 
-#define kIconImageSize          16.0f
-#define kImageOriginXOffset     3.0f
-#define kImageOriginYOffset     1.0f
-#define kTextOriginXOffset      2.0f
-#define kTextOriginYOffset      2.0f
-#define kTextHeightAdjust       4.0f
+#define kCCNImageTextCellIconImageSize          16.0f
+#define kCCNImageTextCellImageOriginXOffset     3.0f
+#define kCCNImageTextCellImageOriginYOffset     1.0f
+#define kCCNImageTextCellTextOriginXOffset      2.0f
+#define kCCNImageTextCellTextOriginYOffset      2.0f
+#define kCCNImageTextCellTextHeightAdjust       4.0f
 
 
 @interface CCNImageTextCell ()
@@ -33,7 +33,7 @@
     [image retain];
     [_image release];
     _image = image;
-    [_image setSize:NSMakeSize(kIconImageSize, kIconImageSize)];
+    [_image setSize:NSMakeSize(kCCNImageTextCellIconImageSize, kCCNImageTextCellIconImageSize)];
 }
 
 - (NSImage *)image
@@ -75,12 +75,12 @@
 - (NSRect)titleRectForBounds:(NSRect)cellRect
 {	
 	NSRect imageFrame;
-	NSDivideRect(cellRect, &imageFrame, &cellRect, self.image.size.width + kImageOriginXOffset, NSMinXEdge);
+	NSDivideRect(cellRect, &imageFrame, &cellRect, self.image.size.width + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
 	
 	NSRect newFrame = cellRect;
-	newFrame.origin.x += kTextOriginXOffset;
-	newFrame.origin.y += kTextOriginYOffset;
-	newFrame.size.height -= kTextHeightAdjust;
+	newFrame.origin.x += kCCNImageTextCellTextOriginXOffset;
+	newFrame.origin.y += kCCNImageTextCellTextOriginYOffset;
+	newFrame.size.height -= kCCNImageTextCellTextHeightAdjust;
     
 	return newFrame;
 }
@@ -103,10 +103,10 @@
 	if ( self.image )
 	{
         NSRect imageFrame;        
-        NSDivideRect(cellFrame, &imageFrame, &cellFrame, self.image.size.width + kImageOriginXOffset, NSMinXEdge);
+        NSDivideRect(cellFrame, &imageFrame, &cellFrame, self.image.size.width + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
         
-        imageFrame.origin.x += kImageOriginXOffset;
-		imageFrame.origin.y -= kImageOriginYOffset;
+        imageFrame.origin.x += kCCNImageTextCellImageOriginXOffset;
+		imageFrame.origin.y -= kCCNImageTextCellImageOriginYOffset;
         imageFrame.size = self.image.size;
 		
         if ( [controlView isFlipped] )
@@ -120,9 +120,9 @@
 		[self.image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
         
 		NSRect newFrame = cellFrame;
-		newFrame.origin.x += kTextOriginXOffset;
-		newFrame.origin.y += kTextOriginYOffset;
-		newFrame.size.height -= kTextHeightAdjust;
+		newFrame.origin.x += kCCNImageTextCellTextOriginXOffset;
+		newFrame.origin.y += kCCNImageTextCellTextOriginYOffset;
+		newFrame.size.height -= kCCNImageTextCellTextHeightAdjust;
 		[super drawWithFrame:newFrame inView:controlView];
     }
 	else
@@ -131,7 +131,7 @@
 		{
 			CGFloat yOffset = floor((cellFrame.size.height - self.attributedStringValue.size.height) / 2.0f);
 			cellFrame.origin.y += yOffset;
-			cellFrame.size.height -= (kTextOriginYOffset * yOffset);
+			cellFrame.size.height -= (kCCNImageTextCellTextOriginYOffset * yOffset);
 			[super drawWithFrame:cellFrame inView:controlView];
 		}
 	}
@@ -140,7 +140,7 @@
 - (NSSize)cellSize
 {
     NSSize cellSize = [super cellSize];
-    cellSize.width += (self.image ? self.image.size.width : 0) + kImageOriginXOffset;
+    cellSize.width += (self.image ? self.image.size.width : 0) + kCCNImageTextCellImageOriginXOffset;
     return cellSize;
 }
 
