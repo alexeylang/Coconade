@@ -11,37 +11,39 @@
 #import "CCNode+Helpers.h"
 
 
-/** Current state of CCNSelection, that describes what will be done on -ccMouseDrag: event. */
-enum selectionState 
+/** Current state of selection that is being used by mouse events.
+ * Describes what will be done on -ccMouseDrag: event. 
+ */
+enum workspaceMouseState 
 {
     
-    kCCNSelectionStateIdle,
+    kCCNWorkspaceMouseStateIdle,
     
     // Moving with mouse.
-    kCCNSelectionStateMove,
-    kCCNSelectionStateDragAnchor,
+    kCCNWorkspaceMouseStateMove,
+    kCCNWorkspaceMouseStateDragAnchor,
     
     // Scaling with mouse
-    kCCNSelectionStateScaleTop,
-    kCCNSelectionStateScaleBottom,
-    kCCNSelectionStateScaleRight,
-    kCCNSelectionStateScaleLeft,
-    kCCNSelectionStateScaleTopRight,
-    kCCNSelectionStateScaleTopLeft,
-    kCCNSelectionStateScaleBottomRight,
-    kCCNSelectionStateScaleBottomLeft,
+    kCCNWorkspaceMouseStateScaleTop,
+    kCCNWorkspaceMouseStateScaleBottom,
+    kCCNWorkspaceMouseStateScaleRight,
+    kCCNWorkspaceMouseStateScaleLeft,
+    kCCNWorkspaceMouseStateScaleTopRight,
+    kCCNWorkspaceMouseStateScaleTopLeft,
+    kCCNWorkspaceMouseStateScaleBottomRight,
+    kCCNWorkspaceMouseStateScaleBottomLeft,
     
     // Rotating with mouse.
-    kCCNSelectionStateRotateTopRight,
-    kCCNSelectionStateRotateTopLeft,
-    kCCNSelectionStateRotateBottomRight,
-    kCCNSelectionStateRotateBottomLeft,
+    kCCNWorkspaceMouseStateRotateTopRight,
+    kCCNWorkspaceMouseStateRotateTopLeft,
+    kCCNWorkspaceMouseStateRotateBottomRight,
+    kCCNWorkspaceMouseStateRotateBottomLeft,
     
     // Skewing with mouse.
-    kCCNSelectionStateSkewTop,
-    kCCNSelectionStateSkewBottom,
-    kCCNSelectionStateSkewRight,
-    kCCNSelectionStateSkewLeft,
+    kCCNWorkspaceMouseStateSkewTop,
+    kCCNWorkspaceMouseStateSkewBottom,
+    kCCNWorkspaceMouseStateSkewRight,
+    kCCNWorkspaceMouseStateSkewLeft,
 };
 
 @interface CCNSelection (ModeElements)
@@ -369,7 +371,7 @@ enum selectionState
 - (BOOL)ccMouseUp:(NSEvent *)event
 {
     // Stop anything.
-    _state = kCCNSelectionStateIdle;
+    _state = kCCNWorkspaceMouseStateIdle;
     
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
@@ -385,7 +387,7 @@ enum selectionState
     // If we clicked on anchor indicator - start dragging it.
     if ([CCNode isEvent:event locatedInNode:_anchor])
     {
-        _state = kCCNSelectionStateDragAnchor;
+        _state = kCCNWorkspaceMouseStateDragAnchor;
     }
     else if (NO)
     {
@@ -405,7 +407,7 @@ enum selectionState
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
     // Swallow on any action (move, scale, etc...).
-	return (_state != kCCNSelectionStateIdle);
+	return (_state != kCCNWorkspaceMouseStateIdle);
 }
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
@@ -416,7 +418,7 @@ enum selectionState
 - (BOOL)ccMouseDragged:(NSEvent *)event
 {	    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-    if (_state == kCCNSelectionStateDragAnchor)
+    if (_state == kCCNWorkspaceMouseStateDragAnchor)
     {
         // Prepare affine transformations here once.
         CGAffineTransform targetParentToWorld = [_targetNode.parent nodeToWorldTransform];
@@ -450,7 +452,7 @@ enum selectionState
 	_prevMouseLocation = mouseLocation;
 	
     // Swallow on any action (move, scale, etc...).
-	return (_state != kCCNSelectionStateIdle);
+	return (_state != kCCNWorkspaceMouseStateIdle);
 }
 
 @end
