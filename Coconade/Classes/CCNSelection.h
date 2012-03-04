@@ -27,7 +27,7 @@ enum CCNSelectionMode
  *
  * @todo Add ability to transform target node via GUI of CCNSelection
  */
-@interface CCNSelection : CCNode <CCMouseEventDelegate> {
+@interface CCNSelection : CCNode {
     
     CCNode *_targetNode;
     

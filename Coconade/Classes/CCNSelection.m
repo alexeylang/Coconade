@@ -341,17 +341,8 @@ enum selectionState
 
 #pragma OnEnter/OnExit
 
-- (void) onEnter
-{
-    [super onEnter];
-    
-    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority:NSIntegerMin];
-}
-
 - (void) onExit
-{
-    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
-    
+{    
     // Loose weak refs.
     _scaleRight = nil;
     _scaleRightTop = nil;
