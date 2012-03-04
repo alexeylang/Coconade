@@ -10,6 +10,40 @@
 #import "TransformUtils.h"
 #import "CCNode+Helpers.h"
 
+
+/** Current state of CCNSelection, that describes what will be done on -ccMouseDrag: event. */
+enum selectionState 
+{
+    
+    kCCNSelectionStateIdle,
+    
+    // Moving with mouse.
+    kCCNSelectionStateMove,
+    kCCNSelectionStateDragAnchor,
+    
+    // Scaling with mouse
+    kCCNSelectionStateScaleTop,
+    kCCNSelectionStateScaleBottom,
+    kCCNSelectionStateScaleRight,
+    kCCNSelectionStateScaleLeft,
+    kCCNSelectionStateScaleTopRight,
+    kCCNSelectionStateScaleTopLeft,
+    kCCNSelectionStateScaleBottomRight,
+    kCCNSelectionStateScaleBottomLeft,
+    
+    // Rotating with mouse.
+    kCCNSelectionStateRotateTopRight,
+    kCCNSelectionStateRotateTopLeft,
+    kCCNSelectionStateRotateBottomRight,
+    kCCNSelectionStateRotateBottomLeft,
+    
+    // Skewing with mouse.
+    kCCNSelectionStateSkewTop,
+    kCCNSelectionStateSkewBottom,
+    kCCNSelectionStateSkewRight,
+    kCCNSelectionStateSkewLeft,
+};
+
 @interface CCNSelection (ModeElements)
 
 /** Prepares 8 scale elements for all sides & corners of the selection & adds them as children. */
@@ -343,8 +377,8 @@
 
 - (BOOL)ccMouseUp:(NSEvent *)event
 {
-    // Stop dragging.
-    _dragAnchor = NO;
+    // Stop anything.
+    _state = kCCNSelectionStateIdle;
     
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
@@ -354,27 +388,44 @@
 
 - (BOOL)ccMouseDown:(NSEvent *)event
 {	
-    _dragAnchor = NO;
+    // Default state is idle.
+    _state = NO;
     
+    // If we clicked on anchor indicator - start dragging it.
     if ([CCNode isEvent:event locatedInNode:_anchor])
     {
-        _dragAnchor = YES;
+        _state = kCCNSelectionStateDragAnchor;
+    }
+    else if (NO)
+    {
+        // TODO: check here for this in the same order:
+        // 
+        // 1. Scale at corners & center of the sides.
+        // 2. Rotate near corners
+        // 3. Skew at sides
+        // 4. Movement at everything else
+        //
+        
+    } else if (NO)
+    {
     }
 
     // Remember previous mouse location to move anchor.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
-	return _dragAnchor;
+    // Swallow on any action (move, scale, etc...).
+	return (_state != kCCNSelectionStateIdle);
 }
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
 {
+    return NO;
 }
 
 - (BOOL)ccMouseDragged:(NSEvent *)event
 {	    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-    if (_dragAnchor)
+    if (_state == kCCNSelectionStateDragAnchor)
     {
         // Prepare affine transformations here once.
         CGAffineTransform targetParentToWorld = [_targetNode.parent nodeToWorldTransform];
@@ -407,7 +458,8 @@
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
 	
-    return _dragAnchor;
+    // Swallow on any action (move, scale, etc...).
+	return (_state != kCCNSelectionStateIdle);
 }
 
 @end

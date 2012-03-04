@@ -58,7 +58,7 @@ enum CCNSelectionMode
     CCSprite *_skewBottom;
     CCSprite *_rotateRightBottom;
     
-    BOOL _dragAnchor;
+    int _state;
     CGPoint _prevMouseLocation;
 }
 
