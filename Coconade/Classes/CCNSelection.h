@@ -22,7 +22,7 @@
 	CCSprite *_anchor;
 	CCLabelBMFont *_positionLabel;
     
-    // Scale mode elements (weak refs to children).
+    // Corners & sides elements (weak refs to children).
     CCSprite *_elementRight;
     CCSprite *_elementRightTop;
     CCSprite *_elementTop;
