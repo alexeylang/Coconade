@@ -694,10 +694,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             {
                 [self.model deselectNode: node];
             }
-        }
-        else
-        {
-            // If this isn't the selected sprite - select only it.
+        } //< Shift
+        else// No shift.
+        {           
+            // If this isn't the selected node - select only it.
             if(![self.model.selectedNodes containsObject: node])
             {
                 [self.model deselectAllNodes];
@@ -706,7 +706,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 // Allow to start dragging selected node immediately.
                 self.nodeBeingDragged = node;
             }
-            else
+            else // This is already selected node.
             {
                 // Default state is idle.
                 _state = kCCNWorkspaceMouseStateIdle;
@@ -738,7 +738,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             }
         }
 		
-	}
+	} //< if (node)
     else
     {
         // Deselect all nodes when clicked in free space.
