@@ -208,6 +208,20 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return self;
 }
 
+- (void) registerWithEventDispatcher
+{
+    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin+1];
+	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin+1];
+    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin+1];
+}
+
+- (void) unregisterWithEventDispatcher
+{
+    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeGestureDelegate:self];
+}
+
 - (void) halt
 {
     [self unregisterWithEventDispatcher];
@@ -610,21 +624,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return nil;
 }
 
-- (void) registerWithEventDispatcher
-{
-    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin+1];
-	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin+1];
-    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin+1];
-}
-
-- (void) unregisterWithEventDispatcher
-{
-    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
-    [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
-    [[CCEventDispatcher sharedDispatcher] removeGestureDelegate:self];
-}
-
-#pragma mark Trackpad Gestures Events
+#pragma mark - Trackpad Gestures Events
 
 /** Trackpad's PinchIn/PinchOut Gesture event handler
  * Scales selectedNode.
@@ -681,7 +681,88 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return result;
 }
 
-#pragma mark Mouse Events
+#pragma mark - Mouse Events
+
+- (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
+{	    
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    // Prepare affine transformations here once.
+    CGAffineTransform targetParentToWorld = [targetNode.parent nodeToWorldTransform];
+    CGAffineTransform worldToTargetParent = CGAffineTransformInvert(targetParentToWorld);
+    CGAffineTransform targetToWorld = CGAffineTransformConcat([targetNode nodeToParentTransform], targetParentToWorld);
+    CGAffineTransform worldToTarget = CGAffineTransformInvert(targetToWorld);
+    
+    // Get old anchor position in scene.
+    CGSize targetSize = targetNode.contentSize;
+    CGPoint oldAnchor = targetNode.anchorPoint;
+    CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
+    CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, targetToWorld);
+    
+    // Get new position of anchor in scene coordinates.
+    CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
+    CGPoint anchorPositionInScene = ccpAdd(oldAnchorInScene, diff);        
+    
+    // Set new anchor normalized.
+    CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, worldToTarget);
+    CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
+    targetNode.anchorPoint = newAnchor;
+    
+    // Compensate position change.       
+    CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
+    CGPoint targetPositionInScene =  CGPointApplyAffineTransform(targetNode.position, targetParentToWorld);
+    targetPositionInScene = ccpAdd(targetPositionInScene, positionCompensation);
+    targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, worldToTargetParent);
+    
+}
+
+- (void) moveSelectedNodesWithMouseDraggedEvent: (NSEvent *) event
+{
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    // Choose which nodes to drag - all selected nodes by default.
+    NSArray *nodesToMove = self.model.selectedNodes;
+    
+    // But if they have different parents - choose only one that was under cursor, when dragging started.
+    NSUInteger selectedNodesCount = [self.model.selectedNodes count];
+    if (selectedNodesCount)
+    {
+        CCNode *firstNode = [self.model.selectedNodes objectAtIndex: 0];
+        CCNode *parent = firstNode.parent;
+        for (CCNode *node in self.model.selectedNodes)
+        {
+            if (parent != node.parent)
+            {
+                nodesToMove = [NSArray arrayWithObject: self.nodeBeingEdited];
+                break;
+            }
+        }
+    }
+    
+    // Actually drag chosen nodes.
+    for (CCNode *node in nodesToMove)
+    {
+        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
+        
+        // Calculate new position, considering that it can be located anywhere in the hierarchy.
+        CGPoint newPosition = node.position;
+        if (node.parent)
+        {        
+            CGPoint nodePositionInScene = CGPointApplyAffineTransform(node.position, [node.parent nodeToWorldTransform]);
+            CGPoint newPositionInScene = ccpAdd(nodePositionInScene, diff);
+            newPosition = CGPointApplyAffineTransform( newPositionInScene, [node.parent worldToNodeTransform]);
+        }
+        else
+        {
+            newPosition = ccpAdd(node.position, diff);
+        }
+        
+        // Apply new position.
+        node.position = newPosition;
+    }   
+}
+
+#pragma mark Mouse Event Delegate
 
 -(BOOL) ccScrollWheel:(NSEvent *)theEvent 
 {    
@@ -783,85 +864,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return NO;
 }
 
-- (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
-{	    
-    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-        
-    // Prepare affine transformations here once.
-    CGAffineTransform targetParentToWorld = [targetNode.parent nodeToWorldTransform];
-    CGAffineTransform worldToTargetParent = CGAffineTransformInvert(targetParentToWorld);
-    CGAffineTransform targetToWorld = CGAffineTransformConcat([targetNode nodeToParentTransform], targetParentToWorld);
-    CGAffineTransform worldToTarget = CGAffineTransformInvert(targetToWorld);
-    
-    // Get old anchor position in scene.
-    CGSize targetSize = targetNode.contentSize;
-    CGPoint oldAnchor = targetNode.anchorPoint;
-    CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
-    CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, targetToWorld);
-    
-    // Get new position of anchor in scene coordinates.
-    CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
-    CGPoint anchorPositionInScene = ccpAdd(oldAnchorInScene, diff);        
-    
-    // Set new anchor normalized.
-    CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, worldToTarget);
-    CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
-    targetNode.anchorPoint = newAnchor;
-    
-    // Compensate position change.       
-    CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
-    CGPoint targetPositionInScene =  CGPointApplyAffineTransform(targetNode.position, targetParentToWorld);
-    targetPositionInScene = ccpAdd(targetPositionInScene, positionCompensation);
-    targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, worldToTargetParent);
-    
-}
-
-- (void) moveSelectedNodesWithMouseDraggedEvent: (NSEvent *) event
-{
-    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-    
-    // Choose which nodes to drag - all selected nodes by default.
-    NSArray *nodesToMove = self.model.selectedNodes;
-    
-    // But if they have different parents - choose only one that was under cursor, when dragging started.
-    NSUInteger selectedNodesCount = [self.model.selectedNodes count];
-    if (selectedNodesCount)
-    {
-        CCNode *firstNode = [self.model.selectedNodes objectAtIndex: 0];
-        CCNode *parent = firstNode.parent;
-        for (CCNode *node in self.model.selectedNodes)
-        {
-            if (parent != node.parent)
-            {
-                nodesToMove = [NSArray arrayWithObject: self.nodeBeingEdited];
-                break;
-            }
-        }
-    }
-    
-    // Actually drag chosen nodes.
-    for (CCNode *node in nodesToMove)
-    {
-        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
-        
-        // Calculate new position, considering that it can be located anywhere in the hierarchy.
-        CGPoint newPosition = node.position;
-        if (node.parent)
-        {        
-            CGPoint nodePositionInScene = CGPointApplyAffineTransform(node.position, [node.parent nodeToWorldTransform]);
-            CGPoint newPositionInScene = ccpAdd(nodePositionInScene, diff);
-            newPosition = CGPointApplyAffineTransform( newPositionInScene, [node.parent worldToNodeTransform]);
-        }
-        else
-        {
-            newPosition = ccpAdd(node.position, diff);
-        }
-        
-        // Apply new position.
-        node.position = newPosition;
-    }   
-}
-
 - (BOOL)ccMouseDragged:(NSEvent *)event
 {	    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
@@ -893,7 +895,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	return YES;
 }
 
-#pragma mark Keyboard Events
+#pragma mark - Keyboard Events
 
 - (BOOL)ccKeyDown:(NSEvent *)event
 {
