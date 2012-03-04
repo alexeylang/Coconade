@@ -60,39 +60,39 @@
 - (void) prepareElements
 {
     // Prepare scale mode elements.
-    _scaleRight = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
-    _scaleRightTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
-    _scaleTop = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
-    _scaleLeftTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
-    _scaleLeftTop.scaleX = -1.0f;
-    _scaleLeft = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
-    _scaleLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
-    _scaleBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
-    _scaleRightBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
-    _scaleRightBottom.scaleX = -1.0f;
+    _elementRight = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
+    _elementRightTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _elementTop = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
+    _elementLeftTop = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _elementLeftTop.scaleX = -1.0f;
+    _elementLeft = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
+    _elementLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _elementBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleVertical.png"];
+    _elementRightBottom = [CCSprite spriteWithFile:@"CCNSelectionScaleCorner.png"];
+    _elementRightBottom.scaleX = -1.0f;
     
     // Add them as children.
-    [self addChild:_scaleBottom];
-    [self addChild:_scaleLeft];
-    [self addChild:_scaleLeftBottom];
-    [self addChild:_scaleLeftTop];
-    [self addChild:_scaleRight];
-    [self addChild:_scaleRightBottom];
-    [self addChild:_scaleRightTop];
-    [self addChild:_scaleTop];
+    [self addChild:_elementBottom];
+    [self addChild:_elementLeft];
+    [self addChild:_elementLeftBottom];
+    [self addChild:_elementLeftTop];
+    [self addChild:_elementRight];
+    [self addChild:_elementRightBottom];
+    [self addChild:_elementRightTop];
+    [self addChild:_elementTop];
     
     // Use additive blending.
     ccBlendFunc additiveInvertingBlend;
     additiveInvertingBlend.src = GL_ONE;
     additiveInvertingBlend.dst = GL_ONE_MINUS_DST_COLOR;    
-    _scaleBottom.blendFunc = additiveInvertingBlend;
-    _scaleLeft.blendFunc = additiveInvertingBlend;
-    _scaleLeftBottom.blendFunc = additiveInvertingBlend;
-    _scaleLeftTop.blendFunc = additiveInvertingBlend;
-    _scaleRight.blendFunc = additiveInvertingBlend;
-    _scaleRightBottom.blendFunc = additiveInvertingBlend;
-    _scaleRightTop.blendFunc = additiveInvertingBlend;
-    _scaleTop.blendFunc = additiveInvertingBlend;
+    _elementBottom.blendFunc = additiveInvertingBlend;
+    _elementLeft.blendFunc = additiveInvertingBlend;
+    _elementLeftBottom.blendFunc = additiveInvertingBlend;
+    _elementLeftTop.blendFunc = additiveInvertingBlend;
+    _elementRight.blendFunc = additiveInvertingBlend;
+    _elementRightBottom.blendFunc = additiveInvertingBlend;
+    _elementRightTop.blendFunc = additiveInvertingBlend;
+    _elementTop.blendFunc = additiveInvertingBlend;
     
 }
 
@@ -102,25 +102,25 @@
     CGAffineTransform transform = [_targetNode nodeToWorldTransform];
     
     // Position.
-    _scaleRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
-    _scaleRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
-    _scaleTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height), transform );
-    _scaleLeftTop.position = CGPointApplyAffineTransform( ccp(0, size.height), transform );
-    _scaleLeft.position = CGPointApplyAffineTransform( ccp(0, 0.5f* size.height), transform );
-    _scaleLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
-    _scaleBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
-    _scaleRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
+    _elementRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
+    _elementRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
+    _elementTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height), transform );
+    _elementLeftTop.position = CGPointApplyAffineTransform( ccp(0, size.height), transform );
+    _elementLeft.position = CGPointApplyAffineTransform( ccp(0, 0.5f* size.height), transform );
+    _elementLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
+    _elementBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
+    _elementRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
     
     // Rotate.
     CGFloat rotation = CC_RADIANS_TO_DEGREES( -atanf(transform.b / transform.a) );    
-    _scaleRight.rotation = rotation;
-    _scaleRightTop.rotation = rotation;
-    _scaleTop.rotation = rotation;
-    _scaleLeftTop.rotation = rotation;
-    _scaleLeft.rotation = rotation;
-    _scaleLeftBottom.rotation = rotation;
-    _scaleBottom.rotation = rotation;
-    _scaleRightBottom.rotation = rotation;
+    _elementRight.rotation = rotation;
+    _elementRightTop.rotation = rotation;
+    _elementTop.rotation = rotation;
+    _elementLeftTop.rotation = rotation;
+    _elementLeft.rotation = rotation;
+    _elementLeftBottom.rotation = rotation;
+    _elementBottom.rotation = rotation;
+    _elementRightBottom.rotation = rotation;
 }
 
 - (void)dealloc
@@ -261,14 +261,14 @@
 - (void) onExit
 {    
     // Loose weak refs.
-    _scaleRight = nil;
-    _scaleRightTop = nil;
-    _scaleTop = nil;
-    _scaleLeftTop = nil;
-    _scaleLeft = nil;
-    _scaleLeftBottom = nil;
-    _scaleBottom = nil;
-    _scaleRightBottom = nil;
+    _elementRight = nil;
+    _elementRightTop = nil;
+    _elementTop = nil;
+    _elementLeftTop = nil;
+    _elementLeft = nil;
+    _elementLeftBottom = nil;
+    _elementBottom = nil;
+    _elementRightBottom = nil;
     _skewRight = nil;
     _rotateRightTop = nil;
     _skewTop = nil;

@@ -23,14 +23,14 @@
 	CCLabelBMFont *_positionLabel;
     
     // Scale mode elements (weak refs to children).
-    CCSprite *_scaleRight;
-    CCSprite *_scaleRightTop;
-    CCSprite *_scaleTop;
-    CCSprite *_scaleLeftTop;
-    CCSprite *_scaleLeft;
-    CCSprite *_scaleLeftBottom;
-    CCSprite *_scaleBottom;
-    CCSprite *_scaleRightBottom;
+    CCSprite *_elementRight;
+    CCSprite *_elementRightTop;
+    CCSprite *_elementTop;
+    CCSprite *_elementLeftTop;
+    CCSprite *_elementLeft;
+    CCSprite *_elementLeftBottom;
+    CCSprite *_elementBottom;
+    CCSprite *_elementRightBottom;
     
     // Rotate/Skew mode elements (weak refs to children).
     CCSprite *_skewRight;
