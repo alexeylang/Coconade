@@ -217,4 +217,18 @@
     [selection onEnter];
 }
 
+- (CCNSelection *) selectionForNode: (CCNode *) aNode
+{
+    if(!aNode)
+        return nil;
+    
+    for (CCNSelection *selection in self.selections)
+    {
+        if (selection.targetNode == aNode)
+            return selection;
+    }
+    
+    return nil;
+}
+
 @end
