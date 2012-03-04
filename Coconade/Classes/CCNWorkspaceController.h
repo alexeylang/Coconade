@@ -25,8 +25,8 @@
     CGPoint _prevMouseLocation;
     
     // Dragging nodes.
-    int _state;    
     CCNode *_nodeBeingEdited;
+    int _mouseState;    
 }
 
 /** Property to hold glView, provided from outside. */

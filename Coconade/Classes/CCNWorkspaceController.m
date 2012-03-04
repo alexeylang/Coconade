@@ -680,7 +680,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 - (BOOL)ccMouseDown:(NSEvent *)event
 {	    
     // Default state is idle.
-    _state = kCCNWorkspaceMouseStateIdle;
+    _mouseState = kCCNWorkspaceMouseStateIdle;
     
 	CCNode *node = [self nodeForEvent:event];
     self.nodeBeingEdited = node;
@@ -707,8 +707,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 [self.model selectNode: node];
                 
                 // Allow to start dragging selected node immediately.
-                _state = kCCNWorkspaceMouseStateMove;
                 self.nodeBeingEdited = node;
+                _mouseState = kCCNWorkspaceMouseStateMove;
             }
             else // This is already selected node.
             {                    
@@ -717,12 +717,12 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 CCNode *anchorPointIndicator = selection.anchorPointIndicator;
                 if ([CCNode isEvent:event locatedInNode:anchorPointIndicator])
                 {
-                    _state = kCCNWorkspaceMouseStateDragAnchor;
+                    _mouseState = kCCNWorkspaceMouseStateDragAnchor;
                 }
                 else
                 {
                     // Drag that selected node.
-                    _state = kCCNWorkspaceMouseStateMove;
+                    _mouseState = kCCNWorkspaceMouseStateMove;
                     
                     // TODO: check here for this in the same order:
                     // 
@@ -747,7 +747,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
 	// Swallow on any action (move, scale, etc...).
-    return (_state != kCCNWorkspaceMouseStateIdle);
+    return (_mouseState != kCCNWorkspaceMouseStateIdle);
 }
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
@@ -838,11 +838,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {	    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
     
-    if (_state == kCCNWorkspaceMouseStateDragAnchor)
+    if (_mouseState == kCCNWorkspaceMouseStateDragAnchor)
     {
         [self dragAnchorOfTargetNode: self.nodeBeingEdited withMouseDraggedEvent:event];
     }
-    else if (_state == kCCNWorkspaceMouseStateMove)
+    else if (_mouseState == kCCNWorkspaceMouseStateMove)
     {
         [self moveSelectedNodesWithMouseDraggedEvent: event];
     }
@@ -856,7 +856,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 - (BOOL)ccMouseUp:(NSEvent *)event
 {	
     // Stop anything.
-    _state = kCCNWorkspaceMouseStateIdle;
+    _mouseState = kCCNWorkspaceMouseStateIdle;
     self.nodeBeingEdited = nil;
     
     // Remember previous mouse location to move node.
