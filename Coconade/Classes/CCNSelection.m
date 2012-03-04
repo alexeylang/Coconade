@@ -15,18 +15,10 @@
 /** Prepares 8 scale elements for all sides & corners of the selection & adds them as children. */
 - (void) prepareScaleModeElements;
 
-/** Prepares 4 rotate elements for corners, 4 skew elements for sides & adds them as children. */
-- (void) prepareRotateModeElements;
-
 /** Updates position of all 8 scale mode elements, to have them exactly at corners
  * and center of the sides for current targetNode transformation.
  */
 - (void) positionScaleModeElements;
-
-/** Updates position of all 4 rotation corner's & 4 skew side's elements to have 
- * them exactly at their place for current targetNode transformation.
- */
-- (void) positionRotateModeElements;
 
 @end
 
@@ -60,11 +52,6 @@
 		[_anchor addChild:_positionLabel];
         
         [self prepareScaleModeElements];
-        [self prepareRotateModeElements];
-        
-        // Select first mode to show only needed elements at start.
-        _mode = kCCNSelectionModeLast;
-        [self toggleMode];
 	}
 	
 	return self;
@@ -136,16 +123,6 @@
     _scaleRightBottom.rotation = rotation;
 }
 
-- (void) prepareRotateModeElements
-{
-    // TODO: do
-}
-
-- (void) positionRotateModeElements
-{
-    // TODO: do
-}
-
 - (void)dealloc
 {
 	[_fill release]; _fill = nil;
@@ -153,23 +130,6 @@
 	[_positionLabel release]; _positionLabel = nil;
     
 	[super dealloc];
-}
-
-#pragma mark Mode Control
-
-- (void) toggleMode
-{
-    _mode++;
-    
-    // Range sentinel.
-    if (_mode > kCCNSelectionModeLast)
-    {
-        _mode = kCCNSelectionModeFirst;
-    }
-    else if (_mode < kCCNSelectionModeFirst)
-    {
-        _mode = kCCNSelectionModeLast;
-    }
 }
 
 #pragma mark Transform
@@ -226,19 +186,9 @@
                          ];
 	_positionLabel.string = posText;
     
-    // Mode elements.
-    switch (_mode) {
-        case kCCNSelectionModePositionAndScale:
-            [self positionScaleModeElements];
-            break;
-            
-        case kCCNSelectionModePositionAndRotate:
-            [self positionRotateModeElements];
-            break;
-            
-        default:
-            break;
-    }
+    // Prepare elements.
+    [self positionScaleModeElements];
+
 }
 
 

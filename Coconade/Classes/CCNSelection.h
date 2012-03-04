@@ -9,23 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-enum CCNSelectionMode
-{
-    /** In that mode selection can be used to move node & scale it from any corner or side. */
-    kCCNSelectionModePositionAndScale,
-    
-    /** In that mode selection can be used to move node, rotate it with corners & skew at any side. */
-    kCCNSelectionModePositionAndRotate,
-    
-    kCCNSelectionModeFirst = kCCNSelectionModePositionAndScale,
-    kCCNSelectionModeLast = kCCNSelectionModePositionAndRotate,
-};
-
 /** @class CCNSelection Node that located in the root level of
  * node hierarchy, grabs another node and highlights it, applying targetNode
  * transformation to self.
- *
- * @todo Add ability to transform target node via GUI of CCNSelection
+ * It's used only as highlight, and doesn't change anything in targetNode by itself.
  */
 @interface CCNSelection : CCNode {
     
@@ -34,9 +21,6 @@ enum CCNSelectionMode
     CCLayerColor *_fill;
 	CCSprite *_anchor;
 	CCLabelBMFont *_positionLabel;
-    
-    // Selection mode. Should be one of the kCCNSelectionNodeXXX.
-    int _mode;
     
     // Scale mode elements (weak refs to children).
     CCSprite *_scaleRight;
@@ -57,9 +41,6 @@ enum CCNSelectionMode
     CCSprite *_rotateLeftBottom;
     CCSprite *_skewBottom;
     CCSprite *_rotateRightBottom;
-    
-    int _state;
-    CGPoint _prevMouseLocation;
 }
 
 /** Node that will be highlated by CCNSelection.
@@ -71,8 +52,5 @@ enum CCNSelectionMode
 
 /** Returns node, that is positioned at targetNode's anchorPoint. */
 @property(readonly, retain) CCNode *anchorPointIndicator;
-
-/** Changes selection mode to next, if already last mode is used - starts again from first. */
-- (void) toggleMode;
 
 @end
