@@ -678,7 +678,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 - (BOOL)ccMouseDown:(NSEvent *)event
-{	
+{	    
 	CCNode *node = [self nodeForEvent:event];
     self.nodeBeingDragged = node;
 	if(node)
@@ -694,8 +694,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             {
                 [self.model deselectNode: node];
             }
-        } //< Shift
-        else// No shift.
+        }
+        else // No shift.
         {           
             // If this isn't the selected node - select only it.
             if(![self.model.selectedNodes containsObject: node])
@@ -730,14 +730,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                     // 3. Skew at sides
                     // 4. Movement at everything else
                     //
-                    
-                }
-                
-                
-                              
-            }
-        }
-		
+                }           
+            }//< if [self.model.selectedNodes containsObject: node]
+            
+        }//< No shift.
+        
 	} //< if (node)
     else
     {
@@ -791,16 +788,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
 }
 
-- (BOOL)ccMouseDragged:(NSEvent *)event
-{	    
+- (void) moveSelectedNodesWithMouseDraggedEvent: (NSEvent *) event
+{
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
     
-    if (_state == kCCNWorkspaceMouseStateDragAnchor)
-    {
-        [self dragAnchorOfTargetNode: self.nodeBeingDragged withMouseDraggedEvent:event];
-    }
-    else
-    {
     // Choose which nodes to drag - all selected nodes by default.
     NSArray *nodesToMove = self.model.selectedNodes;
     
@@ -821,8 +812,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     
     // Actually drag chosen nodes.
-	for (CCNode *node in nodesToMove)
-	{
+    for (CCNode *node in nodesToMove)
+    {
         CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
         
         // Calculate new position, considering that it can be located anywhere in the hierarchy.
@@ -840,12 +831,25 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
         // Apply new position.
         node.position = newPosition;
-	
-	}        
+    }   
+}
+
+- (BOOL)ccMouseDragged:(NSEvent *)event
+{	    
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    if (_state == kCCNWorkspaceMouseStateDragAnchor)
+    {
+        [self dragAnchorOfTargetNode: self.nodeBeingDragged withMouseDraggedEvent:event];
     }
+    else
+    {
+        [self moveSelectedNodesWithMouseDraggedEvent: event];
+    }
+    
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
-	
+    
 	return YES;
 }
 
