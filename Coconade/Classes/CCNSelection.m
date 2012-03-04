@@ -12,13 +12,13 @@
 
 @interface CCNSelection (ModeElements)
 
-/** Prepares 8 scale elements for all sides & corners of the selection & adds them as children. */
-- (void) prepareScaleModeElements;
+/** Prepares elements for all sides & corners of the selection & adds them as children. */
+- (void) prepareElements;
 
-/** Updates position of all 8 scale mode elements, to have them exactly at corners
+/** Updates position of all elements, to have them exactly at corners
  * and center of the sides for current targetNode transformation.
  */
-- (void) positionScaleModeElements;
+- (void) positionElements;
 
 @end
 
@@ -51,13 +51,13 @@
         _positionLabel.position = ccp(s.width/2, -10);
 		[_anchor addChild:_positionLabel];
         
-        [self prepareScaleModeElements];
+        [self prepareElements];
 	}
 	
 	return self;
 }
 
-- (void) prepareScaleModeElements
+- (void) prepareElements
 {
     // Prepare scale mode elements.
     _scaleRight = [CCSprite spriteWithFile:@"CCNSelectionScaleHorizontal.png"];
@@ -96,7 +96,7 @@
     
 }
 
-- (void) positionScaleModeElements
+- (void) positionElements
 {
     CGSize size = [_targetNode contentSize];
     CGAffineTransform transform = [_targetNode nodeToWorldTransform];
@@ -186,8 +186,8 @@
                          ];
 	_positionLabel.string = posText;
     
-    // Prepare elements.
-    [self positionScaleModeElements];
+    // Update elements.
+    [self positionElements];
 
 }
 
