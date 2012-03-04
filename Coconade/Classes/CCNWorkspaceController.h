@@ -21,10 +21,8 @@
     
     CCNModel *_model;
     
-    // Mouse events.
+    // Editing nodes with mouse events.
     CGPoint _prevMouseLocation;
-    
-    // Dragging nodes.
     CCNode *_nodeBeingEdited;
     int _mouseState;    
 }

@@ -51,7 +51,35 @@ enum workspaceMouseState
 
 @interface CCNWorkspaceController ()
 
+#pragma mark Edit Nodes with Mouse
+
+/** Holds node, on that we received -ccMouseDown: event last time.
+ * Used to store that node between down, moved/dragged & up mouse events.
+ */
 @property(readwrite, retain) CCNode *nodeBeingEdited;
+
+/** Changes anchor point of given node with given mouse event, without changing 
+ * absolute position (or boundingBox) of that node.
+ *
+ * Uses mouseLocation from event & _prevMouseLocation from self.
+ *
+ * @param targetNode Node in current hierarchy that's anchorPoint must be changed.
+ *
+ * @param event NSEvent from -mouseDragged: callback.
+ */
+- (void) dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event;
+
+/** Moves at leas one of the selected nodes with given mouse event.
+ * If all selected nodes have the same parent - all selected nodes will be moved,
+ * otherwise only _nodeBeingEdited will be moved (@see nodeBeingEdited property).
+ *
+ * Uses mouseLocation from event, _prevMouseLocation & _nodeBeingDragged from self.
+ *
+ * @param event NSEvent from -mouseDragged: callback.
+ */
+- (void) moveSelectedNodesWithMouseDraggedEvent: (NSEvent *) event;
+
+#pragma mark Model
 
 /** Adds self as observer to new model, updates everything related &
  * removes self as observer from old model
