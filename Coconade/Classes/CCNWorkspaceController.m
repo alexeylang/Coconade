@@ -699,6 +699,13 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     return NO;
 }
+
+- (BOOL) isEventLocatedNearAnchorPointOfAnySelectedNode: (NSEvent *) event
+{
+    CCNode *node = [self nodeForEvent: event];
+    return [self isEvent:event locatedNearAnchorPointOfSelectedNode:node];   
+}
+
 - (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
 {	    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
