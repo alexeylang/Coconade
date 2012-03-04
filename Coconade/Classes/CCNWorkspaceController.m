@@ -881,6 +881,22 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
 {
+    // If we moving cursor near anchor indicator - change cursor for dragging it.
+    if ([self isEventLocatedNearAnchorPointOfAnySelectedNode:event])
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor crosshairCursor] set];
+         }];
+    }
+    else
+    {
+        [self performBlockOnMainThread:^
+        {
+            [[NSCursor arrowCursor] set];
+        }];
+    }
+
     return NO;
 }
 
