@@ -683,6 +683,22 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Mouse Events
 
+- (BOOL) isEvent:(NSEvent *) event locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
+{
+    if (!node)
+    {
+        return NO;
+    }
+    
+    CCNSelection *selection = [self.scene selectionForNode: node];
+    CCNode *anchorPointIndicator = selection.anchorPointIndicator;
+    if ([CCNode isEvent:event locatedInNode:anchorPointIndicator])
+    {
+        return YES;
+    }
+    
+    return NO;
+}
 - (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
 {	    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
@@ -821,10 +837,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             }
             else // This is already selected node.
             {                    
-                // If we clicked on anchor indicator - start dragging it.
-                CCNSelection *selection = [self.scene selectionForNode: node];
-                CCNode *anchorPointIndicator = selection.anchorPointIndicator;
-                if ([CCNode isEvent:event locatedInNode:anchorPointIndicator])
+                if ([self isEvent: event locatedNearAnchorPointOfSelectedNode: node])
                 {
                     _mouseState = kCCNWorkspaceMouseStateDragAnchor;
                 }
