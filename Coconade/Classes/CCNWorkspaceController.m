@@ -14,6 +14,41 @@
 #import "CCNMacGLView.h"
 #import "NSObject+Blocks.h"
 
+/** Current state of selection that is being used by mouse events.
+ * Describes what will be done on -ccMouseDrag: event. 
+ */
+enum workspaceMouseState 
+{
+    
+    kCCNWorkspaceMouseStateIdle,
+    
+    // Moving with mouse.
+    kCCNWorkspaceMouseStateMove,
+    kCCNWorkspaceMouseStateDragAnchor,
+    
+    // Scaling with mouse
+    kCCNWorkspaceMouseStateScaleTop,
+    kCCNWorkspaceMouseStateScaleBottom,
+    kCCNWorkspaceMouseStateScaleRight,
+    kCCNWorkspaceMouseStateScaleLeft,
+    kCCNWorkspaceMouseStateScaleTopRight,
+    kCCNWorkspaceMouseStateScaleTopLeft,
+    kCCNWorkspaceMouseStateScaleBottomRight,
+    kCCNWorkspaceMouseStateScaleBottomLeft,
+    
+    // Rotating with mouse.
+    kCCNWorkspaceMouseStateRotateTopRight,
+    kCCNWorkspaceMouseStateRotateTopLeft,
+    kCCNWorkspaceMouseStateRotateBottomRight,
+    kCCNWorkspaceMouseStateRotateBottomLeft,
+    
+    // Skewing with mouse.
+    kCCNWorkspaceMouseStateSkewTop,
+    kCCNWorkspaceMouseStateSkewBottom,
+    kCCNWorkspaceMouseStateSkewRight,
+    kCCNWorkspaceMouseStateSkewLeft,
+};
+
 @interface CCNWorkspaceController ()
 
 @property(readwrite, retain) CCNode *nodeBeingDragged;
@@ -645,6 +680,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 - (BOOL)ccMouseDown:(NSEvent *)event
 {	
 	CCNode *node = [self nodeForEvent:event];
+    self.nodeBeingDragged = node;
 	if(node)
 	{
         // Add nodes to selection with holding Shift.
@@ -669,26 +705,99 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             }
             else
             {
-                // TODO: change selection mode here.
+                // Default state is idle.
+                _state = kCCNWorkspaceMouseStateIdle;
+                    
+                // If we clicked on anchor indicator - start dragging it.
+                CCNSelection *selection = [self.scene selectionForNode: node];
+                CCNode *anchorPointIndicator = selection.anchorPointIndicator;
+                if ([CCNode isEvent:event locatedInNode:anchorPointIndicator])
+                {
+                    _state = kCCNWorkspaceMouseStateDragAnchor;
+                }
+                else
+                {
+                    // Drag that selected node.
+                    _state = kCCNWorkspaceMouseStateMove;
+                    
+                    // TODO: check here for this in the same order:
+                    // 
+                    // 1. Scale at corners & center of the sides.
+                    // 2. Rotate near corners
+                    // 3. Skew at sides
+                    // 4. Movement at everything else
+                    //
+                    
+                }
+                
+                
+                              
             }
         }
 		
-        self.nodeBeingDragged = node;
 	}
     else
     {
         // Deselect all nodes when clicked in free space.
         [self.model deselectAllNodes];
+        _state = kCCNWorkspaceMouseStateIdle;
     }
 	
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
-	return YES;
+	// Swallow on any action (move, scale, etc...).
+    return (_state != kCCNWorkspaceMouseStateIdle);
+}
+
+- (BOOL)ccMouseMoved:(NSEvent *)event
+{
+    return NO;
+}
+
+- (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
+{	    
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+        
+    // Prepare affine transformations here once.
+    CGAffineTransform targetParentToWorld = [targetNode.parent nodeToWorldTransform];
+    CGAffineTransform worldToTargetParent = CGAffineTransformInvert(targetParentToWorld);
+    CGAffineTransform targetToWorld = CGAffineTransformConcat([targetNode nodeToParentTransform], targetParentToWorld);
+    CGAffineTransform worldToTarget = CGAffineTransformInvert(targetToWorld);
+    
+    // Get old anchor position in scene.
+    CGSize targetSize = targetNode.contentSize;
+    CGPoint oldAnchor = targetNode.anchorPoint;
+    CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
+    CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, targetToWorld);
+    
+    // Get new position of anchor in scene coordinates.
+    CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
+    CGPoint anchorPositionInScene = ccpAdd(oldAnchorInScene, diff);        
+    
+    // Set new anchor normalized.
+    CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, worldToTarget);
+    CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
+    targetNode.anchorPoint = newAnchor;
+    
+    // Compensate position change.       
+    CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
+    CGPoint targetPositionInScene =  CGPointApplyAffineTransform(targetNode.position, targetParentToWorld);
+    targetPositionInScene = ccpAdd(targetPositionInScene, positionCompensation);
+    targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, worldToTargetParent);
+    
 }
 
 - (BOOL)ccMouseDragged:(NSEvent *)event
 {	    
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    if (_state == kCCNWorkspaceMouseStateDragAnchor)
+    {
+        [self dragAnchorOfTargetNode: self.nodeBeingDragged withMouseDraggedEvent:event];
+    }
+    else
+    {
     // Choose which nodes to drag - all selected nodes by default.
     NSArray *nodesToMove = self.model.selectedNodes;
     
@@ -709,7 +818,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     
     // Actually drag chosen nodes.
-    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	for (CCNode *node in nodesToMove)
 	{
         CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
@@ -729,8 +837,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
         // Apply new position.
         node.position = newPosition;
-	}
 	
+	}        
+    }
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
 	
@@ -739,7 +848,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseUp:(NSEvent *)event
 {	
-    // Stop dragging.
+    // Stop anything.
+    _state = kCCNWorkspaceMouseStateIdle;
     self.nodeBeingDragged = nil;
     
     // Remember previous mouse location to move node.

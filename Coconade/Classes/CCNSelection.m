@@ -10,42 +10,6 @@
 #import "TransformUtils.h"
 #import "CCNode+Helpers.h"
 
-
-/** Current state of selection that is being used by mouse events.
- * Describes what will be done on -ccMouseDrag: event. 
- */
-enum workspaceMouseState 
-{
-    
-    kCCNWorkspaceMouseStateIdle,
-    
-    // Moving with mouse.
-    kCCNWorkspaceMouseStateMove,
-    kCCNWorkspaceMouseStateDragAnchor,
-    
-    // Scaling with mouse
-    kCCNWorkspaceMouseStateScaleTop,
-    kCCNWorkspaceMouseStateScaleBottom,
-    kCCNWorkspaceMouseStateScaleRight,
-    kCCNWorkspaceMouseStateScaleLeft,
-    kCCNWorkspaceMouseStateScaleTopRight,
-    kCCNWorkspaceMouseStateScaleTopLeft,
-    kCCNWorkspaceMouseStateScaleBottomRight,
-    kCCNWorkspaceMouseStateScaleBottomLeft,
-    
-    // Rotating with mouse.
-    kCCNWorkspaceMouseStateRotateTopRight,
-    kCCNWorkspaceMouseStateRotateTopLeft,
-    kCCNWorkspaceMouseStateRotateBottomRight,
-    kCCNWorkspaceMouseStateRotateBottomLeft,
-    
-    // Skewing with mouse.
-    kCCNWorkspaceMouseStateSkewTop,
-    kCCNWorkspaceMouseStateSkewBottom,
-    kCCNWorkspaceMouseStateSkewRight,
-    kCCNWorkspaceMouseStateSkewLeft,
-};
-
 @interface CCNSelection (ModeElements)
 
 /** Prepares 8 scale elements for all sides & corners of the selection & adds them as children. */
@@ -365,95 +329,6 @@ enum workspaceMouseState
     _rotateRightBottom = nil;
     
     [super onExit];
-}
-
-#pragma mark Mouse Events
-
-- (BOOL)ccMouseUp:(NSEvent *)event
-{
-    // Stop anything.
-    _state = kCCNWorkspaceMouseStateIdle;
-    
-    // Remember previous mouse location to move node.
-	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-	
-	return NO;
-}
-
-- (BOOL)ccMouseDown:(NSEvent *)event
-{	
-    // Default state is idle.
-    _state = NO;
-    
-    // If we clicked on anchor indicator - start dragging it.
-    if ([CCNode isEvent:event locatedInNode:_anchor])
-    {
-        _state = kCCNWorkspaceMouseStateDragAnchor;
-    }
-    else if (NO)
-    {
-        // TODO: check here for this in the same order:
-        // 
-        // 1. Scale at corners & center of the sides.
-        // 2. Rotate near corners
-        // 3. Skew at sides
-        // 4. Movement at everything else
-        //
-        
-    } else if (NO)
-    {
-    }
-
-    // Remember previous mouse location to move anchor.
-	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-	
-    // Swallow on any action (move, scale, etc...).
-	return (_state != kCCNWorkspaceMouseStateIdle);
-}
-
-- (BOOL)ccMouseMoved:(NSEvent *)event
-{
-    return NO;
-}
-
-- (BOOL)ccMouseDragged:(NSEvent *)event
-{	    
-    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-    if (_state == kCCNWorkspaceMouseStateDragAnchor)
-    {
-        // Prepare affine transformations here once.
-        CGAffineTransform targetParentToWorld = [_targetNode.parent nodeToWorldTransform];
-        CGAffineTransform worldToTargetParent = CGAffineTransformInvert(targetParentToWorld);
-        CGAffineTransform targetToWorld = CGAffineTransformConcat([_targetNode nodeToParentTransform], targetParentToWorld);
-        CGAffineTransform worldToTarget = CGAffineTransformInvert(targetToWorld);
-        
-        // Get old anchor position in scene.
-        CGSize targetSize = _targetNode.contentSize;
-        CGPoint oldAnchor = _targetNode.anchorPoint;
-        CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
-        CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, targetToWorld);
-        
-        // Get new position of anchor in scene coordinates.
-        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
-        CGPoint anchorPositionInScene = ccpAdd(oldAnchorInScene, diff);        
-        
-        // Set new anchor normalized.
-        CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, worldToTarget);
-        CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
-        _targetNode.anchorPoint = newAnchor;
-        
-        // Compensate position change.       
-        CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
-        CGPoint targetPositionInScene =  CGPointApplyAffineTransform(_targetNode.position, targetParentToWorld);
-        targetPositionInScene = ccpAdd(targetPositionInScene, positionCompensation);
-        _targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, worldToTargetParent);
-    }
-	
-    // Remember previous mouse location to move node.
-	_prevMouseLocation = mouseLocation;
-	
-    // Swallow on any action (move, scale, etc...).
-	return (_state != kCCNWorkspaceMouseStateIdle);
 }
 
 @end

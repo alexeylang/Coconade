@@ -26,6 +26,7 @@
     
     // Dragging nodes.
     CCNode *_nodeBeingDragged;
+    int _state;    
 }
 
 /** Property to hold glView, provided from outside. */
