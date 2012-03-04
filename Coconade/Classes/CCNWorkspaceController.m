@@ -702,6 +702,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             {
                 [self.model deselectAllNodes];
                 [self.model selectNode: node];
+                
+                // Allow to start dragging selected node immediately.
+                self.nodeBeingDragged = node;
             }
             else
             {
