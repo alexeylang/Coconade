@@ -69,6 +69,9 @@ enum CCNSelectionMode
  */
 @property(readwrite, retain) CCNode *targetNode;
 
+/** Returns node, that is positioned at targetNode's anchorPoint. */
+@property(readonly, retain) CCNode *anchorPointIndicator;
+
 /** Changes selection mode to next, if already last mode is used - starts again from first. */
 - (void) toggleMode;
 

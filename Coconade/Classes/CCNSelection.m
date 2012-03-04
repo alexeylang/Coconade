@@ -69,6 +69,7 @@ enum workspaceMouseState
 @implementation CCNSelection
 
 @synthesize targetNode = _targetNode;
+@synthesize anchorPointIndicator = _anchor;
 
 #pragma mark Init/DeInit
 
