@@ -31,16 +31,6 @@
     CCSprite *_elementLeftBottom;
     CCSprite *_elementBottom;
     CCSprite *_elementRightBottom;
-    
-    // Rotate/Skew mode elements (weak refs to children).
-    CCSprite *_skewRight;
-    CCSprite *_rotateRightTop;
-    CCSprite *_skewTop;
-    CCSprite *_rotateLeftTop;
-    CCSprite *_skewLeft;
-    CCSprite *_rotateLeftBottom;
-    CCSprite *_skewBottom;
-    CCSprite *_rotateRightBottom;
 }
 
 /** Node that will be highlated by CCNSelection.

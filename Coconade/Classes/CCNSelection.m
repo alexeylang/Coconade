@@ -269,14 +269,6 @@
     _elementLeftBottom = nil;
     _elementBottom = nil;
     _elementRightBottom = nil;
-    _skewRight = nil;
-    _rotateRightTop = nil;
-    _skewTop = nil;
-    _rotateLeftTop = nil;
-    _skewLeft = nil;
-    _rotateLeftBottom = nil;
-    _skewBottom = nil;
-    _rotateRightBottom = nil;
     
     [super onExit];
 }
