@@ -11,6 +11,19 @@
 @class NSEvent;
 @interface CCNode (Helpers)
 
+/** Checks is given point in screen coordinates is inside of given node.
+ * Location gets transformed to node's coordinate system, so all node
+ * transformations (including rotate, scale, skew, etc) are taken into account.
+ *
+ * @param screenPoint Position of mouse in screen coordinates. Could be taken from 
+ * [NSEvent mouseLocation] for example.
+ *
+ * @param node CCNode to compare against screenPoint.
+ *
+ * @return YES if point is located inside of node, NO otherwise.
+ */
++ (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node;
+
 /** Checks is given event location is inside of given node.
  * Location gets transformed to node's coordinate system, so all node
  * transformations (including rotate, scale, skew, etc) are taken into account.
