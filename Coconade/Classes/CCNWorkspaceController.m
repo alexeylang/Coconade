@@ -610,6 +610,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Events
 
+- (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint
+{
+    for (CCNode *node in self.model.currentNodes)
+    {
+        if ( [CCNode isScreenPoint:screenPoint locatedInNode:node] )
+            return node;
+    }
+    
+    return nil;
+}
+
 /** Returns node in current hierarchy, that correpsonds to given event's location.
  * If there's no such node for given event - returns nil.
  */
