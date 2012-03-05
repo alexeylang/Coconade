@@ -9,16 +9,37 @@
 #import "CCNode+Helpers.h"
 #import "cocos2d.h"
 
-@implementation CCNode (Helpers)
+@interface CCDirectorMac (ScreenPointExtension)
 
-+ (BOOL)isEvent: (NSEvent *)event locatedInNode: (CCNode *) node
+- (CGPoint) convertScreenPointToGL: (NSPoint) screenPoint;
+
+@end
+
+@implementation CCDirectorMac (ScreenPointExtension)
+
+- (CGPoint) convertScreenPointToGL: (NSPoint) screenPoint
 {
-    CGPoint eventLocationInGL = [[CCDirector sharedDirector] convertEventToGL:event];
-    CGPoint eventLocationInNode = [node convertToNodeSpace: eventLocationInGL];
-    CGRect nodeRect = CGRectMake(0, 0, node.contentSize.width, node.contentSize.height);
-    return CGRectContainsPoint(nodeRect, eventLocationInNode);
+    CCDirectorMac *director = (CCDirectorMac *)[CCDirector sharedDirector];
+    NSView *glView = [director openGLView];
+    NSWindow *window = [glView window];
+    NSPoint point =  [window convertScreenToBase: screenPoint];
+    point = [glView convertPoint: point fromView:nil];
+	CGPoint p = NSPointToCGPoint(point);
+	
+	return  [director convertToLogicalCoordinates:p];
 }
 
+@end
+
+@implementation CCNode (Helpers)
+
++ (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node
+{
+    CGPoint pointInGL = [(CCDirectorMac *)[CCDirector sharedDirector] convertScreenPointToGL: screenPoint];
+    CGPoint pointInNode = [node convertToNodeSpace: pointInGL];
+    CGRect nodeRect = CGRectMake(0, 0, node.contentSize.width, node.contentSize.height);
+    return CGRectContainsPoint(nodeRect, pointInNode);
+}
 
 // TODO: think, should we use that andrews shit here:
     // make the key alphanumerical + underscore

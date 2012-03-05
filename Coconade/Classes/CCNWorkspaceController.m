@@ -58,6 +58,15 @@ enum workspaceMouseState
  */
 @property(readwrite, retain) CCNode *nodeBeingEdited;
 
+/** Updates cursor to the one that is corresponding to current mouse state
+ * (Location & Pressed Buttons).
+ * All info about mouse is get through NSEvent class methods (+mouseLocation, +pressedMouseButtons, etc).
+ * So there's no arguments for this method.
+ * 
+ * Call this method anytime when cursor can be changed (i.e. adding node, rotating node, selecting node, etc).
+ */
+- (void) updateCursor;
+
 /** Changes anchor point of given node with given mouse event, without changing 
  * absolute position (or boundingBox) of that node.
  *
@@ -106,6 +115,11 @@ enum workspaceMouseState
 - (NSArray *) filterFiles: (NSArray *) files withAllowedFileTypes: (NSArray *) allowedFileTypes;
 
 #pragma mark Events Support
+
+/** Returns node in current hierarchy, that correpsonds to given location in screen coordinates.
+ * If there's no such node for given event - returns nil.
+ */
+- (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint;
 
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
@@ -350,6 +364,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             [self.scene updateForScreenReshape];
         }
     }
+    
+    // Update cursor on any model update - new model, new added node, changed selection, etc...
+    [self updateCursor];
 }
 
 #pragma mark - Edit Menu
@@ -510,6 +527,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // TODO: register problem.
     }
 
+    // Update cursors when adding nodes.
+    // XXX: later when we will KVO currentNodes in model - this should be moved there.
+    [self updateCursor];
 }
 
 - (void)importSpritesWithFiles: (NSArray *) filenames withPositionInScene: (CGPoint) positionInScene
@@ -610,14 +630,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Events
 
-/** Returns node in current hierarchy, that correpsonds to given event's location.
- * If there's no such node for given event - returns nil.
- */
-- (CCNode *)nodeForEvent:(NSEvent *)event
+- (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint
 {
     for (CCNode *node in self.model.currentNodes)
     {
-        if ( [CCNode isEvent:event locatedInNode:node] )
+        if ( [CCNode isScreenPoint:screenPoint locatedInNode:node] )
             return node;
     }
     
@@ -650,6 +667,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         result = YES;
 	}
     
+    [self updateCursor];
+    
     return result;
 }
 
@@ -678,12 +697,14 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         result = YES;
 	}
     
+    [self updateCursor];
+    
     return result;
 }
 
 #pragma mark - Mouse Events
 
-- (BOOL) isEvent:(NSEvent *) event locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
+- (BOOL) isScreenPoint:(NSPoint) screenPoint locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
 {
     if (!node)
     {
@@ -692,7 +713,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     CCNSelection *selection = [self.scene selectionForNode: node];
     CCNode *anchorPointIndicator = selection.anchorPointIndicator;
-    if ([CCNode isEvent:event locatedInNode:anchorPointIndicator])
+    if ([CCNode isScreenPoint:screenPoint locatedInNode:anchorPointIndicator])
     {
         return YES;
     }
@@ -700,10 +721,47 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return NO;
 }
 
-- (BOOL) isEventLocatedNearAnchorPointOfAnySelectedNode: (NSEvent *) event
+- (void) updateCursor
 {
-    CCNode *node = [self nodeForEvent: event];
-    return [self isEvent:event locatedNearAnchorPointOfSelectedNode:node];   
+    NSPoint mouseLocationInScreen = [NSEvent mouseLocation];
+    NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
+    CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
+    if (node)
+    {
+        // If we moving cursor near anchor indicator - change cursor for dragging it.
+        if ([self isScreenPoint: mouseLocationInScreen locatedNearAnchorPointOfSelectedNode: node])
+        {
+            [self performBlockOnMainThread:^
+             {
+                 [[NSCursor crosshairCursor] set];
+             }];
+        }
+        else // if we moving cursor on node, but not near selection element.
+        {
+            if ( mouseButtons & 1 )
+            {
+                [self performBlockOnMainThread:^
+                 {
+                     [[NSCursor closedHandCursor] set];
+                 }];
+            }
+            else
+            {
+                [self performBlockOnMainThread:^
+                 {
+                     [[NSCursor openHandCursor] set];
+                 }];
+            }
+            
+        }
+    }    
+    else
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor arrowCursor] set];
+         }];
+    }
 }
 
 - (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
@@ -814,7 +872,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Default state is idle.
     _mouseState = kCCNWorkspaceMouseStateIdle;
     
-	CCNode *node = [self nodeForEvent:event];
+    NSPoint screenPoint = [[event window] convertBaseToScreen:[event locationInWindow]];
+	CCNode *node = [self nodeForScreenPoint: screenPoint ];
     self.nodeBeingEdited = node;
 	if(node)
 	{
@@ -844,7 +903,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             }
             else // This is already selected node.
             {                    
-                if ([self isEvent: event locatedNearAnchorPointOfSelectedNode: node])
+                if ([self isScreenPoint: screenPoint locatedNearAnchorPointOfSelectedNode: node])
                 {
                     _mouseState = kCCNWorkspaceMouseStateDragAnchor;
                 }
@@ -871,6 +930,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // Deselect all nodes when clicked in free space.
         [self.model deselectAllNodes];
     }
+    
+    // Update cursor.
+    [self updateCursor];
 	
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
@@ -881,32 +943,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
 {
-    CCNode *node = [self nodeForEvent: event];
-    if (node)
-    {
-        // If we moving cursor near anchor indicator - change cursor for dragging it.
-        if ([self isEvent: event locatedNearAnchorPointOfSelectedNode: node])
-        {
-            [self performBlockOnMainThread:^
-             {
-                 [[NSCursor crosshairCursor] set];
-             }];
-        }
-        else // if we moving cursor on node, but not near selection element.
-        {
-            [self performBlockOnMainThread:^
-             {
-                 [[NSCursor openHandCursor] set];
-             }];
-        }
-    }    
-    else
-    {
-        [self performBlockOnMainThread:^
-        {
-            [[NSCursor arrowCursor] set];
-        }];
-    }
+    // Update cursor.
+    [self updateCursor];
 
     return NO;
 }
@@ -921,12 +959,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     else if (_mouseState == kCCNWorkspaceMouseStateMove)
     {
-        [self performBlockOnMainThread:^
-         {
-             [[NSCursor closedHandCursor] set];
-         }];
         [self moveSelectedNodesWithMouseDraggedEvent: event];
     }
+    
+    // Update cursor.
+    [self updateCursor];
     
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
@@ -943,6 +980,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
+    // Update cursor.
+    [self updateCursor];
+    
 	return YES;
 }
 
@@ -953,13 +993,15 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	NSUInteger modifiers = [event modifierFlags];
 	unsigned short keyCode = [event keyCode];
 	
+    BOOL result = NO;
+    
 	// Deleting nodes from hierarchy.
 	switch(keyCode)
 	{
 		case kCCNKeyCodeBackspace:
 		case kCCNKeyCodeDelete:
 			[self deleteSelected];
-			return YES;
+			result = YES;
 		default:
 			break;
 	}
@@ -976,27 +1018,31 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x - increment, node.anchorPoint.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x + increment, node.anchorPoint.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y - increment );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y + increment );
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+                break;
 		}		
 	}
 	else if (modifiers & NSControlKeyMask) //< If ctrl key is pressed - rotate sprite.
@@ -1010,15 +1056,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.rotation -= increment;
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.rotation += increment;
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+				break;
 		}
 	}
 	else //< No ALT/Option nor CTRL pressed - move node with arrows & change it's zOrder with PgUp/PgDown.
@@ -1033,25 +1081,29 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.position = ccp( node.position.x - positionIncrement, node.position.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x + positionIncrement, node.position.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x, node.position.y - positionIncrement );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x, node.position.y + positionIncrement );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodePageUp:
                 for (CCNode *node in self.model.selectedNodes)
                 {
@@ -1065,7 +1117,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                     }
                 }
 				
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodePageDown:
                 for (CCNode *node in self.model.selectedNodes)
                 {
@@ -1078,13 +1131,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                         [node setValue:[NSNumber numberWithInteger: node.zOrder - zOrderIncrement] forKey:@"zOrder_"];
                     }
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+				break;
 		}
 	}
+    
+    // Update cursor.
+    [self updateCursor];
 	
-	return NO;
+	return result;
 }
 
 @end
