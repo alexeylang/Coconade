@@ -527,6 +527,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // TODO: register problem.
     }
 
+    // Update cursors when adding nodes.
+    // XXX: later when we will KVO currentNodes in model - this should be moved there.
+    [self updateCursor];
 }
 
 - (void)importSpritesWithFiles: (NSArray *) filenames withPositionInScene: (CGPoint) positionInScene
