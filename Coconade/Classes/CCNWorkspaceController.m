@@ -881,14 +881,25 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
 {
-    // If we moving cursor near anchor indicator - change cursor for dragging it.
-    if ([self isEventLocatedNearAnchorPointOfAnySelectedNode:event])
+    CCNode *node = [self nodeForEvent: event];
+    if (node)
     {
-        [self performBlockOnMainThread:^
-         {
-             [[NSCursor crosshairCursor] set];
-         }];
-    }
+        // If we moving cursor near anchor indicator - change cursor for dragging it.
+        if ([self isEvent: event locatedNearAnchorPointOfSelectedNode: node])
+        {
+            [self performBlockOnMainThread:^
+             {
+                 [[NSCursor crosshairCursor] set];
+             }];
+        }
+        else // if we moving cursor on node, but not near selection element.
+        {
+            [self performBlockOnMainThread:^
+             {
+                 [[NSCursor openHandCursor] set];
+             }];
+        }
+    }    
     else
     {
         [self performBlockOnMainThread:^
@@ -910,6 +921,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     else if (_mouseState == kCCNWorkspaceMouseStateMove)
     {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor closedHandCursor] set];
+         }];
         [self moveSelectedNodesWithMouseDraggedEvent: event];
     }
     
