@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CCNSeparatorCell : NSObject
+@interface CCNSeparatorCell : NSTextFieldCell
 
 @end
