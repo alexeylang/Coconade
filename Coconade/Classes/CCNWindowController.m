@@ -564,7 +564,7 @@
                                              splitView.frame.size.height);
 }
 
-#pragma mark NSView Animation
+#pragma mark View Animation
 
 - (void)animateView:(NSView *)view withTargetFrame:(NSRect)frame delay:(NSTimeInterval)delay
 {    
