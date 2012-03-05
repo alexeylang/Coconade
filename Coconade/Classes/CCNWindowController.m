@@ -14,6 +14,8 @@
 #import "CCNScene.h"
 #import "OSVersionHelper.h"
 #import "CCNImageTextCell.h"
+#import "CCNSeparatorCell.h"
+#import "CCNModel.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -570,6 +572,76 @@
 	[[NSAnimationContext currentContext] setDuration:delay];
 	[[view animator] setFrame: frame];
 	[NSAnimationContext endGrouping];
+}
+
+#pragma mark OutlineView Delegate
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
+{
+    return YES;
+}
+
+- (NSCell *)outlineView:(NSOutlineView *)outlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    NSCell *returnCell = [tableColumn dataCell];
+    return returnCell;
+}
+
+- (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell*)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{	 
+	if ([[tableColumn identifier] isEqualToString:kCCNWindowControllerModelOutlineTableColumnIdentifier])
+	{
+		if ([cell isKindOfClass:[CCNImageTextCell class]])
+		{
+            [cell setTitle:NSStringFromClass([item class])];
+        }
+    }
+}
+
+#pragma mark OutlineView DataSource
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+{
+    if ( item )
+    {
+        CCNode *itemNode = (CCNode *)item;
+        return [itemNode.children objectAtIndex:index];
+    }
+    else
+    {
+        return [self.workspaceController.model.rootNodes objectAtIndex:index];
+    }
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+    return YES;
+}
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+{
+    if ( item )
+    {
+        CCNode *itemNode = (CCNode *)item;
+        return itemNode.children.count;
+    }
+    else
+    {
+        return self.workspaceController.model.rootNodes.count;
+    }
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
+    if ( item )
+    {
+        CCNode *itemNode = (CCNode *)item;
+        return itemNode.name;
+    }
+    else
+    {
+        return nil;
+    }
 }
 
 #pragma mark Toolbar Delegate

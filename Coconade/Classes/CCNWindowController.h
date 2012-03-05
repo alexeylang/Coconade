@@ -16,7 +16,7 @@
 /** @class CCNWindowController controller for Coconade window and its subviews. 
  * Contains all logic of creating, setup and work menus, toolbars, views, etc.
  */
-@interface CCNWindowController : NSWindowController <NSToolbarDelegate, NSSplitViewDelegate>
+@interface CCNWindowController : NSWindowController <NSToolbarDelegate, NSSplitViewDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
     CCNWorkspaceController *_workspaceController;
     NSSplitView *_mainSplitView;
