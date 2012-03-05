@@ -899,6 +899,15 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     _mouseState = kCCNWorkspaceMouseStateIdle;
     
     NSPoint screenPoint = [[event window] convertBaseToScreen:[event locationInWindow]];
+    
+    self.nodeBeingEdited = [self selectedNodeWithAnchorPointNearScreenPoint: screenPoint ];
+    if (self.nodeBeingEdited)
+    {
+        _mouseState = kCCNWorkspaceMouseStateDragAnchor;
+    }
+    else
+    {
+    
 	CCNode *node = [self nodeForScreenPoint: screenPoint ];
     self.nodeBeingEdited = node;
 	if(node)
@@ -929,11 +938,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             }
             else // This is already selected node.
             {                    
-                if ([self isScreenPoint: screenPoint locatedNearAnchorPointOfSelectedNode: node])
-                {
-                    _mouseState = kCCNWorkspaceMouseStateDragAnchor;
-                }
-                else
                 {
                     // Drag that selected node.
                     _mouseState = kCCNWorkspaceMouseStateMove;
@@ -955,6 +959,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         // Deselect all nodes when clicked in free space.
         [self.model deselectAllNodes];
+    }
     }
     
     // Update cursor.
