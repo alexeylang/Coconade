@@ -704,6 +704,21 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Mouse Events
 
+- (BOOL) isScreenPointLocatedNearAnchorPointOfAnySelectedNode:(NSPoint) screenPoint 
+{
+    for ( CCNode *node in self.model.selectedNodes )
+    {
+        CCNSelection *selection = [self.scene selectionForNode: node];
+        CCNode *anchorPointIndicator = selection.anchorPointIndicator;
+        if ([CCNode isScreenPoint:screenPoint locatedInNode:anchorPointIndicator])
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (BOOL) isScreenPoint:(NSPoint) screenPoint locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
 {
     if (!node)
@@ -725,18 +740,22 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     NSPoint mouseLocationInScreen = [NSEvent mouseLocation];
     NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
+    
+    // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
+    if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self isScreenPointLocatedNearAnchorPointOfAnySelectedNode: mouseLocationInScreen])
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor crosshairCursor] set];
+         }];
+        return;
+    }
+    
+    // If we moving cursor on node, but not near selection element.
     CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
     if (node)
     {
-        // If we moving cursor near anchor indicator - change cursor for dragging it.
-        if ([self isScreenPoint: mouseLocationInScreen locatedNearAnchorPointOfSelectedNode: node])
-        {
-            [self performBlockOnMainThread:^
-             {
-                 [[NSCursor crosshairCursor] set];
-             }];
-        }
-        else // if we moving cursor on node, but not near selection element.
+        
         {
             if ( mouseButtons & 1 )
             {
