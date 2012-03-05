@@ -677,6 +677,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         result = YES;
 	}
     
+    [self updateCursor];
+    
     return result;
 }
 
@@ -704,6 +706,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
         result = YES;
 	}
+    
+    [self updateCursor];
     
     return result;
 }
@@ -958,6 +962,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // Deselect all nodes when clicked in free space.
         [self.model deselectAllNodes];
     }
+    
+    // Update cursor.
+    [self updateCursor];
 	
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
@@ -1005,6 +1012,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
+    // Update cursor.
+    [self updateCursor];
+    
 	return YES;
 }
 
@@ -1015,13 +1025,15 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	NSUInteger modifiers = [event modifierFlags];
 	unsigned short keyCode = [event keyCode];
 	
+    BOOL result = NO;
+    
 	// Deleting nodes from hierarchy.
 	switch(keyCode)
 	{
 		case kCCNKeyCodeBackspace:
 		case kCCNKeyCodeDelete:
 			[self deleteSelected];
-			return YES;
+			result = YES;
 		default:
 			break;
 	}
@@ -1038,27 +1050,31 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x - increment, node.anchorPoint.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x + increment, node.anchorPoint.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y - increment );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y + increment );
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+                break;
 		}		
 	}
 	else if (modifiers & NSControlKeyMask) //< If ctrl key is pressed - rotate sprite.
@@ -1072,15 +1088,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.rotation -= increment;
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.rotation += increment;
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+				break;
 		}
 	}
 	else //< No ALT/Option nor CTRL pressed - move node with arrows & change it's zOrder with PgUp/PgDown.
@@ -1095,25 +1113,29 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.position = ccp( node.position.x - positionIncrement, node.position.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x + positionIncrement, node.position.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x, node.position.y - positionIncrement );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x, node.position.y + positionIncrement );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodePageUp:
                 for (CCNode *node in self.model.selectedNodes)
                 {
@@ -1127,7 +1149,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                     }
                 }
 				
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodePageDown:
                 for (CCNode *node in self.model.selectedNodes)
                 {
@@ -1140,13 +1163,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                         [node setValue:[NSNumber numberWithInteger: node.zOrder - zOrderIncrement] forKey:@"zOrder_"];
                     }
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+				break;
 		}
 	}
+    
+    // Update cursor.
+    [self updateCursor];
 	
-	return NO;
+	return result;
 }
 
 @end
