@@ -369,6 +369,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             [self.scene updateForScreenReshape];
         }
     }
+    
+    // Update cursor on any model update - new model, new added node, changed selection, etc...
+    [self updateCursor];
 }
 
 #pragma mark - Edit Menu
