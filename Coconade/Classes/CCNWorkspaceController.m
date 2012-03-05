@@ -121,11 +121,6 @@ enum workspaceMouseState
  */
 - (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint;
 
-/** Returns node in current hierarchy, that correpsonds to given event's location.
- * If there's no such node for given event - returns nil.
- */
-- (CCNode *) nodeForEvent:(NSEvent *)event;
-
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
 
@@ -643,17 +638,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return nil;
 }
 
-- (CCNode *)nodeForEvent:(NSEvent *)event
-{
-    for (CCNode *node in self.model.currentNodes)
-    {
-        if ( [CCNode isEvent:event locatedInNode:node] )
-            return node;
-    }
-    
-    return nil;
-}
-
 #pragma mark - Trackpad Gestures Events
 
 /** Trackpad's PinchIn/PinchOut Gesture event handler
@@ -732,29 +716,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     
     return NO;
-}
-
-- (BOOL) isEvent:(NSEvent *) event locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
-{
-    if (!node)
-    {
-        return NO;
-    }
-    
-    CCNSelection *selection = [self.scene selectionForNode: node];
-    CCNode *anchorPointIndicator = selection.anchorPointIndicator;
-    if ([CCNode isEvent:event locatedInNode:anchorPointIndicator])
-    {
-        return YES;
-    }
-    
-    return NO;
-}
-
-- (BOOL) isEventLocatedNearAnchorPointOfAnySelectedNode: (NSEvent *) event
-{
-    CCNode *node = [self nodeForEvent: event];
-    return [self isEvent:event locatedNearAnchorPointOfSelectedNode:node];   
 }
 
 - (void) updateCursor
@@ -908,7 +869,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Default state is idle.
     _mouseState = kCCNWorkspaceMouseStateIdle;
     
-	CCNode *node = [self nodeForEvent:event];
+    NSPoint screenPoint = [[event window] convertBaseToScreen:[event locationInWindow]];
+	CCNode *node = [self nodeForScreenPoint: screenPoint ];
     self.nodeBeingEdited = node;
 	if(node)
 	{
@@ -938,7 +900,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             }
             else // This is already selected node.
             {                    
-                if ([self isEvent: event locatedNearAnchorPointOfSelectedNode: node])
+                if ([self isScreenPoint: screenPoint locatedNearAnchorPointOfSelectedNode: node])
                 {
                     _mouseState = kCCNWorkspaceMouseStateDragAnchor;
                 }
