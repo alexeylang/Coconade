@@ -121,6 +121,13 @@ enum workspaceMouseState
  */
 - (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint;
 
+/** Searches through selected nodes to fine the one, that have anchorPoint indicator
+ * near given screenPoint.
+ *
+ * @return Finded selected node with such anchorPoint or nil otherwise.
+ */
+- (CCNode *) selectedNodeWithAnchorPointNearScreenPoint:(NSPoint) screenPoint;
+
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
 
@@ -704,7 +711,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Mouse Events
 
-- (BOOL) isScreenPointLocatedNearAnchorPointOfAnySelectedNode:(NSPoint) screenPoint 
+- (CCNode *) selectedNodeWithAnchorPointNearScreenPoint:(NSPoint) screenPoint 
 {
     for ( CCNode *node in self.model.selectedNodes )
     {
@@ -712,11 +719,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         CCNode *anchorPointIndicator = selection.anchorPointIndicator;
         if ([CCNode isScreenPoint:screenPoint locatedInNode:anchorPointIndicator])
         {
-            return YES;
+            return node;
         }
     }
     
-    return NO;
+    return nil;
 }
 
 - (BOOL) isScreenPoint:(NSPoint) screenPoint locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
@@ -742,7 +749,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
     
     // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
-    if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self isScreenPointLocatedNearAnchorPointOfAnySelectedNode: mouseLocationInScreen])
+    if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self selectedNodeWithAnchorPointNearScreenPoint: mouseLocationInScreen])
     {
         [self performBlockOnMainThread:^
          {
