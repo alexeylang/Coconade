@@ -107,6 +107,16 @@ enum workspaceMouseState
 
 #pragma mark Events Support
 
+/** Returns node in current hierarchy, that correpsonds to given location in screen coordinates.
+ * If there's no such node for given event - returns nil.
+ */
+- (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint;
+
+/** Returns node in current hierarchy, that correpsonds to given event's location.
+ * If there's no such node for given event - returns nil.
+ */
+- (CCNode *) nodeForEvent:(NSEvent *)event;
+
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
 
@@ -621,9 +631,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return nil;
 }
 
-/** Returns node in current hierarchy, that correpsonds to given event's location.
- * If there's no such node for given event - returns nil.
- */
 - (CCNode *)nodeForEvent:(NSEvent *)event
 {
     for (CCNode *node in self.model.currentNodes)
