@@ -378,14 +378,24 @@
     // Create and setup model outline view
     NSRect modelOutlineFrame = leftFrame;
     self.modelOutlineView = [[[NSOutlineView alloc] initWithFrame:modelOutlineFrame] autorelease];
+    self.modelOutlineView.columnAutoresizingStyle = NSTableViewLastColumnOnlyAutoresizingStyle;
+    self.modelOutlineView.columnAutoresizingStyle = NSTableViewLastColumnOnlyAutoresizingStyle;
+    self.modelOutlineView.autoresizesOutlineColumn = YES;
+    self.modelOutlineView.indentationMarkerFollowsCell = YES;
+    self.modelOutlineView.indentationPerLevel = 16.0f;
+    self.modelOutlineView.autoresizesSubviews = YES;
+    self.modelOutlineView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    self.modelOutlineView.rowHeight = 10.0f;
+    self.modelOutlineView.intercellSpacing = NSMakeSize(3.0f, 2.0f);
     NSTableColumn *tableColumn = [[[NSTableColumn alloc] initWithIdentifier:kCCNWindowControllerModelOutlineTableColumnIdentifier] autorelease];
-    [self.modelOutlineView setOutlineTableColumn:tableColumn];
 	CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
-	[imageTextCell setEditable:YES];
-	[tableColumn setDataCell:imageTextCell];
-	[[[self.modelOutlineView enclosingScrollView] verticalScroller] setFloatValue:0.0];
-	[[[self.modelOutlineView enclosingScrollView] contentView] scrollToPoint:NSMakePoint(0,0)];
-	[self.modelOutlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
+	imageTextCell.editable = YES;
+	tableColumn.dataCell = imageTextCell;
+    [self.modelOutlineView addTableColumn:tableColumn];
+    self.modelOutlineView.outlineTableColumn = tableColumn;    
+    
+    self.modelOutlineView.delegate = self;
+    self.modelOutlineView.dataSource = self;
     [self.leftView addSubview:self.modelOutlineView];
 
     // Create and setup center scroll view
