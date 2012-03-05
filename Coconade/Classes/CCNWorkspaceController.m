@@ -984,12 +984,11 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     else if (_mouseState == kCCNWorkspaceMouseStateMove)
     {
-        [self performBlockOnMainThread:^
-         {
-             [[NSCursor closedHandCursor] set];
-         }];
         [self moveSelectedNodesWithMouseDraggedEvent: event];
     }
+    
+    // Update cursor.
+    [self updateCursor];
     
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
