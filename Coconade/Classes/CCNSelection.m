@@ -101,17 +101,6 @@
     CGSize size = [_targetNode contentSize];
     CGAffineTransform transform = [_targetNode nodeToWorldTransform];
     
-<<<<<<< HEAD
-    // Position.    
-    _scaleRight.position = CGPointApplyAffineTransform( ccp(size.width+0.5f * _scaleRight.contentSize.width, 0.5f * size.height), transform );
-    _scaleRightTop.position = CGPointApplyAffineTransform( ccp(size.width+0.5f * _scaleRightTop.contentSize.width, size.height+0.5f * _scaleRightTop.contentSize.width), transform );
-    _scaleTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height+0.5f * _scaleTop.contentSize.height), transform );
-    _scaleLeftTop.position = CGPointApplyAffineTransform( ccp(0-0.5f * _scaleLeftTop.contentSize.width, size.height+0.5f * _scaleLeftTop.contentSize.height), transform );
-    _scaleLeft.position = CGPointApplyAffineTransform( ccp(-0.5f * _scaleLeft.contentSize.width, 0.5f* size.height), transform );
-    _scaleLeftBottom.position = CGPointApplyAffineTransform( ccp(-0.5f * _scaleLeftBottom.contentSize.width, -0.5f * _scaleLeftBottom.contentSize.height), transform );
-    _scaleBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, -0.5f * _scaleBottom.contentSize.height), transform );
-    _scaleRightBottom.position = CGPointApplyAffineTransform( ccp(size.width+0.5f * _scaleRightBottom.contentSize.width, -0.5f * _scaleRightBottom.contentSize.height), transform );
-=======
     // Position.
     _elementRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
     _elementRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
@@ -121,7 +110,6 @@
     _elementLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
     _elementBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
     _elementRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
->>>>>>> experimental-CCNSelection-squaresInsteadOfArrows
     
     // Rotate.
     CGFloat rotation = CC_RADIANS_TO_DEGREES( -atanf(transform.b / transform.a) );    
