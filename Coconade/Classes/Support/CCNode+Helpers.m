@@ -41,15 +41,6 @@
     return CGRectContainsPoint(nodeRect, pointInNode);
 }
 
-+ (BOOL)isEvent: (NSEvent *)event locatedInNode: (CCNode *) node
-{
-    CGPoint eventLocationInGL = [[CCDirector sharedDirector] convertEventToGL:event];
-    CGPoint eventLocationInNode = [node convertToNodeSpace: eventLocationInGL];
-    CGRect nodeRect = CGRectMake(0, 0, node.contentSize.width, node.contentSize.height);
-    return CGRectContainsPoint(nodeRect, eventLocationInNode);
-}
-
-
 // TODO: think, should we use that andrews shit here:
     // make the key alphanumerical + underscore
     // NSCharacterSet *charactersToKeep = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"];
