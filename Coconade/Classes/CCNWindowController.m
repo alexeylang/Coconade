@@ -383,7 +383,7 @@
 	[[[self.modelOutlineView enclosingScrollView] verticalScroller] setFloatValue:0.0];
 	[[[self.modelOutlineView enclosingScrollView] contentView] scrollToPoint:NSMakePoint(0,0)];
 	[self.modelOutlineView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
-    [self.mainSplitView addSubview:self.modelOutlineView];
+    [self.leftView addSubview:self.modelOutlineView];
 
     // Create and setup center scroll view
     NSRect centerFrame = NSMakeRect(0.0f, 
