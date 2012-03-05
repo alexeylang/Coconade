@@ -58,6 +58,15 @@ enum workspaceMouseState
  */
 @property(readwrite, retain) CCNode *nodeBeingEdited;
 
+/** Updates cursor to the one that is corresponding to current mouse state
+ * (Location & Pressed Buttons).
+ * All info about mouse is get through NSEvent class methods (+mouseLocation, +pressedMouseButtons, etc).
+ * So there's no arguments for this method.
+ * 
+ * Call this method anytime when cursor can be changed (i.e. adding node, rotating node, selecting node, etc).
+ */
+- (void) updateCursor;
+
 /** Changes anchor point of given node with given mouse event, without changing 
  * absolute position (or boundingBox) of that node.
  *
@@ -701,6 +710,23 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Mouse Events
 
+- (BOOL) isScreenPoint:(NSPoint) screenPoint locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
+{
+    if (!node)
+    {
+        return NO;
+    }
+    
+    CCNSelection *selection = [self.scene selectionForNode: node];
+    CCNode *anchorPointIndicator = selection.anchorPointIndicator;
+    if ([CCNode isScreenPoint:screenPoint locatedInNode:anchorPointIndicator])
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (BOOL) isEvent:(NSEvent *) event locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
 {
     if (!node)
@@ -722,6 +748,49 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     CCNode *node = [self nodeForEvent: event];
     return [self isEvent:event locatedNearAnchorPointOfSelectedNode:node];   
+}
+
+- (void) updateCursor
+{
+    NSPoint mouseLocationInScreen = [NSEvent mouseLocation];
+    NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
+    CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
+    if (node)
+    {
+        // If we moving cursor near anchor indicator - change cursor for dragging it.
+        if ([self isScreenPoint: mouseLocationInScreen locatedNearAnchorPointOfSelectedNode: node])
+        {
+            [self performBlockOnMainThread:^
+             {
+                 [[NSCursor crosshairCursor] set];
+             }];
+        }
+        else // if we moving cursor on node, but not near selection element.
+        {
+            if ( mouseButtons & 1 )
+            {
+                [self performBlockOnMainThread:^
+                 {
+                     [[NSCursor closedHandCursor] set];
+                 }];
+            }
+            else
+            {
+                [self performBlockOnMainThread:^
+                 {
+                     [[NSCursor openHandCursor] set];
+                 }];
+            }
+            
+        }
+    }    
+    else
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor arrowCursor] set];
+         }];
+    }
 }
 
 - (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
@@ -899,32 +968,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
 {
-    CCNode *node = [self nodeForEvent: event];
-    if (node)
-    {
-        // If we moving cursor near anchor indicator - change cursor for dragging it.
-        if ([self isEvent: event locatedNearAnchorPointOfSelectedNode: node])
-        {
-            [self performBlockOnMainThread:^
-             {
-                 [[NSCursor crosshairCursor] set];
-             }];
-        }
-        else // if we moving cursor on node, but not near selection element.
-        {
-            [self performBlockOnMainThread:^
-             {
-                 [[NSCursor openHandCursor] set];
-             }];
-        }
-    }    
-    else
-    {
-        [self performBlockOnMainThread:^
-        {
-            [[NSCursor arrowCursor] set];
-        }];
-    }
+    // Update cursor.
+    [self updateCursor];
 
     return NO;
 }
