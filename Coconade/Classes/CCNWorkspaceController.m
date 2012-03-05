@@ -14,9 +14,81 @@
 #import "CCNMacGLView.h"
 #import "NSObject+Blocks.h"
 
+/** Current state of selection that is being used by mouse events.
+ * Describes what will be done on -ccMouseDrag: event. 
+ */
+enum workspaceMouseState 
+{
+    
+    kCCNWorkspaceMouseStateIdle,
+    
+    // Moving with mouse.
+    kCCNWorkspaceMouseStateMove,
+    kCCNWorkspaceMouseStateDragAnchor,
+    
+    // Scaling with mouse
+    kCCNWorkspaceMouseStateScaleTop,
+    kCCNWorkspaceMouseStateScaleBottom,
+    kCCNWorkspaceMouseStateScaleRight,
+    kCCNWorkspaceMouseStateScaleLeft,
+    kCCNWorkspaceMouseStateScaleTopRight,
+    kCCNWorkspaceMouseStateScaleTopLeft,
+    kCCNWorkspaceMouseStateScaleBottomRight,
+    kCCNWorkspaceMouseStateScaleBottomLeft,
+    
+    // Rotating with mouse.
+    kCCNWorkspaceMouseStateRotateTopRight,
+    kCCNWorkspaceMouseStateRotateTopLeft,
+    kCCNWorkspaceMouseStateRotateBottomRight,
+    kCCNWorkspaceMouseStateRotateBottomLeft,
+    
+    // Skewing with mouse.
+    kCCNWorkspaceMouseStateSkewTop,
+    kCCNWorkspaceMouseStateSkewBottom,
+    kCCNWorkspaceMouseStateSkewRight,
+    kCCNWorkspaceMouseStateSkewLeft,
+};
+
 @interface CCNWorkspaceController ()
 
-@property(readwrite, retain) CCNode *nodeBeingDragged;
+#pragma mark Edit Nodes with Mouse
+
+/** Holds node, on that we received -ccMouseDown: event last time.
+ * Used to store that node between down, moved/dragged & up mouse events.
+ */
+@property(readwrite, retain) CCNode *nodeBeingEdited;
+
+/** Updates cursor to the one that is corresponding to current mouse state
+ * (Location & Pressed Buttons).
+ * All info about mouse is get through NSEvent class methods (+mouseLocation, +pressedMouseButtons, etc).
+ * So there's no arguments for this method.
+ * 
+ * Call this method anytime when cursor can be changed (i.e. adding node, rotating node, selecting node, etc).
+ */
+- (void) updateCursor;
+
+/** Changes anchor point of given node with given mouse event, without changing 
+ * absolute position (or boundingBox) of that node.
+ *
+ * Uses mouseLocation from event & _prevMouseLocation from self.
+ *
+ * @param targetNode Node in current hierarchy that's anchorPoint must be changed.
+ *
+ * @param event NSEvent from -mouseDragged: callback.
+ */
+- (void) dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event;
+
+/** Moves at leas one of the selected nodes with given mouse event.
+ * If all selected nodes have the same parent - all selected nodes will be moved,
+ * otherwise only _nodeBeingEdited will be moved (@see nodeBeingEdited property).
+ *
+ * Uses mouseLocation from event, _prevMouseLocation & _nodeBeingDragged from self.
+ *
+ * @param event NSEvent from -mouseDragged: callback.
+ */
+- (void) moveSelectedNodesWithMouseDraggedEvent: (NSEvent *) event;
+
+#pragma mark Model
 
 /** Adds self as observer to new model, updates everything related &
  * removes self as observer from old model
@@ -43,6 +115,11 @@
 - (NSArray *) filterFiles: (NSArray *) files withAllowedFileTypes: (NSArray *) allowedFileTypes;
 
 #pragma mark Events Support
+
+/** Returns node in current hierarchy, that correpsonds to given location in screen coordinates.
+ * If there's no such node for given event - returns nil.
+ */
+- (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint;
 
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
@@ -115,7 +192,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 @synthesize scene = _scene;
 @synthesize glView = _glView;
-@synthesize nodeBeingDragged = _nodeBeingDragged;
+@synthesize nodeBeingEdited = _nodeBeingEdited;
 
 #pragma mark Init/DeInit
 
@@ -143,6 +220,20 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         self.glView.dragAndDropDelegate = self;
     }
     return self;
+}
+
+- (void) registerWithEventDispatcher
+{
+    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin+1];
+	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin+1];
+    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin+1];
+}
+
+- (void) unregisterWithEventDispatcher
+{
+    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
+    [[CCEventDispatcher sharedDispatcher] removeGestureDelegate:self];
 }
 
 - (void) halt
@@ -273,6 +364,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             [self.scene updateForScreenReshape];
         }
     }
+    
+    // Update cursor on any model update - new model, new added node, changed selection, etc...
+    [self updateCursor];
 }
 
 #pragma mark - Edit Menu
@@ -433,6 +527,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         // TODO: register problem.
     }
 
+    // Update cursors when adding nodes.
+    // XXX: later when we will KVO currentNodes in model - this should be moved there.
+    [self updateCursor];
 }
 
 - (void)importSpritesWithFiles: (NSArray *) filenames withPositionInScene: (CGPoint) positionInScene
@@ -533,35 +630,18 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Events
 
-/** Returns node in current hierarchy, that correpsonds to given event's location.
- * If there's no such node for given event - returns nil.
- */
-- (CCNode *)nodeForEvent:(NSEvent *)event
+- (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint
 {
     for (CCNode *node in self.model.currentNodes)
     {
-        if ( [CCNode isEvent:event locatedInNode:node] )
+        if ( [CCNode isScreenPoint:screenPoint locatedInNode:node] )
             return node;
     }
     
     return nil;
 }
 
-- (void) registerWithEventDispatcher
-{
-    [[CCEventDispatcher sharedDispatcher] addMouseDelegate:self priority: NSIntegerMin+1];
-	[[CCEventDispatcher sharedDispatcher] addKeyboardDelegate:self priority: NSIntegerMin+1];
-    [[CCEventDispatcher sharedDispatcher] addGestureDelegate:self priority: NSIntegerMin+1];
-}
-
-- (void) unregisterWithEventDispatcher
-{
-    [[CCEventDispatcher sharedDispatcher] removeMouseDelegate:self];
-    [[CCEventDispatcher sharedDispatcher] removeKeyboardDelegate:self];
-    [[CCEventDispatcher sharedDispatcher] removeGestureDelegate:self];
-}
-
-#pragma mark Trackpad Gestures Events
+#pragma mark - Trackpad Gestures Events
 
 /** Trackpad's PinchIn/PinchOut Gesture event handler
  * Scales selectedNode.
@@ -586,6 +666,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         
         result = YES;
 	}
+    
+    [self updateCursor];
     
     return result;
 }
@@ -615,10 +697,153 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         result = YES;
 	}
     
+    [self updateCursor];
+    
     return result;
 }
 
-#pragma mark Mouse Events
+#pragma mark - Mouse Events
+
+- (BOOL) isScreenPoint:(NSPoint) screenPoint locatedNearAnchorPointOfSelectedNode: (CCNode *) node 
+{
+    if (!node)
+    {
+        return NO;
+    }
+    
+    CCNSelection *selection = [self.scene selectionForNode: node];
+    CCNode *anchorPointIndicator = selection.anchorPointIndicator;
+    if ([CCNode isScreenPoint:screenPoint locatedInNode:anchorPointIndicator])
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (void) updateCursor
+{
+    NSPoint mouseLocationInScreen = [NSEvent mouseLocation];
+    NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
+    CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
+    if (node)
+    {
+        // If we moving cursor near anchor indicator - change cursor for dragging it.
+        if ([self isScreenPoint: mouseLocationInScreen locatedNearAnchorPointOfSelectedNode: node])
+        {
+            [self performBlockOnMainThread:^
+             {
+                 [[NSCursor crosshairCursor] set];
+             }];
+        }
+        else // if we moving cursor on node, but not near selection element.
+        {
+            if ( mouseButtons & 1 )
+            {
+                [self performBlockOnMainThread:^
+                 {
+                     [[NSCursor closedHandCursor] set];
+                 }];
+            }
+            else
+            {
+                [self performBlockOnMainThread:^
+                 {
+                     [[NSCursor openHandCursor] set];
+                 }];
+            }
+            
+        }
+    }    
+    else
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor arrowCursor] set];
+         }];
+    }
+}
+
+- (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
+{	    
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    // Prepare affine transformations here once.
+    CGAffineTransform targetParentToWorld = [targetNode.parent nodeToWorldTransform];
+    CGAffineTransform worldToTargetParent = CGAffineTransformInvert(targetParentToWorld);
+    CGAffineTransform targetToWorld = CGAffineTransformConcat([targetNode nodeToParentTransform], targetParentToWorld);
+    CGAffineTransform worldToTarget = CGAffineTransformInvert(targetToWorld);
+    
+    // Get old anchor position in scene.
+    CGSize targetSize = targetNode.contentSize;
+    CGPoint oldAnchor = targetNode.anchorPoint;
+    CGPoint oldAnchorInPoints = ccp(oldAnchor.x * targetSize.width, oldAnchor.y * targetSize.height);
+    CGPoint oldAnchorInScene = CGPointApplyAffineTransform(oldAnchorInPoints, targetToWorld);
+    
+    // Get new position of anchor in scene coordinates.
+    CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
+    CGPoint anchorPositionInScene = ccpAdd(oldAnchorInScene, diff);        
+    
+    // Set new anchor normalized.
+    CGPoint newAnchorInPoints = CGPointApplyAffineTransform(anchorPositionInScene, worldToTarget);
+    CGPoint newAnchor = ccp( newAnchorInPoints.x / targetSize.width, newAnchorInPoints.y / targetSize.height);
+    targetNode.anchorPoint = newAnchor;
+    
+    // Compensate position change.       
+    CGPoint positionCompensation = ccpSub(anchorPositionInScene, oldAnchorInScene);
+    CGPoint targetPositionInScene =  CGPointApplyAffineTransform(targetNode.position, targetParentToWorld);
+    targetPositionInScene = ccpAdd(targetPositionInScene, positionCompensation);
+    targetNode.position = CGPointApplyAffineTransform(targetPositionInScene, worldToTargetParent);
+    
+}
+
+- (void) moveSelectedNodesWithMouseDraggedEvent: (NSEvent *) event
+{
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    // Choose which nodes to drag - all selected nodes by default.
+    NSArray *nodesToMove = self.model.selectedNodes;
+    
+    // But if they have different parents - choose only one that was under cursor, when dragging started.
+    NSUInteger selectedNodesCount = [self.model.selectedNodes count];
+    if (selectedNodesCount)
+    {
+        CCNode *firstNode = [self.model.selectedNodes objectAtIndex: 0];
+        CCNode *parent = firstNode.parent;
+        for (CCNode *node in self.model.selectedNodes)
+        {
+            if (parent != node.parent)
+            {
+                nodesToMove = [NSArray arrayWithObject: self.nodeBeingEdited];
+                break;
+            }
+        }
+    }
+    
+    // Actually drag chosen nodes.
+    for (CCNode *node in nodesToMove)
+    {
+        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
+        
+        // Calculate new position, considering that it can be located anywhere in the hierarchy.
+        CGPoint newPosition = node.position;
+        if (node.parent)
+        {        
+            CGPoint nodePositionInScene = CGPointApplyAffineTransform(node.position, [node.parent nodeToWorldTransform]);
+            CGPoint newPositionInScene = ccpAdd(nodePositionInScene, diff);
+            newPosition = CGPointApplyAffineTransform( newPositionInScene, [node.parent worldToNodeTransform]);
+        }
+        else
+        {
+            newPosition = ccpAdd(node.position, diff);
+        }
+        
+        // Apply new position.
+        node.position = newPosition;
+    }   
+}
+
+#pragma mark Mouse Event Delegate
 
 -(BOOL) ccScrollWheel:(NSEvent *)theEvent 
 {    
@@ -643,8 +868,13 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 }
 
 - (BOOL)ccMouseDown:(NSEvent *)event
-{	
-	CCNode *node = [self nodeForEvent:event];
+{	    
+    // Default state is idle.
+    _mouseState = kCCNWorkspaceMouseStateIdle;
+    
+    NSPoint screenPoint = [[event window] convertBaseToScreen:[event locationInWindow]];
+	CCNode *node = [self nodeForScreenPoint: screenPoint ];
+    self.nodeBeingEdited = node;
 	if(node)
 	{
         // Add nodes to selection with holding Shift.
@@ -659,109 +889,119 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 [self.model deselectNode: node];
             }
         }
-        else
-        {
-            // If this isn't the selected sprite - select only it.
+        else // No shift.
+        {           
+            // If this isn't the selected node - select only it.
             if(![self.model.selectedNodes containsObject: node])
             {
                 [self.model deselectAllNodes];
                 [self.model selectNode: node];
+                
+                // Allow to start dragging selected node immediately.
+                self.nodeBeingEdited = node;
+                _mouseState = kCCNWorkspaceMouseStateMove;
             }
-            else
-            {
-                // TODO: change selection mode here.
-            }
-        }
-		
-        self.nodeBeingDragged = node;
-	}
+            else // This is already selected node.
+            {                    
+                if ([self isScreenPoint: screenPoint locatedNearAnchorPointOfSelectedNode: node])
+                {
+                    _mouseState = kCCNWorkspaceMouseStateDragAnchor;
+                }
+                else
+                {
+                    // Drag that selected node.
+                    _mouseState = kCCNWorkspaceMouseStateMove;
+                    
+                    // TODO: check here for this in the same order:
+                    // 
+                    // 1. Scale at corners & center of the sides.
+                    // 2. Rotate near corners
+                    // 3. Skew at sides
+                    // 4. Movement at everything else
+                    //
+                }           
+            }//< if [self.model.selectedNodes containsObject: node]
+            
+        }//< No shift.
+        
+	} //< if (node)
     else
     {
         // Deselect all nodes when clicked in free space.
         [self.model deselectAllNodes];
     }
+    
+    // Update cursor.
+    [self updateCursor];
 	
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
-	return YES;
+	// Swallow on any action (move, scale, etc...).
+    return (_mouseState != kCCNWorkspaceMouseStateIdle);
+}
+
+- (BOOL)ccMouseMoved:(NSEvent *)event
+{
+    // Update cursor.
+    [self updateCursor];
+
+    return NO;
 }
 
 - (BOOL)ccMouseDragged:(NSEvent *)event
 {	    
-    // Choose which nodes to drag - all selected nodes by default.
-    NSArray *nodesToMove = self.model.selectedNodes;
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
     
-    // But if they have different parents - choose only one that was under cursor, when dragging started.
-    NSUInteger selectedNodesCount = [self.model.selectedNodes count];
-    if (selectedNodesCount)
+    if (_mouseState == kCCNWorkspaceMouseStateDragAnchor)
     {
-        CCNode *firstNode = [self.model.selectedNodes objectAtIndex: 0];
-        CCNode *parent = firstNode.parent;
-        for (CCNode *node in self.model.selectedNodes)
-        {
-            if (parent != node.parent)
-            {
-                nodesToMove = [NSArray arrayWithObject: self.nodeBeingDragged];
-                break;
-            }
-        }
+        [self dragAnchorOfTargetNode: self.nodeBeingEdited withMouseDraggedEvent:event];
+    }
+    else if (_mouseState == kCCNWorkspaceMouseStateMove)
+    {
+        [self moveSelectedNodesWithMouseDraggedEvent: event];
     }
     
-    // Actually drag chosen nodes.
-    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
-	for (CCNode *node in nodesToMove)
-	{
-        CGPoint diff = ccpSub(mouseLocation, _prevMouseLocation);
-        
-        // Calculate new position, considering that it can be located anywhere in the hierarchy.
-        CGPoint newPosition = node.position;
-        if (node.parent)
-        {        
-            CGPoint nodePositionInScene = CGPointApplyAffineTransform(node.position, [node.parent nodeToWorldTransform]);
-            CGPoint newPositionInScene = ccpAdd(nodePositionInScene, diff);
-            newPosition = CGPointApplyAffineTransform( newPositionInScene, [node.parent worldToNodeTransform]);
-        }
-        else
-        {
-            newPosition = ccpAdd(node.position, diff);
-        }
-        
-        // Apply new position.
-        node.position = newPosition;
-	}
-	
+    // Update cursor.
+    [self updateCursor];
+    
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
-	
+    
 	return YES;
 }
 
 - (BOOL)ccMouseUp:(NSEvent *)event
 {	
-    // Stop dragging.
-    self.nodeBeingDragged = nil;
+    // Stop anything.
+    _mouseState = kCCNWorkspaceMouseStateIdle;
+    self.nodeBeingEdited = nil;
     
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
 	
+    // Update cursor.
+    [self updateCursor];
+    
 	return YES;
 }
 
-#pragma mark Keyboard Events
+#pragma mark - Keyboard Events
 
 - (BOOL)ccKeyDown:(NSEvent *)event
 {
 	NSUInteger modifiers = [event modifierFlags];
 	unsigned short keyCode = [event keyCode];
 	
+    BOOL result = NO;
+    
 	// Deleting nodes from hierarchy.
 	switch(keyCode)
 	{
 		case kCCNKeyCodeBackspace:
 		case kCCNKeyCodeDelete:
 			[self deleteSelected];
-			return YES;
+			result = YES;
 		default:
 			break;
 	}
@@ -778,27 +1018,31 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x - increment, node.anchorPoint.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x + increment, node.anchorPoint.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y - increment );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.anchorPoint = ccp( node.anchorPoint.x, node.anchorPoint.y + increment );
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+                break;
 		}		
 	}
 	else if (modifiers & NSControlKeyMask) //< If ctrl key is pressed - rotate sprite.
@@ -812,15 +1056,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.rotation -= increment;
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.rotation += increment;
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+				break;
 		}
 	}
 	else //< No ALT/Option nor CTRL pressed - move node with arrows & change it's zOrder with PgUp/PgDown.
@@ -835,25 +1081,29 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                 {
                     node.position = ccp( node.position.x - positionIncrement, node.position.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeRightArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x + positionIncrement, node.position.y );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeDownArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x, node.position.y - positionIncrement );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodeUpArrow:
                 for (CCNode *node in self.model.selectedNodes)
                 {
                     node.position = ccp( node.position.x, node.position.y + positionIncrement );
                 }
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodePageUp:
                 for (CCNode *node in self.model.selectedNodes)
                 {
@@ -867,7 +1117,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                     }
                 }
 				
-				return YES;
+				result = YES;
+                break;
 			case kCCNKeyCodePageDown:
                 for (CCNode *node in self.model.selectedNodes)
                 {
@@ -880,13 +1131,17 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                         [node setValue:[NSNumber numberWithInteger: node.zOrder - zOrderIncrement] forKey:@"zOrder_"];
                     }
                 }
-				return YES;
+				result = YES;
+                break;
 			default:
-				return NO;
+				break;
 		}
 	}
+    
+    // Update cursor.
+    [self updateCursor];
 	
-	return NO;
+	return result;
 }
 
 @end

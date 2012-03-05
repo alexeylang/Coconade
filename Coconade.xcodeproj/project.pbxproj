@@ -199,12 +199,7 @@
 		FDC7413114EEEB0700E0B860 /* NSObject+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */; };
 		FDC7413814F0242100E0B860 /* NSArray+Reverse.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC7413714F0242100E0B860 /* NSArray+Reverse.m */; };
 		FDC741DD14FD78AC00E0B860 /* CCNSelectionAnchor.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741D614FD78AC00E0B860 /* CCNSelectionAnchor.png */; };
-		FDC741DE14FD78AC00E0B860 /* CCNSelectionRotate.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741D714FD78AC00E0B860 /* CCNSelectionRotate.png */; };
-		FDC741DF14FD78AC00E0B860 /* CCNSelectionScaleCorner.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741D814FD78AC00E0B860 /* CCNSelectionScaleCorner.png */; };
-		FDC741E014FD78AC00E0B860 /* CCNSelectionScaleHorizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741D914FD78AC00E0B860 /* CCNSelectionScaleHorizontal.png */; };
-		FDC741E114FD78AC00E0B860 /* CCNSelectionScaleVertical.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741DA14FD78AC00E0B860 /* CCNSelectionScaleVertical.png */; };
-		FDC741E214FD78AC00E0B860 /* CCNSelectionSkewHorizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741DB14FD78AC00E0B860 /* CCNSelectionSkewHorizontal.png */; };
-		FDC741E314FD78AC00E0B860 /* CCNSelectionSkewVertical.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741DC14FD78AC00E0B860 /* CCNSelectionSkewVertical.png */; };
+		FDC741DF14FD78AC00E0B860 /* CCNSelectionElement.png in Resources */ = {isa = PBXBuildFile; fileRef = FDC741D814FD78AC00E0B860 /* CCNSelectionElement.png */; };
 		FDD94C4B14E5C97D00E1CF18 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FDD94C4714E5C97D00E1CF18 /* InfoPlist.strings */; };
 		FDD94C5414E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */; };
 		FDD94C5514E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */; };
@@ -439,12 +434,7 @@
 		FDC7414B14F5811A00E0B860 /* PRODUCT_BACKLOG.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = PRODUCT_BACKLOG.md; sourceTree = "<group>"; };
 		FDC741AB14F9763000E0B860 /* OSVersionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSVersionHelper.h; sourceTree = "<group>"; };
 		FDC741D614FD78AC00E0B860 /* CCNSelectionAnchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionAnchor.png; sourceTree = "<group>"; };
-		FDC741D714FD78AC00E0B860 /* CCNSelectionRotate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionRotate.png; sourceTree = "<group>"; };
-		FDC741D814FD78AC00E0B860 /* CCNSelectionScaleCorner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionScaleCorner.png; sourceTree = "<group>"; };
-		FDC741D914FD78AC00E0B860 /* CCNSelectionScaleHorizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionScaleHorizontal.png; sourceTree = "<group>"; };
-		FDC741DA14FD78AC00E0B860 /* CCNSelectionScaleVertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionScaleVertical.png; sourceTree = "<group>"; };
-		FDC741DB14FD78AC00E0B860 /* CCNSelectionSkewHorizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionSkewHorizontal.png; sourceTree = "<group>"; };
-		FDC741DC14FD78AC00E0B860 /* CCNSelectionSkewVertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionSkewVertical.png; sourceTree = "<group>"; };
+		FDC741D814FD78AC00E0B860 /* CCNSelectionElement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionElement.png; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		FDD94C5214E5D02A00E1CF18 /* NSObject+AutoMagicCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoMagicCoding.h"; sourceTree = "<group>"; };
 		FDD94C5314E5D02A00E1CF18 /* NSObject+AutoMagicCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoMagicCoding.m"; sourceTree = "<group>"; };
@@ -828,12 +818,7 @@
 			isa = PBXGroup;
 			children = (
 				FDC741D614FD78AC00E0B860 /* CCNSelectionAnchor.png */,
-				FDC741D714FD78AC00E0B860 /* CCNSelectionRotate.png */,
-				FDC741D814FD78AC00E0B860 /* CCNSelectionScaleCorner.png */,
-				FDC741D914FD78AC00E0B860 /* CCNSelectionScaleHorizontal.png */,
-				FDC741DA14FD78AC00E0B860 /* CCNSelectionScaleVertical.png */,
-				FDC741DB14FD78AC00E0B860 /* CCNSelectionSkewHorizontal.png */,
-				FDC741DC14FD78AC00E0B860 /* CCNSelectionSkewVertical.png */,
+				FDC741D814FD78AC00E0B860 /* CCNSelectionElement.png */,
 			);
 			path = CCNSelection;
 			sourceTree = "<group>";
@@ -1034,12 +1019,7 @@
 				FAEFA64E14F93AB70006E5CC /* left_panel_icon.png in Resources */,
 				FAEFA64F14F93AB70006E5CC /* right_panel_icon.png in Resources */,
 				FDC741DD14FD78AC00E0B860 /* CCNSelectionAnchor.png in Resources */,
-				FDC741DE14FD78AC00E0B860 /* CCNSelectionRotate.png in Resources */,
-				FDC741DF14FD78AC00E0B860 /* CCNSelectionScaleCorner.png in Resources */,
-				FDC741E014FD78AC00E0B860 /* CCNSelectionScaleHorizontal.png in Resources */,
-				FDC741E114FD78AC00E0B860 /* CCNSelectionScaleVertical.png in Resources */,
-				FDC741E214FD78AC00E0B860 /* CCNSelectionSkewHorizontal.png in Resources */,
-				FDC741E314FD78AC00E0B860 /* CCNSelectionSkewVertical.png in Resources */,
+				FDC741DF14FD78AC00E0B860 /* CCNSelectionElement.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

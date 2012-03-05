@@ -9,25 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-enum CCNSelectionMode
-{
-    /** In that mode selection can be used to move node & scale it from any corner or side. */
-    kCCNSelectionModePositionAndScale,
-    
-    /** In that mode selection can be used to move node, rotate it with corners & skew at any side. */
-    kCCNSelectionModePositionAndRotate,
-    
-    kCCNSelectionModeFirst = kCCNSelectionModePositionAndScale,
-    kCCNSelectionModeLast = kCCNSelectionModePositionAndRotate,
-};
-
 /** @class CCNSelection Node that located in the root level of
  * node hierarchy, grabs another node and highlights it, applying targetNode
  * transformation to self.
- *
- * @todo Add ability to transform target node via GUI of CCNSelection
+ * It's used only as highlight, and doesn't change anything in targetNode by itself.
  */
-@interface CCNSelection : CCNode <CCMouseEventDelegate> {
+@interface CCNSelection : CCNode {
     
     CCNode *_targetNode;
     
@@ -35,31 +22,15 @@ enum CCNSelectionMode
 	CCSprite *_anchor;
 	CCLabelBMFont *_positionLabel;
     
-    // Selection mode. Should be one of the kCCNSelectionNodeXXX.
-    int _mode;
-    
-    // Scale mode elements (weak refs to children).
-    CCSprite *_scaleRight;
-    CCSprite *_scaleRightTop;
-    CCSprite *_scaleTop;
-    CCSprite *_scaleLeftTop;
-    CCSprite *_scaleLeft;
-    CCSprite *_scaleLeftBottom;
-    CCSprite *_scaleBottom;
-    CCSprite *_scaleRightBottom;
-    
-    // Rotate/Skew mode elements (weak refs to children).
-    CCSprite *_skewRight;
-    CCSprite *_rotateRightTop;
-    CCSprite *_skewTop;
-    CCSprite *_rotateLeftTop;
-    CCSprite *_skewLeft;
-    CCSprite *_rotateLeftBottom;
-    CCSprite *_skewBottom;
-    CCSprite *_rotateRightBottom;
-    
-    BOOL _dragAnchor;
-    CGPoint _prevMouseLocation;
+    // Corners & sides elements (weak refs to children).
+    CCSprite *_elementRight;
+    CCSprite *_elementRightTop;
+    CCSprite *_elementTop;
+    CCSprite *_elementLeftTop;
+    CCSprite *_elementLeft;
+    CCSprite *_elementLeftBottom;
+    CCSprite *_elementBottom;
+    CCSprite *_elementRightBottom;
 }
 
 /** Node that will be highlated by CCNSelection.
@@ -69,7 +40,7 @@ enum CCNSelectionMode
  */
 @property(readwrite, retain) CCNode *targetNode;
 
-/** Changes selection mode to next, if already last mode is used - starts again from first. */
-- (void) toggleMode;
+/** Returns node, that is positioned at targetNode's anchorPoint. */
+@property(readonly, retain) CCNode *anchorPointIndicator;
 
 @end

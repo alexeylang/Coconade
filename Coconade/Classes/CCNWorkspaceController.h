@@ -21,11 +21,10 @@
     
     CCNModel *_model;
     
-    // Mouse events.
+    // Editing nodes with mouse events.
     CGPoint _prevMouseLocation;
-    
-    // Dragging nodes.
-    CCNode *_nodeBeingDragged;
+    CCNode *_nodeBeingEdited;
+    int _mouseState;    
 }
 
 /** Property to hold glView, provided from outside. */

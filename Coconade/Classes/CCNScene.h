@@ -65,4 +65,9 @@
  */
 - (void) addNodeToSelection: (CCNode *) aNode;
 
+/** Returns selection node for given node if it's selected.
+ * If there's no such selected node - this method returns nil.
+ */
+- (CCNSelection *) selectionForNode: (CCNode *) aNode;
+
 @end
