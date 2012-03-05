@@ -968,7 +968,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
     
-	return YES;
+	// Swallow on any action (move, scale, etc...).
+    return (_mouseState != kCCNWorkspaceMouseStateIdle);
 }
 
 - (BOOL)ccMouseUp:(NSEvent *)event
