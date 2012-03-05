@@ -762,23 +762,19 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
     if (node)
     {
-        
+        if ( mouseButtons & 1 )
         {
-            if ( mouseButtons & 1 )
-            {
-                [self performBlockOnMainThread:^
-                 {
-                     [[NSCursor closedHandCursor] set];
-                 }];
-            }
-            else
-            {
-                [self performBlockOnMainThread:^
-                 {
-                     [[NSCursor openHandCursor] set];
-                 }];
-            }
-            
+            [self performBlockOnMainThread:^
+             {
+                 [[NSCursor closedHandCursor] set];
+             }];
+        }
+        else
+        {
+            [self performBlockOnMainThread:^
+             {
+                 [[NSCursor openHandCursor] set];
+             }];
         }
     }    
     else
@@ -907,60 +903,60 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     else
     {
-    
-	CCNode *node = [self nodeForScreenPoint: screenPoint ];
-    self.nodeBeingEdited = node;
-	if(node)
-	{
-        // Add nodes to selection with holding Shift.
-        if ( [event modifierFlags] & NSShiftKeyMask )
-        {
-            if (![self.model.selectedNodes containsObject: node])
-            {
-                [self.model selectNode: node];
-            }
-            else // deselect selected nodes on second click when holding shift.
-            {
-                [self.model deselectNode: node];
-            }
-        }
-        else // No shift.
-        {           
-            // If this isn't the selected node - select only it.
-            if(![self.model.selectedNodes containsObject: node])
-            {
-                [self.model deselectAllNodes];
-                [self.model selectNode: node];
-                
-                // Allow to start dragging selected node immediately.
-                self.nodeBeingEdited = node;
-                _mouseState = kCCNWorkspaceMouseStateMove;
-            }
-            else // This is already selected node.
-            {                    
-                {
-                    // Drag that selected node.
-                    _mouseState = kCCNWorkspaceMouseStateMove;
-                    
-                    // TODO: check here for this in the same order:
-                    // 
-                    // 1. Scale at corners & center of the sides.
-                    // 2. Rotate near corners
-                    // 3. Skew at sides
-                    // 4. Movement at everything else
-                    //
-                }           
-            }//< if [self.model.selectedNodes containsObject: node]
-            
-        }//< No shift.
         
-	} //< if (node)
-    else
-    {
-        // Deselect all nodes when clicked in free space.
-        [self.model deselectAllNodes];
-    }
-    }
+        CCNode *node = [self nodeForScreenPoint: screenPoint ];
+        self.nodeBeingEdited = node;
+        if(node)
+        {
+            // Add nodes to selection with holding Shift.
+            if ( [event modifierFlags] & NSShiftKeyMask )
+            {
+                if (![self.model.selectedNodes containsObject: node])
+                {
+                    [self.model selectNode: node];
+                }
+                else // deselect selected nodes on second click when holding shift.
+                {
+                    [self.model deselectNode: node];
+                }
+            }
+            else // No shift.
+            {           
+                // If this isn't the selected node - select only it.
+                if(![self.model.selectedNodes containsObject: node])
+                {
+                    [self.model deselectAllNodes];
+                    [self.model selectNode: node];
+                    
+                    // Allow to start dragging selected node immediately.
+                    self.nodeBeingEdited = node;
+                    _mouseState = kCCNWorkspaceMouseStateMove;
+                }
+                else // This is already selected node.
+                {                    
+                    {
+                        // Drag that selected node.
+                        _mouseState = kCCNWorkspaceMouseStateMove;
+                        
+                        // TODO: check here for this in the same order:
+                        // 
+                        // 1. Scale at corners & center of the sides.
+                        // 2. Rotate near corners
+                        // 3. Skew at sides
+                        // 4. Movement at everything else
+                        //
+                    }           
+                }//< if [self.model.selectedNodes containsObject: node]
+                
+            }//< No shift.
+            
+        } //< if (node)
+        else
+        {
+            // Deselect all nodes when clicked in free space.
+            [self.model deselectAllNodes];
+        }
+    }//< else (nodeBeingEdited)
     
     // Update cursor.
     [self updateCursor];
