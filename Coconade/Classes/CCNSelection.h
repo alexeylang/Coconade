@@ -9,6 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+typedef enum
+{
+    kCCNSelectionElementTypeWrong = 0, //< Element that doesn't exist.
+    
+    kCCNSelectionElementTypeTop,
+    kCCNSelectionElementTypeBottom,
+    kCCNSelectionElementTypeLeft,
+    kCCNSelectionElementTypeRight,
+    
+    kCCNSelectionElementTypeTopLeft,
+    kCCNSelectionElementTypeTopRight,
+    kCCNSelectionElementTypeBottomLeft,
+    kCCNSelectionElementTypeBottomRight,
+} CCNSelectionElementType;
+
 /** @class CCNSelection Node that located in the root level of
  * node hierarchy, grabs another node and highlights it, applying targetNode
  * transformation to self.
@@ -42,5 +57,8 @@
 
 /** Returns node, that is positioned at targetNode's anchorPoint. */
 @property(readonly, retain) CCNode *anchorPointIndicator;
+
+/** Returns node of element with given type. */
+- (CCNode *) elementNodeWithType: (CCNSelectionElementType) type;
 
 @end

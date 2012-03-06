@@ -273,4 +273,41 @@
     [super onExit];
 }
 
+#pragma mark Getting Elements
+
+- (CCNode *) elementNodeWithType: (CCNSelectionElementType) type
+{
+    switch (type) 
+    {
+        case kCCNSelectionElementTypeTop:
+            return _elementTop;
+            
+        case kCCNSelectionElementTypeBottom:
+            return _elementBottom;
+            
+        case kCCNSelectionElementTypeLeft:
+            return _elementLeft;
+            
+        case kCCNSelectionElementTypeRight:
+            return _elementRight;
+            
+        case kCCNSelectionElementTypeTopLeft:
+            return _elementLeftTop;
+            
+        case kCCNSelectionElementTypeTopRight:
+            return _elementRightTop;
+            
+        case kCCNSelectionElementTypeBottomLeft:
+            return _elementLeftBottom;
+            
+        case kCCNSelectionElementTypeBottomRight:
+            return _elementRightBottom;  
+            
+        default:
+            return nil;
+    }
+
+    return nil;
+}
+
 @end
