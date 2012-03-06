@@ -35,6 +35,11 @@
  */
 + (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node withAreaExtension: (CGSize) areaExtension;
 
+#pragma mark Names
+
+/** Returns className without CC prefix. */
+- (NSString *) defaultName;
+
 /** Returns unique name (name that isn't used currently by any other node
  * in CCNodeCache).
  * Returned string is created by concatanating (if needed) nonUniqueName

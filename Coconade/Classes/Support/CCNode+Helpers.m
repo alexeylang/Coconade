@@ -46,6 +46,18 @@
     return CGRectContainsPoint(nodeRect, pointInNode);
 }
 
+- (NSString *) defaultName
+{
+    NSString *name = [self className];
+    
+    if ([name hasPrefix: @"CC"] && [name length] > 2)
+    {
+        name = [name substringFromIndex: 2];
+    }
+    
+    return name;
+}
+
 // TODO: think, should we use that andrews shit here:
     // make the key alphanumerical + underscore
     // NSCharacterSet *charactersToKeep = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"];
