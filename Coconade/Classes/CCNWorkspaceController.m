@@ -128,12 +128,20 @@ enum workspaceMouseState
  */
 - (CCNode *) selectedNodeWithAnchorPointNearScreenPoint:(NSPoint) screenPoint;
 
-/** Searches through selected nodes to fine the one, that have given element
+/** Searches through selected nodes to find the one, that have given element located near given screenPoint.
+ * @see -selectedNodeWithElement:nearScreenPoint:withAreaExtension:
+ */
+- (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint;
+
+/** Searches through selected nodes to find the one, that have given element
  * (one of the squares at sides center or corners) located near given screenPoint.
+ *
+ * @param areaExtension Size, that describes how much area around the element should be extendend.
+ * Half of each component of that size is added to elements contentSize from each side.
  *
  * @return Finded selected node with such element or nil otherwise.
  */
-- (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint;
+- (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint withAreaExtension: (CGSize) areaExtension;
 
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
@@ -735,11 +743,16 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint
 {
+    return [self selectedNodeWithElement:elementType nearScreenPoint:screenPoint withAreaExtension: CGSizeZero];
+}
+
+- (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint withAreaExtension: (CGSize) areaExtension
+{
     for ( CCNode *node in self.model.selectedNodes )
     {
         CCNSelection *selection = [self.scene selectionForNode: node];
         CCNode *element = [selection elementNodeWithType: elementType];
-        if ([CCNode isScreenPoint:screenPoint locatedInNode:element])
+        if ([CCNode isScreenPoint:screenPoint locatedInNode:element withAreaExtension:areaExtension])
         {
             return node;
         }
