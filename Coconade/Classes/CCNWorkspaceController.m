@@ -128,6 +128,13 @@ enum workspaceMouseState
  */
 - (CCNode *) selectedNodeWithAnchorPointNearScreenPoint:(NSPoint) screenPoint;
 
+/** Searches through selected nodes to fine the one, that have given element
+ * (one of the squares at sides center or corners) located near given screenPoint.
+ *
+ * @return Finded selected node with such element or nil otherwise.
+ */
+- (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint;
+
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
 
@@ -718,6 +725,21 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         CCNSelection *selection = [self.scene selectionForNode: node];
         CCNode *anchorPointIndicator = selection.anchorPointIndicator;
         if ([CCNode isScreenPoint:screenPoint locatedInNode:anchorPointIndicator])
+        {
+            return node;
+        }
+    }
+    
+    return nil;
+}
+
+- (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint
+{
+    for ( CCNode *node in self.model.selectedNodes )
+    {
+        CCNSelection *selection = [self.scene selectionForNode: node];
+        CCNode *element = [selection elementNodeWithType: elementType];
+        if ([CCNode isScreenPoint:screenPoint locatedInNode:element])
         {
             return node;
         }
