@@ -784,7 +784,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
     if (node)
     {
-        if ( mouseButtons & 1 )
+        if ( mouseButtons & 1 && _mouseState == kCCNWorkspaceMouseStateMove )
         {
             [self performBlockOnMainThread:^
              {
