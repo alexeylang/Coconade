@@ -636,7 +636,7 @@
     if ( item )
     {
         CCNode *itemNode = (CCNode *)item;
-        return itemNode.name;
+        return [NSString stringWithFormat:@"%@ : (%@)", itemNode.name, NSStringFromClass([itemNode class])];
     }
     else
     {
