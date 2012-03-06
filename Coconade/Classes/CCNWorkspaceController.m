@@ -13,6 +13,7 @@
 #import "CCNode+Helpers.h"
 #import "CCNMacGLView.h"
 #import "NSObject+Blocks.h"
+#import "NSCursor+CustomCursors.h"
 
 /** Current state of selection that is being used by mouse events.
  * Describes what will be done on -ccMouseDrag: event. 
@@ -804,6 +805,27 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         [self performBlockOnMainThread:^
          {
              [[NSCursor resizeLeftRightCursor] set];
+         }];
+        return;
+    }else if (_mouseState == kCCNWorkspaceMouseStateScaleTopLeft
+              || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight
+              || [self selectedNodeWithElement:kCCNSelectionElementTypeTopLeft nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension]
+              || [self selectedNodeWithElement:kCCNSelectionElementTypeBottomRight nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension] )
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor resizeCornerCursor] set];
+         }];
+        return;
+    }
+    else if (_mouseState == kCCNWorkspaceMouseStateScaleTopRight
+             || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft
+             || [self selectedNodeWithElement:kCCNSelectionElementTypeTopRight nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension]
+             || [self selectedNodeWithElement:kCCNSelectionElementTypeBottomLeft nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension] )
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor resizeCornerCursorFlipped] set];
          }];
         return;
     }
