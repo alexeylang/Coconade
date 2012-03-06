@@ -377,27 +377,32 @@
     
     // Create and setup model outline view
     NSRect modelOutlineFrame = leftFrame;
+    NSScrollView *modelOutlineScrollView = [[[NSScrollView alloc] initWithFrame:modelOutlineFrame] autorelease];
+    modelOutlineScrollView.autoresizesSubviews = YES;
+    modelOutlineScrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [self.leftView addSubview:modelOutlineScrollView];
     self.modelOutlineView = [[[NSOutlineView alloc] initWithFrame:modelOutlineFrame] autorelease];
-    self.modelOutlineView.columnAutoresizingStyle = NSTableViewLastColumnOnlyAutoresizingStyle;
     self.modelOutlineView.columnAutoresizingStyle = NSTableViewLastColumnOnlyAutoresizingStyle;
     self.modelOutlineView.autoresizesOutlineColumn = YES;
     self.modelOutlineView.indentationMarkerFollowsCell = YES;
     self.modelOutlineView.indentationPerLevel = 16.0f;
     self.modelOutlineView.autoresizesSubviews = YES;
-    self.modelOutlineView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    self.modelOutlineView.rowHeight = 10.0f;
+    self.modelOutlineView.rowHeight = 18.0f;
     self.modelOutlineView.intercellSpacing = NSMakeSize(3.0f, 2.0f);
     NSTableColumn *tableColumn = [[[NSTableColumn alloc] initWithIdentifier:kCCNWindowControllerModelOutlineTableColumnIdentifier] autorelease];
-	CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
+	tableColumn.resizingMask = NSTableColumnAutoresizingMask;
+    tableColumn.width = modelOutlineFrame.size.width - 3.0f;
+    [tableColumn.headerCell setTitle:@""];
+    [tableColumn setEditable: YES];
+    NSTextFieldCell *imageTextCell = [[[NSTextFieldCell alloc] init] autorelease];
 	imageTextCell.editable = YES;
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];
-    self.modelOutlineView.outlineTableColumn = tableColumn;    
-    
+    self.modelOutlineView.outlineTableColumn = tableColumn;
     self.modelOutlineView.delegate = self;
     self.modelOutlineView.dataSource = self;
-    [self.leftView addSubview:self.modelOutlineView];
-
+    modelOutlineScrollView.documentView = self.modelOutlineView;
+    
     // Create and setup center scroll view
     NSRect centerFrame = NSMakeRect(0.0f, 
                                     0.0f, 
