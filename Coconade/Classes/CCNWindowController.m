@@ -598,17 +598,6 @@
     return returnCell;
 }
 
-- (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell*)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
-{	 
-	if ([[tableColumn identifier] isEqualToString:kCCNWindowControllerModelOutlineTableColumnIdentifier])
-	{
-		if ([cell isKindOfClass:[CCNImageTextCell class]])
-		{
-            [cell setTitle:NSStringFromClass([item class])];
-        }
-    }
-}
-
 #pragma mark OutlineView DataSource
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
