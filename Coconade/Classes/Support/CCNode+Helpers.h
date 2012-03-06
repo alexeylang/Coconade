@@ -12,6 +12,12 @@
 @interface CCNode (Helpers)
 
 /** Checks is given point in screen coordinates is inside of given node.
+ * @see +isScreenPoint:locatedInNode:withAreaExtension:
+ * When using this method - areaExtension is CGSizeZero.
+ */
++ (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node;
+
+/** Checks is given point in screen coordinates is inside of given node.
  * Location gets transformed to node's coordinate system, so all node
  * transformations (including rotate, scale, skew, etc) are taken into account.
  *
@@ -20,9 +26,14 @@
  *
  * @param node CCNode to compare against screenPoint.
  *
+ * @param areaExtension Size, half that will be used to extend the contentSize
+ * of node for checking. node's contentSize will be extended with half of width of
+ * that size from left & right sides and with half of height of that size from top
+ * & bottom.
+ *
  * @return YES if point is located inside of node, NO otherwise.
  */
-+ (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node;
++ (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node withAreaExtension: (CGSize) areaExtension;
 
 /** Returns unique name (name that isn't used currently by any other node
  * in CCNodeCache).

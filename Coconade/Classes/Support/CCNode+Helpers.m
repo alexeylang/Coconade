@@ -35,9 +35,14 @@
 
 + (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node
 {
+    return [self isScreenPoint: screenPoint locatedInNode:node withAreaExtension: CGSizeZero];
+}
+
++ (BOOL) isScreenPoint: (NSPoint) screenPoint locatedInNode: (CCNode *) node withAreaExtension: (CGSize) areaExtension
+{
     CGPoint pointInGL = [(CCDirectorMac *)[CCDirector sharedDirector] convertScreenPointToGL: screenPoint];
     CGPoint pointInNode = [node convertToNodeSpace: pointInGL];
-    CGRect nodeRect = CGRectMake(0, 0, node.contentSize.width, node.contentSize.height);
+    CGRect nodeRect = CGRectMake(- 0.5f * areaExtension.width, - 0.5f * areaExtension.height, node.contentSize.width + areaExtension.width, node.contentSize.height + areaExtension.height);
     return CGRectContainsPoint(nodeRect, pointInNode);
 }
 
