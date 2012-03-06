@@ -389,7 +389,7 @@
     tableColumn.width = modelOutlineFrame.size.width - 3.0f;
     [tableColumn.headerCell setTitle:@""];
     NSTextFieldCell *imageTextCell = [[[NSTextFieldCell alloc] init] autorelease];
-	imageTextCell.editable = YES;
+	[imageTextCell setEditable:YES];
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];
     self.modelOutlineView.outlineTableColumn = tableColumn;
