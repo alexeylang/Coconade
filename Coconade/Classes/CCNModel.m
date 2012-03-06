@@ -78,7 +78,7 @@
         // Create new currentRootNode with default class & size.
         [_rootNodes addObject:[kCCNModelDefaultRootNodeClass node]];
         self.currentRootNode = [_rootNodes objectAtIndex:0];
-        self.currentRootNode.name = [CCNode uniqueNameWithName: [self.currentRootNode className]];
+        self.currentRootNode.name = [CCNode uniqueNameWithName: [self.currentRootNode defaultName]];
         self.currentRootNode.contentSize = kCCNModelDefaultRootNodeContentSize();        
     }
     
@@ -109,7 +109,7 @@
                 // Ensure to have name for any rootNode.
                 if (!curRootNode.name)
                 {
-                    curRootNode.name = [CCNode uniqueNameWithName: [curRootNode className]];
+                    curRootNode.name = [CCNode uniqueNameWithName: [curRootNode defaultName]];
                 }
                 
                 // Root nodes MUST have positive contentSize.

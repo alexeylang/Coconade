@@ -515,7 +515,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         name = aNode.name;
         if (!name)
         {
-            name = [aNode className];
+            name = [aNode defaultName];            
         }
     }
     // Make name unique.

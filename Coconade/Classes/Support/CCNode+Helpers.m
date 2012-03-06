@@ -70,7 +70,7 @@
 	while( [[CCNodeRegistry sharedRegistry] nodeByName: name] )
 	{
 		NSAssert(i != NSUIntegerMax, @"CCNode::uniqueNameWithName: There's too many nodes with same name!");
-		name = [nonUniqueName stringByAppendingFormat:@"_%u", i];
+		name = [nonUniqueName stringByAppendingFormat:@"%u", i];
         i++;
 	}
 	
