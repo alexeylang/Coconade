@@ -974,6 +974,62 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     return YES;
 }
 
+/** Compares screenPoint against all selection elements & changes _mouseState to
+ * corresponding if screenPoint is located near one of selection elements.
+ * _nodeBeingEdited 
+ * 
+ * @return YES if _mouseState & nodeBeingEdited was changed, NO otherwise.
+ */
+- (BOOL) chooseMouseStateAndSetNodeBeingEditedForMouseDownAtScreenPoint: (NSPoint) screenPoint
+{
+    CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
+    
+    // TODO: check here for mode of selection.
+    
+    CCNode *node = nil;
+    
+    if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeTop nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleTop;
+    }
+    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeBottom nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleBottom;
+    }
+    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleLeft;
+    }
+    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleRight;
+    }
+    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeTopLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleTopLeft;
+    }
+    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeTopRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleTopRight;
+    }
+    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleBottomLeft;
+    }
+    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        _mouseState = kCCNWorkspaceMouseStateScaleBottomRight;
+    }
+    
+    if (node)
+    {
+        self.nodeBeingEdited = node;
+        return YES;
+    }
+    
+    return NO;
+}
+
 - (BOOL)ccMouseDown:(NSEvent *)event
 {	    
     // Default state is idle.
@@ -986,7 +1042,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         _mouseState = kCCNWorkspaceMouseStateDragAnchor;
     }
-    else
+    else if ( ![self chooseMouseStateAndSetNodeBeingEditedForMouseDownAtScreenPoint: screenPoint] )
     {
         
         CCNode *node = [self nodeForScreenPoint: screenPoint ];
