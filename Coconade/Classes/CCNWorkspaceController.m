@@ -1073,22 +1073,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                     self.nodeBeingEdited = node;
                     _mouseState = kCCNWorkspaceMouseStateMove;
                 }
-                else // This is already selected node.
-                {                    
-                    {
-                        // Drag that selected node.
-                        _mouseState = kCCNWorkspaceMouseStateMove;
-                        
-                        // TODO: check here for this in the same order:
-                        // 
-                        // 1. Scale at corners & center of the sides.
-                        // 2. Rotate near corners
-                        // 3. Skew at sides
-                        // 4. Movement at everything else
-                        //
-                    }           
-                }//< if [self.model.selectedNodes containsObject: node]
-                
+                else // This is already selected node - simply move - all transform checks are made above.
+                { 
+                    _mouseState = kCCNWorkspaceMouseStateMove;
+                }                
             }//< No shift.
             
         } //< if (node)
@@ -1130,8 +1118,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         [self moveSelectedNodesWithMouseDraggedEvent: event];
     }
     
-    // Update cursor.
-    [self updateCursor];
+    // Don't update cursor on dragging - it should remain the same.
     
     // Remember previous mouse location to move node.
 	_prevMouseLocation = mouseLocation;
