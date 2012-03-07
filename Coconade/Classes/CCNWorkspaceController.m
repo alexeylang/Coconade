@@ -842,9 +842,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
          }];
         return;
     }
-        
     
-    // If we moving cursor on node, but not near selection element.
+    // If we moving cursor on node, but not near selection element nor anchorPointIndicator.
     CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
     if (node)
     {
