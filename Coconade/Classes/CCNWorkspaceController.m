@@ -15,6 +15,9 @@
 #import "NSObject+Blocks.h"
 #import "NSCursor+CustomCursors.h"
 
+/** Size for extending work area around scale elements of CCNSelection. */
+#define kCCNWorkspaceControllerScaleElementExtension() CGSizeMake(6.0f, 6.0f)
+
 /** Current state of selection that is being used by mouse events.
  * Describes what will be done on -ccMouseDrag: event. 
  */
@@ -786,7 +789,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     // If we're moving cursor near elements of selection - use corresponding scale cursor.
     // TODO: switch for selection mode.
-    CGSize scaleElementExtension = CGSizeMake(6.0f, 6.0f);
+    CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
     if (_mouseState == kCCNWorkspaceMouseStateScaleTop 
         || _mouseState == kCCNWorkspaceMouseStateScaleBottom
         || [self selectedNodeWithElement:kCCNSelectionElementTypeTop nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension]
