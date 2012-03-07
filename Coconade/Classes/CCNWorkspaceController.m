@@ -1189,6 +1189,14 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self scaleTargetNode: self.nodeBeingEdited withMouseDraggedEvent:event withState: _mouseState];
     }
+    else if (_mouseState >= kCCNWorkspaceMouseStateRotateFirst && _mouseState <= kCCNWorkspaceMouseStateRotateLast)
+    {
+        // TODO: rotate with event.
+    }
+    else if (_mouseState >= kCCNWorkspaceMouseStateSkewFirst && _mouseState <= kCCNWorkspaceMouseStateSkewLast)
+    {
+        // TODO: skew with event.
+    }
     
     // Don't update cursor on dragging - it should remain the same.
     
