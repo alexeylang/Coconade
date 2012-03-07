@@ -787,6 +787,16 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     NSPoint mouseLocationInScreen = [NSEvent mouseLocation];
     NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
     
+    // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
+    if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self selectedNodeWithAnchorPointNearScreenPoint: mouseLocationInScreen])
+    {
+        [self performBlockOnMainThread:^
+         {
+             [[NSCursor crosshairCursor] set];
+         }];
+        return;
+    }
+    
     // If we're moving cursor near elements of selection - use corresponding scale cursor.
     // TODO: switch for selection mode.
     CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
@@ -833,16 +843,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         return;
     }
         
-    
-    // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
-    if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self selectedNodeWithAnchorPointNearScreenPoint: mouseLocationInScreen])
-    {
-        [self performBlockOnMainThread:^
-         {
-             [[NSCursor crosshairCursor] set];
-         }];
-        return;
-    }
     
     // If we moving cursor on node, but not near selection element.
     CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
