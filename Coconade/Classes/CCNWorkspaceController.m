@@ -960,6 +960,64 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }   
 }
 
+- (void) scaleTargetNode: (CCNode *) targetNode withMouseDraggedEvent: (NSEvent *) event withState: (int) mouseState
+{
+    // Don't scale nodes with width = height = 0.
+    CGSize targetNodeSize = targetNode.contentSize;
+    if ( !targetNodeSize.width && !targetNodeSize.height )
+    {
+        return;
+    }
+    
+    CGFloat xFactor = 1.0f;
+    CGFloat yFactor = 1.0f;
+    
+    // Choose direction of scaling.
+    switch (mouseState) {
+        case kCCNWorkspaceMouseStateScaleTop:
+            xFactor = 0;
+            break;
+            
+        case kCCNWorkspaceMouseStateScaleBottom:
+            xFactor = 0;
+            yFactor = -1.0f;
+            break;
+            
+        case kCCNWorkspaceMouseStateScaleLeft:
+            xFactor = -1.0f;
+            yFactor = 0;
+            break;
+            
+        case kCCNWorkspaceMouseStateScaleRight:
+            yFactor = 0;
+            break;
+            
+        default:
+            break;
+    }
+    
+    // Get mouse location diff.
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    // Prepare affine transformations here once.
+    CGAffineTransform worldToTarget = [targetNode worldToNodeTransform];
+    
+    // Scale node.
+    CGPoint mouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(mouseLocation, worldToTarget);
+    CGPoint prevMouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(_prevMouseLocation, worldToTarget); 
+    CGPoint mouseLocationDiffInTargetNodeSpace = ccpSub(mouseLocationInTargetNodeSpace, prevMouseLocationInTargetNodeSpace);
+    
+    if ( targetNodeSize.width )
+    {
+        targetNode.scaleX *= ( targetNodeSize.width + xFactor * mouseLocationDiffInTargetNodeSpace.x) / targetNodeSize.width;
+    }
+    
+    if ( targetNodeSize.height )
+    {
+        targetNode.scaleY *= ( targetNodeSize.height + yFactor * mouseLocationDiffInTargetNodeSpace.y) / targetNodeSize.height;
+    }
+}
+
 #pragma mark Mouse Event Delegate
 
 -(BOOL) ccScrollWheel:(NSEvent *)theEvent 
@@ -1126,6 +1184,10 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     else if (_mouseState == kCCNWorkspaceMouseStateMove)
     {
         [self moveSelectedNodesWithMouseDraggedEvent: event];
+    }
+    else if (_mouseState >= kCCNWorkspaceMouseStateScaleFirst && _mouseState <= kCCNWorkspaceMouseStateScaleLast)
+    {
+        [self scaleTargetNode: self.nodeBeingEdited withMouseDraggedEvent:event withState: _mouseState];
     }
     
     // Don't update cursor on dragging - it should remain the same.
