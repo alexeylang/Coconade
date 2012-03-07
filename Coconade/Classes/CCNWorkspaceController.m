@@ -51,6 +51,16 @@ enum workspaceMouseState
     kCCNWorkspaceMouseStateSkewBottom,
     kCCNWorkspaceMouseStateSkewRight,
     kCCNWorkspaceMouseStateSkewLeft,
+    
+    // Ranges to detect groups of state.
+    kCCNWorkspaceMouseStateScaleFirst = kCCNWorkspaceMouseStateScaleTop,
+    kCCNWorkspaceMouseStateScaleLast = kCCNWorkspaceMouseStateScaleBottomLeft,
+    
+    kCCNWorkspaceMouseStateRotateFirst = kCCNWorkspaceMouseStateRotateTopRight,
+    kCCNWorkspaceMouseStateRotateLast = kCCNWorkspaceMouseStateRotateBottomLeft,
+    
+    kCCNWorkspaceMouseStateSkewFirst = kCCNWorkspaceMouseStateSkewTop,
+    kCCNWorkspaceMouseStateSkewLast = kCCNWorkspaceMouseStateSkewLeft,
 };
 
 @interface CCNWorkspaceController ()
