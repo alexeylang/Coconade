@@ -8,7 +8,8 @@
 
 #import "CCNImageTextCell.h"
 
-#define kCCNImageTextCellIconImageSize          16.0f
+#define kCCNImageTextCellIconImageSizeWidth     16.0f
+#define kCCNImageTextCellIconImageSizeHeight    16.0f
 #define kCCNImageTextCellImageOriginXOffset     3.0f
 #define kCCNImageTextCellImageOriginYOffset     1.0f
 #define kCCNImageTextCellTextOriginXOffset      2.0f
@@ -33,7 +34,7 @@
     [image retain];
     [_image release];
     _image = image;
-    [_image setSize:NSMakeSize(kCCNImageTextCellIconImageSize, kCCNImageTextCellIconImageSize)];
+    [_image setSize:NSMakeSize(kCCNImageTextCellIconImageSizeWidth, kCCNImageTextCellIconImageSizeHeight)];
 }
 
 - (NSImage *)image
