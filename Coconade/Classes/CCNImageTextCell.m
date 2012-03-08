@@ -75,10 +75,9 @@
 //	Returns the proper bound for the cell's title while being edited
 - (NSRect)titleRectForBounds:(NSRect)cellRect
 {	
-	NSRect imageFrame;
-	NSDivideRect(cellRect, &imageFrame, &cellRect, self.image.size.width + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
+	NSRect imageFrame, newFrame;
+	NSDivideRect(cellRect, &imageFrame, &newFrame, kCCNImageTextCellIconImageSizeWidth + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
 	
-	NSRect newFrame = cellRect;
 	newFrame.origin.x += kCCNImageTextCellTextOriginXOffset;
 	newFrame.origin.y += kCCNImageTextCellTextOriginYOffset;
 	newFrame.size.height -= kCCNImageTextCellTextHeightAdjust;
