@@ -135,6 +135,10 @@
 			cellFrame.size.height -= (kCCNImageTextCellTextOriginYOffset * yOffset);
 			[super drawWithFrame:cellFrame inView:controlView];
 		}
+        else
+        {
+			[super drawWithFrame:cellFrame inView:controlView];
+        }
 	}
 }
 
