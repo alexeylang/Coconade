@@ -10,8 +10,10 @@
 
 #define kCCNImageTextCellIconImageSizeWidth     16.0f
 #define kCCNImageTextCellIconImageSizeHeight    16.0f
+
 #define kCCNImageTextCellImageOriginXOffset     3.0f
 #define kCCNImageTextCellImageOriginYOffset     1.0f
+
 #define kCCNImageTextCellTextOriginXOffset      2.0f
 #define kCCNImageTextCellTextOriginYOffset      2.0f
 #define kCCNImageTextCellTextHeightAdjust       4.0f
