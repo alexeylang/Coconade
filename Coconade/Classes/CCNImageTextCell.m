@@ -16,6 +16,8 @@
 #define kCCNImageTextCellTextOriginYOffset      2.0f
 #define kCCNImageTextCellTextHeightAdjust       4.0f
 
+#define kCCNImageTextCellTextFontSize           12.0f
+
 
 @interface CCNImageTextCell ()
 
@@ -48,7 +50,7 @@
 {
 	if ( (self = [super init]) )
     {
-        self.font = [NSFont systemFontOfSize:[NSFont smallSystemFontSize]];
+        self.font = [NSFont systemFontOfSize:kCCNImageTextCellTextFontSize];
     }
     
 	return self;
