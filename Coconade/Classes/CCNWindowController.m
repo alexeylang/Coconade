@@ -388,7 +388,8 @@
 	tableColumn.resizingMask = NSTableColumnAutoresizingMask;
     tableColumn.width = modelOutlineFrame.size.width - 3.0f;
     [tableColumn.headerCell setTitle:@""];
-    NSTextFieldCell *imageTextCell = [[[NSTextFieldCell alloc] init] autorelease];
+    CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
+    imageTextCell.image = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
 	[imageTextCell setEditable:YES];
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];
