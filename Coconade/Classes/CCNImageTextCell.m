@@ -104,8 +104,8 @@
 {
 	if ( self.image )
 	{
-        NSRect imageFrame;        
-        NSDivideRect(cellFrame, &imageFrame, &cellFrame, self.image.size.width + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
+        NSRect imageFrame, newFrame;
+        NSDivideRect(cellFrame, &imageFrame, &newFrame, self.image.size.width + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
         
         imageFrame.origin.x += kCCNImageTextCellImageOriginXOffset;
 		imageFrame.origin.y -= kCCNImageTextCellImageOriginYOffset;
@@ -121,7 +121,6 @@
         }
 		[self.image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
         
-		NSRect newFrame = cellFrame;
 		newFrame.origin.x += kCCNImageTextCellTextOriginXOffset;
 		newFrame.origin.y += kCCNImageTextCellTextOriginYOffset;
 		newFrame.size.height -= kCCNImageTextCellTextHeightAdjust;
