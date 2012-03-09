@@ -23,8 +23,6 @@
 
 @interface CCNImageTextCell ()
 
-- (BOOL)isGroupCell;
-
 @end
 
 
@@ -151,13 +149,6 @@
     NSSize cellSize = [super cellSize];
     cellSize.width += (self.image ? self.image.size.width : 0) + kCCNImageTextCellImageOriginXOffset;
     return cellSize;
-}
-
-#pragma mark Helpers
-
-- (BOOL)isGroupCell
-{
-    return (self.image &&  self.title.length);
 }
 
 @end
