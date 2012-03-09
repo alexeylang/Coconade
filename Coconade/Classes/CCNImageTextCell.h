@@ -12,9 +12,15 @@
 @interface CCNImageTextCell : NSTextFieldCell
 {
 	NSImage *_image;
+    BOOL _isGroup;
 }
 
 /** Holds image icon for cell. */
 @property (readwrite, retain) NSImage *image;
+
+/** Returns YES if cell used for representation groups like "Nodes", "Spriteframes" etc.
+ * Otherwise returns NO.
+ */
+@property (readwrite) BOOL isGroup;
 
 @end

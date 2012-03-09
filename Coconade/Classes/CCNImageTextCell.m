@@ -30,6 +30,8 @@
 
 @implementation CCNImageTextCell
 
+@synthesize isGroup = _isGroup;
+
 #pragma mark Properties
 
 @dynamic image;
@@ -130,7 +132,7 @@
     }
 	else
 	{
-		if ( [self isGroupCell] )
+		if ( self.isGroup )
 		{
 			CGFloat yOffset = floor((cellFrame.size.height - self.attributedStringValue.size.height) / 2.0f);
 			cellFrame.origin.y += yOffset;
