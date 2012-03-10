@@ -624,6 +624,16 @@
     }        
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
+{
+    if ( [item isKindOfClass:[NSNumber class]] )
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
 #pragma mark OutlineView DataSource
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
