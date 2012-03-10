@@ -38,7 +38,7 @@
     else if (angle > 22.5f && angle <= 67.5f)
     {
         // Corner.
-        return [NSCursor resizeCornerCursor];
+        return [NSCursor resizeCornerCursorFlipped];
     }
     else if (angle > 67.5f && angle <= 112.5f)
     {
@@ -48,7 +48,7 @@
     else if (angle > 112.5f && angle <= 157.5f)
     {
         // Corner flipped.
-        return [NSCursor resizeCornerCursorFlipped];
+        return [NSCursor resizeCornerCursor];
     }
     else if (angle > 157.5f && angle <= 180)
     {

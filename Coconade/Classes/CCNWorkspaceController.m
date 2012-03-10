@@ -854,7 +854,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self performBlockOnMainThread:^
          {
-             setScaleCursor(nodeAtCursor, 45);
+             setScaleCursor(nodeAtCursor, 135);
          }];
         return;
     }
@@ -865,7 +865,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self performBlockOnMainThread:^
          {
-             setScaleCursor(nodeAtCursor, 135);
+             setScaleCursor(nodeAtCursor, 45);
          }];
         return;
     }
