@@ -10,12 +10,10 @@
 
 @interface NSCursor (CustomCursors)
 
-// TODO: refactor to -resizeCursorWithAngle: 
-/** Creates new autoreleased resizing corner cursor for bottomRight/topLeft corner. */
-+(NSCursor *) resizeCornerCursor;
-
-/** Creates new autoreleased resizing corner cursor for topRight/bottomLeft corner. */
-+(NSCursor *) resizeCornerCursorFlipped;
+/** Creates new autoreleased resizing corner cursor with given rotate. 
+ * @param angle Rotation of wanted cursor in degrees, CCW, zero means right side.
+ */
++ (NSCursor *) resizeCursorWithAngle: (float) angle;
 
 /** Creates new autoreleased cursor from cursorFile with given hotspot. 
  * @param cursorFile filename of file located in resources of app.

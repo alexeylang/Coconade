@@ -818,7 +818,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self performBlockOnMainThread:^
          {
-             [[NSCursor resizeUpDownCursor] set];
+             [[NSCursor resizeCursorWithAngle: 90] set];
          }];
         return;
     } else if (_mouseState == kCCNWorkspaceMouseStateScaleLeft
@@ -828,7 +828,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self performBlockOnMainThread:^
          {
-             [[NSCursor resizeLeftRightCursor] set];
+             [[NSCursor resizeCursorWithAngle: 0] set];
          }];
         return;
     }else if (_mouseState == kCCNWorkspaceMouseStateScaleTopLeft
@@ -838,7 +838,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self performBlockOnMainThread:^
          {
-             [[NSCursor resizeCornerCursor] set];
+             [[NSCursor resizeCursorWithAngle: 45] set];
          }];
         return;
     }
@@ -849,7 +849,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self performBlockOnMainThread:^
          {
-             [[NSCursor resizeCornerCursorFlipped] set];
+             [[NSCursor resizeCursorWithAngle: 135] set];
          }];
         return;
     }
