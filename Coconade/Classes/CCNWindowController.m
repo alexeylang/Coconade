@@ -96,6 +96,18 @@
 
 #define kCCNWindowControllerModelOutlineTableColumnIdentifier   @"modelOutlineTableColumnIdentifier"
 
+#define kCCNWindowControllerModelOutlineRootItemsCount              1
+#define kCCNWindowControllerModelOutlineRootItemNodesName           @"NODES"
+#define kCCNWindowControllerModelOutlineRootItemNodesIndex          0
+#define kCCNWindowControllerModelOutlineRootItemTexturesName        @"TEXTURES"
+#define kCCNWindowControllerModelOutlineRootItemTexturesIndex       1
+#define kCCNWindowControllerModelOutlineRootItemSpriteframesName    @"SPRITEFRAMES"
+#define kCCNWindowControllerModelOutlineRootItemSpriteframesIndex   2
+#define kCCNWindowControllerModelOutlineRootItemAnimationsName      @"ANIMATIONS"
+#define kCCNWindowControllerModelOutlineRootItemAnimationsIndex     3
+#define kCCNWindowControllerModelOutlineRootItemFontsName           @"FONTS"
+#define kCCNWindowControllerModelOutlineRootItemFontsIndex          4
+
 
 @interface CCNWindowController ()
 
