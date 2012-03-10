@@ -972,6 +972,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     CGFloat xFactor = 1.0f;
     CGFloat yFactor = 1.0f;
+    BOOL keepAspectRatio = NO;
     
     // Choose direction of scaling.
     switch (mouseState) {
@@ -998,21 +999,25 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         case kCCNWorkspaceMouseStateScaleTopLeft:
             xFactor = -1.0f;
             yFactor = 1.0f;
+            keepAspectRatio = YES;
             break;
             
         case kCCNWorkspaceMouseStateScaleTopRight:
             xFactor = 1.0f;
             yFactor = 1.0f;
+            keepAspectRatio = YES;
             break;
             
         case kCCNWorkspaceMouseStateScaleBottomLeft:
             xFactor = -1.0f;
             yFactor = -1.0f;
+            keepAspectRatio = YES;
             break;
             
         case kCCNWorkspaceMouseStateScaleBottomRight:
             xFactor = 1.0f;
             yFactor = -1.0f;
+            keepAspectRatio = YES;
             break;           
             
         default:
@@ -1025,20 +1030,45 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Prepare affine transformations here once.
     CGAffineTransform worldToTarget = [targetNode worldToNodeTransform];
     
-    // Scale node.
+    // Prepare scale change for node.
     CGPoint mouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(mouseLocation, worldToTarget);
     CGPoint prevMouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(_prevMouseLocation, worldToTarget); 
     CGPoint mouseLocationDiffInTargetNodeSpace = ccpSub(mouseLocationInTargetNodeSpace, prevMouseLocationInTargetNodeSpace);
-    
+    CGPoint scale = ccp(0, 0);
     if ( targetNodeSize.width )
     {
-        targetNode.scaleX *= ( targetNodeSize.width + xFactor * mouseLocationDiffInTargetNodeSpace.x) / targetNodeSize.width;
+        scale.x = ( targetNodeSize.width + xFactor * mouseLocationDiffInTargetNodeSpace.x) / targetNodeSize.width;
     }
-    
     if ( targetNodeSize.height )
     {
-        targetNode.scaleY *= ( targetNodeSize.height + yFactor * mouseLocationDiffInTargetNodeSpace.y) / targetNodeSize.height;
+        scale.y = ( targetNodeSize.height + yFactor * mouseLocationDiffInTargetNodeSpace.y) / targetNodeSize.height;
     }
+    
+    // Use the same (smallest) scale to keep aspect ratio if needed.
+    if (keepAspectRatio)
+    {
+        CGFloat absoluteY = fabsf(scale.y);
+        CGFloat absoluteX = fabsf(scale.x);
+        
+        // Keep sign of scale components, equalise only absolute values of them.
+        if ( absoluteX < absoluteY )
+        {
+            scale.y /= absoluteY;
+            scale.y *= absoluteX;
+        }
+        else
+        {
+            scale.x /= absoluteX;
+            scale.x *= absoluteY;
+        }
+        
+        scale.x = MIN(scale.x, scale.y);
+        scale.y = MIN(scale.x, scale.y);
+    }
+    
+    // Apply scale.
+    targetNode.scaleX *= scale.x;
+    targetNode.scaleY *= scale.y;
 }
 
 #pragma mark Mouse Event Delegate
