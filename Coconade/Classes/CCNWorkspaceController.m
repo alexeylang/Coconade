@@ -993,6 +993,22 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             yFactor = 0;
             break;
             
+        case kCCNWorkspaceMouseStateScaleTopLeft:
+            xFactor = -1.0f;
+            break;
+            
+        case kCCNWorkspaceMouseStateScaleTopRight:
+            break;
+            
+        case kCCNWorkspaceMouseStateScaleBottomLeft:
+            xFactor = -1.0f;
+            yFactor = -1.0f;
+            break;
+            
+        case kCCNWorkspaceMouseStateScaleBottomRight:
+            yFactor = -1.0f;
+            break;           
+            
         default:
             break;
     }
