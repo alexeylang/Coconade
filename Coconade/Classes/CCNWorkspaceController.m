@@ -977,6 +977,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     switch (mouseState) {
         case kCCNWorkspaceMouseStateScaleTop:
             xFactor = 0;
+            yFactor = 1.0f;
             break;
             
         case kCCNWorkspaceMouseStateScaleBottom:
@@ -990,14 +991,18 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             break;
             
         case kCCNWorkspaceMouseStateScaleRight:
+            xFactor = 1.0f;
             yFactor = 0;
             break;
             
         case kCCNWorkspaceMouseStateScaleTopLeft:
             xFactor = -1.0f;
+            yFactor = 1.0f;
             break;
             
         case kCCNWorkspaceMouseStateScaleTopRight:
+            xFactor = 1.0f;
+            yFactor = 1.0f;
             break;
             
         case kCCNWorkspaceMouseStateScaleBottomLeft:
@@ -1006,6 +1011,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             break;
             
         case kCCNWorkspaceMouseStateScaleBottomRight:
+            xFactor = 1.0f;
             yFactor = -1.0f;
             break;           
             
