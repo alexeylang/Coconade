@@ -60,15 +60,15 @@
 - (void) prepareElements
 {
     // Prepare scale mode elements.
-    _elementRight = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
-    _elementRightTop = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
-    _elementTop = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
-    _elementLeftTop = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
+    _elementRight = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
+    _elementRightTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
+    _elementTop = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
+    _elementLeftTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
     _elementLeftTop.scaleX = -1.0f;
-    _elementLeft = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
-    _elementLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
-    _elementBottom = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
-    _elementRightBottom = [CCSprite spriteWithFile:@"CCNSelectionElement.png"];
+    _elementLeft = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
+    _elementLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
+    _elementBottom = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
+    _elementRightBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
     _elementRightBottom.scaleX = -1.0f;
     
     // Add them as children.
