@@ -407,6 +407,7 @@
     self.modelOutlineView.outlineTableColumn = tableColumn;
     self.modelOutlineView.delegate = self;
     self.modelOutlineView.dataSource = self;
+    [self.modelOutlineView expandItem:[NSNumber numberWithInt:kCCNWindowControllerModelOutlineRootItemNodesIndex]];
     modelOutlineScrollView.documentView = self.modelOutlineView;
     
     // Create and setup center scroll view
