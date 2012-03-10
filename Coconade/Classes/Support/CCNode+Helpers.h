@@ -40,6 +40,11 @@
 /** Returns className without CC prefix. */
 - (NSString *) defaultName;
 
+/** Returns unique name for the receiver or it's name if it's already unique.
+ * @see +uniqueNameWithName:
+ */
+- (NSString *) uniqueNameWithName: (NSString *) nonUniqueName;
+
 /** Returns unique name (name that isn't used currently by any other node
  * in CCNodeCache).
  * Returned string is created by concatanating (if needed) nonUniqueName

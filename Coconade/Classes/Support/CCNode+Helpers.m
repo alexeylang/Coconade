@@ -77,6 +77,17 @@
     return name;
 }
 
+- (NSString *) uniqueNameWithName: (NSString *) nonUniqueName
+{
+    CCNode *nodeWithSameName = [[CCNodeRegistry sharedRegistry] nodeByName: nonUniqueName];
+    if (nonUniqueName && nodeWithSameName && nodeWithSameName == self )
+    {
+        return  nonUniqueName;
+    }
+    
+    return [[self class] uniqueNameWithName:nonUniqueName];
+}
+
 - (NSString *) setUniqueName: (NSString *) nonUniqueName
 {
     NSString *uniqueName = [[self class] uniqueNameWithName: nonUniqueName];
