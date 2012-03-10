@@ -389,7 +389,7 @@
     tableColumn.width = modelOutlineFrame.size.width - 3.0f;
     [tableColumn.headerCell setTitle:@""];
     CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
-    imageTextCell.image = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
+    imageTextCell.iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
 	[imageTextCell setEditable:YES];
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];

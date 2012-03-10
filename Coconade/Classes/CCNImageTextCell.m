@@ -32,18 +32,18 @@
 
 #pragma mark Properties
 
-@dynamic image;
-- (void)setImage:(NSImage *)image
+@dynamic iconImage;
+- (void)setIconImage:(NSImage *)iconImage
 {
-    [image retain];
-    [_image release];
-    _image = image;
-    [_image setSize:NSMakeSize(kCCNImageTextCellIconImageSizeWidth, kCCNImageTextCellIconImageSizeHeight)];
+    [iconImage retain];
+    [_iconImage release];
+    _iconImage = iconImage;
+    [_iconImage setSize:NSMakeSize(kCCNImageTextCellIconImageSizeWidth, kCCNImageTextCellIconImageSizeHeight)];
 }
 
-- (NSImage *)image
+- (NSImage *)iconImage
 {
-    return _image;
+    return _iconImage;
 }
 
 #pragma mark Init/Create
@@ -60,7 +60,7 @@
 
 - (void)dealloc
 {
-    self.image = nil;
+    self.iconImage = nil;
     
     [super dealloc];
 }
@@ -70,7 +70,7 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     CCNImageTextCell *cell = (CCNImageTextCell *)[super copyWithZone:zone];
-    cell.image = self.image;
+    cell.iconImage = self.iconImage;
     return cell;
 }
 
@@ -104,14 +104,14 @@
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
-	if ( self.image )
+	if ( self.iconImage )
 	{
         NSRect imageFrame, newFrame;
-        NSDivideRect(cellFrame, &imageFrame, &newFrame, self.image.size.width + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
+        NSDivideRect(cellFrame, &imageFrame, &newFrame, self.iconImage.size.width + kCCNImageTextCellImageOriginXOffset, NSMinXEdge);
         
         imageFrame.origin.x += kCCNImageTextCellImageOriginXOffset;
 		imageFrame.origin.y -= kCCNImageTextCellImageOriginYOffset;
-        imageFrame.size = self.image.size;
+        imageFrame.size = self.iconImage.size;
 		
         if ( [controlView isFlipped] )
         {
@@ -121,7 +121,7 @@
         {
             imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2.0f);
         }
-		[self.image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
+		[self.iconImage compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
         
 		newFrame.origin.x += kCCNImageTextCellTextOriginXOffset;
 		newFrame.origin.y += kCCNImageTextCellTextOriginYOffset;
@@ -147,7 +147,7 @@
 - (NSSize)cellSize
 {
     NSSize cellSize = [super cellSize];
-    cellSize.width += (self.image ? self.image.size.width : 0) + kCCNImageTextCellImageOriginXOffset;
+    cellSize.width += (self.iconImage ? self.iconImage.size.width : 0) + kCCNImageTextCellImageOriginXOffset;
     return cellSize;
 }
 
