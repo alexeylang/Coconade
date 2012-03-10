@@ -438,10 +438,12 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (void) deleteSelected
 {
-    for (CCNode *node in [self.model.selectedNodes copy])
+    NSArray *selectedNodes = [self.model.selectedNodes copy];
+    for (CCNode *node in selectedNodes )
     {
         [self.model removeNode: node];
     }
+    [selectedNodes release];
 }
 
 // Currently supports only one node.
