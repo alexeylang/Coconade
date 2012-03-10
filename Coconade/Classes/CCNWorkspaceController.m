@@ -961,6 +961,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }   
 }
 
+// TODO: improve scaling feel - element of the selection should stick with mouse cursor.
 - (void) scaleTargetNode: (CCNode *) targetNode withMouseDraggedEvent: (NSEvent *) event withState: (int) mouseState
 {
     // Don't scale nodes with width = height = 0.
