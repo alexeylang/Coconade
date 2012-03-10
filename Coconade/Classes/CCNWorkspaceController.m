@@ -532,7 +532,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         }
     }
     // Make name unique.
-    name = [CCNode uniqueNameWithName: name];
+    name = [aNode uniqueNameWithName: name];
     aNode.name = name;
     
     // Choose parent. Use only one selected node as parent.

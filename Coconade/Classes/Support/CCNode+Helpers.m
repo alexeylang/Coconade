@@ -115,6 +115,10 @@ NSString *CCNodeDictionaryRepresentationKey = @"CCNodeAMC1.1DictionaryRepresenta
     // But we want to save both nodes in CCNodeRegistry, so name must be changed in dictionary.
     NSMutableDictionary *dictWithUniqueName = [NSMutableDictionary dictionaryWithDictionary: dict];
     NSString *name = [dictWithUniqueName objectForKey:@"name"];
+    if ([[CCNodeRegistry sharedRegistry] nodeByName: name])
+    {
+        name = [name stringByAppendingString:@" copy"];
+    }
     NSString *uniqueName = [CCNode uniqueNameWithName: name];
     [dictWithUniqueName setObject:uniqueName forKey:@"name"];
     self = [[NSObject objectWithDictionaryRepresentation: dictWithUniqueName] retain];
