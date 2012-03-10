@@ -70,6 +70,7 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     CCNImageTextCell *cell = (CCNImageTextCell *)[super copyWithZone:zone];
+    cell->_iconImage = nil;
     cell.iconImage = self.iconImage;
     return cell;
 }
