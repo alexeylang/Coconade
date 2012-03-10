@@ -209,6 +209,9 @@
 
 - (void) removeNode: (CCNode *) aNode
 {
+    // Avoid instant dealloc after removing node from it's parent or rootNodes collection.
+    [[aNode retain] autorelease];
+    
     // Ensure to deselect first. 
     [self deselectNode: aNode];
     
@@ -242,6 +245,9 @@
         // Does it have parent? Remove from it.
         [aNode.parent removeChild:aNode cleanup:YES];
     }
+    
+    // We've removed node, so ensure to remove it from CCNodeRegistry.
+    aNode.name = nil;
 }
 
 #pragma mark SelectedNodes KVO-Compliance Methods
