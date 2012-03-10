@@ -10,6 +10,7 @@
 
 @interface NSCursor (CustomCursors)
 
+// TODO: refactor to -resizeCursorWithAngle: 
 /** Creates new autoreleased resizing corner cursor for bottomRight/topLeft corner. */
 +(NSCursor *) resizeCornerCursor;
 

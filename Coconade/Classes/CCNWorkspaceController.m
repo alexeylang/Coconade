@@ -809,6 +809,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     // If we're moving cursor near elements of selection - use corresponding scale cursor.
     // TODO: switch for selection mode.
+    // TODO: Refactor to use degrees instead of cursor types here.
     CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
     if (_mouseState == kCCNWorkspaceMouseStateScaleTop 
         || _mouseState == kCCNWorkspaceMouseStateScaleBottom
