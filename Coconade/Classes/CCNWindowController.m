@@ -616,44 +616,92 @@
 {
     if ( item )
     {
-        CCNode *itemNode = (CCNode *)item;
-        return [itemNode.children objectAtIndex:index];
+        if ( [item isKindOfClass:[NSNumber class]] )
+        {
+            switch ( [item intValue] ) 
+            {
+                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
+                    return [self.workspaceController.model.rootNodes objectAtIndex:index];
+            }
+        }
+        else if ( [item isKindOfClass:[CCNode class]] )
+        {
+            CCNode *itemNode = (CCNode *)item;
+            return [itemNode.children objectAtIndex:index];
+        }        
     }
     else
     {
-        return [self.workspaceController.model.rootNodes objectAtIndex:index];
+        return [NSNumber numberWithInt:index];
     }
+    
+    return nil;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return YES;
+    if ( item )
+    {
+        if ( [item isKindOfClass:[NSNumber class]] )
+        {
+            return YES;
+        }
+        else if ( [item isKindOfClass:[CCNode class]] )
+        {
+            CCNode *itemNode = (CCNode *)item;
+            return (itemNode.children.count != 0);            
+        }        
+    }
+    
+    return NO;
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     if ( item )
     {
-        CCNode *itemNode = (CCNode *)item;
-        return itemNode.children.count;
+        if ( [item isKindOfClass:[NSNumber class]] )
+        {
+            switch ( [item intValue] ) 
+            {
+                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
+                    return self.workspaceController.model.rootNodes.count;
+            }
+        }
+        else if ( [item isKindOfClass:[CCNode class]] )
+        {
+            CCNode *itemNode = (CCNode *)item;
+            return itemNode.children.count;
+        }        
     }
     else
     {
-        return self.workspaceController.model.rootNodes.count;
+        return kCCNWindowControllerModelOutlineRootItemsCount;
     }
+    
+    return 0;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
     if ( item )
     {
-        CCNode *itemNode = (CCNode *)item;
-        return [NSString stringWithFormat:@"%@ : (%@)", itemNode.name, NSStringFromClass([itemNode class])];
+        if ( [item isKindOfClass:[NSNumber class]] )
+        {
+            switch ( [item intValue] ) 
+            {
+                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
+                    return kCCNWindowControllerModelOutlineRootItemNodesName;
+            }
+        }
+        else if ( [item isKindOfClass:[CCNode class]] )
+        {
+            CCNode *itemNode = (CCNode *)item;
+            return [NSString stringWithFormat:@"%@ : (%@)", itemNode.name, NSStringFromClass([itemNode class])];
+        }        
     }
-    else
-    {
-        return nil;
-    }
+    
+    return nil;
 }
 
 #pragma mark Toolbar Delegate
