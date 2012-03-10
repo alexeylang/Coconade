@@ -807,49 +807,65 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         return;
     }
     
+    CCNode *nodeAtCursor = nil;
+    
+    /** Chooses & sets cursor for scaling, depending on node rotation to fit better. */
+    void(^setScaleCursor)(CCNode *, CGFloat) = ^(CCNode *nodeAtCursor, CGFloat originalCursorRotation)
+    {
+        // Prepare node rotation to use right scale cursors even when node is rotated.
+        CGFloat nodeAtCursorRotation = 0;
+        if (nodeAtCursor)
+        {
+            CGAffineTransform transform = [nodeAtCursor nodeToWorldTransform];
+            nodeAtCursorRotation = CC_RADIANS_TO_DEGREES( -atanf(transform.b / transform.a) );
+        }
+        
+        [[NSCursor resizeCursorWithAngle: originalCursorRotation - nodeAtCursorRotation] set];
+    };
+    
     // If we're moving cursor near elements of selection - use corresponding scale cursor.
-    // TODO: switch for selection mode.
-    // TODO: Refactor to use degrees instead of cursor types here.
+    // TODO: switch for selection mode.    
     CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
-    if (_mouseState == kCCNWorkspaceMouseStateScaleTop 
-        || _mouseState == kCCNWorkspaceMouseStateScaleBottom
-        || [self selectedNodeWithElement:kCCNSelectionElementTypeTop nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension]
-        || [self selectedNodeWithElement:kCCNSelectionElementTypeBottom nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension] )
+    if ( (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeTop nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
+        || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeBottom nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+        || _mouseState == kCCNWorkspaceMouseStateScaleTop 
+        || _mouseState == kCCNWorkspaceMouseStateScaleBottom)
+    {
+        [self performBlockOnMainThread: ^
+         {
+             setScaleCursor(nodeAtCursor, 90);
+         }];
+        
+        return;
+    } else if ((nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeLeft nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
+               || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeRight nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+               || _mouseState == kCCNWorkspaceMouseStateScaleLeft
+               || _mouseState == kCCNWorkspaceMouseStateScaleRight)
     {
         [self performBlockOnMainThread:^
          {
-             [[NSCursor resizeCursorWithAngle: 90] set];
+             setScaleCursor(nodeAtCursor, 0);
          }];
         return;
-    } else if (_mouseState == kCCNWorkspaceMouseStateScaleLeft
-               || _mouseState == kCCNWorkspaceMouseStateScaleRight
-               || [self selectedNodeWithElement:kCCNSelectionElementTypeLeft nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension]
-               || [self selectedNodeWithElement:kCCNSelectionElementTypeRight nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension] )
+    }else if ( (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeTopLeft nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
+              || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomRight nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+              || _mouseState == kCCNWorkspaceMouseStateScaleTopLeft
+              || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight)
     {
         [self performBlockOnMainThread:^
          {
-             [[NSCursor resizeCursorWithAngle: 0] set];
-         }];
-        return;
-    }else if (_mouseState == kCCNWorkspaceMouseStateScaleTopLeft
-              || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight
-              || [self selectedNodeWithElement:kCCNSelectionElementTypeTopLeft nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension]
-              || [self selectedNodeWithElement:kCCNSelectionElementTypeBottomRight nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension] )
-    {
-        [self performBlockOnMainThread:^
-         {
-             [[NSCursor resizeCursorWithAngle: 45] set];
+             setScaleCursor(nodeAtCursor, 45);
          }];
         return;
     }
-    else if (_mouseState == kCCNWorkspaceMouseStateScaleTopRight
-             || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft
-             || [self selectedNodeWithElement:kCCNSelectionElementTypeTopRight nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension]
-             || [self selectedNodeWithElement:kCCNSelectionElementTypeBottomLeft nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension] )
+    else if ( (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeTopRight nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
+             || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomLeft nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+             || _mouseState == kCCNWorkspaceMouseStateScaleTopRight
+             || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft)
     {
         [self performBlockOnMainThread:^
          {
-             [[NSCursor resizeCursorWithAngle: 135] set];
+             setScaleCursor(nodeAtCursor, 135);
          }];
         return;
     }
