@@ -401,7 +401,6 @@
 	tableColumn.resizingMask = NSTableColumnAutoresizingMask;
     tableColumn.width = modelOutlineFrame.size.width - 3.0f;
     CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
-    imageTextCell.iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
 	[imageTextCell setEditable:YES];
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];
@@ -608,6 +607,21 @@
 {
     NSCell *returnCell = [tableColumn dataCell];
     return returnCell;
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    CCNImageTextCell *imageTextCell = cell;
+    if ( [item isKindOfClass:[NSNumber class]] )
+    {
+        imageTextCell.isGroup = YES;
+        imageTextCell.iconImage = nil;
+    }  
+    else if ( [item isKindOfClass:[CCNode class]] )
+    {
+        imageTextCell.isGroup = NO;
+        imageTextCell.iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
+    }        
 }
 
 #pragma mark OutlineView DataSource
