@@ -396,10 +396,10 @@
     self.modelOutlineView.indentationPerLevel = 16.0f;
     self.modelOutlineView.rowHeight = 18.0f;
     self.modelOutlineView.intercellSpacing = NSMakeSize(3.0f, 2.0f);
+    self.modelOutlineView.headerView = nil;
     NSTableColumn *tableColumn = [[[NSTableColumn alloc] initWithIdentifier:kCCNWindowControllerModelOutlineTableColumnIdentifier] autorelease];
 	tableColumn.resizingMask = NSTableColumnAutoresizingMask;
     tableColumn.width = modelOutlineFrame.size.width - 3.0f;
-    [tableColumn.headerCell setTitle:@""];
     CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
     imageTextCell.iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
 	[imageTextCell setEditable:YES];
