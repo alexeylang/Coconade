@@ -977,7 +977,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }   
 }
 
-// TODO: improve scaling feel - element of the selection should stick with mouse cursor.
 - (void) scaleTargetNode: (CCNode *) targetNode withMouseDraggedEvent: (NSEvent *) event withState: (int) mouseState
 {
     // Don't scale nodes with width = height = 0.
@@ -990,51 +989,60 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     CGFloat xFactor = 1.0f;
     CGFloat yFactor = 1.0f;
     BOOL keepAspectRatio = NO;
+    CGPoint scaleElementPositionInTargetNodeSpace = ccp(0,0);
     
     // Choose direction of scaling.
     switch (mouseState) {
         case kCCNWorkspaceMouseStateScaleTop:
             xFactor = 0;
             yFactor = 1.0f;
+            scaleElementPositionInTargetNodeSpace = ccp(0.5f * targetNodeSize.width, 1.0f * targetNodeSize.height);
             break;
             
         case kCCNWorkspaceMouseStateScaleBottom:
             xFactor = 0;
             yFactor = -1.0f;
+            scaleElementPositionInTargetNodeSpace = ccp(0.5f * targetNodeSize.width, 0.0f);
             break;
             
         case kCCNWorkspaceMouseStateScaleLeft:
             xFactor = -1.0f;
             yFactor = 0;
+            scaleElementPositionInTargetNodeSpace = ccp(0.0f, 0.5f * targetNodeSize.height);
             break;
             
         case kCCNWorkspaceMouseStateScaleRight:
             xFactor = 1.0f;
             yFactor = 0;
+            scaleElementPositionInTargetNodeSpace = ccp(1.0f * targetNodeSize.width, 0.5f * targetNodeSize.height);
             break;
             
         case kCCNWorkspaceMouseStateScaleTopLeft:
             xFactor = -1.0f;
             yFactor = 1.0f;
             keepAspectRatio = YES;
+            scaleElementPositionInTargetNodeSpace = ccp(0.0f, 1.0f * targetNodeSize.height);
             break;
             
         case kCCNWorkspaceMouseStateScaleTopRight:
             xFactor = 1.0f;
             yFactor = 1.0f;
             keepAspectRatio = YES;
+            scaleElementPositionInTargetNodeSpace = ccp(1.0f * targetNodeSize.width, 1.0f * targetNodeSize.height);
             break;
             
         case kCCNWorkspaceMouseStateScaleBottomLeft:
             xFactor = -1.0f;
             yFactor = -1.0f;
             keepAspectRatio = YES;
+            scaleElementPositionInTargetNodeSpace = ccp(0.0f, 0.0f);
             break;
             
         case kCCNWorkspaceMouseStateScaleBottomRight:
             xFactor = 1.0f;
             yFactor = -1.0f;
             keepAspectRatio = YES;
+            scaleElementPositionInTargetNodeSpace = ccp(1.0f * targetNodeSize.width, 0.0f);
             break;           
             
         default:
@@ -1049,16 +1057,15 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     // Prepare scale change for node.
     CGPoint mouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(mouseLocation, worldToTarget);
-    CGPoint prevMouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(_prevMouseLocation, worldToTarget); 
-    CGPoint mouseLocationDiffInTargetNodeSpace = ccpSub(mouseLocationInTargetNodeSpace, prevMouseLocationInTargetNodeSpace);
+    CGPoint mouseAndElementLocationDiffInTargetNodeSpace = ccpSub(mouseLocationInTargetNodeSpace, scaleElementPositionInTargetNodeSpace);
     CGPoint scale = ccp(0, 0);
     if ( targetNodeSize.width )
     {
-        scale.x = ( targetNodeSize.width + xFactor * mouseLocationDiffInTargetNodeSpace.x) / targetNodeSize.width;
+        scale.x = ( targetNodeSize.width + xFactor * mouseAndElementLocationDiffInTargetNodeSpace.x) / targetNodeSize.width;
     }
     if ( targetNodeSize.height )
     {
-        scale.y = ( targetNodeSize.height + yFactor * mouseLocationDiffInTargetNodeSpace.y) / targetNodeSize.height;
+        scale.y = ( targetNodeSize.height + yFactor * mouseAndElementLocationDiffInTargetNodeSpace.y) / targetNodeSize.height;
     }
     
     // Use the same (smallest) scale to keep aspect ratio if needed.
