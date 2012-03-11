@@ -16,6 +16,7 @@
 #import "CCNImageTextCell.h"
 #import "CCNSeparatorCell.h"
 #import "CCNModel.h"
+#import "CCNOutlineViewDelegate.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -120,6 +121,7 @@
 @property (readwrite, retain) NSMenu *openRecentMenu;
 /** Holds outline view that used to represent hierarchy of model. */
 @property (readwrite, retain) NSOutlineView *modelOutlineView;
+@property (readwrite, retain) CCNOutlineViewDelegate *modelOutlineViewDelegate;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc. 
@@ -139,6 +141,7 @@
 @synthesize mainSplitView = _mainSplitView;
 @synthesize leftView = _leftView;
 @synthesize modelOutlineView = _modelOutlineView;
+@synthesize modelOutlineViewDelegate = _modelOutlineViewDelegate;
 @synthesize centerScrollView = _centerScrollView;
 @synthesize rightView = _rightView;
 @synthesize viewSegmentedControl = _viewSegmentedControl;
@@ -173,6 +176,9 @@
     self.workspaceController = nil;
     self.mainSplitView = nil;
     self.leftView = nil;
+    self.modelOutlineView.dataSource = nil;
+    self.modelOutlineView.delegate = nil;
+    self.modelOutlineViewDelegate = nil;
     self.modelOutlineView = nil;
     self.centerScrollView = nil;
     self.rightView = nil;
@@ -393,9 +399,9 @@
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];
     self.modelOutlineView.outlineTableColumn = tableColumn;
-    self.modelOutlineView.delegate = self;
-    self.modelOutlineView.dataSource = self;
-    [self.modelOutlineView expandItem:[NSNumber numberWithInt:kCCNWindowControllerModelOutlineRootItemNodesIndex]];
+    self.modelOutlineViewDelegate = [CCNOutlineViewDelegate delegateWithModel:self.workspaceController.model];
+    self.modelOutlineView.delegate = self.modelOutlineViewDelegate;
+    self.modelOutlineView.dataSource = self.modelOutlineViewDelegate;
     modelOutlineScrollView.documentView = self.modelOutlineView;
     
     // Create and setup center scroll view
