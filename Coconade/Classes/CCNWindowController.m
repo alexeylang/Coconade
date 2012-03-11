@@ -173,6 +173,7 @@
 {
     [self.leftView removeObserver:self forKeyPath: @"hidden"];
     [self.rightView removeObserver:self forKeyPath: @"hidden"];
+    [self.workspaceController removeObserver:self forKeyPath: @"model"];
 
     self.workspaceController = nil;
     self.mainSplitView = nil;
@@ -404,6 +405,10 @@
     self.modelOutlineView.delegate = self.modelOutlineViewDelegate;
     self.modelOutlineView.dataSource = self.modelOutlineViewDelegate;
     modelOutlineScrollView.documentView = self.modelOutlineView;
+    [self.workspaceController addObserver:self 
+                               forKeyPath:@"model" 
+                                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+                                  context:NULL];
     
     // Create and setup center scroll view
     NSRect centerFrame = NSMakeRect(0.0f, 
@@ -681,7 +686,7 @@
     return toolbarItem;
 }
 
-#pragma mark LeftView & RightView KVO
+#pragma mark KVO
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -697,6 +702,18 @@
         if ([keyPath isEqualToString:@"hidden"])
         {
             [self.viewSegmentedControl setSelected: !self.rightView.isHidden forSegment:1];
+        }
+    }
+    else if (object == self.workspaceController)
+    {
+        if ([keyPath isEqualToString:@"model"])
+        {
+            CCNModel *newModel = [change objectForKey:@"new"];
+            if ( newModel )
+            {
+                self.modelOutlineViewDelegate.model = newModel;
+                [self.modelOutlineView reloadData];
+            }
         }
     }
 }
