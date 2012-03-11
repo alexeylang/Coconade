@@ -121,6 +121,7 @@
 @property (readwrite, retain) NSMenu *openRecentMenu;
 /** Holds outline view that used to represent hierarchy of model. */
 @property (readwrite, retain) NSOutlineView *modelOutlineView;
+/** Holds delegate for outline view that used to represent hierarchy of model. */
 @property (readwrite, retain) CCNOutlineViewDelegate *modelOutlineViewDelegate;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
