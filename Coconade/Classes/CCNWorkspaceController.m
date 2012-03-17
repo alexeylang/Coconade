@@ -731,6 +731,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 /** Trackpad's TwoFingerRotate Gesture event handler.
  * Rotates selectedNode.
+ * On ALT - skews selectedNode in X dimension.
+ * On ALT + CTRL - skews selectedNode in Y dimension.
  */
 - (BOOL)ccRotateWithEvent:(NSEvent *)event
 {
@@ -738,8 +740,27 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
 	for (CCNode *node in self.model.selectedNodes)
 	{
+        CGFloat initialValue = node.rotation;
+        NSString *propertyKey = @"rotation";
+        
+        // SkewX on ALT pressed.
+        if ( [NSEvent modifierFlags] & NSAlternateKeyMask )
+        {
+            // SkewY
+            if ([NSEvent modifierFlags] & NSControlKeyMask)
+            {
+                initialValue = node.skewY;
+                propertyKey = @"skewY";
+            }
+            else 
+            {
+                initialValue = node.skewX;
+                propertyKey = @"skewX";
+            }
+        }
+        
         // Subtract event rotation, cause it's CCW (Node's rotation is CW).
-		float newRotation = node.rotation - [event rotation];
+		float newRotation = initialValue - [event rotation];
 		
 		// Stay in [0; 360]  range.
         newRotation = fmodf(newRotation, 360.0f);
@@ -748,8 +769,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 			newRotation += 360;
         }
 		
-        // Set new rotation.
-		node.rotation = newRotation;
+        // Set new rotation/skew.
+		NSNumber *newValueNumber = [NSNumber numberWithFloat: newRotation];
+        [node setValue:newValueNumber forKey:propertyKey];
         
         result = YES;
 	}
