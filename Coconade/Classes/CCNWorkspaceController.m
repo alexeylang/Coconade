@@ -131,9 +131,16 @@ enum workspaceMouseState
 #pragma mark Events Support
 
 /** Returns node in current hierarchy, that correpsonds to given location in screen coordinates.
- * If there's no such node for given event - returns nil.
+ * If there's no such node for given screen point - returns nil.
  */
 - (CCNode *) nodeForScreenPoint: (NSPoint) screenPoint;
+
+/** Returns selected node in current hierarchy, that correpsonds to given location in screen coordinates.
+ * If there's no such node for given screen point or it's not selected - returns nil.
+ * This method looks up only in selectedNodes, so if you're looking for selectedNode -
+ * use it instead of -nodeForScreenPoint.
+ */
+- (CCNode *) selectedNodeNearScreenPoint: (NSPoint) screenPoint;
 
 /** Searches through selected nodes to fine the one, that have anchorPoint indicator
  * near given screenPoint.
