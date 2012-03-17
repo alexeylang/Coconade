@@ -61,26 +61,26 @@
 - (void) prepareElements
 {
     // Prepare scale mode elements.
-    _elementRight = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
-    _elementRightTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
-    _elementTop = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
-    _elementLeftTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
-    _elementLeftTop.scaleX = -1.0f;
-    _elementLeft = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
-    _elementLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
-    _elementBottom = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
-    _elementRightBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
-    _elementRightBottom.scaleX = -1.0f;
+    _elementRectangleRight = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
+    _elementSquareRightTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
+    _elementRectangleTop = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
+    _elementSquareLeftTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
+    _elementSquareLeftTop.scaleX = -1.0f;
+    _elementRectangleLeft = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
+    _elementSquareLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
+    _elementRectangleBottom = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
+    _elementSquareRightBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
+    _elementSquareRightBottom.scaleX = -1.0f;
     
     // Add them as children.
-    [self addChild:_elementBottom];
-    [self addChild:_elementLeft];
-    [self addChild:_elementLeftBottom];
-    [self addChild:_elementLeftTop];
-    [self addChild:_elementRight];
-    [self addChild:_elementRightBottom];
-    [self addChild:_elementRightTop];
-    [self addChild:_elementTop];
+    [self addChild:_elementRectangleBottom];
+    [self addChild:_elementRectangleLeft];
+    [self addChild:_elementSquareLeftBottom];
+    [self addChild:_elementSquareLeftTop];
+    [self addChild:_elementRectangleRight];
+    [self addChild:_elementSquareRightBottom];
+    [self addChild:_elementSquareRightTop];
+    [self addChild:_elementRectangleTop];
 }
 
 - (void) positionElements
@@ -89,25 +89,25 @@
     CGAffineTransform transform = [_targetNode nodeToWorldTransform];
     
     // Position.
-    _elementRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
-    _elementRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
-    _elementTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height), transform );
-    _elementLeftTop.position = CGPointApplyAffineTransform( ccp(0, size.height), transform );
-    _elementLeft.position = CGPointApplyAffineTransform( ccp(0, 0.5f* size.height), transform );
-    _elementLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
-    _elementBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
-    _elementRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
+    _elementRectangleRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
+    _elementSquareRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
+    _elementRectangleTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height), transform );
+    _elementSquareLeftTop.position = CGPointApplyAffineTransform( ccp(0, size.height), transform );
+    _elementRectangleLeft.position = CGPointApplyAffineTransform( ccp(0, 0.5f* size.height), transform );
+    _elementSquareLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
+    _elementRectangleBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
+    _elementSquareRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
     
     // Rotate.
     CGFloat rotation = CC_RADIANS_TO_DEGREES( -atanf(transform.b / transform.a) );    
-    _elementRight.rotation = rotation;
-    _elementRightTop.rotation = rotation;
-    _elementTop.rotation = rotation;
-    _elementLeftTop.rotation = rotation;
-    _elementLeft.rotation = rotation;
-    _elementLeftBottom.rotation = rotation;
-    _elementBottom.rotation = rotation;
-    _elementRightBottom.rotation = rotation;
+    _elementRectangleRight.rotation = rotation;
+    _elementSquareRightTop.rotation = rotation;
+    _elementRectangleTop.rotation = rotation;
+    _elementSquareLeftTop.rotation = rotation;
+    _elementRectangleLeft.rotation = rotation;
+    _elementSquareLeftBottom.rotation = rotation;
+    _elementRectangleBottom.rotation = rotation;
+    _elementSquareRightBottom.rotation = rotation;
 }
 
 - (void)dealloc
@@ -248,14 +248,14 @@
 - (void) onExit
 {    
     // Loose weak refs.
-    _elementRight = nil;
-    _elementRightTop = nil;
-    _elementTop = nil;
-    _elementLeftTop = nil;
-    _elementLeft = nil;
-    _elementLeftBottom = nil;
-    _elementBottom = nil;
-    _elementRightBottom = nil;
+    _elementRectangleRight = nil;
+    _elementSquareRightTop = nil;
+    _elementRectangleTop = nil;
+    _elementSquareLeftTop = nil;
+    _elementRectangleLeft = nil;
+    _elementSquareLeftBottom = nil;
+    _elementRectangleBottom = nil;
+    _elementSquareRightBottom = nil;
     
     [super onExit];
 }
@@ -267,28 +267,28 @@
     switch (type) 
     {
         case kCCNSelectionElementTypeTop:
-            return _elementTop;
+            return _elementRectangleTop;
             
         case kCCNSelectionElementTypeBottom:
-            return _elementBottom;
+            return _elementRectangleBottom;
             
         case kCCNSelectionElementTypeLeft:
-            return _elementLeft;
+            return _elementRectangleLeft;
             
         case kCCNSelectionElementTypeRight:
-            return _elementRight;
+            return _elementRectangleRight;
             
         case kCCNSelectionElementTypeTopLeft:
-            return _elementLeftTop;
+            return _elementSquareLeftTop;
             
         case kCCNSelectionElementTypeTopRight:
-            return _elementRightTop;
+            return _elementSquareRightTop;
             
         case kCCNSelectionElementTypeBottomLeft:
-            return _elementLeftBottom;
+            return _elementSquareLeftBottom;
             
         case kCCNSelectionElementTypeBottomRight:
-            return _elementRightBottom;  
+            return _elementSquareRightBottom;  
             
         default:
             return nil;
