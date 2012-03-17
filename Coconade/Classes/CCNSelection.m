@@ -80,20 +80,6 @@
     [self addChild:_elementRightBottom];
     [self addChild:_elementRightTop];
     [self addChild:_elementTop];
-    
-    // Use additive blending.
-    ccBlendFunc additiveInvertingBlend;
-    additiveInvertingBlend.src = GL_ONE;
-    additiveInvertingBlend.dst = GL_ONE_MINUS_DST_COLOR;    
-    _elementBottom.blendFunc = additiveInvertingBlend;
-    _elementLeft.blendFunc = additiveInvertingBlend;
-    _elementLeftBottom.blendFunc = additiveInvertingBlend;
-    _elementLeftTop.blendFunc = additiveInvertingBlend;
-    _elementRight.blendFunc = additiveInvertingBlend;
-    _elementRightBottom.blendFunc = additiveInvertingBlend;
-    _elementRightTop.blendFunc = additiveInvertingBlend;
-    _elementTop.blendFunc = additiveInvertingBlend;
-    
 }
 
 - (void) positionElements
