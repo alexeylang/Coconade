@@ -405,34 +405,68 @@
 
 - (CCNode *) elementNodeWithType: (CCNSelectionElementType) type
 {
-    switch (type) 
+    if ( _elementsMode == kCCNSelectionElementsModeSquaresAndRectangles )
     {
-        case kCCNSelectionElementTypeTop:
-            return _elementRectangleTop;
-            
-        case kCCNSelectionElementTypeBottom:
-            return _elementRectangleBottom;
-            
-        case kCCNSelectionElementTypeLeft:
-            return _elementRectangleLeft;
-            
-        case kCCNSelectionElementTypeRight:
-            return _elementRectangleRight;
-            
-        case kCCNSelectionElementTypeTopLeft:
-            return _elementSquareLeftTop;
-            
-        case kCCNSelectionElementTypeTopRight:
-            return _elementSquareRightTop;
-            
-        case kCCNSelectionElementTypeBottomLeft:
-            return _elementSquareLeftBottom;
-            
-        case kCCNSelectionElementTypeBottomRight:
-            return _elementSquareRightBottom;  
-            
-        default:
-            return nil;
+        switch (type) 
+        {
+            case kCCNSelectionElementTypeTop:
+                return _elementRectangleTop;
+                
+            case kCCNSelectionElementTypeBottom:
+                return _elementRectangleBottom;
+                
+            case kCCNSelectionElementTypeLeft:
+                return _elementRectangleLeft;
+                
+            case kCCNSelectionElementTypeRight:
+                return _elementRectangleRight;
+                
+            case kCCNSelectionElementTypeTopLeft:
+                return _elementSquareLeftTop;
+                
+            case kCCNSelectionElementTypeTopRight:
+                return _elementSquareRightTop;
+                
+            case kCCNSelectionElementTypeBottomLeft:
+                return _elementSquareLeftBottom;
+                
+            case kCCNSelectionElementTypeBottomRight:
+                return _elementSquareRightBottom;  
+                
+            default:
+                return nil;
+        }
+    } else if ( _elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms )
+    {
+        switch (type) 
+        {
+            case kCCNSelectionElementTypeTop:
+                return _elementParallelogramTop;
+                
+            case kCCNSelectionElementTypeBottom:
+                return _elementParallelogramBottom;
+                
+            case kCCNSelectionElementTypeLeft:
+                return _elementParallelogramLeft;
+                
+            case kCCNSelectionElementTypeRight:
+                return _elementParallelogramRight;
+                
+            case kCCNSelectionElementTypeTopLeft:
+                return _elementCircleLeftTop;
+                
+            case kCCNSelectionElementTypeTopRight:
+                return _elementCircleRightTop;
+                
+            case kCCNSelectionElementTypeBottomLeft:
+                return _elementCircleLeftBottom;
+                
+            case kCCNSelectionElementTypeBottomRight:
+                return _elementCircleRightBottom;  
+                
+            default:
+                return nil;
+        }
     }
 
     return nil;
