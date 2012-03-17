@@ -53,7 +53,19 @@ typedef enum
     CCSprite *_elementSquareRightTop;    
     CCSprite *_elementSquareLeftTop;
     CCSprite *_elementSquareRightBottom;
-    CCSprite *_elementSquareLeftBottom;    
+    CCSprite *_elementSquareLeftBottom;
+    
+    // Parallelograms elements (weak refs to children).
+    CCSprite *_elementParallelogramTop;
+    CCSprite *_elementParallelogramRight;
+    CCSprite *_elementParallelogramLeft;
+    CCSprite *_elementParallelogramBottom;
+    
+    // Circles elements (weak refs to children).
+    CCSprite *_elementCircleRightTop;    
+    CCSprite *_elementCircleLeftTop;
+    CCSprite *_elementCircleRightBottom;
+    CCSprite *_elementCircleLeftBottom;
     
     CCNSelectionElementsMode _elementsMode;
 }

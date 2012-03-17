@@ -74,6 +74,18 @@
     _elementSquareRightBottom.scaleX = -1.0f;
     _elementSquareLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
     
+    // Prepare parallelograms.
+    _elementParallelogramTop = [CCSprite spriteWithFile:@"CCNSelectionElementParallelogramHorizontal.png"];
+    _elementParallelogramRight = [CCSprite spriteWithFile:@"CCNSelectionElementParallelogramVertical.png"];    
+    _elementParallelogramLeft = [CCSprite spriteWithFile:@"CCNSelectionElementParallelogramVertical.png"];
+    _elementParallelogramBottom = [CCSprite spriteWithFile:@"CCNSelectionElementParallelogramHorizontal.png"];
+    
+    // Prepare circles.
+    _elementCircleRightTop = [CCSprite spriteWithFile:@"CCNSelectionElementCircle.png"];
+    _elementCircleLeftTop = [CCSprite spriteWithFile:@"CCNSelectionElementCircle.png"];
+    _elementCircleRightBottom = [CCSprite spriteWithFile:@"CCNSelectionElementCircle.png"];
+    _elementCircleLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElementCircle.png"];
+    
     // Add rectangles.
     [self addChild:_elementRectangleTop];
     [self addChild:_elementRectangleRight];
@@ -86,6 +98,17 @@
     [self addChild:_elementSquareRightBottom];
     [self addChild:_elementSquareRightTop];
     
+    // Add parallelograms.
+    [self addChild:_elementParallelogramTop];
+    [self addChild:_elementParallelogramRight];
+    [self addChild:_elementParallelogramLeft];
+    [self addChild:_elementParallelogramBottom];
+    
+    // Add circles.
+    [self addChild:_elementCircleLeftBottom];
+    [self addChild:_elementCircleLeftTop];
+    [self addChild:_elementCircleRightBottom];
+    [self addChild:_elementCircleRightTop];
 }
 
 - (void) positionElements
@@ -106,6 +129,18 @@
     _elementSquareRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
     _elementSquareLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
     
+    // Position parallelograms same as rectangles.
+    _elementParallelogramTop.position = _elementRectangleTop.position ;
+    _elementParallelogramRight.position = _elementRectangleRight.position;
+    _elementParallelogramLeft.position = _elementRectangleLeft.position;
+    _elementParallelogramBottom.position = _elementRectangleBottom.position;
+    
+    // Position circles same as squares.
+    _elementCircleRightTop.position = _elementSquareRightTop.position;
+    _elementCircleLeftTop.position = _elementSquareLeftTop.position;
+    _elementCircleRightBottom.position = _elementSquareRightBottom.position;
+    _elementCircleLeftBottom.position = _elementSquareLeftBottom.position;
+    
     // Rotate rectangles.  
     _elementRectangleTop.rotation = rotation;
     _elementRectangleRight.rotation = rotation;
@@ -117,6 +152,18 @@
     _elementSquareLeftTop.rotation = rotation;
     _elementSquareRightBottom.rotation = rotation;
     _elementSquareLeftBottom.rotation = rotation;
+    
+    // Rotate parallelograms.  
+    _elementParallelogramTop.rotation = rotation;
+    _elementParallelogramRight.rotation = rotation;
+    _elementParallelogramLeft.rotation = rotation;
+    _elementParallelogramBottom.rotation = rotation;
+    
+    // Rotate circles.
+    _elementCircleRightTop.rotation = rotation;
+    _elementCircleLeftTop.rotation = rotation;
+    _elementCircleRightBottom.rotation = rotation;
+    _elementCircleLeftBottom.rotation = rotation;
 }
 
 - (void)dealloc
@@ -267,6 +314,18 @@
     _elementSquareLeftTop = nil;
     _elementSquareRightBottom = nil;
     _elementSquareLeftBottom = nil;    
+    
+    // Loose weak refs to parallelograms.
+    _elementParallelogramTop = nil;
+    _elementParallelogramRight = nil;
+    _elementParallelogramLeft = nil;
+    _elementParallelogramBottom = nil;
+    
+    // Loose weak refs to circles.
+    _elementCircleRightTop = nil;
+    _elementCircleLeftTop = nil;
+    _elementCircleRightBottom = nil;
+    _elementCircleLeftBottom = nil;  
     
     [super onExit];
 }
