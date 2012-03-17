@@ -1144,6 +1144,74 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     targetNode.scaleY *= scale.y;
 }
 
+- (void) skewTargetNode: (CCNode *) targetNode withMouseDraggedEvent: (NSEvent *) event withState: (int) mouseState
+{    
+    // Don't skew nodes with width = height = 0.
+    // TODO: is it possible to skew node with width != 0 && height == 0 ?
+    CGSize targetNodeSize = targetNode.contentSize;
+    if ( !targetNodeSize.width && !targetNodeSize.height )
+    {
+        return;
+    }
+    
+    CGFloat xFactor = 1.0f;
+    CGFloat yFactor = 1.0f;
+    CGPoint skewElementPositionInTargetNodeSpace = ccp(0,0);
+    
+    // Choose direction of skewing.
+    switch (mouseState) {
+        case kCCNWorkspaceMouseStateSkewTop:
+            xFactor = 1.0f;
+            yFactor = 0.0f;
+            skewElementPositionInTargetNodeSpace = ccp(0.5f * targetNodeSize.width, 1.0f * targetNodeSize.height);
+            break;
+            
+        case kCCNWorkspaceMouseStateSkewBottom:
+            xFactor = -1.0f;
+            yFactor = 0.0f;
+            skewElementPositionInTargetNodeSpace = ccp(0.5f * targetNodeSize.width, 0.0f);
+            break;
+            
+        case kCCNWorkspaceMouseStateSkewLeft:
+            xFactor = 0.0f;
+            yFactor = -1.0f;
+            skewElementPositionInTargetNodeSpace = ccp(0.0f, 0.5f * targetNodeSize.height);
+            break;
+            
+        case kCCNWorkspaceMouseStateSkewRight:
+            xFactor = 0.0f;
+            yFactor = 1.0f;
+            skewElementPositionInTargetNodeSpace = ccp(1.0f * targetNodeSize.width, 0.5f * targetNodeSize.height);
+            break;
+            
+        default:
+            break;
+    }
+    
+    // Get mouse location diff.
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
+    
+    // Prepare affine transformations here once.
+    CGAffineTransform worldToTarget = [targetNode worldToNodeTransform];
+    
+    // Prepare skew change for node.
+    CGPoint mouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(mouseLocation, worldToTarget);
+    CGPoint mouseAndElementLocationDiffInTargetNodeSpace = ccpSub(mouseLocationInTargetNodeSpace, skewElementPositionInTargetNodeSpace);
+    CGPoint shift = ccp(0,0);
+    if ( targetNodeSize.height )
+    {
+        shift.x = xFactor * mouseAndElementLocationDiffInTargetNodeSpace.x;
+        CGFloat angle = atanf(shift.x / targetNodeSize.height );
+        targetNode.skewX += CC_RADIANS_TO_DEGREES( angle );
+    }
+    if ( targetNodeSize.width )
+    {
+        shift.y = yFactor * mouseAndElementLocationDiffInTargetNodeSpace.y;
+        CGFloat angle = atanf(shift.y / targetNodeSize.width );
+        targetNode.skewY += CC_RADIANS_TO_DEGREES( angle );
+    }
+}
+
 #pragma mark Mouse Event Delegate
 
 -(BOOL) ccScrollWheel:(NSEvent *)theEvent 
@@ -1385,7 +1453,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     else if (_mouseState >= kCCNWorkspaceMouseStateSkewFirst && _mouseState <= kCCNWorkspaceMouseStateSkewLast)
     {
-        // TODO: skew with event.
+        [self skewTargetNode: self.nodeBeingEdited withMouseDraggedEvent:event withState: _mouseState];
     }
     
     // Don't update cursor on dragging - it should remain the same.
