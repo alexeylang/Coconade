@@ -26,7 +26,76 @@
 
 @synthesize targetNode = _targetNode;
 @synthesize anchorPointIndicator = _anchor;
-@synthesize elementsMode = _elementsMode;
+@dynamic elementsMode;
+- (CCNSelectionElementsMode) elementsMode
+{
+    return _elementsMode;
+}
+
+-(void) setElementsMode:(CCNSelectionElementsMode)elementsMode
+{
+    _elementsMode = elementsMode;
+    
+    switch (_elementsMode) {
+        case kCCNSelectionElementsModeSquaresAndRectangles:
+            
+            // Make rectangles visible.
+            _elementRectangleTop.visible = YES;
+            _elementRectangleRight.visible = YES;
+            _elementRectangleLeft.visible = YES;
+            _elementRectangleBottom.visible = YES;
+            
+            // Make squares visible.
+            _elementSquareRightTop.visible = YES;
+            _elementSquareLeftTop.visible = YES;
+            _elementSquareRightBottom.visible = YES;
+            _elementSquareLeftBottom.visible = YES;
+            
+            // Make parallelograms invisible.
+            _elementParallelogramTop.visible = NO;
+            _elementParallelogramRight.visible = NO;
+            _elementParallelogramLeft.visible = NO;
+            _elementParallelogramBottom.visible = NO;
+            
+            // Make circles invisible.
+            _elementCircleRightTop.visible = NO;
+            _elementCircleLeftTop.visible = NO;
+            _elementCircleRightBottom.visible = NO;
+            _elementCircleLeftBottom.visible = NO;
+            break;
+            
+        case kCCNSelectionElementsModeCirclesAndParallelograms:
+            
+            // Make rectangles invisible.
+            _elementRectangleTop.visible = NO;
+            _elementRectangleRight.visible = NO;
+            _elementRectangleLeft.visible = NO;
+            _elementRectangleBottom.visible = NO;
+            
+            // Make squares invisible.
+            _elementSquareRightTop.visible = NO;
+            _elementSquareLeftTop.visible = NO;
+            _elementSquareRightBottom.visible = NO;
+            _elementSquareLeftBottom.visible = NO;
+            
+            // Make parallelograms visible.
+            _elementParallelogramTop.visible = YES;
+            _elementParallelogramRight.visible = YES;
+            _elementParallelogramLeft.visible = YES;
+            _elementParallelogramBottom.visible = YES;
+            
+            // Make circles visible.
+            _elementCircleRightTop.visible = YES;
+            _elementCircleLeftTop.visible = YES;
+            _elementCircleRightBottom.visible = YES;
+            _elementCircleLeftBottom.visible = YES;
+            break;
+            
+        default:
+            NSLog(@"CCNSelection#setElementsMode: wrong mode!");
+            break;
+    }
+}
 
 #pragma mark Init/DeInit
 
@@ -53,6 +122,8 @@
 		[_anchor addChild:_positionLabel];
         
         [self prepareElements];
+        
+        self.elementsMode = kCCNSelectionElementsModeSquaresAndRectangles;
 	}
 	
 	return self;
