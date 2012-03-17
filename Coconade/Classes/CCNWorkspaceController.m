@@ -164,6 +164,18 @@ enum workspaceMouseState
  */
 - (CCNode *) selectedNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint withAreaExtension: (CGSize) areaExtension;
 
+/** Searches through current CCNSelection nodes to find the one, that have given element
+ * (one of the squares at sides center or corners) located near given screenPoint.
+ *
+ * @param areaExtension Size, that describes how much area around the element should be extendend.
+ * Half of each component of that size is added to elements contentSize from each side.
+ *
+ * @return Finded selection with such element or nil otherwise.
+ * Can be used instead of -selectedNodeWithElement:nearScreenPoint:withAreaExtensions:
+ * when you need both CCNSelection and it's targetNode.
+ */
+- (CCNSelection *) selectionNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint withAreaExtension: (CGSize) areaExtension;
+
 /** Adds CCNWorkspaceController to CCEventDispatcher keyboard, mouse & gesture delegates lists. */
 - (void) registerWithEventDispatcher;
 
@@ -791,6 +803,21 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         if ([CCNode isScreenPoint:screenPoint locatedInNode:element withAreaExtension:areaExtension])
         {
             return node;
+        }
+    }
+    
+    return nil;
+}
+
+- (CCNSelection *) selectionNodeWithElement: (CCNSelectionElementType) elementType nearScreenPoint:(NSPoint) screenPoint withAreaExtension: (CGSize) areaExtension
+{
+    for ( CCNode *node in self.model.selectedNodes )
+    {
+        CCNSelection *selection = [self.scene selectionForNode: node];
+        CCNode *element = [selection elementNodeWithType: elementType];
+        if ([CCNode isScreenPoint:screenPoint locatedInNode:element withAreaExtension:areaExtension])
+        {
+            return selection;
         }
     }
     
