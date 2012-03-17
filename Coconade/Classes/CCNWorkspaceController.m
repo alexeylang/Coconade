@@ -1194,21 +1194,35 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Prepare affine transformations here once.
     CGAffineTransform worldToTarget = [targetNode worldToNodeTransform];
     
-    // Prepare skew change for node.
+    // Calculate new skew.
     CGPoint mouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(mouseLocation, worldToTarget);
     CGPoint mouseAndElementLocationDiffInTargetNodeSpace = ccpSub(mouseLocationInTargetNodeSpace, skewElementPositionInTargetNodeSpace);
     CGPoint shift = ccp(0,0);
+    CGPoint newSkew = ccp(0,0);
     if ( targetNodeSize.height )
     {
         shift.x = xFactor * mouseAndElementLocationDiffInTargetNodeSpace.x;
         CGFloat angle = atanf(shift.x / targetNodeSize.height );
-        targetNode.skewX += CC_RADIANS_TO_DEGREES( angle );
+        newSkew.x = targetNode.skewX + CC_RADIANS_TO_DEGREES( angle );
     }
     if ( targetNodeSize.width )
     {
         shift.y = yFactor * mouseAndElementLocationDiffInTargetNodeSpace.y;
         CGFloat angle = atanf(shift.y / targetNodeSize.width );
-        targetNode.skewY += CC_RADIANS_TO_DEGREES( angle );
+        newSkew.y = targetNode.skewY + CC_RADIANS_TO_DEGREES( angle );
+    }
+    
+    // When skew is more than 60 degrees - transforming mouseLocation from world to node
+    // gives very big fast changing values. This leads to very jumpy skew value, so
+    // we will limit skew value to the range of (-58;58).
+    // XXX: allow full-range skew with mouse without artifacts.
+    if (fabsf(newSkew.x) <= 58)
+    {
+        targetNode.skewX = newSkew.x;
+    }
+    if (fabsf(newSkew.y) <= 58)
+    {
+        targetNode.skewY = newSkew.y;
     }
 }
 
