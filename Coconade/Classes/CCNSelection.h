@@ -43,15 +43,17 @@ typedef enum
 	CCSprite *_anchor;
 	CCLabelBMFont *_positionLabel;
     
-    // Corners & sides elements for SquaresAndRectangles ElementsMode (weak refs to children).
-    CCSprite *_elementRectangleRight;
-    CCSprite *_elementSquareRightTop;
+    // Rectangle elements (weak refs to children).
     CCSprite *_elementRectangleTop;
-    CCSprite *_elementSquareLeftTop;
+    CCSprite *_elementRectangleRight;
     CCSprite *_elementRectangleLeft;
-    CCSprite *_elementSquareLeftBottom;
     CCSprite *_elementRectangleBottom;
+    
+    // Square elements (weak refs to children).
+    CCSprite *_elementSquareRightTop;    
+    CCSprite *_elementSquareLeftTop;
     CCSprite *_elementSquareRightBottom;
+    CCSprite *_elementSquareLeftBottom;    
     
     CCNSelectionElementsMode _elementsMode;
 }

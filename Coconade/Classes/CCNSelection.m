@@ -60,54 +60,63 @@
 
 - (void) prepareElements
 {
-    // Prepare scale mode elements.
-    _elementRectangleRight = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
-    _elementSquareRightTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
+    // Prepare rectangles.
     _elementRectangleTop = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
+    _elementRectangleRight = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];    
+    _elementRectangleLeft = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
+    _elementRectangleBottom = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
+    
+    // Prepare squares.
+    _elementSquareRightTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
     _elementSquareLeftTop = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
     _elementSquareLeftTop.scaleX = -1.0f;
-    _elementRectangleLeft = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleVertical.png"];
-    _elementSquareLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
-    _elementRectangleBottom = [CCSprite spriteWithFile:@"CCNSelectionElementRectangleHorizontal.png"];
     _elementSquareRightBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
     _elementSquareRightBottom.scaleX = -1.0f;
+    _elementSquareLeftBottom = [CCSprite spriteWithFile:@"CCNSelectionElementSquare.png"];
     
-    // Add them as children.
-    [self addChild:_elementRectangleBottom];
+    // Add rectangles.
+    [self addChild:_elementRectangleTop];
+    [self addChild:_elementRectangleRight];
     [self addChild:_elementRectangleLeft];
+    [self addChild:_elementRectangleBottom];    
+    
+    // Add squares.
     [self addChild:_elementSquareLeftBottom];
     [self addChild:_elementSquareLeftTop];
-    [self addChild:_elementRectangleRight];
     [self addChild:_elementSquareRightBottom];
     [self addChild:_elementSquareRightTop];
-    [self addChild:_elementRectangleTop];
+    
 }
 
 - (void) positionElements
 {
     CGSize size = [_targetNode contentSize];
     CGAffineTransform transform = [_targetNode nodeToWorldTransform];
+    CGFloat rotation = CC_RADIANS_TO_DEGREES( -atanf(transform.b / transform.a) );
     
-    // Position.
-    _elementRectangleRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
-    _elementSquareRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
+    // Position rectangles.
     _elementRectangleTop.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, size.height), transform );
-    _elementSquareLeftTop.position = CGPointApplyAffineTransform( ccp(0, size.height), transform );
+    _elementRectangleRight.position = CGPointApplyAffineTransform( ccp(size.width, 0.5f * size.height), transform );
     _elementRectangleLeft.position = CGPointApplyAffineTransform( ccp(0, 0.5f* size.height), transform );
-    _elementSquareLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
     _elementRectangleBottom.position = CGPointApplyAffineTransform( ccp(0.5f * size.width, 0), transform );
-    _elementSquareRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
     
-    // Rotate.
-    CGFloat rotation = CC_RADIANS_TO_DEGREES( -atanf(transform.b / transform.a) );    
-    _elementRectangleRight.rotation = rotation;
-    _elementSquareRightTop.rotation = rotation;
+    // Position squares.
+    _elementSquareRightTop.position = CGPointApplyAffineTransform( ccp(size.width, size.height), transform );
+    _elementSquareLeftTop.position = CGPointApplyAffineTransform( ccp(0, size.height), transform );
+    _elementSquareRightBottom.position = CGPointApplyAffineTransform( ccp(size.width, 0), transform );
+    _elementSquareLeftBottom.position = CGPointApplyAffineTransform( ccp(0, 0), transform );
+    
+    // Rotate rectangles.  
     _elementRectangleTop.rotation = rotation;
-    _elementSquareLeftTop.rotation = rotation;
+    _elementRectangleRight.rotation = rotation;
     _elementRectangleLeft.rotation = rotation;
-    _elementSquareLeftBottom.rotation = rotation;
     _elementRectangleBottom.rotation = rotation;
+    
+    // Rotate squares.
+    _elementSquareRightTop.rotation = rotation;
+    _elementSquareLeftTop.rotation = rotation;
     _elementSquareRightBottom.rotation = rotation;
+    _elementSquareLeftBottom.rotation = rotation;
 }
 
 - (void)dealloc
@@ -247,15 +256,17 @@
 
 - (void) onExit
 {    
-    // Loose weak refs.
-    _elementRectangleRight = nil;
-    _elementSquareRightTop = nil;
+    // Loose weak refs to rectangles.
     _elementRectangleTop = nil;
-    _elementSquareLeftTop = nil;
+    _elementRectangleRight = nil;
     _elementRectangleLeft = nil;
-    _elementSquareLeftBottom = nil;
     _elementRectangleBottom = nil;
+    
+    // Loose weak refs to squares.
+    _elementSquareRightTop = nil;
+    _elementSquareLeftTop = nil;
     _elementSquareRightBottom = nil;
+    _elementSquareLeftBottom = nil;    
     
     [super onExit];
 }
