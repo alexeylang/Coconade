@@ -34,6 +34,8 @@ typedef enum
  * node hierarchy, grabs another node and highlights it, applying targetNode
  * transformation to self.
  * It's used only as highlight, and doesn't change anything in targetNode by itself.
+ *
+ * @todo support targetNodes with zero content size?
  */
 @interface CCNSelection : CCNode {
     
