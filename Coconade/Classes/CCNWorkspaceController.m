@@ -742,6 +742,19 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 #pragma mark - Mouse Events
 
+- (CCNode *) selectedNodeNearScreenPoint: (NSPoint) screenPoint
+{
+    for ( CCNode *node in self.model.selectedNodes )
+    {
+        if ([CCNode isScreenPoint:screenPoint locatedInNode:node])
+        {
+            return node;
+        }
+    }
+    
+    return nil;
+}
+
 - (CCNode *) selectedNodeWithAnchorPointNearScreenPoint:(NSPoint) screenPoint 
 {
     for ( CCNode *node in self.model.selectedNodes )
@@ -1220,8 +1233,12 @@ static const float kCCNIncrementZOrderBig = 10.0f;
                     self.nodeBeingEdited = node;
                     _mouseState = kCCNWorkspaceMouseStateMove;
                 }
-                else // This is already selected node - simply move - all transform checks are made above.
-                { 
+                else // This is already selected node.                 
+                {               
+                    // Plan to toggle selection mode, if no dragging will occur.
+                    _toggleSelectionModeOnMouseUp = YES;
+                    
+                    // Simply move - all transform checks are made above.
                     _mouseState = kCCNWorkspaceMouseStateMove;
                 }                
             }//< No shift.
@@ -1246,6 +1263,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseMoved:(NSEvent *)event
 {
+    // Mouse moved - this is not a click!
+    _toggleSelectionModeOnMouseUp = NO;
+    
     // Update cursor.
     [self updateCursor];
 
@@ -1254,6 +1274,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseDragged:(NSEvent *)event
 {	    
+    // Mouse moved - this is not a click!
+    _toggleSelectionModeOnMouseUp = NO;
+    
     CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];
     
     if (_mouseState == kCCNWorkspaceMouseStateDragAnchor)
@@ -1288,9 +1311,25 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (BOOL)ccMouseUp:(NSEvent *)event
 {	
+    // If just simply clicked on node, without dragging/scaleing/rotating/etc it 
+    // - togle selectionMode.
+    if (_toggleSelectionModeOnMouseUp)
+    {
+        NSPoint screenPoint = [[event window] convertBaseToScreen:[event locationInWindow]];
+        CCNode *node = [self selectedNodeNearScreenPoint: screenPoint];
+        
+        if (node)
+        {
+            // Toggle selection elements mode.
+            CCNSelection *selection = [self.scene selectionForNode: node];
+            [selection toggleElementsMode];
+        }
+    }    
+    
     // Stop anything.
     _mouseState = kCCNWorkspaceMouseStateIdle;
     self.nodeBeingEdited = nil;
+    _toggleSelectionModeOnMouseUp = NO;
     
     // Remember previous mouse location to move node.
 	_prevMouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];

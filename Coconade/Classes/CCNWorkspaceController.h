@@ -25,6 +25,7 @@
     CGPoint _prevMouseLocation;
     CCNode *_nodeBeingEdited;
     int _mouseState;    
+    BOOL _toggleSelectionModeOnMouseUp;
 }
 
 /** Property to hold glView, provided from outside. */
