@@ -24,6 +24,12 @@ typedef enum
     kCCNSelectionElementTypeBottomRight,
 } CCNSelectionElementType;
 
+typedef enum
+{
+    kCCNSelectionElementsModeSquaresAndRectangles,
+    kCCNSelectionElementsModeCirclesAndParallelograms,
+} CCNSelectionElementsMode;
+
 /** @class CCNSelection Node that located in the root level of
  * node hierarchy, grabs another node and highlights it, applying targetNode
  * transformation to self.
@@ -46,6 +52,8 @@ typedef enum
     CCSprite *_elementLeftBottom;
     CCSprite *_elementBottom;
     CCSprite *_elementRightBottom;
+    
+    CCNSelectionElementsMode _elementsMode;
 }
 
 /** Node that will be highlated by CCNSelection.
@@ -54,6 +62,11 @@ typedef enum
  * Can be nil - this means that nothing get's highlighted and CCNSelection is hidden.
  */
 @property(readwrite, retain) CCNode *targetNode;
+
+/** Selection mode, can be one of the kCCNSelectionElementsModeXXX constants.
+ * Changing this property will affect CCNSelection's look.
+ */
+@property(readwrite, assign) CCNSelectionElementsMode elementsMode;
 
 /** Returns node, that is positioned at targetNode's anchorPoint. */
 @property(readonly, retain) CCNode *anchorPointIndicator;

@@ -26,6 +26,7 @@
 
 @synthesize targetNode = _targetNode;
 @synthesize anchorPointIndicator = _anchor;
+@synthesize elementsMode = _elementsMode;
 
 #pragma mark Init/DeInit
 
