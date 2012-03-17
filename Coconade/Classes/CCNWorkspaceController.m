@@ -1178,46 +1178,100 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 {
     CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
     
-    // TODO: check here for mode of selection.
+    CCNSelection *selection = nil;
     
-    CCNode *node = nil;
+    if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeTop nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {        
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateSkewTop;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleTop;
+        }
+    }
+    else if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeBottom nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateSkewBottom;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleBottom;
+        }
+    }
+    else if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateSkewLeft;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleLeft;
+        }
+    }
+    else if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateSkewRight;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleRight;
+        }
+    }
+    else if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeTopLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateRotateTopLeft;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleTopLeft;
+        }
+    }
+    else if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeTopRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateRotateTopRight;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleTopRight;
+        }
+    }
+    else if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeBottomLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateRotateBottomLeft;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleBottomLeft;
+        }
+    }
+    else if ( (selection = [self selectionNodeWithElement:kCCNSelectionElementTypeBottomRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    {
+        if (selection.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+        {
+            _mouseState = kCCNWorkspaceMouseStateRotateBottomRight;
+        }
+        else
+        {
+            _mouseState = kCCNWorkspaceMouseStateScaleBottomRight;
+        }
+    }
     
-    if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeTop nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
+    if (selection)
     {
-        _mouseState = kCCNWorkspaceMouseStateScaleTop;
-    }
-    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeBottom nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
-    {
-        _mouseState = kCCNWorkspaceMouseStateScaleBottom;
-    }
-    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
-    {
-        _mouseState = kCCNWorkspaceMouseStateScaleLeft;
-    }
-    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
-    {
-        _mouseState = kCCNWorkspaceMouseStateScaleRight;
-    }
-    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeTopLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
-    {
-        _mouseState = kCCNWorkspaceMouseStateScaleTopLeft;
-    }
-    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeTopRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
-    {
-        _mouseState = kCCNWorkspaceMouseStateScaleTopRight;
-    }
-    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomLeft nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
-    {
-        _mouseState = kCCNWorkspaceMouseStateScaleBottomLeft;
-    }
-    else if ( (node = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomRight nearScreenPoint:screenPoint withAreaExtension: scaleElementExtension]) )
-    {
-        _mouseState = kCCNWorkspaceMouseStateScaleBottomRight;
-    }
-    
-    if (node)
-    {
-        self.nodeBeingEdited = node;
+        self.nodeBeingEdited = selection.targetNode;
         return YES;
     }
     
