@@ -188,6 +188,9 @@
 		FADDF2BD14E44B8000D42B0C /* CCNWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */; };
 		FAEFA64E14F93AB70006E5CC /* left_panel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEFA64C14F93AB70006E5CC /* left_panel_icon.png */; };
 		FAEFA64F14F93AB70006E5CC /* right_panel_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEFA64D14F93AB70006E5CC /* right_panel_icon.png */; };
+		FD11B3F21514CCF000B7C9EF /* CCNSelectionElementCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = FD11B3EF1514CCF000B7C9EF /* CCNSelectionElementCircle.png */; };
+		FD11B3F31514CCF000B7C9EF /* CCNSelectionElementParallelogramHorizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = FD11B3F01514CCF000B7C9EF /* CCNSelectionElementParallelogramHorizontal.png */; };
+		FD11B3F41514CCF000B7C9EF /* CCNSelectionElementParallelogramVertical.png in Resources */ = {isa = PBXBuildFile; fileRef = FD11B3F11514CCF000B7C9EF /* CCNSelectionElementParallelogramVertical.png */; };
 		FD1B85A21506B9930061F5C9 /* NSCursor+CustomCursors.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1B85A11506B9930061F5C9 /* NSCursor+CustomCursors.m */; };
 		FD1B85A71506BBFB0061F5C9 /* resizeCornerCursor.png in Resources */ = {isa = PBXBuildFile; fileRef = FD1B85A51506BBFB0061F5C9 /* resizeCornerCursor.png */; };
 		FD1B85A81506BBFB0061F5C9 /* resizeCornerCursorFlipped.png in Resources */ = {isa = PBXBuildFile; fileRef = FD1B85A61506BBFB0061F5C9 /* resizeCornerCursorFlipped.png */; };
@@ -418,6 +421,9 @@
 		FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNWindowController.m; sourceTree = "<group>"; };
 		FAEFA64C14F93AB70006E5CC /* left_panel_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_panel_icon.png; sourceTree = "<group>"; };
 		FAEFA64D14F93AB70006E5CC /* right_panel_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_panel_icon.png; sourceTree = "<group>"; };
+		FD11B3EF1514CCF000B7C9EF /* CCNSelectionElementCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionElementCircle.png; sourceTree = "<group>"; };
+		FD11B3F01514CCF000B7C9EF /* CCNSelectionElementParallelogramHorizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionElementParallelogramHorizontal.png; sourceTree = "<group>"; };
+		FD11B3F11514CCF000B7C9EF /* CCNSelectionElementParallelogramVertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionElementParallelogramVertical.png; sourceTree = "<group>"; };
 		FD1B85A01506B9930061F5C9 /* NSCursor+CustomCursors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCursor+CustomCursors.h"; sourceTree = "<group>"; };
 		FD1B85A11506B9930061F5C9 /* NSCursor+CustomCursors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCursor+CustomCursors.m"; sourceTree = "<group>"; };
 		FD1B85A51506BBFB0061F5C9 /* resizeCornerCursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeCornerCursor.png; sourceTree = "<group>"; };
@@ -840,6 +846,9 @@
 		FDC741D514FD78AC00E0B860 /* CCNSelection */ = {
 			isa = PBXGroup;
 			children = (
+				FD11B3EF1514CCF000B7C9EF /* CCNSelectionElementCircle.png */,
+				FD11B3F01514CCF000B7C9EF /* CCNSelectionElementParallelogramHorizontal.png */,
+				FD11B3F11514CCF000B7C9EF /* CCNSelectionElementParallelogramVertical.png */,
 				FD4F9C08150B8D8C00A9F766 /* CCNSelectionElementRectangleHorizontal.png */,
 				FD4F9C09150B8D8C00A9F766 /* CCNSelectionElementRectangleVertical.png */,
 				FD4F9C0A150B8D8C00A9F766 /* CCNSelectionElementSquare.png */,
@@ -1049,6 +1058,9 @@
 				FD4F9C0B150B8D8C00A9F766 /* CCNSelectionElementRectangleHorizontal.png in Resources */,
 				FD4F9C0C150B8D8C00A9F766 /* CCNSelectionElementRectangleVertical.png in Resources */,
 				FD4F9C0D150B8D8C00A9F766 /* CCNSelectionElementSquare.png in Resources */,
+				FD11B3F21514CCF000B7C9EF /* CCNSelectionElementCircle.png in Resources */,
+				FD11B3F31514CCF000B7C9EF /* CCNSelectionElementParallelogramHorizontal.png in Resources */,
+				FD11B3F41514CCF000B7C9EF /* CCNSelectionElementParallelogramVertical.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
