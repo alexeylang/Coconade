@@ -88,4 +88,12 @@ typedef enum
 /** Returns node of element with given type. */
 - (CCNode *) elementNodeWithType: (CCNSelectionElementType) type;
 
+#pragma mark Mode Control
+
+/** Changes mode of the selection's elements to the next one.
+ * If last mode is already used - changes to the first one.
+ * @see elementsMode
+ */
+- (void) toggleElementsMode;
+
 @end

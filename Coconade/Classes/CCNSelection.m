@@ -472,4 +472,18 @@
     return nil;
 }
 
+#pragma mark Mode Control
+
+- (void) toggleElementsMode
+{
+    if (self.elementsMode == kCCNSelectionElementsModeSquaresAndRectangles)
+    {
+        self.elementsMode = kCCNSelectionElementsModeCirclesAndParallelograms;
+    }
+    else 
+    {
+        self.elementsMode = kCCNSelectionElementsModeSquaresAndRectangles;
+    }
+}
+
 @end
