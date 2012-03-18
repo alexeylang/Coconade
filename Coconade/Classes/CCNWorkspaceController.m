@@ -878,7 +878,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         return;
     }
     
-    CCNode *nodeAtCursor = nil;
     
     /** Chooses & sets cursor for scaling, depending on node rotation to fit better. */
     void(^setScaleCursor)(CCNode *, CGFloat) = ^(CCNode *nodeAtCursor, CGFloat originalCursorRotation)
@@ -903,37 +902,33 @@ static const float kCCNIncrementZOrderBig = 10.0f;
      * @param elementType CCNSelectionElementType that will be used to find 
      * selectedNode.
      *
-     * @return YES if selectedNode was found, NO otherwise
+     * @return CCNselection of selectedNode if it was found, NO otherwise.
      */
-    BOOL(^matchNodeElement)(CCNSelectionElementType) = 
+    CCNSelection *(^selection)(CCNSelectionElementType) = 
     ^(CCNSelectionElementType elementType)
     {
-        nodeAtCursor = [self selectedNodeWithElement: elementType
-                                     nearScreenPoint: mouseLocationInScreen 
-                                   withAreaExtension: scaleElementExtension];
-        if (nodeAtCursor)
-        {
-            return YES;
-        }
-        
-        return NO;
+        CCNSelection *nodeAtCursorSelection = [self selectionNodeWithElement: elementType
+                                                            nearScreenPoint: mouseLocationInScreen 
+                                                           withAreaExtension: scaleElementExtension];
+        nodeAtCursor = nodeAtCursorSelection.targetNode;
+        return nodeAtCursorSelection;
     };    
     
     // If we're moving cursor near elements of selection - use corresponding scale cursor.
     // TODO: switch for selection mode.    
-    if ( matchNodeElement(kCCNSelectionElementTypeTop) 
-        || (matchNodeElement(kCCNSelectionElementTypeBottom))
+    if ( selection(kCCNSelectionElementTypeTop) 
+        || (selection(kCCNSelectionElementTypeBottom))
         || _mouseState == kCCNWorkspaceMouseStateScaleTop 
         || _mouseState == kCCNWorkspaceMouseStateScaleBottom)
-    {
+    {        
         [self performBlockOnMainThread: ^
          {
              setScaleCursor(nodeAtCursor, 90);
          }];
         
         return;
-    } else if (matchNodeElement(kCCNSelectionElementTypeLeft)
-               || matchNodeElement(kCCNSelectionElementTypeRight)
+    } else if (selection(kCCNSelectionElementTypeLeft)
+               || selection(kCCNSelectionElementTypeRight)
                || _mouseState == kCCNWorkspaceMouseStateScaleLeft
                || _mouseState == kCCNWorkspaceMouseStateScaleRight)
     {
@@ -942,8 +937,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
              setScaleCursor(nodeAtCursor, 0);
          }];
         return;
-    }else if ( matchNodeElement(kCCNSelectionElementTypeTopLeft)
-              || matchNodeElement(kCCNSelectionElementTypeBottomRight)
+    }else if ( selection(kCCNSelectionElementTypeTopLeft)
+              || selection(kCCNSelectionElementTypeBottomRight)
               || _mouseState == kCCNWorkspaceMouseStateScaleTopLeft
               || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight)
     {
@@ -953,8 +948,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
          }];
         return;
     }
-    else if ( matchNodeElement(kCCNSelectionElementTypeTopRight)
-             || matchNodeElement(kCCNSelectionElementTypeBottomLeft)
+    else if ( selection(kCCNSelectionElementTypeTopRight)
+             || selection(kCCNSelectionElementTypeBottomLeft)
              || _mouseState == kCCNWorkspaceMouseStateScaleTopRight
              || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft)
     {
