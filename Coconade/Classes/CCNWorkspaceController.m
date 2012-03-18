@@ -865,19 +865,12 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 
 - (void) updateCursor
 {
+    // Prepare variables.
     NSPoint mouseLocationInScreen = [NSEvent mouseLocation];
     NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
-    
-    // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
-    if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self selectedNodeWithAnchorPointNearScreenPoint: mouseLocationInScreen])
-    {
-        [self performBlockOnMainThread:^
-         {
-             [[NSCursor crosshairCursor] set];
-         }];
-        return;
-    }
-    
+    __block CCNode *nodeAtCursor = nil;
+    void (^setCursorBlock)() = nil;
+    CGSize elementExtension = kCCNWorkspaceControllerScaleElementExtension();
     
     /** Chooses & sets cursor for scaling, depending on node rotation to fit better. */
     void(^setScaleCursor)(CCNode *, CGFloat) = ^(CCNode *nodeAtCursor, CGFloat originalCursorRotation)
@@ -893,10 +886,6 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         [[NSCursor resizeCursorWithAngle: originalCursorRotation - nodeAtCursorRotation] set];
     };
     
-    __block CCNode *nodeAtCursor = nil;
-    void (^setCursorBlock)() = nil;
-    CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
-    
     /** Checks if there's any selectedNode with givenElement type near mouse
      * & sets nodeAtCursor to it if found.
      *
@@ -909,75 +898,71 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     ^(CCNSelectionElementType elementType)
     {
         CCNSelection *nodeAtCursorSelection = [self selectionNodeWithElement: elementType
-                                                            nearScreenPoint: mouseLocationInScreen 
-                                                           withAreaExtension: scaleElementExtension];
+                                                             nearScreenPoint: mouseLocationInScreen 
+                                                           withAreaExtension: elementExtension];
         nodeAtCursor = nodeAtCursorSelection.targetNode;
         return nodeAtCursorSelection;
-    };    
-    
-    // If we're moving cursor near elements of selection - use corresponding scale cursor.
-    // TODO: switch for selection mode.    
-    if ( selection(kCCNSelectionElementTypeTop) 
-        || (selection(kCCNSelectionElementTypeBottom))
-        || _mouseState == kCCNWorkspaceMouseStateScaleTop 
-        || _mouseState == kCCNWorkspaceMouseStateScaleBottom)
-    {        
-        setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 90); };
-    } 
-    else if (selection(kCCNSelectionElementTypeLeft)
-               || selection(kCCNSelectionElementTypeRight)
-               || _mouseState == kCCNWorkspaceMouseStateScaleLeft
-               || _mouseState == kCCNWorkspaceMouseStateScaleRight)
+    };
+       
+    // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
+    if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self selectedNodeWithAnchorPointNearScreenPoint: mouseLocationInScreen])
     {
-        setCursorBlock = ^ { setScaleCursor(nodeAtCursor, 0); };
+        setCursorBlock = ^ { [[NSCursor crosshairCursor] set]; };
     }
-    else if ( selection(kCCNSelectionElementTypeTopLeft)
-              || selection(kCCNSelectionElementTypeBottomRight)
-              || _mouseState == kCCNWorkspaceMouseStateScaleTopLeft
-              || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight)
+    else 
     {
-        setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 135); };
-    }
-    else if ( selection(kCCNSelectionElementTypeTopRight)
-             || selection(kCCNSelectionElementTypeBottomLeft)
-             || _mouseState == kCCNWorkspaceMouseStateScaleTopRight
-             || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft)
-    {
-        setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 45); };
-    }
-    
-    if (setCursorBlock)
-    {
-        [self performBlockOnMainThread: setCursorBlock ];
-        return;
-    }
-    
-    // If we moving cursor on node, but not near selection element nor anchorPointIndicator.
-    CCNode *node = [self nodeForScreenPoint: mouseLocationInScreen];
-    if (node)
-    {
-        if ( mouseButtons & 1 && _mouseState == kCCNWorkspaceMouseStateMove )
+        // If we're moving cursor near elements of selection - use corresponding scale cursor.
+        // TODO: switch for selection mode.
+        
+        if ( selection(kCCNSelectionElementTypeTop) 
+            || (selection(kCCNSelectionElementTypeBottom))
+            || _mouseState == kCCNWorkspaceMouseStateScaleTop 
+            || _mouseState == kCCNWorkspaceMouseStateScaleBottom)
+        {        
+            setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 90); };
+        } 
+        else if (selection(kCCNSelectionElementTypeLeft)
+                 || selection(kCCNSelectionElementTypeRight)
+                 || _mouseState == kCCNWorkspaceMouseStateScaleLeft
+                 || _mouseState == kCCNWorkspaceMouseStateScaleRight)
         {
-            [self performBlockOnMainThread:^
-             {
-                 [[NSCursor closedHandCursor] set];
-             }];
+            setCursorBlock = ^ { setScaleCursor(nodeAtCursor, 0); };
         }
+        else if ( selection(kCCNSelectionElementTypeTopLeft)
+                 || selection(kCCNSelectionElementTypeBottomRight)
+                 || _mouseState == kCCNWorkspaceMouseStateScaleTopLeft
+                 || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight)
+        {
+            setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 135); };
+        }
+        else if ( selection(kCCNSelectionElementTypeTopRight)
+                 || selection(kCCNSelectionElementTypeBottomLeft)
+                 || _mouseState == kCCNWorkspaceMouseStateScaleTopRight
+                 || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft)
+        {
+            setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 45); };
+        }
+        else if ([self nodeForScreenPoint: mouseLocationInScreen])
+        {
+            // If we moving cursor on node, but not near selection element nor anchorPointIndicator.
+            if ( mouseButtons & 1 && _mouseState == kCCNWorkspaceMouseStateMove )
+            {
+                setCursorBlock = ^{ [[NSCursor closedHandCursor] set]; };
+            }
+            else
+            {
+                setCursorBlock = ^{ [[NSCursor openHandCursor] set]; };
+            }
+        }    
         else
         {
-            [self performBlockOnMainThread:^
-             {
-                 [[NSCursor openHandCursor] set];
-             }];
+            // Nothing interesting - use standard arrow.        
+            setCursorBlock = ^{ [[NSCursor arrowCursor] set]; };
         }
-    }    
-    else
-    {
-        [self performBlockOnMainThread:^
-         {
-             [[NSCursor arrowCursor] set];
-         }];
     }
+    
+    // Set cursor with chosen seter block.
+    [self performBlockOnMainThread: setCursorBlock ];
 }
 
 - (void)dragAnchorOfTargetNode: (CCNode *) targetNode withMouseDraggedEvent:(NSEvent *)event
