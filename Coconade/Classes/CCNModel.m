@@ -98,6 +98,7 @@
         }
         
         _rootNodes = [[NSMutableArray arrayWithCapacity: [dict count]] retain];
+        _selectedNodes = [[NSMutableArray arrayWithCapacity: 5] retain];
         for (NSString *key in dict)
         {
             NSDictionary *rootNodeDictionaryRepresentation = [dict objectForKey: key];
