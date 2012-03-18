@@ -894,6 +894,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     };
     
     __block CCNode *nodeAtCursor = nil;
+    void (^setCursorBlock)() = nil;
     CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
     
     /** Checks if there's any selectedNode with givenElement type near mouse
@@ -921,42 +922,33 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         || _mouseState == kCCNWorkspaceMouseStateScaleTop 
         || _mouseState == kCCNWorkspaceMouseStateScaleBottom)
     {        
-        [self performBlockOnMainThread: ^
-         {
-             setScaleCursor(nodeAtCursor, 90);
-         }];
-        
-        return;
-    } else if (selection(kCCNSelectionElementTypeLeft)
+        setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 90); };
+    } 
+    else if (selection(kCCNSelectionElementTypeLeft)
                || selection(kCCNSelectionElementTypeRight)
                || _mouseState == kCCNWorkspaceMouseStateScaleLeft
                || _mouseState == kCCNWorkspaceMouseStateScaleRight)
     {
-        [self performBlockOnMainThread:^
-         {
-             setScaleCursor(nodeAtCursor, 0);
-         }];
-        return;
-    }else if ( selection(kCCNSelectionElementTypeTopLeft)
+        setCursorBlock = ^ { setScaleCursor(nodeAtCursor, 0); };
+    }
+    else if ( selection(kCCNSelectionElementTypeTopLeft)
               || selection(kCCNSelectionElementTypeBottomRight)
               || _mouseState == kCCNWorkspaceMouseStateScaleTopLeft
               || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight)
     {
-        [self performBlockOnMainThread:^
-         {
-             setScaleCursor(nodeAtCursor, 135);
-         }];
-        return;
+        setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 135); };
     }
     else if ( selection(kCCNSelectionElementTypeTopRight)
              || selection(kCCNSelectionElementTypeBottomLeft)
              || _mouseState == kCCNWorkspaceMouseStateScaleTopRight
              || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft)
     {
-        [self performBlockOnMainThread:^
-         {
-             setScaleCursor(nodeAtCursor, 45);
-         }];
+        setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 45); };
+    }
+    
+    if (setCursorBlock)
+    {
+        [self performBlockOnMainThread: setCursorBlock ];
         return;
     }
     
