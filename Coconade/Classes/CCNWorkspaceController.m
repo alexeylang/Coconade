@@ -894,11 +894,35 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         [[NSCursor resizeCursorWithAngle: originalCursorRotation - nodeAtCursorRotation] set];
     };
     
+    __block CCNode *nodeAtCursor = nil;
+    CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
+    
+    /** Checks if there's any selectedNode with givenElement type near mouse
+     * & sets nodeAtCursor to it if found.
+     *
+     * @param elementType CCNSelectionElementType that will be used to find 
+     * selectedNode.
+     *
+     * @return YES if selectedNode was found, NO otherwise
+     */
+    BOOL(^matchNodeElement)(CCNSelectionElementType) = 
+    ^(CCNSelectionElementType elementType)
+    {
+        nodeAtCursor = [self selectedNodeWithElement: elementType
+                                     nearScreenPoint: mouseLocationInScreen 
+                                   withAreaExtension: scaleElementExtension];
+        if (nodeAtCursor)
+        {
+            return YES;
+        }
+        
+        return NO;
+    };    
+    
     // If we're moving cursor near elements of selection - use corresponding scale cursor.
     // TODO: switch for selection mode.    
-    CGSize scaleElementExtension = kCCNWorkspaceControllerScaleElementExtension();
-    if ( (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeTop nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
-        || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeBottom nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+    if ( matchNodeElement(kCCNSelectionElementTypeTop) 
+        || (matchNodeElement(kCCNSelectionElementTypeBottom))
         || _mouseState == kCCNWorkspaceMouseStateScaleTop 
         || _mouseState == kCCNWorkspaceMouseStateScaleBottom)
     {
@@ -908,8 +932,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
          }];
         
         return;
-    } else if ((nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeLeft nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
-               || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeRight nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+    } else if (matchNodeElement(kCCNSelectionElementTypeLeft)
+               || matchNodeElement(kCCNSelectionElementTypeRight)
                || _mouseState == kCCNWorkspaceMouseStateScaleLeft
                || _mouseState == kCCNWorkspaceMouseStateScaleRight)
     {
@@ -918,8 +942,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
              setScaleCursor(nodeAtCursor, 0);
          }];
         return;
-    }else if ( (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeTopLeft nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
-              || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomRight nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+    }else if ( matchNodeElement(kCCNSelectionElementTypeTopLeft)
+              || matchNodeElement(kCCNSelectionElementTypeBottomRight)
               || _mouseState == kCCNWorkspaceMouseStateScaleTopLeft
               || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight)
     {
@@ -929,8 +953,8 @@ static const float kCCNIncrementZOrderBig = 10.0f;
          }];
         return;
     }
-    else if ( (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeTopRight nearScreenPoint:mouseLocationInScreen withAreaExtension: scaleElementExtension])
-             || (nodeAtCursor = [self selectedNodeWithElement:kCCNSelectionElementTypeBottomLeft nearScreenPoint:mouseLocationInScreen withAreaExtension:scaleElementExtension])
+    else if ( matchNodeElement(kCCNSelectionElementTypeTopRight)
+             || matchNodeElement(kCCNSelectionElementTypeBottomLeft)
              || _mouseState == kCCNWorkspaceMouseStateScaleTopRight
              || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft)
     {
