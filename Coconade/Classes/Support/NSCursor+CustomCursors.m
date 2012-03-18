@@ -10,6 +10,21 @@
 
 @implementation NSCursor (CustomCursors)
 
++ (NSCursor *) rotationCursor
+{
+    return [self cursor: @"rotateCursor.png"  withHotSpot:NSMakePoint(11, 11)];
+}
+
++ (NSCursor *) skewCursorHorizontal
+{
+    return [self cursor: @"skewCursorHorizontal.png"  withHotSpot:NSMakePoint(12, 8)];
+}
+
++ (NSCursor *) skewCursorVertical
+{
+    return [self cursor: @"skewCursorVertical.png"  withHotSpot:NSMakePoint(8, 12)];
+}
+
 +(NSCursor *) resizeCornerCursor
 {
     return [self cursor: @"resizeCornerCursor.png"  withHotSpot:NSMakePoint(8, 8)];

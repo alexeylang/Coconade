@@ -202,6 +202,9 @@
 		FD32C37015160FAF00E9EE93 /* resizeCornerCursor68.png in Resources */ = {isa = PBXBuildFile; fileRef = FD32C36E15160FAF00E9EE93 /* resizeCornerCursor68.png */; };
 		FD32C374151610EF00E9EE93 /* resizeCornerCursor157.png in Resources */ = {isa = PBXBuildFile; fileRef = FD32C372151610EF00E9EE93 /* resizeCornerCursor157.png */; };
 		FD32C375151610EF00E9EE93 /* resizeCornerCursor202.png in Resources */ = {isa = PBXBuildFile; fileRef = FD32C373151610EF00E9EE93 /* resizeCornerCursor202.png */; };
+		FD32C37915162DFD00E9EE93 /* rotateCursor.png in Resources */ = {isa = PBXBuildFile; fileRef = FD32C37615162DFC00E9EE93 /* rotateCursor.png */; };
+		FD32C37A15162DFD00E9EE93 /* skewCursorHorizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = FD32C37715162DFC00E9EE93 /* skewCursorHorizontal.png */; };
+		FD32C37B15162DFD00E9EE93 /* skewCursorVertical.png in Resources */ = {isa = PBXBuildFile; fileRef = FD32C37815162DFC00E9EE93 /* skewCursorVertical.png */; };
 		FD4F9C0B150B8D8C00A9F766 /* CCNSelectionElementRectangleHorizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4F9C08150B8D8C00A9F766 /* CCNSelectionElementRectangleHorizontal.png */; };
 		FD4F9C0C150B8D8C00A9F766 /* CCNSelectionElementRectangleVertical.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4F9C09150B8D8C00A9F766 /* CCNSelectionElementRectangleVertical.png */; };
 		FD4F9C0D150B8D8C00A9F766 /* CCNSelectionElementSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4F9C0A150B8D8C00A9F766 /* CCNSelectionElementSquare.png */; };
@@ -442,6 +445,9 @@
 		FD32C36E15160FAF00E9EE93 /* resizeCornerCursor68.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeCornerCursor68.png; sourceTree = "<group>"; };
 		FD32C372151610EF00E9EE93 /* resizeCornerCursor157.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeCornerCursor157.png; sourceTree = "<group>"; };
 		FD32C373151610EF00E9EE93 /* resizeCornerCursor202.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resizeCornerCursor202.png; sourceTree = "<group>"; };
+		FD32C37615162DFC00E9EE93 /* rotateCursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotateCursor.png; sourceTree = "<group>"; };
+		FD32C37715162DFC00E9EE93 /* skewCursorHorizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skewCursorHorizontal.png; sourceTree = "<group>"; };
+		FD32C37815162DFC00E9EE93 /* skewCursorVertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skewCursorVertical.png; sourceTree = "<group>"; };
 		FD4F9C08150B8D8C00A9F766 /* CCNSelectionElementRectangleHorizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionElementRectangleHorizontal.png; sourceTree = "<group>"; };
 		FD4F9C09150B8D8C00A9F766 /* CCNSelectionElementRectangleVertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionElementRectangleVertical.png; sourceTree = "<group>"; };
 		FD4F9C0A150B8D8C00A9F766 /* CCNSelectionElementSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionElementSquare.png; sourceTree = "<group>"; };
@@ -834,6 +840,9 @@
 		FD1B85A41506BBFB0061F5C9 /* Cursors */ = {
 			isa = PBXGroup;
 			children = (
+				FD32C37615162DFC00E9EE93 /* rotateCursor.png */,
+				FD32C37715162DFC00E9EE93 /* skewCursorHorizontal.png */,
+				FD32C37815162DFC00E9EE93 /* skewCursorVertical.png */,
 				FD32C36E15160FAF00E9EE93 /* resizeCornerCursor68.png */,
 				FD32C36D15160FAF00E9EE93 /* resizeCornerCursor112.png */,
 				FD32C372151610EF00E9EE93 /* resizeCornerCursor157.png */,
@@ -1077,6 +1086,9 @@
 				FD32C37015160FAF00E9EE93 /* resizeCornerCursor68.png in Resources */,
 				FD32C374151610EF00E9EE93 /* resizeCornerCursor157.png in Resources */,
 				FD32C375151610EF00E9EE93 /* resizeCornerCursor202.png in Resources */,
+				FD32C37915162DFD00E9EE93 /* rotateCursor.png in Resources */,
+				FD32C37A15162DFD00E9EE93 /* skewCursorHorizontal.png in Resources */,
+				FD32C37B15162DFD00E9EE93 /* skewCursorVertical.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
