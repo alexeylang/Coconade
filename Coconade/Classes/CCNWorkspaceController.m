@@ -1166,6 +1166,59 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     targetNode.scaleY *= scale.y;
 }
 
+- (void) rotateTargetNode: (CCNode *) targetNode withMouseDraggedEvent: (NSEvent *) event withState: (int) mouseState
+{
+    // Don't rotate nodes with width = height = 0.
+    // TODO: is it possible to rotate node with width != 0 && height == 0 ?
+    CGSize targetNodeSize = targetNode.contentSize;
+    if ( !targetNodeSize.width && !targetNodeSize.height )
+    {
+        return;
+    }
+    
+    // Choose rotating element position based on mouseState.
+    CGPoint rotateElementPositionInTargetNodeSpace = ccp(0.0f,0.0f);
+    switch (mouseState) {
+        case kCCNWorkspaceMouseStateRotateTopRight:
+            rotateElementPositionInTargetNodeSpace = ccp(targetNodeSize.width, targetNodeSize.height);
+            break;
+            
+        case kCCNWorkspaceMouseStateRotateTopLeft:
+            rotateElementPositionInTargetNodeSpace = ccp(0.0f, targetNodeSize.height);
+            break;
+            
+        case kCCNWorkspaceMouseStateRotateBottomRight:
+            rotateElementPositionInTargetNodeSpace = ccp(targetNodeSize.width, 0.0f);
+            break;
+            
+        case kCCNWorkspaceMouseStateRotateBottomLeft:
+            rotateElementPositionInTargetNodeSpace = ccp(0.0f, 0.0f);
+            break;
+            
+        default:
+            break;
+    }
+    
+    // Prepare affine transformations here once.
+    CGAffineTransform worldToTarget = [targetNode worldToNodeTransform];
+    
+    // Get anchor location.
+    CGPoint anchorPointInTargetNodeSpace = targetNode.anchorPoint;
+    anchorPointInTargetNodeSpace.x *= targetNodeSize.width;
+    anchorPointInTargetNodeSpace.y *= targetNodeSize.height;
+    
+    // Get mouse location.
+    CGPoint mouseLocation = [[CCDirector sharedDirector] convertEventToGL:event];    
+    
+    // Calculate & apply new rotation.
+    CGPoint mouseLocationInTargetNodeSpace = CGPointApplyAffineTransform(mouseLocation, worldToTarget);
+    CGPoint mouseAndAnchorPointDiffInTargetNodeSpace = ccpSub(mouseLocationInTargetNodeSpace, anchorPointInTargetNodeSpace);
+    CGPoint elementAndAnchorPointDiffInTargetNodeSpace = ccpSub(rotateElementPositionInTargetNodeSpace, anchorPointInTargetNodeSpace);
+    
+    targetNode.rotation +=
+        CC_RADIANS_TO_DEGREES( ccpAngleSigned(mouseAndAnchorPointDiffInTargetNodeSpace, elementAndAnchorPointDiffInTargetNodeSpace) );
+}
+
 - (void) skewTargetNode: (CCNode *) targetNode withMouseDraggedEvent: (NSEvent *) event withState: (int) mouseState
 {    
     // Don't skew nodes with width = height = 0.
@@ -1485,7 +1538,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     else if (_mouseState >= kCCNWorkspaceMouseStateRotateFirst && _mouseState <= kCCNWorkspaceMouseStateRotateLast)
     {
-        // TODO: rotate with event.
+        [self rotateTargetNode: self.nodeBeingEdited withMouseDraggedEvent:event withState: _mouseState];
     }
     else if (_mouseState >= kCCNWorkspaceMouseStateSkewFirst && _mouseState <= kCCNWorkspaceMouseStateSkewLast)
     {
