@@ -20,6 +20,26 @@
     return [self cursor: @"resizeCornerCursorFlipped.png"  withHotSpot:NSMakePoint(8, 8)];
 }
 
++(NSCursor *) resizeCornerCursor68
+{
+    return [self cursor: @"resizeCornerCursor68.png"  withHotSpot:NSMakePoint(8, 11)];
+}
+
++(NSCursor *) resizeCornerCursor112
+{
+    return [self cursor: @"resizeCornerCursor112.png"  withHotSpot:NSMakePoint(8, 11)];
+}
+
++(NSCursor *) resizeCornerCursor157
+{
+    return [self cursor: @"resizeCornerCursor157.png"  withHotSpot:NSMakePoint(11, 8)];
+}
+
++(NSCursor *) resizeCornerCursor202
+{
+    return [self cursor: @"resizeCornerCursor202.png"  withHotSpot:NSMakePoint(11, 8)];
+}
+
 + (NSCursor *) resizeCursorWithAngle: (float) angle
 {
     // Use [0;180] range.
@@ -30,25 +50,45 @@
     }
     
     // Select cursor that fits best.
-    if (angle >= 0 && angle <= 22.5f)
+    if (angle >= 0 && angle <= 11.25f)
     {
         // Horizontal.
         return [NSCursor resizeLeftRightCursor];
     }
-    else if (angle > 22.5f && angle <= 67.5f)
+    else if (angle > 11.25f && angle <= 33.75f)
+    {
+        // Between horizontal & corner.
+        return [NSCursor resizeCornerCursor202];
+    }
+    else if (angle > 33.75f && angle <= 56.25f)
     {
         // Corner.
         return [NSCursor resizeCornerCursorFlipped];
     }
-    else if (angle > 67.5f && angle <= 112.5f)
+    else if (angle > 56.25 && angle <= 78.75f)
+    {
+        // Between Corner & Vertical.
+        return [NSCursor resizeCornerCursor68];
+    }
+    else if (angle > 78.75f && angle <= 101.25f)
     {
         // Vertical.
         return [NSCursor resizeUpDownCursor];
     }
-    else if (angle > 112.5f && angle <= 157.5f)
+    else if (angle > 101.25f && angle <= 123.75f)
+    {
+        // Between Vertical & Corner.
+        return [NSCursor resizeCornerCursor112];
+    }
+    else if (angle > 123.75f && angle <= 135.0f)
     {
         // Corner flipped.
         return [NSCursor resizeCornerCursor];
+    }
+    else if (angle > 135.5f && angle <= 157.5f)
+    {
+        // Between Corner & Horizontal.
+        return [NSCursor resizeCornerCursor157];
     }
     else if (angle > 157.5f && angle <= 180)
     {
