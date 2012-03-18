@@ -914,36 +914,54 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     }
     else 
     {
-        // If we're moving cursor near elements of selection - use corresponding scale cursor.
-        // TODO: switch for selection mode.
-        
+        // If we're moving cursor near elements of selection - use corresponding scale cursor.        
         if ( selection(kCCNSelectionElementTypeTop) 
             || (selection(kCCNSelectionElementTypeBottom))
             || _mouseState == kCCNWorkspaceMouseStateScaleTop 
-            || _mouseState == kCCNWorkspaceMouseStateScaleBottom)
+            || _mouseState == kCCNWorkspaceMouseStateScaleBottom
+            || _mouseState == kCCNWorkspaceMouseStateSkewTop 
+            || _mouseState == kCCNWorkspaceMouseStateSkewBottom)
         {        
-            setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 90); };
+            if (selectionForNodeAtCursor.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+                setCursorBlock = ^{ [[NSCursor skewCursorHorizontal] set]; };
+            else
+                setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 90); };
         } 
         else if (selection(kCCNSelectionElementTypeLeft)
                  || selection(kCCNSelectionElementTypeRight)
                  || _mouseState == kCCNWorkspaceMouseStateScaleLeft
-                 || _mouseState == kCCNWorkspaceMouseStateScaleRight)
+                 || _mouseState == kCCNWorkspaceMouseStateScaleRight
+                 || _mouseState == kCCNWorkspaceMouseStateSkewLeft
+                 || _mouseState == kCCNWorkspaceMouseStateSkewRight)
         {
-            setCursorBlock = ^ { setScaleCursor(nodeAtCursor, 0); };
+            if (selectionForNodeAtCursor.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+                setCursorBlock = ^{ [[NSCursor skewCursorVertical] set]; };
+            else
+                setCursorBlock = ^ { setScaleCursor(nodeAtCursor, 0); };
         }
         else if ( selection(kCCNSelectionElementTypeTopLeft)
                  || selection(kCCNSelectionElementTypeBottomRight)
                  || _mouseState == kCCNWorkspaceMouseStateScaleTopLeft
-                 || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight)
+                 || _mouseState == kCCNWorkspaceMouseStateScaleBottomRight
+                 || _mouseState == kCCNWorkspaceMouseStateRotateTopLeft
+                 || _mouseState == kCCNWorkspaceMouseStateRotateBottomRight)
         {
-            setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 135); };
+            if (selectionForNodeAtCursor.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+                setCursorBlock = ^{ [[NSCursor rotationCursor] set]; };
+            else
+                setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 135); };
         }
         else if ( selection(kCCNSelectionElementTypeTopRight)
                  || selection(kCCNSelectionElementTypeBottomLeft)
                  || _mouseState == kCCNWorkspaceMouseStateScaleTopRight
-                 || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft)
+                 || _mouseState == kCCNWorkspaceMouseStateScaleBottomLeft
+                 || _mouseState == kCCNWorkspaceMouseStateRotateTopRight
+                 || _mouseState == kCCNWorkspaceMouseStateRotateBottomLeft)
         {
-            setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 45); };
+            if (selectionForNodeAtCursor.elementsMode == kCCNSelectionElementsModeCirclesAndParallelograms)
+                setCursorBlock = ^{ [[NSCursor rotationCursor] set]; };
+            else
+                setCursorBlock = ^{ setScaleCursor(nodeAtCursor, 45); };
         }
         else if ([self nodeForScreenPoint: mouseLocationInScreen])
         {
