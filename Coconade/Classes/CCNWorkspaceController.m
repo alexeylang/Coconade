@@ -868,8 +868,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     // Prepare variables.
     NSPoint mouseLocationInScreen = [NSEvent mouseLocation];
     NSUInteger mouseButtons = [NSEvent pressedMouseButtons];
-    __block CCNode *nodeAtCursor = nil;
-    void (^setCursorBlock)() = nil;
+    
     CGSize elementExtension = kCCNWorkspaceControllerScaleElementExtension();
     
     /** Chooses & sets cursor for scaling, depending on node rotation to fit better. */
@@ -887,26 +886,30 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     };
     
     /** Checks if there's any selectedNode with givenElement type near mouse
-     * & sets nodeAtCursor to it if found.
+     * & sets nodeAtCursor to it & selectionForNodeAtCursor to it's selection if found.
      *
      * @param elementType CCNSelectionElementType that will be used to find 
      * selectedNode.
      *
      * @return CCNselection of selectedNode if it was found, NO otherwise.
      */
+    __block CCNode *nodeAtCursor = nil;
+    __block CCNSelection *selectionForNodeAtCursor = nil;
     CCNSelection *(^selection)(CCNSelectionElementType) = 
     ^(CCNSelectionElementType elementType)
     {
-        CCNSelection *nodeAtCursorSelection = [self selectionNodeWithElement: elementType
+        selectionForNodeAtCursor = [self selectionNodeWithElement: elementType
                                                              nearScreenPoint: mouseLocationInScreen 
                                                            withAreaExtension: elementExtension];
-        nodeAtCursor = nodeAtCursorSelection.targetNode;
-        return nodeAtCursorSelection;
+        nodeAtCursor = selectionForNodeAtCursor.targetNode;
+        return selectionForNodeAtCursor;
     };
        
-    // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
+    // Choose cursor setter block.
+    void (^setCursorBlock)() = nil;
     if ( _mouseState == kCCNWorkspaceMouseStateDragAnchor || [self selectedNodeWithAnchorPointNearScreenPoint: mouseLocationInScreen])
     {
+        // If we moving cursor near anchor indicator of selected node - change cursor for dragging it.
         setCursorBlock = ^ { [[NSCursor crosshairCursor] set]; };
     }
     else 
