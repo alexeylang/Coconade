@@ -1299,6 +1299,31 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         targetNode.skewY = newSkew.y;
     }
+    
+    //
+    // Re: XXX: 
+    //                                                            18.03.2012
+    //   Dear maintainer!
+    //
+    //   Before trying to begin hacking full-range skew here, let me tell you something.
+    //   I tried several aproaches:
+    //     1. Same algorithm in targetNode & world coordinates - and i got jumping skew with skewX or
+    //   skewY absolute value more than 58.
+    //     2. Different algorithm, similiar to the one from -
+    //   rotateTargetNode:withMouseDraggedEvent:withState: (using ccpAngleSigned) - 
+    //   and you know what? ABSOLUTELY THE SAME JUMPY SKEW when it's more than 58 degrees!!!
+    //
+    //   The problem is that skew messes node's transformation matrix a lot, so
+    //   finding mouse location in it, or transforming node's selection element to world
+    //   coordinates becomes very inaccurate. 
+    //
+    //   Maybe it's possible to remove node's skew from transform matrix and calculate 
+    //   skew angle diff by simulating rotation algorithm, but i think that it's
+    //   not worth the trouble.
+    //
+    //   Sincerely yours,
+    //   Stepan
+    //
 }
 
 #pragma mark Mouse Event Delegate
