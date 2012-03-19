@@ -22,4 +22,8 @@
 
 - (id)initWithModel:(CCNModel *)model;
 
+#pragma mark Update
+
+- (void)updateWithModel:(CCNModel *)model;
+
 @end

@@ -48,6 +48,7 @@
     if ( (self = [super init]) )
     {
         self.nodeGroupItem = [CCNOutlineGroupItem itemWithName:kCCNWindowControllerModelOutlineRootItemNodesName];
+        [self updateWithModel: model];
     }
     
     return self;
@@ -58,6 +59,15 @@
     self.nodeGroupItem = nil;
     
     [super dealloc];
+}
+
+- (void)updateWithModel:(CCNModel *)model
+{
+    [self.nodeGroupItem.children removeAllObjects];
+    for (CCNode *node in model.rootNodes)
+    {
+        [self.nodeGroupItem.children addObject: node];
+    }
 }
 
 #pragma mark OutlineView Delegate
