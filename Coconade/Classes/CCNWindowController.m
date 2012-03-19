@@ -16,6 +16,7 @@
 #import "CCNImageTextCell.h"
 #import "CCNSeparatorCell.h"
 #import "CCNModel.h"
+#import "CCNOutlineViewDelegate.h"
 
 #define kCCNWindowControllerToolbarIdentifier                   @"toolbarIdentifier"
 
@@ -96,18 +97,6 @@
 
 #define kCCNWindowControllerModelOutlineTableColumnIdentifier   @"modelOutlineTableColumnIdentifier"
 
-#define kCCNWindowControllerModelOutlineRootItemsCount              1
-#define kCCNWindowControllerModelOutlineRootItemNodesName           @"NODES"
-#define kCCNWindowControllerModelOutlineRootItemNodesIndex          0
-#define kCCNWindowControllerModelOutlineRootItemTexturesName        @"TEXTURES"
-#define kCCNWindowControllerModelOutlineRootItemTexturesIndex       1
-#define kCCNWindowControllerModelOutlineRootItemSpriteframesName    @"SPRITEFRAMES"
-#define kCCNWindowControllerModelOutlineRootItemSpriteframesIndex   2
-#define kCCNWindowControllerModelOutlineRootItemAnimationsName      @"ANIMATIONS"
-#define kCCNWindowControllerModelOutlineRootItemAnimationsIndex     3
-#define kCCNWindowControllerModelOutlineRootItemFontsName           @"FONTS"
-#define kCCNWindowControllerModelOutlineRootItemFontsIndex          4
-
 
 @interface CCNWindowController ()
 
@@ -132,6 +121,8 @@
 @property (readwrite, retain) NSMenu *openRecentMenu;
 /** Holds outline view that used to represent hierarchy of model. */
 @property (readwrite, retain) NSOutlineView *modelOutlineView;
+/** Holds delegate for outline view that used to represent hierarchy of model. */
+@property (readwrite, retain) CCNOutlineViewDelegate *modelOutlineViewDelegate;
 
 /** Prepare Coconade window - creates and sets up main menu, toolbar, glView, 
  * splitView, scrollView, etc. 
@@ -151,6 +142,7 @@
 @synthesize mainSplitView = _mainSplitView;
 @synthesize leftView = _leftView;
 @synthesize modelOutlineView = _modelOutlineView;
+@synthesize modelOutlineViewDelegate = _modelOutlineViewDelegate;
 @synthesize centerScrollView = _centerScrollView;
 @synthesize rightView = _rightView;
 @synthesize viewSegmentedControl = _viewSegmentedControl;
@@ -181,10 +173,14 @@
 {
     [self.leftView removeObserver:self forKeyPath: @"hidden"];
     [self.rightView removeObserver:self forKeyPath: @"hidden"];
+    [self.workspaceController removeObserver:self forKeyPath: @"model"];
 
     self.workspaceController = nil;
     self.mainSplitView = nil;
     self.leftView = nil;
+    self.modelOutlineView.dataSource = nil;
+    self.modelOutlineView.delegate = nil;
+    self.modelOutlineViewDelegate = nil;
     self.modelOutlineView = nil;
     self.centerScrollView = nil;
     self.rightView = nil;
@@ -405,10 +401,14 @@
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];
     self.modelOutlineView.outlineTableColumn = tableColumn;
-    self.modelOutlineView.delegate = self;
-    self.modelOutlineView.dataSource = self;
-    [self.modelOutlineView expandItem:[NSNumber numberWithInt:kCCNWindowControllerModelOutlineRootItemNodesIndex]];
+    self.modelOutlineViewDelegate = [CCNOutlineViewDelegate delegateWithModel:self.workspaceController.model];
+    self.modelOutlineView.delegate = self.modelOutlineViewDelegate;
+    self.modelOutlineView.dataSource = self.modelOutlineViewDelegate;
     modelOutlineScrollView.documentView = self.modelOutlineView;
+    [self.workspaceController addObserver:self 
+                               forKeyPath:@"model" 
+                                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+                                  context:NULL];
     
     // Create and setup center scroll view
     NSRect centerFrame = NSMakeRect(0.0f, 
@@ -597,138 +597,6 @@
 	[NSAnimationContext endGrouping];
 }
 
-#pragma mark OutlineView Delegate
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item;
-{
-    return YES;
-}
-
-- (NSCell *)outlineView:(NSOutlineView *)outlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item
-{
-    NSCell *returnCell = [tableColumn dataCell];
-    return returnCell;
-}
-
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
-{
-    CCNImageTextCell *imageTextCell = cell;
-    if ( [item isKindOfClass:[NSNumber class]] )
-    {
-        imageTextCell.isGroup = YES;
-        imageTextCell.iconImage = nil;
-    }  
-    else if ( [item isKindOfClass:[CCNode class]] )
-    {
-        imageTextCell.isGroup = NO;
-        imageTextCell.iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
-    }        
-}
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
-{
-    if ( [item isKindOfClass:[NSNumber class]] )
-    {
-        return YES;
-    }
-    
-    return NO;
-}
-
-#pragma mark OutlineView DataSource
-
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
-{
-    if ( item )
-    {
-        if ( [item isKindOfClass:[NSNumber class]] )
-        {
-            switch ( [item intValue] ) 
-            {
-                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
-                    return [self.workspaceController.model.rootNodes objectAtIndex:index];
-            }
-        }
-        else if ( [item isKindOfClass:[CCNode class]] )
-        {
-            CCNode *itemNode = (CCNode *)item;
-            return [itemNode.children objectAtIndex:index];
-        }        
-    }
-    else
-    {
-        return [NSNumber numberWithInt:index];
-    }
-    
-    return nil;
-}
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
-{
-    if ( item )
-    {
-        if ( [item isKindOfClass:[NSNumber class]] )
-        {
-            return YES;
-        }
-        else if ( [item isKindOfClass:[CCNode class]] )
-        {
-            CCNode *itemNode = (CCNode *)item;
-            return (itemNode.children.count != 0);            
-        }        
-    }
-    
-    return NO;
-}
-
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
-{
-    if ( item )
-    {
-        if ( [item isKindOfClass:[NSNumber class]] )
-        {
-            switch ( [item intValue] ) 
-            {
-                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
-                    return self.workspaceController.model.rootNodes.count;
-            }
-        }
-        else if ( [item isKindOfClass:[CCNode class]] )
-        {
-            CCNode *itemNode = (CCNode *)item;
-            return itemNode.children.count;
-        }        
-    }
-    else
-    {
-        return kCCNWindowControllerModelOutlineRootItemsCount;
-    }
-    
-    return 0;
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
-{
-    if ( item )
-    {
-        if ( [item isKindOfClass:[NSNumber class]] )
-        {
-            switch ( [item intValue] ) 
-            {
-                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
-                    return kCCNWindowControllerModelOutlineRootItemNodesName;
-            }
-        }
-        else if ( [item isKindOfClass:[CCNode class]] )
-        {
-            CCNode *itemNode = (CCNode *)item;
-            return [NSString stringWithFormat:@"%@ : (%@)", itemNode.name, NSStringFromClass([itemNode class])];
-        }        
-    }
-    
-    return nil;
-}
-
 #pragma mark Toolbar Delegate
 
 - (NSArray *) toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
@@ -818,7 +686,7 @@
     return toolbarItem;
 }
 
-#pragma mark LeftView & RightView KVO
+#pragma mark KVO
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -834,6 +702,18 @@
         if ([keyPath isEqualToString:@"hidden"])
         {
             [self.viewSegmentedControl setSelected: !self.rightView.isHidden forSegment:1];
+        }
+    }
+    else if (object == self.workspaceController)
+    {
+        if ([keyPath isEqualToString:@"model"])
+        {
+            CCNModel *newModel = [change objectForKey:@"new"];
+            if ( newModel )
+            {
+                [self.modelOutlineViewDelegate updateWithModel:newModel];
+                [self.modelOutlineView reloadData];
+            }
         }
     }
 }
