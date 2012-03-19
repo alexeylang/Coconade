@@ -86,7 +86,7 @@
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     CCNImageTextCell *imageTextCell = cell;
-    if ( [item isKindOfClass:[NSNumber class]] )
+    if ( [item isKindOfClass:[CCNOutlineGroupItem class]] )
     {
         imageTextCell.isGroup = YES;
         imageTextCell.iconImage = nil;
@@ -100,7 +100,7 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item
 {
-    if ( [item isKindOfClass:[NSNumber class]] )
+    if ( [item isKindOfClass:[CCNOutlineGroupItem class]] )
     {
         return YES;
     }
@@ -114,13 +114,10 @@
 {
     if ( item )
     {
-        if ( [item isKindOfClass:[NSNumber class]] )
+        if ( [item isKindOfClass:[CCNOutlineGroupItem class]] )
         {
-            switch ( [item intValue] ) 
-            {
-                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
-                    return [self.model.rootNodes objectAtIndex:index];
-            }
+            CCNOutlineGroupItem *itemGroup = (CCNOutlineGroupItem *)item;
+            return [itemGroup.children objectAtIndex:index];
         }
         else if ( [item isKindOfClass:[CCNode class]] )
         {
@@ -130,7 +127,13 @@
     }
     else
     {
-        return [NSNumber numberWithInt:index];
+        switch (index) 
+        {
+            case kCCNWindowControllerModelOutlineRootItemNodesIndex:
+            {
+                return self.nodeGroupItem;
+            }
+        }
     }
     
     return nil;
@@ -140,7 +143,7 @@
 {
     if ( item )
     {
-        if ( [item isKindOfClass:[NSNumber class]] )
+        if ( [item isKindOfClass:[CCNOutlineGroupItem class]] )
         {
             return YES;
         }
@@ -158,19 +161,16 @@
 {
     if ( item )
     {
-        if ( [item isKindOfClass:[NSNumber class]] )
-        {
-            switch ( [item intValue] ) 
-            {
-                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
-                    return self.model.rootNodes.count;
-            }
-        }
-        else if ( [item isKindOfClass:[CCNode class]] )
+        if ( [item isKindOfClass:[CCNode class]] )
         {
             CCNode *itemNode = (CCNode *)item;
             return itemNode.children.count;
         }        
+        else if ( [item isKindOfClass:[CCNOutlineGroupItem class]] )
+        {
+            CCNOutlineGroupItem *itemGroup = (CCNOutlineGroupItem *)item;
+            return itemGroup.children.count;
+        }
     }
     else
     {
@@ -182,21 +182,15 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-    if ( item )
+    if ( [item isKindOfClass:[CCNode class]] )
     {
-        if ( [item isKindOfClass:[NSNumber class]] )
-        {
-            switch ( [item intValue] ) 
-            {
-                case kCCNWindowControllerModelOutlineRootItemNodesIndex:
-                    return kCCNWindowControllerModelOutlineRootItemNodesName;
-            }
-        }
-        else if ( [item isKindOfClass:[CCNode class]] )
-        {
-            CCNode *itemNode = (CCNode *)item;
-            return [NSString stringWithFormat:@"%@ : (%@)", itemNode.name, NSStringFromClass([itemNode class])];
-        }        
+        CCNode *node = (CCNode *)item;
+        return [NSString stringWithFormat:@"%@ : (%@)", node.name, NSStringFromClass([node class])];
+    }        
+    else if ( [item isKindOfClass:[CCNOutlineGroupItem class]] )
+    {
+        CCNOutlineGroupItem *itemGroup = (CCNOutlineGroupItem *)item;
+        return itemGroup.name;
     }
     
     return nil;
