@@ -10,6 +10,7 @@
 #import "CCNImageTextCell.h"
 #import "cocos2d.h"
 #import "CCNModel.h"
+#import "CCNOutlineGroupItem.h"
 
 #define kCCNWindowControllerModelOutlineRootItemsCount              1
 #define kCCNWindowControllerModelOutlineRootItemNodesName           @"NODES"
@@ -24,8 +25,16 @@
 #define kCCNWindowControllerModelOutlineRootItemFontsIndex          4
 
 
+@interface CCNOutlineViewDelegate ()
+
+@property (readwrite, retain) CCNOutlineGroupItem *nodeGroupItem;
+
+@end
+
+
 @implementation CCNOutlineViewDelegate
 
+@synthesize nodeGroupItem = _nodeGroupItem;
 
 #pragma mark Init/Create
 
@@ -38,9 +47,17 @@
 {
     if ( (self = [super init]) )
     {
+        self.nodeGroupItem = [CCNOutlineGroupItem itemWithName:kCCNWindowControllerModelOutlineRootItemNodesName];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    self.nodeGroupItem = nil;
+    
+    [super dealloc];
 }
 
 #pragma mark OutlineView Delegate

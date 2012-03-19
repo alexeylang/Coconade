@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 
 
+@class CCNOutlineGroupItem;;
 @class CCNModel;
 @interface CCNOutlineViewDelegate : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
+    CCNOutlineGroupItem *_nodeGroupItem;
 }
 
 #pragma mark Init/Create
