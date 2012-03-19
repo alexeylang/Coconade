@@ -711,7 +711,7 @@
             CCNModel *newModel = [change objectForKey:@"new"];
             if ( newModel )
             {
-                self.modelOutlineViewDelegate.model = newModel;
+                [self.modelOutlineViewDelegate updateWithModel:newModel];
                 [self.modelOutlineView reloadData];
             }
         }
