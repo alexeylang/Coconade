@@ -26,7 +26,6 @@
 
 @implementation CCNOutlineViewDelegate
 
-@synthesize model = _model;
 
 #pragma mark Init/Create
 
@@ -39,7 +38,6 @@
 {
     if ( (self = [super init]) )
     {
-        self.model = model;
     }
     
     return self;

@@ -12,10 +12,7 @@
 @class CCNModel;
 @interface CCNOutlineViewDelegate : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
-    CCNModel *_model;
 }
-
-@property (readwrite, retain) CCNModel *model;
 
 #pragma mark Init/Create
 
