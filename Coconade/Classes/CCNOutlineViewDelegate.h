@@ -26,4 +26,6 @@
 
 - (void)updateWithModel:(CCNModel *)model;
 
+- (CCNOutlineGroupItem *)nodeGroupItem;
+
 @end
