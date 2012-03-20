@@ -399,6 +399,7 @@
     tableColumn.width = modelOutlineFrame.size.width - 3.0f;
     CCNImageTextCell *imageTextCell = [[[CCNImageTextCell alloc] init] autorelease];
 	[imageTextCell setEditable:YES];
+    imageTextCell.lineBreakMode = NSLineBreakByTruncatingMiddle;
 	tableColumn.dataCell = imageTextCell;
     [self.modelOutlineView addTableColumn:tableColumn];
     self.modelOutlineView.outlineTableColumn = tableColumn;
