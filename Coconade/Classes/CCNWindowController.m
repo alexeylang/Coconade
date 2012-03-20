@@ -174,6 +174,7 @@
     [self.leftView removeObserver:self forKeyPath: @"hidden"];
     [self.rightView removeObserver:self forKeyPath: @"hidden"];
     [self.workspaceController removeObserver:self forKeyPath: @"model"];
+    [self.workspaceController.model removeObserver:self forKeyPath: @"selectedNodes"];
 
     self.workspaceController = nil;
     self.mainSplitView = nil;
@@ -407,7 +408,7 @@
     modelOutlineScrollView.documentView = self.modelOutlineView;
     [self.workspaceController addObserver:self 
                                forKeyPath:@"model" 
-                                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+                                  options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionOld
                                   context:NULL];
     
     // Create and setup center scroll view
@@ -708,11 +709,53 @@
     {
         if ([keyPath isEqualToString:@"model"])
         {
+            CCNModel *oldModel = [change objectForKey:@"old"];
+            if ( oldModel )
+            {
+                [oldModel removeObserver: self forKeyPath: @"selectedNodes"];
+            }
             CCNModel *newModel = [change objectForKey:@"new"];
             if ( newModel )
             {
+                [newModel addObserver:self 
+                             forKeyPath:@"selectedNodes" 
+                                options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial 
+                                context: NULL];
                 [self.modelOutlineViewDelegate updateWithModel:newModel];
                 [self.modelOutlineView reloadData];
+            }
+        }
+    }
+    else if (object == self.workspaceController.model)
+    {
+        if ([keyPath isEqualToString:@"selectedNodes"])
+        {
+            NSArray *selectedNodes = [change objectForKey:@"new"];
+            if ( [selectedNodes count] )
+            {
+                [self.modelOutlineView expandItem:self.modelOutlineViewDelegate.nodeGroupItem];
+                for (CCNode *node in selectedNodes)
+                {
+                    CCNode *parentNode = node;
+                    NSMutableArray *nodesToExpand = [NSMutableArray array];
+                    while ( parentNode )
+                    {
+                        [nodesToExpand insertObject:parentNode atIndex:0];
+                        parentNode = parentNode.parent;
+                    }
+                    for (int i = 0; i < [nodesToExpand count]; i++)
+                    {
+                        parentNode = [nodesToExpand objectAtIndex:i];
+                        [self.modelOutlineView expandItem:parentNode.parent];
+                    }
+
+                    int row = (int)[self.modelOutlineView rowForItem:node];
+                    [self.modelOutlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:YES];
+                }
+            }
+            else
+            {
+                [self.modelOutlineView selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
             }
         }
     }
