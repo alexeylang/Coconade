@@ -541,7 +541,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 	return filteredFiles;
 }
 
-- (void) addNode: (CCNode *) aNode withUniqueNameFromName: (NSString *) name
+- (void) addNode: (CCNode *) aNode withUniqueNameFromName: (NSString *) name withZOrderNumber: (NSNumber *) zOrderNumber
 {
     // Use name if it's given, or aNode.name, or aNode.className.
     if (!name)
@@ -572,8 +572,16 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         // Add on top of rootNode.
         CCNode *lastChild = [newParent.children lastObject];
-        int lastChildZ = lastChild.zOrder;
-        [newParent addChild:aNode z:lastChildZ];
+        int zOrder = lastChild.zOrder;
+        
+        // If special zOrder is wanted - use it instead of top.
+        if ([zOrderNumber isKindOfClass:[NSNumber class]])
+        {
+            zOrder = [zOrderNumber integerValue];
+        }
+        
+        // Add child with chosen zOrder.
+        [newParent addChild:aNode z:zOrder];
     }
     else
     {
@@ -603,7 +611,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         {
             // Create sprite with unique name.
             CCNode *sprite = [CCSprite spriteWithFile:filename];            
-            [self addNode: sprite withUniqueNameFromName: originalName];
+            [self addNode: sprite withUniqueNameFromName: originalName withZOrderNumber: nil];
             
             // Reposition sprite where desired.
             if (sprite.parent)

@@ -193,7 +193,11 @@
  * added node.
  * Can be nil - aNode.name than will be used instead.
  * If a aNode.name is also nil - className of aNode will be used.
+ *
+ * @param zOrderNumber NSNumber that holds desired zOrder (NSInteger) for aNode.
+ * Can be nil, if nil - zOrder of last child of new aNode's parent will be used
+ * (this means that it will be added to the top).
  */
-- (void) addNode: (CCNode *) aNode withUniqueNameFromName: (NSString *) name;
+- (void) addNode: (CCNode *) aNode withUniqueNameFromName: (NSString *) name withZOrderNumber: (NSNumber *) zOrderNumber;
 
 @end
