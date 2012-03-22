@@ -484,7 +484,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 // Currently supports copying only one node.
 - (void)copySelectedToPasteboard
 {
-    // write selected node to pasteboard.
+    // Write selected node to pasteboard.
 	NSArray *objectsToCopy = [NSArray arrayWithArray: self.model.selectedNodes];
 	if (objectsToCopy)
 	{
@@ -527,6 +527,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
     NSDictionary *options = [NSDictionary dictionary];
     
+    // Create new nodes from pasteboard.
     NSArray *newNodes = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
     
     // If there was no selection change since CMD+C - select parent that we should add new nodes to.
@@ -537,6 +538,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
         [self.model selectNode: copiedNodesParentForFastCopyPaste];
     }
     
+    // Add new nodes.
 	for(CCNode *node in newNodes)
 	{
         // By default don't desire any zOrder for pasted nodes.
@@ -627,7 +629,7 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     if ([newParent canBecomeParentOf: aNode])
     {
-        // Add on top of rootNode.
+        // Add on top of rootNode by default.
         CCNode *lastChild = [newParent.children lastObject];
         int zOrder = lastChild.zOrder;
         
