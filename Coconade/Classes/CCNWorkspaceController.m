@@ -18,6 +18,9 @@
 /** Size for extending work area around scale elements of CCNSelection. */
 #define kCCNWorkspaceControllerScaleElementExtension() CGSizeMake(6.0f, 6.0f)
 
+/** Position shift for pasted nodes to make stack of them on fast CMD+C, CMD+V. */
+#define kCCNWorkspaceControllerFastCopyPasteNodeShift() ccp(10,10)
+
 /** Current state of selection that is being used by mouse events.
  * Describes what will be done on -ccMouseDrag: event. 
  */
@@ -408,6 +411,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             {
                 [self.scene addNodeToSelection: node];
             }
+            
+            // Disable pasting in nearby on any selection change.
+            _copiedNodesParent = nil;
         }
         else if ([keyPath isEqualToString:@"currentRootNode"])
         {
@@ -417,6 +423,9 @@ static const float kCCNIncrementZOrderBig = 10.0f;
             // Ensure to have appropriate workspace size for currentRootNode.
             self.glView.workspaceSize = self.model.currentRootNode.contentSize;
             [self.scene updateForScreenReshape];
+            
+            // Disable pasting in nearby on any selection change.
+            _copiedNodesParent = nil;
         }
     }
     
@@ -487,6 +496,29 @@ static const float kCCNIncrementZOrderBig = 10.0f;
 			DebugLog(@"Error writing to pasteboard, sprites = %@", objectsToCopy);
 		}
 	}
+    
+    // Prepare to smart copypaste if copied nodes have the same parent.
+    _copiedNodesZOrder = NSIntegerMin;
+    NSUInteger selectedNodesCount = [self.model.selectedNodes count];
+    if (selectedNodesCount)
+    {
+        // Prepare shift.
+        _copiedNodesShift = kCCNWorkspaceControllerFastCopyPasteNodeShift();
+        
+        CCNode *firstNode = [self.model.selectedNodes objectAtIndex: 0];
+        _copiedNodesParent = firstNode.parent;
+        for (CCNode *node in self.model.selectedNodes)
+        {
+            if (_copiedNodesParent != node.parent)
+            {
+                _copiedNodesParent = nil;
+                break;
+            }
+            
+            // Get MAX zOrder as new zOrder of copied nodes, when they will be pasted.
+            _copiedNodesZOrder = MAX(_copiedNodesZOrder, node.zOrder);
+        }
+    }
 }
 
 // Currently supports pasting only nodes.
@@ -497,9 +529,27 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     
     NSArray *newNodes = [generalPasteboard readObjectsForClasses:[NSArray arrayWithObject:[CCNode class]] options:options];
     
+    // If there was no selection change since CMD+C - select parent that we should add new nodes to.
+    CCNode *copiedNodesParentForFastCopyPaste = _copiedNodesParent;
+    if (copiedNodesParentForFastCopyPaste) //< TODO: test is this node still present in currentHierarchy.
+    {
+        [self.model deselectAllNodes];
+        [self.model selectNode: copiedNodesParentForFastCopyPaste];
+    }
+    
 	for(CCNode *node in newNodes)
 	{
-        [self addNode:node withUniqueNameFromName: nil];
+        // By default don't desire any zOrder for pasted nodes.
+        NSNumber *zOrderNumber = nil;
+        
+        // Alter position & desired zOrder if doing smart fast copypaste.
+        if (copiedNodesParentForFastCopyPaste)
+        {
+            node.position = ccpAdd(node.position, _copiedNodesShift);
+            zOrderNumber = [NSNumber numberWithInteger: _copiedNodesZOrder];
+        }
+        
+        [self addNode:node withUniqueNameFromName: nil withZOrderNumber: zOrderNumber];
 	}
     
     // Select only newly added nodes.
@@ -508,6 +558,13 @@ static const float kCCNIncrementZOrderBig = 10.0f;
     {
         [self.model selectNode:node];
     }
+    
+    // After changing selection - _copiedNodesParent will be set to nil in KVO methods.
+    // To allow multiple CMD+V after one CMD+C - restore it here.
+    _copiedNodesParent = copiedNodesParentForFastCopyPaste;
+    
+    // Use more shift to make a stack of copypasted nodes on multiple CMD+V.
+    _copiedNodesShift = ccpAdd(_copiedNodesShift, kCCNWorkspaceControllerFastCopyPasteNodeShift());
 }
 
 #pragma mark - Import

@@ -26,6 +26,11 @@
     CCNode *_nodeBeingEdited;
     int _mouseState;    
     BOOL _toggleSelectionModeOnMouseUp;
+    
+    // Smart CopyPaste (CMD+C, CMD+V shouldn't create deeper hierarchy).
+    CCNode *_copiedNodesParent; //< weakRef
+    NSInteger _copiedNodesZOrder;
+    CGPoint _copiedNodesShift;
 }
 
 /** Property to hold glView, provided from outside. */
