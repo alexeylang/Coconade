@@ -547,7 +547,7 @@
 				6DC763F913AE48A3002BD9A1 /* CHANGELOG */,
 				6DB59F7413B7C1B90012FA60 /* AUTHORS */,
 				E02A83D1129F000100341C97 /* Classes */,
-				E02A84B0129F083F00341C97 /* cocos2d sources */,
+				E02A84B0129F083F00341C97 /* libs */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -593,7 +593,6 @@
 		6D13ADE01385A4CC004FA7F1 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				FDC7412914EDA8AE00E0B860 /* TrackpadGesturesSupport */,
 				FD1F65E614E699D3003DCA81 /* CCNode+Helpers.h */,
 				FD1F65E714E699D3003DCA81 /* CCNode+Helpers.m */,
 				6D13ADE61385A768004FA7F1 /* NSString+RelativePath.h */,
@@ -624,6 +623,8 @@
 		E02A83D1129F000100341C97 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FD32C3BB151F540200E9EE93 /* MacGLView */,
+				FD32C3B8151F52C200E9EE93 /* Window & AppKit UI */,
 				6D13ADE01385A4CC004FA7F1 /* Support */,
 				FD7877F214E7E1EE00D128F2 /* CCNWorkspaceController.h */,
 				FD7877F314E7E1EE00D128F2 /* CCNWorkspaceController.m */,
@@ -631,39 +632,25 @@
 				FD7877F714E7E26800D128F2 /* CCNModel.m */,
 				FD2C664F14EC27070020E187 /* CCNSelection.h */,
 				FD2C665014EC27070020E187 /* CCNSelection.m */,
-				6D4702CC135F52BC00FDEADD /* CCNMacGLView.h */,
-				6D4702CD135F52BC00FDEADD /* CCNMacGLView.m */,
+				FD1F65F114E6B0DF003DCA81 /* CCNScene.h */,
+				FD1F65F214E6B0DF003DCA81 /* CCNScene.m */,
 				E02A83FB129F023B00341C97 /* main.m */,
 				E02A83D2129F000100341C97 /* CCNAppDelegate.h */,
 				E02A83D3129F000100341C97 /* CCNAppDelegate.m */,
-				FD1F65F114E6B0DF003DCA81 /* CCNScene.h */,
-				FD1F65F214E6B0DF003DCA81 /* CCNScene.m */,
-				FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */,
-				FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */,
-				FA54BFDF14EFD66400F51289 /* CCNWindow.h */,
-				FA54BFE014EFD66400F51289 /* CCNWindow.m */,
-				FA66498815025CEB00DD394B /* CCNImageTextCell.h */,
-				FA66498915025CEB00DD394B /* CCNImageTextCell.m */,
-				FA66498C15026F6E00DD394B /* CCNSeparatorCell.h */,
-				FA66498D15026F6E00DD394B /* CCNSeparatorCell.m */,
-				FA06AFD9150D48B2003B2751 /* CCNOutlineViewDelegate.h */,
-				FA06AFDA150D48B2003B2751 /* CCNOutlineViewDelegate.m */,
-				FA24EB6E1517E8B5009B1E06 /* CCNOutlineGroupItem.h */,
-				FA24EB6F1517E8B5009B1E06 /* CCNOutlineGroupItem.m */,
 			);
 			name = Classes;
 			path = Coconade/Classes;
 			sourceTree = "<group>";
 		};
-		E02A84B0129F083F00341C97 /* cocos2d sources */ = {
+		E02A84B0129F083F00341C97 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				E0B450C112C3AEBD0007F742 /* cocos2d */,
+				E0B450C112C3AEBD0007F742 /* cocos2d-iphone 1.1 */,
 			);
-			name = "cocos2d sources";
+			name = libs;
 			sourceTree = "<group>";
 		};
-		E0B450C112C3AEBD0007F742 /* cocos2d */ = {
+		E0B450C112C3AEBD0007F742 /* cocos2d-iphone 1.1 */ = {
 			isa = PBXGroup;
 			children = (
 				FDD94C5114E5D02A00E1CF18 /* AutoMagicCoding */,
@@ -789,7 +776,7 @@
 				E0B4513C12C3AEBE0007F742 /* Platforms */,
 				E0B4515712C3AEBE0007F742 /* Support */,
 			);
-			name = cocos2d;
+			name = "cocos2d-iphone 1.1";
 			path = "libs/cocos2d-iphone/cocos2d";
 			sourceTree = "<group>";
 		};
@@ -863,6 +850,35 @@
 			path = Cursors;
 			sourceTree = "<group>";
 		};
+		FD32C3B8151F52C200E9EE93 /* Window & AppKit UI */ = {
+			isa = PBXGroup;
+			children = (
+				FADDF2BB14E44B8000D42B0C /* CCNWindowController.h */,
+				FADDF2BC14E44B8000D42B0C /* CCNWindowController.m */,
+				FA54BFDF14EFD66400F51289 /* CCNWindow.h */,
+				FA54BFE014EFD66400F51289 /* CCNWindow.m */,
+				FA66498815025CEB00DD394B /* CCNImageTextCell.h */,
+				FA66498915025CEB00DD394B /* CCNImageTextCell.m */,
+				FA66498C15026F6E00DD394B /* CCNSeparatorCell.h */,
+				FA66498D15026F6E00DD394B /* CCNSeparatorCell.m */,
+				FA06AFD9150D48B2003B2751 /* CCNOutlineViewDelegate.h */,
+				FA06AFDA150D48B2003B2751 /* CCNOutlineViewDelegate.m */,
+				FA24EB6E1517E8B5009B1E06 /* CCNOutlineGroupItem.h */,
+				FA24EB6F1517E8B5009B1E06 /* CCNOutlineGroupItem.m */,
+			);
+			name = "Window & AppKit UI";
+			sourceTree = "<group>";
+		};
+		FD32C3BB151F540200E9EE93 /* MacGLView */ = {
+			isa = PBXGroup;
+			children = (
+				FDC7412914EDA8AE00E0B860 /* TrackpadGesturesSupport */,
+				6D4702CC135F52BC00FDEADD /* CCNMacGLView.h */,
+				6D4702CD135F52BC00FDEADD /* CCNMacGLView.m */,
+			);
+			name = MacGLView;
+			sourceTree = "<group>";
+		};
 		FDC7412914EDA8AE00E0B860 /* TrackpadGesturesSupport */ = {
 			isa = PBXGroup;
 			children = (
@@ -872,6 +888,7 @@
 				FDC7410614ED972900E0B860 /* CCEventDispatcher+Gestures.m */,
 			);
 			name = TrackpadGesturesSupport;
+			path = Support;
 			sourceTree = "<group>";
 		};
 		FDC741D514FD78AC00E0B860 /* CCNSelection */ = {
