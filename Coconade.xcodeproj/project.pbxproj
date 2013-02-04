@@ -253,7 +253,6 @@
 		6D3249811361CD6900165ABE /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerboard.png; sourceTree = "<group>"; };
 		6D4702CC135F52BC00FDEADD /* CCNMacGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNMacGLView.h; sourceTree = "<group>"; };
 		6D4702CD135F52BC00FDEADD /* CCNMacGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNMacGLView.m; sourceTree = "<group>"; };
-		6DB59F7413B7C1B90012FA60 /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
 		6DC763F913AE48A3002BD9A1 /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		6DECF9881389841E0070C774 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E01E663D121CA00A001A484F /* libcocos2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -469,7 +468,6 @@
 		FDC7413014EEEB0700E0B860 /* NSObject+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Blocks.m"; sourceTree = "<group>"; };
 		FDC7413614F0242100E0B860 /* NSArray+Reverse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Reverse.h"; sourceTree = "<group>"; };
 		FDC7413714F0242100E0B860 /* NSArray+Reverse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Reverse.m"; sourceTree = "<group>"; };
-		FDC7414B14F5811A00E0B860 /* PRODUCT_BACKLOG.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = PRODUCT_BACKLOG.md; sourceTree = "<group>"; };
 		FDC741AB14F9763000E0B860 /* OSVersionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSVersionHelper.h; sourceTree = "<group>"; };
 		FDC741D614FD78AC00E0B860 /* CCNSelectionAnchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CCNSelectionAnchor.png; sourceTree = "<group>"; };
 		FDD94C4814E5C97D00E1CF18 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
@@ -509,27 +507,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				E036A79C121B5C720037C5C6 /* OpenGL.framework */,
-				E036A79E121B5C870037C5C6 /* QuartzCore.framework */,
-				E01E6A3D121EDCD3001A484F /* ApplicationServices.framework */,
-				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
-				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
-				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,16 +520,12 @@
 			isa = PBXGroup;
 			children = (
 				6DECF9881389841E0070C774 /* README.md */,
-				FDC7414B14F5811A00E0B860 /* PRODUCT_BACKLOG.md */,
 				6DC763F913AE48A3002BD9A1 /* CHANGELOG */,
-				6DB59F7413B7C1B90012FA60 /* AUTHORS */,
 				E02A83D1129F000100341C97 /* Classes */,
 				E02A84B0129F083F00341C97 /* libs */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				E08AA04A12C0EDC8000341BD /* OpenAL.framework */,
-				E08AA04C12C0EEC0000341BD /* AudioToolbox.framework */,
 			);
 			name = "cocos2d-mac";
 			sourceTree = "<group>";
@@ -583,9 +556,16 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
-				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 				E0F9256D1224207200EF2362 /* libz.dylib */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				E08AA04A12C0EDC8000341BD /* OpenAL.framework */,
+				E08AA04C12C0EEC0000341BD /* AudioToolbox.framework */,
+				E036A79C121B5C720037C5C6 /* OpenGL.framework */,
+				E036A79E121B5C870037C5C6 /* QuartzCore.framework */,
+				E01E6A3D121EDCD3001A484F /* ApplicationServices.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
