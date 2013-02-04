@@ -1,0 +1,23 @@
+
+Abandoned - February-2012
+ * [NEW] Abilty to scale, rotate & skew nodes with mouse.
+ * [NEW] CTRL+TrackpadRotate and CTRL+ALT+TrackpadRotate = skewX and skewY respectively. 
+ * [NEW] Ability to work with children, grandchildren, etc.
+ * [INTERNAL] AutoMagicCoding is used for serialization. It's supported by Cocos2D-iPhone 1.1+ ("feature-amc" branch of psineur/cocos2d-iphone)
+ * [INTERNAL] xib files thrown away, everything refactored or rewrited, 95% of code is absolutely new
+    
+
+
+====== Legacy: Cocoshop ======
+
+    0.1.2 - 26-June-2011
+       * Fixed #56 (remember-filename-after-saving).
+       * Added new keyboard shortucts for changing z-order (by @unitedworx).
+       * Added AUTHORS.
+
+    0.1.1 - 19-June-2011
+       * [FIX]CSDReader: batchNode failures bugs in CSDSprite.
+       * [NEW]CSDReader#elements & CSDReader#nodeFromElementWithName:
+
+    0.1 - 27-May-2011
+       * First official release.
